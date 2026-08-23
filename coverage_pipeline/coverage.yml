@@ -1,3 +1,5 @@
+# Copy to .github/workflows/coverage.yml after this app is its own git repo
+# (next to pubspec.yaml, with coverage_pipeline/ at the repo root).
 name: Coverage badge
 
 on:

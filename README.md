@@ -12,11 +12,14 @@
 <div align="center">
   <img src="assets/logo.png" alt="Logo" width="80" height="80">
   <h1 align="center">Noir's Flutter Playground</h1>
-
-  <p align="left">
+  <p>
      Practice projects for Flutter — among other things Riverpod, architecture, and advanced topics.
   </p>
 </div>
+
+---
+
+<div align="center">
 
 [![Flutter][flutter]][flutter-url]
 [![Dart][dart]][dart-url]
@@ -29,10 +32,12 @@
 [![iOS][ios]][ios-url]
 [![Web][web]][web-url]
 
+</div>
+
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#about-this-project">About this project</a></li>
+    <li><a href="#about-this-repository">About this repository</a></li>
     <li><a href="#previous-projects">Previous Projects</a></li>
     <li><a href="#starters">Starters</a></li>
     <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
@@ -41,7 +46,7 @@
 
 ---
 
-## About this project
+## About this repository
 
 This repository is a playground for practicing Flutter.
 
@@ -62,15 +67,17 @@ The root README stays short: a link and a rough summary per project. Getting sta
 
 ## Previous Projects
 
-### Riverpod Basics
+### [Riverpod Basics »](riverpod_basics/)
 
-Practice app for **Riverpod** fundamentals: providers, `ConsumerWidget`, and reactive UI. **iOS + Web.**
+<p align="center">Practice app for <strong>Riverpod</strong> fundamentals: providers, <code>ConsumerWidget</code>, and reactive UI.</p>
+
+<div align="center">
 
 [![Coverage](riverpod_basics/assets/coverage/badge.svg)](riverpod_basics/README.md#test-coverage)
 
-<a href="riverpod_basics/"><strong>Go to the project »</strong></a>
-<br/>
-<a href="riverpod_basics/README.md"><strong>README »</strong></a>
+[README »](riverpod_basics/README.md)
+
+</div>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -78,15 +85,17 @@ Practice app for **Riverpod** fundamentals: providers, `ConsumerWidget`, and rea
 
 ## Starters
 
-### Riverpod Basic Starter
+### [Riverpod Basic Starter »](app_starters/riverpod_basic_starter/)
 
-Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Material 3 seed theme. **iOS + Web.**
+<p align="center">Copyable starter for <strong>Riverpod</strong>: GoRouter, l10n, feature folders, and a Material 3 seed theme.</p>
+
+<div align="center">
 
 [![Coverage](app_starters/riverpod_basic_starter/assets/coverage/badge.svg)](app_starters/riverpod_basic_starter/README.md#test-coverage)
 
-<a href="app_starters/riverpod_basic_starter/"><strong>Go to the project »</strong></a>
-<br/>
-<a href="app_starters/riverpod_basic_starter/README.md"><strong>README »</strong></a>
+[README »](app_starters/riverpod_basic_starter/README.md)
+
+</div>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -94,7 +103,7 @@ Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Materi
 
 ## Coverage pipeline
 
-Each app owns its own coverage — not the playground root. Practice apps and starters both ship a [`coverage_pipeline/`](riverpod_basics/coverage_pipeline/) folder.
+Scripts live once in [`coverage_pipeline/`](coverage_pipeline/). Each app still owns its own images under `assets/coverage/` and the percent in its README.
 
 On commit the pipeline:
 
@@ -104,14 +113,14 @@ On commit the pipeline:
 4. Stages those files so they land in the **same** commit (`pre-commit`).
 5. Runs the tests again on `git push` and blocks a failing push (`pre-push`).
 
-Refresh one app:
+Refresh one app from the playground root:
 
 ```
-cd riverpod_basics
-./coverage_pipeline/update_coverage.sh
+./coverage_pipeline/update_coverage.sh riverpod_basics
+./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
 ```
 
-Git hooks only after the folder is its **own** git repo:
+Git hooks and CI only after the folder is its **own** git repo. Copy `coverage_pipeline/` next to that repo's `pubspec.yaml`, copy [`coverage_pipeline/coverage.yml`](coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/badges/`](assets/badges/) into that repo's `assets/badges/`. Then:
 
 ```
 ./coverage_pipeline/install-git-hooks.sh
@@ -121,29 +130,29 @@ Git hooks only after the folder is its **own** git repo:
 
 ---
 
-[dart]: https://img.shields.io/badge/Dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white
+[dart]: assets/badges/dart.svg
 [dart-url]: https://dart.dev/
-[flutter]: https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=flutter&logoColor=white
+[flutter]: assets/badges/flutter.svg
 [flutter-url]: https://flutter.dev/
-[flutter-localizations]: https://img.shields.io/badge/Flutter%20Localizations-0170F3.svg?style=for-the-badge&logo=flutter&logoColor=white
+[flutter-localizations]: assets/badges/flutter_localizations.svg
 [flutter-localizations-url]: https://docs.flutter.dev/ui/internationalization
-[fvm]: https://img.shields.io/badge/FVM-0175C2.svg?style=for-the-badge&logo=flutter&logoColor=white
+[fvm]: assets/badges/fvm.svg
 [fvm-url]: https://fvm.app
-[gorouter]: https://img.shields.io/badge/GoRouter-0082FC.svg?style=for-the-badge&logo=flutter&logoColor=white
+[gorouter]: assets/badges/gorouter.svg
 [gorouter-url]: https://pub.dev/packages/go_router
-[instagram-shield]: https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&logo=instagram&logoColor=white
+[instagram-shield]: assets/badges/instagram.svg
 [instagram-url]: https://www.instagram.com/codeincouture/
-[intl]: https://img.shields.io/badge/Intl-FFA500.svg?style=for-the-badge&logo=dart&logoColor=white
+[intl]: assets/badges/intl.svg
 [intl-url]: https://pub.dev/packages/intl
-[ios]: https://img.shields.io/badge/iOS-000000.svg?style=for-the-badge&logo=apple&logoColor=white
+[ios]: assets/badges/ios.svg
 [ios-url]: https://developer.apple.com/ios/
-[linkedin-shield]: https://img.shields.io/badge/LinkedIn-%230A66C2.svg?style=for-the-badge&logo=linkedin&logoColor=white
+[linkedin-shield]: assets/badges/linkedin.svg
 [linkedin-url]: https://www.linkedin.com/in/tanja-polz-5636401a5/
-[riverpod]: https://img.shields.io/badge/Riverpod-0468D7.svg?style=for-the-badge&logo=riverpod&logoColor=white
+[riverpod]: assets/badges/riverpod.svg
 [riverpod-url]: https://pub.dev/packages/flutter_riverpod
-[very-good]: https://img.shields.io/badge/Very%20Good%20Analysis-B22C89.svg?style=for-the-badge&logo=flutter&logoColor=white
+[very-good]: assets/badges/very_good.svg
 [very-good-url]: https://pub.dev/packages/very_good_analysis
-[web]: https://img.shields.io/badge/Web-02569B.svg?style=for-the-badge&logo=googlechrome&logoColor=white
+[web]: assets/badges/web.svg
 [web-url]: https://docs.flutter.dev/platform-integration/web
-[x-shield]: https://img.shields.io/badge/-%23000000.svg?style=for-the-badge&logo=x&logoColor=white
+[x-shield]: assets/badges/x.svg
 [x-url]: https://twitter.com/_foxnoir_?lang=de
