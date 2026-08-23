@@ -12,7 +12,7 @@
 <br />
 
 <div align="center">
-  <img src="assets/logo.png" alt="Logo" width="80" height="80">
+  <img src="../../assets/logo.png" alt="Logo" width="80" height="80">
   <h1 align="center">Riverpod Basic Starter</h1>
   <p>
      Starter for Riverpod — copy this app when you begin a new project.

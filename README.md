@@ -205,7 +205,7 @@ Refresh one app from the playground root:
 ./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
 ```
 
-Git hooks and CI only after the folder is its **own** git repo. Copy `coverage_pipeline/` next to that repo's `pubspec.yaml`, copy [`coverage_pipeline/coverage.yml`](coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/badges/`](assets/badges/) into that repo's `assets/badges/`. Then:
+Git hooks and CI only after the folder is its **own** git repo. Copy `coverage_pipeline/` next to that repo's `pubspec.yaml`, copy [`coverage_pipeline/coverage.yml`](coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/logo.png`](assets/logo.png) plus [`assets/badges/`](assets/badges/) into that repo's `assets/`. Then:
 
 ```
 ./coverage_pipeline/install-git-hooks.sh
