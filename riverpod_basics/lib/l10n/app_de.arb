@@ -1,0 +1,10 @@
+{
+  "@@locale": "de",
+  "appTitle": "Riverpod Basics",
+  "provider1": "Provider 1",
+  "provider2": "Provider 2",
+  "provider3": "Provider 3",
+  "counter": "Zähler",
+  "pageNotFound": "Seite nicht gefunden",
+  "goToLanding": "Zur Startseite"
+}

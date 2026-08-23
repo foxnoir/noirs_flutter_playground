@@ -1,19 +1,22 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (tester) async {
+  testWidgets('Landing page is the initial route', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
 
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Provider 1'), findsOneWidget);
+    expect(find.text('Provider 2'), findsOneWidget);
+    expect(find.text('Provider 3'), findsOneWidget);
+  });
 
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('Landing page navigates to Provider 1', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
 
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    await tester.tap(find.text('Provider 1'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Counter'), findsOneWidget);
   });
 }
