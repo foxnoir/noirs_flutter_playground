@@ -32,7 +32,6 @@
 [![Very Good Analysis][very-good]][very-good-url]
 [![FVM][fvm]][fvm-url]
 [![iOS][ios]][ios-url]
-[![Web][web]][web-url]
 
 </div>
 
@@ -70,9 +69,8 @@ This app is the **Riverpod** practice project in [Noir's Flutter Playground](../
 The goal is to learn the building blocks: what a provider is, why Riverpod exists, which provider type to pick, and how widgets read that state.
 
 [![iOS][ios]][ios-url]
-[![Web][web]][web-url]
 
-There is no Android project. Run on the iOS Simulator or Chrome.
+There is no Android project or Chrome. Run on the iOS Simulator.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
