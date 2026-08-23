@@ -163,7 +163,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **Riverpod** fundamentals: providers, `ConsumerWidget`, and reactive UI.
+Practice app for **Riverpod**: no provider, `StateProvider`, then `NotifierProvider`.
 
 [README »](riverpod_basics/README.md)
 
