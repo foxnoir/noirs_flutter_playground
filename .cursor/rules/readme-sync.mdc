@@ -1,0 +1,33 @@
+---
+description: Keep the root README in sync when any project README, badge, or package list changes
+globs: "**/README.md"
+alwaysApply: false
+---
+
+# Root README sync
+
+When you change any README, also open and update the playground root `README.md`.
+
+Check and update:
+
+- Top bar: LinkedIn / X / Instagram on the **left**. Coverage only on **app** READMEs (top **right**). Not on the playground root or `app_starters/` index.
+- Project cards in the root and `app_starters/`: heading left, that app's coverage badge on the **same line, far right**
+- One-line summary under each card
+- Card and header links (`README »`, folder `»`, coverage → `#test-coverage`)
+- Header tech-stack badges — they live once in `assets/badges/`
+- Coverage images stay per app in `assets/coverage/`
+- The **Packages** table if a `pubspec.yaml` added, removed, or replaced a package
+- Architecture notes only if the folder approach actually changed
+
+Do not copy the **Coverage pipeline** section into app READMEs. Point to the root section.
+
+```
+# ❌ BAD — leave the root card stale after renaming a starter
+### Old Name »
+
+# ✅ GOOD — same change in the app README and the root card
+<h3>
+  <a href="app_starters/new_name/">New Name »</a>
+  <a href="app_starters/new_name/README.md#test-coverage"><img align="right" src="app_starters/new_name/assets/coverage/badge.svg" alt="Coverage"></a>
+</h3>
+```

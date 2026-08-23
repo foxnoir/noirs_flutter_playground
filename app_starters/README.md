@@ -59,8 +59,10 @@ There is no Android project.
 
 ## Starters
 
-<a href="riverpod_basic_starter/README.md#test-coverage"><img align="right" src="riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
-<h3 align="center"><a href="riverpod_basic_starter/">Riverpod Basic Starter »</a></h3>
+<h3>
+  <a href="riverpod_basic_starter/">Riverpod Basic Starter »</a>
+  <a href="riverpod_basic_starter/README.md#test-coverage"><img align="right" src="riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
+</h3>
 
 Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Material 3 seed theme.
 

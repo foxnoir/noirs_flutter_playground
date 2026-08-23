@@ -2,6 +2,8 @@
 
 <!-- Top Links Bar -->
 
+<a href="#test-coverage"><img align="right" src="assets/coverage/badge.svg" alt="Coverage"></a>
+
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![X][x-shield]][x-url]
 [![Instagram][instagram-shield]][instagram-url]
@@ -11,19 +13,11 @@
 
 <div align="center">
   <img src="assets/logo.png" alt="Logo" width="80" height="80">
+  <h1 align="center">Riverpod Basic Starter</h1>
+  <p>
+     Starter for Riverpod — copy this app when you begin a new project.
+  </p>
 </div>
-
-<a href="#test-coverage"><img align="right" src="assets/coverage/badge.svg" alt="Coverage"></a>
-<h1 align="center">Riverpod Basic Starter</h1>
-<p align="center">
-   Starter for Riverpod — copy this app when you begin a new project.
-</p>
-
-<p align="left">
-  <a href="lib/"><strong>Explore the project »</strong></a>
-  <br/>
-  <a href="../../README.md"><strong>Back to playground »</strong></a>
-</p>
 
 ---
 

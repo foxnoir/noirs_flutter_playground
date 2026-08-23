@@ -23,5 +23,5 @@ After you copy an app into its **own** git repo, copy this folder to `assets/bad
 | `ios.svg` | `#4DB8C4` | pastel turquoise |
 | `web.svg` | `#1A7A84` | turquoise |
 | `linkedin.svg` | `#0A66C2` | official LinkedIn |
-| `instagram.svg` | `#E4405F` | official Instagram |
+| `instagram.svg` | `#4A2F6B` → `#8B5FBF` → `#C9A8E0` | lilac gradient (dark / mid / light) |
 | `x.svg` | `#7EB8D6` | pastel light blue |
