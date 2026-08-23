@@ -12,7 +12,7 @@
 <br />
 
 <div align="center">
-  <img src="../assets/logo.png" alt="Logo" width="80" height="80">
+  <img src="../assets/logo.png" alt="Logo" width="134" height="134">
   <h1 align="center">Riverpod Basics</h1>
   <p>
      Practice project for Riverpod fundamentals: providers, ConsumerWidget, and reactive Flutter UI.
