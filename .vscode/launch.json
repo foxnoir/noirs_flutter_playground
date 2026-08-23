@@ -1,0 +1,14 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "riverpod_basics",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}/riverpod_basics",
+      "program": "lib/main.dart",
+      "emulatorId": "apple_ios_simulator",
+      "preLaunchTask": "Boot iPhone 17 Pro Simulator"
+    }
+  ]
+}

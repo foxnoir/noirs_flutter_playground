@@ -5,6 +5,7 @@
 [![LinkedIn][linkedin-shield]][linkedin-url]
 [![X][x-shield]][x-url]
 [![Instagram][instagram-shield]][instagram-url]
+[![Coverage][coverage-shield]](#test-coverage)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -45,7 +46,12 @@
         <li><a href="#build-with">Build With</a></li>
       </ul>
     </li>
-    <li><a href="#getting-started">Getting Started</a></li>
+    <li>
+      <a href="#getting-started">Getting Started</a>
+      <ul>
+        <li><a href="#test-coverage">Test coverage</a></li>
+      </ul>
+    </li>
     <li><a href="#changelog">Changelog</a></li>
     <li><a href="#sources">Sources</a></li>
   </ol>
@@ -307,9 +313,29 @@ git@github.com:foxnoir/noirs_flutter_playground.git
 
 ```
 cd riverpod_basics
-flutter pub get
-flutter run
+fvm install
+fvm flutter pub get
+fvm flutter run
 ```
+
+This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
+
+### Test coverage
+
+<!-- coverage-percent:start -->
+**91.7%** line coverage (22 of 24 lines).
+<!-- coverage-percent:end -->
+
+![Coverage](images/coverage.svg)
+
+The card and the header badge are regenerated on every commit and committed with the same snapshot as the code. Raw `lcov.info` stays local for **Coverage Gutters**.
+
+```
+cd riverpod_basics
+fvm flutter test --coverage
+```
+
+Or run the VS Code task **Flutter: Test with coverage**, then Command Palette → **Coverage Gutters: Display Coverage**.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -333,6 +359,7 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 
 ---
 
+[coverage-shield]: images/coverage_badge.svg
 [dart]: https://img.shields.io/badge/Dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white
 [dart-url]: https://dart.dev/
 [flutter]: https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=flutter&logoColor=white

@@ -1,0 +1,25 @@
+name: Coverage badge
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.1"
+          channel: stable
+          cache: true
+
+      - name: Refresh coverage images
+        run: bash tool/update_coverage.sh
+
+      - name: Coverage must match this commit
+        run: git diff --exit-code -- ':(glob)**/images/coverage.svg' ':(glob)**/images/coverage_badge.svg' ':(glob)**/README.md'
