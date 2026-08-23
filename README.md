@@ -38,6 +38,8 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#about-this-repository">About this repository</a></li>
+    <li><a href="#app-architecture-and-folder-structure">App architecture and folder structure</a></li>
+    <li><a href="#packages">Packages</a></li>
     <li><a href="#previous-projects">Previous Projects</a></li>
     <li><a href="#starters">Starters</a></li>
     <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
@@ -65,10 +67,101 @@ The root README stays short: a link and a rough summary per project. Getting sta
 
 ---
 
+## App architecture and folder structure
+
+This is the approach every app in this playground follows. A small practice project may only fill `core/`, `features/`, and `l10n/`. A fuller app adds the extra `core/` and feature folders below. Not every folder has to exist from day one.
+
+Platforms are **iOS** and **Web**. There is no Android project.
+
+```
+app/
+├── ios/
+├── web/
+├── assets/
+│   ├── coverage/
+│   └── logo.png
+├── lib/
+│   ├── core/
+│   │   ├── router/
+│   │   ├── theme/
+│   │   ├── errors/
+│   │   ├── extensions/
+│   │   ├── network/
+│   │   └── utils/
+│   ├── features/
+│   │   └── feature_name/
+│   │       ├── data/
+│   │       │   ├── models/
+│   │       │   ├── remote_services/
+│   │       │   └── repositories/
+│   │       ├── domain/
+│   │       │   ├── entities/
+│   │       │   ├── repositories/
+│   │       │   └── use_cases/
+│   │       └── presentation/
+│   │           ├── controllers/
+│   │           ├── widgets/
+│   │           └── feature_page.dart
+│   ├── shared_widgets/
+│   ├── l10n/
+│   └── main.dart
+├── test/
+└── pubspec.yaml
+```
+
+### Feature-first
+
+Code is grouped by **feature**, not by technical layer at the app root. A change in one feature should stay inside that folder.
+
+### Layers
+
+#### Data
+
+- **models/** — API, JSON, or local shapes.
+- **remote_services/** — network or Firebase calls.
+- **repositories/** — implementations of the domain repository contracts. Map models to entities here.
+
+#### Domain
+
+- **entities/** — immutable business objects. No JSON, no Flutter widgets.
+- **repositories/** — abstract contracts. Domain does not import data-layer files.
+- **use_cases/** — only when the feature is large enough to need them.
+
+#### Presentation
+
+- **controllers/** — Riverpod notifiers and providers. Not Bloc.
+- **widgets/** — feature-local UI.
+- **feature_page.dart** — the screen for that feature.
+
+`shared_widgets/` holds UI used by more than one feature. `core/` holds app-wide routing, theme, and similar infrastructure.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Packages
+
+Packages currently used in the playground apps. Update this table when a `pubspec.yaml` changes.
+
+| Package | Reason |
+| --- | --- |
+| [flutter_riverpod](https://pub.dev/packages/flutter_riverpod) | State and dependency injection. `ProviderScope`, `ref.watch` / `ref.read`. |
+| [go_router](https://pub.dev/packages/go_router) | Declarative routes for iOS and web. |
+| [flutter_localizations](https://docs.flutter.dev/ui/internationalization) | Generated EN/DE l10n from ARB files. |
+| [intl](https://pub.dev/packages/intl) | Message and date formatting used by l10n. |
+| [very_good_analysis](https://pub.dev/packages/very_good_analysis) | Shared lint rules. |
+| [FVM](https://fvm.app) | Pins the Flutter SDK per app (`.fvmrc`). |
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
 ## Previous Projects
 
-<a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
-<h3 align="center"><a href="riverpod_basics/">Riverpod Basics »</a></h3>
+<h3>
+  <a href="riverpod_basics/">Riverpod Basics »</a>
+  <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
+</h3>
 
 Practice app for **Riverpod** fundamentals: providers, `ConsumerWidget`, and reactive UI.
 
@@ -80,8 +173,10 @@ Practice app for **Riverpod** fundamentals: providers, `ConsumerWidget`, and rea
 
 ## Starters
 
-<a href="app_starters/riverpod_basic_starter/README.md#test-coverage"><img align="right" src="app_starters/riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
-<h3 align="center"><a href="app_starters/riverpod_basic_starter/">Riverpod Basic Starter »</a></h3>
+<h3>
+  <a href="app_starters/riverpod_basic_starter/">Riverpod Basic Starter »</a>
+  <a href="app_starters/riverpod_basic_starter/README.md#test-coverage"><img align="right" src="app_starters/riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
+</h3>
 
 Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Material 3 seed theme.
 

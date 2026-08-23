@@ -10,11 +10,13 @@ Avoid black, orange, red, and yellow.
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Tuple, Union
 
 ROOT = Path(__file__).resolve().parent
 
-# label, fill, note
-BADGES: list[tuple[str, str, str, str]] = [
+# slug, label, fill (hex or 3-stop top→bottom gradient), note
+Fill = Union[str, Tuple[str, str, str]]
+BADGES: list[tuple[str, str, Fill, str]] = [
     ("flutter", "Flutter", "#02569B", "official Flutter"),
     ("dart", "Dart", "#0175C2", "official Dart"),
     ("riverpod", "Riverpod", "#8B5FBF", "app purple (no published badge color)"),
@@ -26,16 +28,35 @@ BADGES: list[tuple[str, str, str, str]] = [
     ("ios", "iOS", "#4DB8C4", "pastel turquoise (replaces black)"),
     ("web", "Web", "#1A7A84", "turquoise (no published badge color)"),
     ("linkedin", "LinkedIn", "#0A66C2", "official LinkedIn"),
-    ("instagram", "Instagram", "#E4405F", "official Instagram"),
+    (
+        "instagram",
+        "Instagram",
+        ("#4A2F6B", "#8B5FBF", "#C9A8E0"),
+        "lilac gradient: dark → mid → light",
+    ),
     ("x", "X", "#7EB8D6", "pastel light blue (replaces black)"),
 ]
 
 
-def badge_svg(label: str, color: str) -> str:
+def badge_svg(label: str, fill: Fill) -> str:
     width = max(72, 22 + len(label) * 8)
+    if isinstance(fill, tuple):
+        dark, mid, light = fill
+        defs = f"""  <defs>
+    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="{dark}"/>
+      <stop offset="50%" stop-color="{mid}"/>
+      <stop offset="100%" stop-color="{light}"/>
+    </linearGradient>
+  </defs>
+"""
+        rect_fill = "url(#fill)"
+    else:
+        defs = ""
+        rect_fill = fill
     return f"""<svg xmlns="http://www.w3.org/2000/svg" width="{width}" height="28" role="img" aria-label="{label}">
   <title>{label}</title>
-  <rect width="{width}" height="28" fill="{color}"/>
+{defs}  <rect width="{width}" height="28" fill="{rect_fill}"/>
   <text x="{width / 2}" y="18" text-anchor="middle" fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11" font-weight="700">{label}</text>
 </svg>
 """
@@ -43,8 +64,8 @@ def badge_svg(label: str, color: str) -> str:
 
 def write_all(out_dir: Path) -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
-    for slug, label, color, _note in BADGES:
-        (out_dir / f"{slug}.svg").write_text(badge_svg(label, color), encoding="utf-8")
+    for slug, label, fill, _note in BADGES:
+        (out_dir / f"{slug}.svg").write_text(badge_svg(label, fill), encoding="utf-8")
 
 
 def main() -> int:
