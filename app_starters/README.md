@@ -12,11 +12,14 @@
 <div align="center">
   <img src="../assets/logo.png" alt="Logo" width="80" height="80">
   <h1 align="center">App Starters</h1>
-
-  <p align="left">
+  <p>
      Copyable Flutter starters for new apps.
   </p>
 </div>
+
+---
+
+<div align="center">
 
 [![Flutter][flutter]][flutter-url]
 [![Dart][dart]][dart-url]
@@ -29,10 +32,12 @@
 [![iOS][ios]][ios-url]
 [![Web][web]][web-url]
 
+</div>
+
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#about-this-project">About this project</a></li>
+    <li><a href="#about">About</a></li>
     <li><a href="#starters">Starters</a></li>
     <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
   </ol>
@@ -40,7 +45,7 @@
 
 ---
 
-## About this project
+## About
 
 Copy a starter folder when you begin a new Flutter app.
 
@@ -49,7 +54,7 @@ Copy a starter folder when you begin a new Flutter app.
 
 There is no Android project.
 
-Each starter ships its own **coverage pipeline** in `coverage_pipeline/`.
+Coverage scripts live once in the playground [`coverage_pipeline/`](../coverage_pipeline/). Header badges live once in [`assets/badges/`](../assets/badges/). Each starter still owns its own coverage images.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -57,15 +62,17 @@ Each starter ships its own **coverage pipeline** in `coverage_pipeline/`.
 
 ## Starters
 
-### Riverpod Basic Starter
+### [Riverpod Basic Starter »](riverpod_basic_starter/)
 
-Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Material 3 seed theme. **iOS + Web.**
+<p align="center">Copyable starter for <strong>Riverpod</strong>: GoRouter, l10n, feature folders, and a Material 3 seed theme.</p>
+
+<div align="center">
 
 [![Coverage](riverpod_basic_starter/assets/coverage/badge.svg)](riverpod_basic_starter/README.md#test-coverage)
 
-<a href="riverpod_basic_starter/"><strong>Go to the project »</strong></a>
-<br/>
-<a href="riverpod_basic_starter/README.md"><strong>README »</strong></a>
+[README »](riverpod_basic_starter/README.md)
+
+</div>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -75,22 +82,21 @@ Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Materi
 
 The badge on GitHub must match the code in that commit.
 
-Every starter has its own [`coverage_pipeline/`](riverpod_basic_starter/coverage_pipeline/) folder — not a playground-wide setup.
+Scripts live once in the playground [`coverage_pipeline/`](../coverage_pipeline/). Each starter still owns `assets/coverage/` and the percent in its README.
 
 1. Tests run with coverage.
 2. `lcov.info` becomes `assets/coverage/badge.svg` (header) and `assets/coverage/card.svg` (README card).
 3. `pre-commit` puts those images in the **same** commit.
 4. `pre-push` blocks a failing push.
-5. `.github/workflows/coverage.yml` fails CI if the committed images are stale.
+5. After the starter is its own repo, [coverage.yml](../coverage_pipeline/coverage.yml) fails CI if the committed images are stale.
 
-Refresh this starter's badge:
+Refresh this starter's badge from the playground root:
 
 ```
-cd riverpod_basic_starter
-./coverage_pipeline/update_coverage.sh
+./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
 ```
 
-After you copy a starter into its **own** git repo:
+After you copy a starter into its **own** git repo, also copy `coverage_pipeline/` next to `pubspec.yaml`, copy [`coverage.yml`](../coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/badges/`](../assets/badges/) into that repo's `assets/badges/`. Then:
 
 ```
 ./coverage_pipeline/install-git-hooks.sh
@@ -100,29 +106,29 @@ After you copy a starter into its **own** git repo:
 
 ---
 
-[dart]: https://img.shields.io/badge/Dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white
+[dart]: ../assets/badges/dart.svg
 [dart-url]: https://dart.dev/
-[flutter]: https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=flutter&logoColor=white
+[flutter]: ../assets/badges/flutter.svg
 [flutter-url]: https://flutter.dev/
-[flutter-localizations]: https://img.shields.io/badge/Flutter%20Localizations-0170F3.svg?style=for-the-badge&logo=flutter&logoColor=white
+[flutter-localizations]: ../assets/badges/flutter_localizations.svg
 [flutter-localizations-url]: https://docs.flutter.dev/ui/internationalization
-[fvm]: https://img.shields.io/badge/FVM-0175C2.svg?style=for-the-badge&logo=flutter&logoColor=white
+[fvm]: ../assets/badges/fvm.svg
 [fvm-url]: https://fvm.app
-[gorouter]: https://img.shields.io/badge/GoRouter-0082FC.svg?style=for-the-badge&logo=flutter&logoColor=white
+[gorouter]: ../assets/badges/gorouter.svg
 [gorouter-url]: https://pub.dev/packages/go_router
-[instagram-shield]: https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&logo=instagram&logoColor=white
+[instagram-shield]: ../assets/badges/instagram.svg
 [instagram-url]: https://www.instagram.com/codeincouture/
-[intl]: https://img.shields.io/badge/Intl-FFA500.svg?style=for-the-badge&logo=dart&logoColor=white
+[intl]: ../assets/badges/intl.svg
 [intl-url]: https://pub.dev/packages/intl
-[ios]: https://img.shields.io/badge/iOS-000000.svg?style=for-the-badge&logo=apple&logoColor=white
+[ios]: ../assets/badges/ios.svg
 [ios-url]: https://developer.apple.com/ios/
-[linkedin-shield]: https://img.shields.io/badge/LinkedIn-%230A66C2.svg?style=for-the-badge&logo=linkedin&logoColor=white
+[linkedin-shield]: ../assets/badges/linkedin.svg
 [linkedin-url]: https://www.linkedin.com/in/tanja-polz-5636401a5/
-[riverpod]: https://img.shields.io/badge/Riverpod-0468D7.svg?style=for-the-badge&logo=riverpod&logoColor=white
+[riverpod]: ../assets/badges/riverpod.svg
 [riverpod-url]: https://pub.dev/packages/flutter_riverpod
-[very-good]: https://img.shields.io/badge/Very%20Good%20Analysis-B22C89.svg?style=for-the-badge&logo=flutter&logoColor=white
+[very-good]: ../assets/badges/very_good.svg
 [very-good-url]: https://pub.dev/packages/very_good_analysis
-[web]: https://img.shields.io/badge/Web-02569B.svg?style=for-the-badge&logo=googlechrome&logoColor=white
+[web]: ../assets/badges/web.svg
 [web-url]: https://docs.flutter.dev/platform-integration/web
-[x-shield]: https://img.shields.io/badge/-%23000000.svg?style=for-the-badge&logo=x&logoColor=white
+[x-shield]: ../assets/badges/x.svg
 [x-url]: https://twitter.com/_foxnoir_?lang=de

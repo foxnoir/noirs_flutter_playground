@@ -12,17 +12,19 @@
 <div align="center">
   <img src="assets/logo.png" alt="Logo" width="80" height="80">
   <h1 align="center">Riverpod Basics</h1>
-
-  <p align="left">
+  <p>
      Practice project for Riverpod fundamentals: providers, ConsumerWidget, and reactive Flutter UI.
   </p>
-  
-  <p align="left">
+  <p>
     <a href="lib/"><strong>Explore the project »</strong></a>
     <br/>
     <a href="../README.md"><strong>Back to playground »</strong></a>
   </p>
 </div>
+
+---
+
+<div align="center">
 
 [![Flutter][flutter]][flutter-url]
 [![Dart][dart]][dart-url]
@@ -37,10 +39,12 @@
 
 [![Coverage][coverage-shield]](#test-coverage)
 
+</div>
+
 <details>
   <summary>Table of Contents</summary>
   <ol>
-    <li><a href="#about-this-project">About this project</a></li>
+    <li><a href="#about">About</a></li>
     <li>
       <a href="#riverpod">Riverpod</a>
       <ul>
@@ -65,7 +69,7 @@
 
 ---
 
-## About this project
+## About
 
 This app is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
@@ -348,21 +352,18 @@ The badge on GitHub must match the code in that commit.
 4. `pre-push` runs the tests again and blocks a failing push.
 5. GitHub Actions repeats the generation and fails if the committed images are stale.
 
-This app owns that flow in [`coverage_pipeline/`](coverage_pipeline/).
+This playground keeps that flow once in [`coverage_pipeline/`](../coverage_pipeline/). This app only stores the generated images and the percent above.
 
-- [`install-git-hooks.sh`](coverage_pipeline/install-git-hooks.sh) — link `pre-commit` and `pre-push` when this folder is its own git repo
-- [`update_coverage.sh`](coverage_pipeline/update_coverage.sh) — tests + image generation for **this** app
-- [`coverage_badge.py`](coverage_pipeline/coverage_badge.py) — SVG badge and card from `lcov.info`
-- [`git-hooks/pre-commit`](coverage_pipeline/git-hooks/pre-commit) / [`pre-push`](coverage_pipeline/git-hooks/pre-push)
-- [`.github/workflows/coverage.yml`](.github/workflows/coverage.yml) — CI check
+Refresh this app from the playground root:
+
+```
+./coverage_pipeline/update_coverage.sh riverpod_basics
+```
+
+Inside this playground the install script does not attach hooks to the playground repo. After you copy this folder into its **own** git repo, also copy `coverage_pipeline/` next to `pubspec.yaml`, copy [`coverage.yml`](../coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/badges/`](../assets/badges/) into that repo's `assets/badges/`. Point the README badge links at `assets/badges/`, then:
 
 ```
 ./coverage_pipeline/update_coverage.sh
-```
-
-Inside this playground the install script does not attach hooks to the playground repo. After you copy this folder into its **own** git repo:
-
-```
 ./coverage_pipeline/install-git-hooks.sh
 ```
 
@@ -389,29 +390,29 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 ---
 
 [coverage-shield]: assets/coverage/badge.svg
-[dart]: https://img.shields.io/badge/Dart-%230175C2.svg?style=for-the-badge&logo=dart&logoColor=white
+[dart]: ../assets/badges/dart.svg
 [dart-url]: https://dart.dev/
-[flutter]: https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=flutter&logoColor=white
+[flutter]: ../assets/badges/flutter.svg
 [flutter-url]: https://flutter.dev/
-[flutter-localizations]: https://img.shields.io/badge/Flutter%20Localizations-0170F3.svg?style=for-the-badge&logo=flutter&logoColor=white
+[flutter-localizations]: ../assets/badges/flutter_localizations.svg
 [flutter-localizations-url]: https://docs.flutter.dev/ui/internationalization
-[fvm]: https://img.shields.io/badge/FVM-0175C2.svg?style=for-the-badge&logo=flutter&logoColor=white
+[fvm]: ../assets/badges/fvm.svg
 [fvm-url]: https://fvm.app
-[gorouter]: https://img.shields.io/badge/GoRouter-0082FC.svg?style=for-the-badge&logo=flutter&logoColor=white
+[gorouter]: ../assets/badges/gorouter.svg
 [gorouter-url]: https://pub.dev/packages/go_router
-[instagram-shield]: https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&logo=instagram&logoColor=white
+[instagram-shield]: ../assets/badges/instagram.svg
 [instagram-url]: https://www.instagram.com/codeincouture/
-[intl]: https://img.shields.io/badge/Intl-FFA500.svg?style=for-the-badge&logo=dart&logoColor=white
+[intl]: ../assets/badges/intl.svg
 [intl-url]: https://pub.dev/packages/intl
-[ios]: https://img.shields.io/badge/iOS-000000.svg?style=for-the-badge&logo=apple&logoColor=white
+[ios]: ../assets/badges/ios.svg
 [ios-url]: https://developer.apple.com/ios/
-[linkedin-shield]: https://img.shields.io/badge/LinkedIn-%230A66C2.svg?style=for-the-badge&logo=linkedin&logoColor=white
+[linkedin-shield]: ../assets/badges/linkedin.svg
 [linkedin-url]: https://www.linkedin.com/in/tanja-polz-5636401a5/
-[riverpod]: https://img.shields.io/badge/Riverpod-0468D7.svg?style=for-the-badge&logo=riverpod&logoColor=white
+[riverpod]: ../assets/badges/riverpod.svg
 [riverpod-url]: https://pub.dev/packages/flutter_riverpod
-[very-good]: https://img.shields.io/badge/Very%20Good%20Analysis-B22C89.svg?style=for-the-badge&logo=flutter&logoColor=white
+[very-good]: ../assets/badges/very_good.svg
 [very-good-url]: https://pub.dev/packages/very_good_analysis
-[web]: https://img.shields.io/badge/Web-02569B.svg?style=for-the-badge&logo=googlechrome&logoColor=white
+[web]: ../assets/badges/web.svg
 [web-url]: https://docs.flutter.dev/platform-integration/web
-[x-shield]: https://img.shields.io/badge/-%23000000.svg?style=for-the-badge&logo=x&logoColor=white
+[x-shield]: ../assets/badges/x.svg
 [x-url]: https://twitter.com/_foxnoir_?lang=de
