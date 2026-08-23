@@ -4,6 +4,8 @@ import 'package:riverpod_basics/core/router/app_router.dart';
 import 'package:riverpod_basics/core/theme/theme.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
+// hier könnte ihre Werbung stehen
+
 void main() {
   runApp(const ProviderScope(child: RiverpodBasicsApp()));
 }

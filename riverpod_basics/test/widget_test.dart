@@ -6,15 +6,15 @@ void main() {
   testWidgets('Landing page is the initial route', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
 
-    expect(find.text('Provider 1'), findsOneWidget);
+    expect(find.text('StateProvider'), findsOneWidget);
     expect(find.text('Provider 2'), findsOneWidget);
     expect(find.text('Provider 3'), findsOneWidget);
   });
 
-  testWidgets('Landing page navigates to Provider 1', (tester) async {
+  testWidgets('Landing page navigates to StateProvider', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
 
-    await tester.tap(find.text('Provider 1'));
+    await tester.tap(find.text('StateProvider'));
     await tester.pumpAndSettle();
 
     expect(find.text('Counter'), findsOneWidget);

@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="72" height="28" role="img" aria-label="Intl">
   <title>Intl</title>
-  <rect width="72" height="28" fill="#7A5EA8"/>
+  <defs>
+    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#43345C"/>
+      <stop offset="50%" stop-color="#7A5EA8"/>
+      <stop offset="100%" stop-color="#BAABD2"/>
+    </linearGradient>
+  </defs>
+  <rect width="72" height="28" fill="url(#fill)"/>
   <text x="36.0" y="18" text-anchor="middle" fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11" font-weight="700">Intl</text>
 </svg>
