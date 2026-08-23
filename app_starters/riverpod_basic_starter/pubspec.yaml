@@ -1,0 +1,26 @@
+name: riverpod_basic_starter
+description: White-label Flutter starter with Riverpod, GoRouter, and l10n.
+publish_to: "none"
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.12.1
+
+dependencies:
+  cupertino_icons: ^1.0.8
+  flutter:
+    sdk: flutter
+  flutter_localizations:
+    sdk: flutter
+  flutter_riverpod: ^3.4.2
+  go_router: ^17.5.0
+  intl: any
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  very_good_analysis: ^6.0.0
+
+flutter:
+  generate: true
+  uses-material-design: true

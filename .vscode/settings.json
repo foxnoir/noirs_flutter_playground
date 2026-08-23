@@ -1,7 +1,10 @@
 {
   "dart.flutterSdkPath": "riverpod_basics/.fvm/flutter_sdk",
-  "dart.flutterSdkPaths": ["riverpod_basics/.fvm/flutter_sdk"],
+  "dart.flutterSdkPaths": [
+    "riverpod_basics/.fvm/flutter_sdk",
+    "app_starters/riverpod_basic_starter/.fvm/flutter_sdk"
+  ],
   "dart.projectSearchDepth": 5,
   "coverage-gutters.coverageFileNames": ["lcov.info"],
-  "coverage-gutters.coverageBaseDir": "riverpod_basics"
+  "coverage-gutters.coverageBaseDir": "."
 }

@@ -16,15 +16,23 @@ if ! "${repo_root}/tool/update_coverage.sh"; then
   exit 1
 fi
 
-for file in */images/coverage.svg */images/coverage_badge.svg */README.md; do
-  [ -f "$file" ] || continue
-  case "$file" in
-    */README.md)
-      grep -q "coverage-percent:start" "$file" || continue
-      ;;
-  esac
-  git add -- "$file"
-done
+while IFS= read -r project_dir; do
+  for file in \
+    "${project_dir}/images/coverage.svg" \
+    "${project_dir}/images/coverage_badge.svg" \
+    "${project_dir}/README.md"
+  do
+    [ -f "$file" ] || continue
+    case "$file" in
+      */README.md)
+        grep -q "coverage-percent:start" "$file" || continue
+        ;;
+    esac
+    git add -- "$file"
+  done
+done <<EOF
+$("${repo_root}/tool/flutter_apps.sh")
+EOF
 
 echo "pre-commit: coverage badge included in this commit."
 exit 0

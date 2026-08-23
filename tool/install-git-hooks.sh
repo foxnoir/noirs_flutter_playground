@@ -12,7 +12,8 @@ fi
 chmod +x \
   "${repo_root}/tool/git-hooks/pre-commit" \
   "${repo_root}/tool/git-hooks/pre-push" \
-  "${repo_root}/tool/update_coverage.sh"
+  "${repo_root}/tool/update_coverage.sh" \
+  "${repo_root}/tool/flutter_apps.sh"
 
 ln -sf ../../tool/git-hooks/pre-commit "${hooks_dir}/pre-commit"
 ln -sf ../../tool/git-hooks/pre-push "${hooks_dir}/pre-push"

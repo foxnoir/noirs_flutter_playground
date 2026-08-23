@@ -1,0 +1,27 @@
+include: package:very_good_analysis/analysis_options.6.0.0.yaml
+
+linter:
+  rules:
+    constant_identifier_names: false
+    non_constant_identifier_names: false
+    use_build_context_synchronously: false
+    depend_on_referenced_packages: false
+    no_leading_underscores_for_local_identifiers: false
+
+analyzer:
+  errors:
+    public_member_api_docs: ignore
+    sort_pub_dependencies: ignore
+
+  exclude:
+    - "**/*.freezed.dart"
+    - "**/generated/**"
+    - "**/*.g.dart"
+    - "lib/l10n/app_localizations*.dart"
+    - build/**
+    - android/**
+    - ios/**
+    - web/**
+    - windows/**
+    - macos/**
+    - linux/**
