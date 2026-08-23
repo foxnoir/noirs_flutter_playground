@@ -15,6 +15,7 @@ Check and update:
 - One-line summary under each card
 - Card and header links (`README »`, folder `»`, coverage → `#test-coverage`)
 - Header logo and tech-stack badges live once in playground `assets/` (`logo.png`, `badges/`). App READMEs point there with a relative path.
+- Tech-stack badges are **left**-aligned (`<div align="left">`) so wrapped rows start on the left. Do not center that row.
 - Coverage images stay per app in `assets/coverage/`
 - The **Packages** table if a `pubspec.yaml` added, removed, or replaced a package
 - Architecture notes only if the folder approach actually changed

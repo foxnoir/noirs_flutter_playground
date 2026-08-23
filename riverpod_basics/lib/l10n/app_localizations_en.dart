@@ -21,6 +21,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get provider3 => 'Provider 3';
 
   @override
+  String get stateProvider => 'StateProvider';
+
+  @override
   String get counter => 'Counter';
 
   @override

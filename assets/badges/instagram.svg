@@ -2,9 +2,9 @@
   <title>Instagram</title>
   <defs>
     <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0%" stop-color="#4A2F6B"/>
+      <stop offset="0%" stop-color="#4C3469"/>
       <stop offset="50%" stop-color="#8B5FBF"/>
-      <stop offset="100%" stop-color="#C9A8E0"/>
+      <stop offset="100%" stop-color="#C3ACDE"/>
     </linearGradient>
   </defs>
   <rect width="94" height="28" fill="url(#fill)"/>

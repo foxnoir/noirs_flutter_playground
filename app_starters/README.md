@@ -19,7 +19,7 @@
 
 ---
 
-<div align="center">
+<div align="left">
 
 [![Flutter][flutter]][flutter-url]
 [![Dart][dart]][dart-url]

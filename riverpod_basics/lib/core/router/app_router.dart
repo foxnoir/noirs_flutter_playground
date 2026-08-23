@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/app_router_names.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/core/router/placeholder_screen.dart';
-import 'package:riverpod_basics/features/counter_state/presentation/counter_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
+import 'package:riverpod_basics/features/state_provider/presentation/state_provider_screen.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -18,23 +18,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const LandingPage(),
         routes: [
           GoRoute(
-            path: 'counter',
-            name: AppRouteNames.counter,
-            builder: (context, state) => const CounterScreen(),
+            path: AppRoutePaths.stateProvider,
+            name: AppRouteNames.stateProvider,
+            builder: (context, state) => const StateProviderScreen(),
           ),
           GoRoute(
-            path: 'provider-2',
+            path: AppRoutePaths.provider2,
             name: AppRouteNames.provider2,
-            builder: (context, state) => PlaceholderScreen(
-              title: AppLocalizations.of(context).provider2,
-            ),
+            builder: (context, state) {
+              final l10n = AppLocalizations.of(context);
+              return PlaceholderScreen(title: l10n.provider2);
+            },
           ),
           GoRoute(
-            path: 'provider-3',
+            path: AppRoutePaths.provider3,
             name: AppRouteNames.provider3,
-            builder: (context, state) => PlaceholderScreen(
-              title: AppLocalizations.of(context).provider3,
-            ),
+            builder: (context, state) {
+              final l10n = AppLocalizations.of(context);
+              return PlaceholderScreen(title: l10n.provider3);
+            },
           ),
         ],
       ),

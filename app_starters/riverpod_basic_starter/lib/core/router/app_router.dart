@@ -18,23 +18,25 @@ final goRouterProvider = Provider<GoRouter>((ref) {
         builder: (context, state) => const HomePage(),
         routes: [
           GoRoute(
-            path: 'one',
+            path: AppRoutePaths.one,
             name: AppRouteNames.one,
             builder: (context, state) => const DetailScreen(),
           ),
           GoRoute(
-            path: 'two',
+            path: AppRoutePaths.two,
             name: AppRouteNames.two,
-            builder: (context, state) => PlaceholderScreen(
-              title: AppLocalizations.of(context).two,
-            ),
+            builder: (context, state) {
+              final l10n = AppLocalizations.of(context);
+              return PlaceholderScreen(title: l10n.two);
+            },
           ),
           GoRoute(
-            path: 'three',
+            path: AppRoutePaths.three,
             name: AppRouteNames.three,
-            builder: (context, state) => PlaceholderScreen(
-              title: AppLocalizations.of(context).three,
-            ),
+            builder: (context, state) {
+              final l10n = AppLocalizations.of(context);
+              return PlaceholderScreen(title: l10n.three);
+            },
           ),
         ],
       ),

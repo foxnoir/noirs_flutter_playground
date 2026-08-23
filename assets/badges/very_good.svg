@@ -1,5 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="166" height="28" role="img" aria-label="Very Good Analysis">
   <title>Very Good Analysis</title>
-  <rect width="166" height="28" fill="#B22C89"/>
+  <defs>
+    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#62184B"/>
+      <stop offset="50%" stop-color="#B22C89"/>
+      <stop offset="100%" stop-color="#D791C2"/>
+    </linearGradient>
+  </defs>
+  <rect width="166" height="28" fill="url(#fill)"/>
   <text x="83.0" y="18" text-anchor="middle" fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11" font-weight="700">Very Good Analysis</text>
 </svg>
