@@ -323,7 +323,7 @@ This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**65.3%** line coverage (62 of 95 lines).
+**66.3%** line coverage (65 of 98 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](images/coverage.svg)

@@ -8,7 +8,6 @@ class LandingPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final l10n = AppLocalizations.of(context);
 
     final destinations = [
@@ -19,7 +18,6 @@ class LandingPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: colorScheme.inversePrimary,
         title: Text(l10n.appTitle),
       ),
       body: ListView(
