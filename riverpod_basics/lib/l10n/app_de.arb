@@ -4,7 +4,9 @@
   "provider1": "Provider 1",
   "provider2": "Provider 2",
   "provider3": "Provider 3",
+  "noProvider": "Kein Provider",
   "stateProvider": "StateProvider",
+  "buttonPressCount": "Du hast den Button so oft gedrückt: {count}",
   "counter": "Zähler",
   "pageNotFound": "Seite nicht gefunden",
   "goToLanding": "Zur Startseite"

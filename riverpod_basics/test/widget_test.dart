@@ -6,6 +6,7 @@ void main() {
   testWidgets('Landing page is the initial route', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
 
+    expect(find.text('No Provider'), findsOneWidget);
     expect(find.text('StateProvider'), findsOneWidget);
     expect(find.text('Provider 2'), findsOneWidget);
     expect(find.text('Provider 3'), findsOneWidget);
@@ -17,6 +18,6 @@ void main() {
     await tester.tap(find.text('StateProvider'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Counter'), findsOneWidget);
+    expect(find.text('You have pressed the button this many times: 0'), findsOneWidget);
   });
 }

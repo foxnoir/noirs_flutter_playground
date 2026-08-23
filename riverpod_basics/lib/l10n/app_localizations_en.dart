@@ -21,7 +21,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get provider3 => 'Provider 3';
 
   @override
+  String get noProvider => 'No Provider';
+
+  @override
   String get stateProvider => 'StateProvider';
+
+  @override
+  String buttonPressCount(int count) {
+    return 'You have pressed the button this many times: $count';
+  }
 
   @override
   String get counter => 'Counter';

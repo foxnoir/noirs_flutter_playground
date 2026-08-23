@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod fundamentals: providers, ConsumerWidget, and reactive Flutter UI.
+     Practice project for Riverpod: no provider, StateProvider, NotifierProvider, and when to pick which.
   </p>
 </div>
 
@@ -44,8 +44,10 @@
       <ul>
         <li><a href="#what-is-riverpod">What is Riverpod</a></li>
         <li><a href="#why-riverpod">Why Riverpod</a></li>
-        <li><a href="#what-does-a-provider-do">What Does a Provider Do</a></li>
-        <li><a href="#core-riverpod-providers">Core Riverpod Providers</a></li>
+        <li><a href="#no-provider">No provider</a></li>
+        <li><a href="#stateprovider">StateProvider</a></li>
+        <li><a href="#notifierprovider">NotifierProvider</a></li>
+        <li><a href="#how-they-connect">How they connect</a></li>
         <li><a href="#summary">Summary</a></li>
       </ul>
     </li>
@@ -66,7 +68,7 @@
 
 This app is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
-The goal is to learn the building blocks: what a provider is, why Riverpod exists, which provider type to pick, and how widgets read that state.
+The first lesson is the same button-press counter three ways: local `setState` (no provider), then `StateProvider`, then `NotifierProvider`. The point is when to leave the widget and when to move again.
 
 [![iOS][ios]][ios-url]
 
@@ -105,190 +107,51 @@ Use Riverpod when state is shared, async, or needs to be tested. Keep `setState`
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
-### What Does a Provider Do
+### No provider
 
-A **Provider** in Riverpod has three jobs:
+No provider means the count lives in the widget with `setState`. Nothing outside that screen can read it.
 
-1. **Creates** a resource or state (a value, a class, or async work).
-2. **Stores** it for the app lifetime, so it survives widget rebuilds.
-3. **Notifies** widgets when it changes, so the UI stays in sync.
+**Use it when** only one widget cares: an expansion tile, a password-field visibility toggle, a one-off animation flag.
 
-A provider is the **source of data**. State is the **current value** of that source.
-
-- `Provider` returns a value (read-only).
-- `StateProvider` stores a value that can change.
+**Do not use it when** a second screen needs the same count, you want to test the increment without pumping the widget, or the value must survive leaving the page. That is when you lift it into a provider.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
-### Core Riverpod Providers
+### StateProvider
 
-Riverpod has different providers for different kinds of state.
+`StateProvider` holds **one mutable value**. The UI writes `state` directly. There are no named methods and no place for rules.
 
-#### 1. `Provider` — read-only value
+**Use it when** the value is a primitive or enum, any write is valid, and nothing else depends on how it changed. Typical cases: a selected tab, a filter chip, a “dark mode” switch, a throwaway counter on one screen.
 
-Use it for constants, config, or computed values that do not change on their own.
-
-```dart
-final helloProvider = Provider((ref) => "Hello, Riverpod!");
-```
+**Do not use it when** two writes must stay consistent, a value has a floor or a max, more than one field changes together, or you would want to unit-test the update. Do not use it for login, a cart, or anything that talks to an API.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
-#### 2. `StateProvider` — simple mutable state
+### NotifierProvider
 
-Use it for a single value that the UI can update: a counter, a flag, a selected tab.
+`NotifierProvider` holds the same kind of state, but updates go through a **class with methods**. The widget calls `increment()` or `applyFilter()`. The notifier owns the rules.
 
-```dart
-final counterProvider = StateProvider<int>((ref) => 0);
+**Use it when** plus and minus must not go below zero, a form field needs validation, a list can add and remove items, or two screens share the same actions. Use it as soon as you would write a test for the change.
 
-class CounterScreen extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final counter = ref.watch(counterProvider);
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Text("Counter: $counter"),
-            ElevatedButton(
-              onPressed: () => ref.read(counterProvider.notifier).state++,
-              child: Text("Increase"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-```
-
-- `ref.watch(counterProvider)` rebuilds the widget when the value changes.
-- `ref.read(counterProvider.notifier).state++` updates the value from a callback.
+**Do not use it when** the value never changes (that is a read-only `Provider`) or the widget is the only thing that ever sees a one-off toggle. Do not reach for a notifier to store a theme color constant.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
-#### 3. `FutureProvider` — one-shot async data
+### How they connect
 
-Use it for API calls, database reads, or anything that completes once.
+The app walks the same counter up the ladder.
 
-```dart
-final userNameProvider = FutureProvider<String>((ref) async {
-  await Future.delayed(Duration(seconds: 2));
-  return "John Doe";
-});
+1. **No provider** — `setState` on one screen. Fine while nobody else needs the count.
+2. **StateProvider** — same number, now outside the widget. Any screen can watch it. Writes are still `state++`.
+3. **NotifierProvider** — same number, but updates go through methods. Use this when minus has a floor or the change should be tested.
 
-class UserScreen extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final userAsync = ref.watch(userNameProvider);
-    return Scaffold(
-      body: Center(
-        child: userAsync.when(
-          data: (name) => Text("Hello, $name!"),
-          loading: () => CircularProgressIndicator(),
-          error: (err, stack) => Text("Error: $err"),
-        ),
-      ),
-    );
-  }
-}
-```
-
-`when(data, loading, error)` forces you to handle all three states.
-
-<p align="right"><a href="#readme-top">back to top</a></p>
-
-#### 4. `StreamProvider` — continuous data
-
-Use it for live values: WebSockets, Firestore, sensors, a ticking clock.
-
-```dart
-final timeProvider = StreamProvider<DateTime>((ref) async* {
-  while (true) {
-    await Future.delayed(Duration(seconds: 1));
-    yield DateTime.now();
-  }
-});
-
-class ClockScreen extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final time = ref.watch(timeProvider);
-    return Scaffold(
-      body: Center(
-        child: time.when(
-          data: (time) => Text("Time: ${time.toIso8601String()}"),
-          loading: () => CircularProgressIndicator(),
-          error: (err, stack) => Text("Error: $err"),
-        ),
-      ),
-    );
-  }
-}
-```
-
-The widget rebuilds every time the stream emits.
-
-<p align="right"><a href="#readme-top">back to top</a></p>
-
-#### 5. `StateNotifierProvider` — state with methods
-
-Use it when the state needs more than one field, or when updates should go through named methods instead of `state++`.
-
-```dart
-class CounterNotifier extends StateNotifier<int> {
-  CounterNotifier() : super(0);
-  void increment() => state++;
-  void decrement() => state--;
-}
-
-final counterNotifierProvider = StateNotifierProvider<CounterNotifier, int>(
-  (ref) => CounterNotifier(),
-);
-
-class CounterScreen extends ConsumerWidget {
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final counter = ref.watch(counterNotifierProvider);
-    return Scaffold(
-      body: Center(
-        child: Column(
-          children: [
-            Text("Counter: $counter"),
-            ElevatedButton(
-              onPressed: () => ref.read(counterNotifierProvider.notifier).increment(),
-              child: Text("Increase"),
-            ),
-            ElevatedButton(
-              onPressed: () => ref.read(counterNotifierProvider.notifier).decrement(),
-              child: Text("Decrease"),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-```
-
-Logic lives in the notifier. The widget only watches and calls methods.
+`StateProvider` is a shortcut: a tiny notifier whose public API is “set `state`”. You graduate when the widget starts making decisions.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Summary
 
-| Provider | Description | Best use case |
-| --- | --- | --- |
-| `Provider` | Read-only value | Config, constants |
-| `StateProvider` | Simple mutable state | Counters, flags, form fields |
-| `FutureProvider` | One-time async work | API requests, database reads |
-| `StreamProvider` | Continuous data | Firestore, WebSockets |
-| `StateNotifierProvider` | State with methods | Auth, cart, anything with real logic |
-
-Widgets that read providers use `ConsumerWidget` and `WidgetRef`:
-
-- `ref.watch` in `build` — rebuild when the value changes
-- `ref.read` in callbacks — run an action without rebuilding
+Start with `setState` while the value is local. Move to `StateProvider` when another widget must see it. Move to `NotifierProvider` when updates need names and rules.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -313,7 +176,7 @@ fvm flutter pub get
 fvm flutter run
 ```
 
-`fvm flutter run` uses the **iOS Simulator**. For web, use `fvm flutter run -d chrome`. There is no Android project.
+`fvm flutter run` uses the **iOS Simulator**. There is no Android project or Chrome.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
@@ -350,9 +213,7 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 
 ## Sources
 
-- [Riverpod](https://fnfidanci.medium.com/the-right-way-to-use-riverpod-in-flutter-77869f9b741c)
-- [Login Layout Inspo](https://github.com/gerfagerfa/login_and_signup)
-- [Images](https://www.marigonasuli.com/)
+- [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

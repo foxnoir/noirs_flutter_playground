@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
-class StateProviderScreen extends ConsumerStatefulWidget {
-  const StateProviderScreen({super.key});
+class NoProviderScreen extends StatefulWidget {
+  const NoProviderScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _State();
+  State<NoProviderScreen> createState() => _NoProviderScreenState();
 }
 
-class _State extends ConsumerState<StateProviderScreen> {
+class _NoProviderScreenState extends State<NoProviderScreen> {
   int _counter = 0;
 
   @override
@@ -17,7 +16,7 @@ class _State extends ConsumerState<StateProviderScreen> {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.stateProvider)),
+      appBar: AppBar(title: Text(l10n.noProvider)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
@@ -27,7 +26,7 @@ class _State extends ConsumerState<StateProviderScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FloatingActionButton(
-                  heroTag: 'state-provider-increment',
+                  heroTag: 'no-provider-increment',
                   onPressed: () {
                     setState(() {
                       _counter++;
@@ -36,7 +35,7 @@ class _State extends ConsumerState<StateProviderScreen> {
                   child: const Icon(Icons.add),
                 ),
                 FloatingActionButton(
-                  heroTag: 'state-provider-decrement',
+                  heroTag: 'no-provider-decrement',
                   onPressed: () {
                     setState(() {
                       _counter--;

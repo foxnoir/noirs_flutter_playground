@@ -122,11 +122,23 @@ abstract class AppLocalizations {
   /// **'Provider 3'**
   String get provider3;
 
+  /// No description provided for @noProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'No Provider'**
+  String get noProvider;
+
   /// No description provided for @stateProvider.
   ///
   /// In en, this message translates to:
   /// **'StateProvider'**
   String get stateProvider;
+
+  /// Shown on the StateProvider screen with the current press count.
+  ///
+  /// In en, this message translates to:
+  /// **'You have pressed the button this many times: {count}'**
+  String buttonPressCount(int count);
 
   /// No description provided for @counter.
   ///
