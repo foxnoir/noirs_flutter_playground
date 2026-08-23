@@ -1,0 +1,25 @@
+#!/bin/sh
+# Block the push if tests fail. Coverage already belongs to the commits
+# (pre-commit). Do not create a follow-up coverage commit here.
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root" || exit 1
+
+export PATH="${HOME}/.pub-cache/bin:${PATH}"
+
+echo "pre-push: running tests…"
+
+if [ -f .fvmrc ] && command -v fvm >/dev/null 2>&1; then
+  if ! fvm flutter test; then
+    echo "pre-push: tests failed. Push blocked." >&2
+    exit 1
+  fi
+else
+  if ! flutter test; then
+    echo "pre-push: tests failed. Push blocked." >&2
+    exit 1
+  fi
+fi
+
+echo "pre-push: all tests passed."
+exit 0

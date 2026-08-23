@@ -26,8 +26,8 @@ if [ ! -f "$lcov" ]; then
   exit 1
 fi
 
-python3 "${app_root}/tool/coverage_badge.py" \
+python3 "${app_root}/coverage_pipeline/coverage_badge.py" \
   --lcov "$lcov" \
-  --badge "${app_root}/images/coverage_badge.svg" \
-  --card "${app_root}/images/coverage.svg" \
+  --badge "${app_root}/assets/coverage/badge.svg" \
+  --card "${app_root}/assets/coverage/card.svg" \
   --readme "${app_root}/README.md"

@@ -11,8 +11,9 @@ if [ -z "$git_root" ]; then
 fi
 
 if [ "$git_root" != "$app_root" ]; then
-  echo "install-git-hooks: this starter lives inside ${git_root}."
-  echo "Playground hooks at the repo root already refresh coverage for starters."
+  echo "install-git-hooks: this app lives inside ${git_root}."
+  echo "Coverage is per app. Refresh this badge with:"
+  echo "  ${app_root}/coverage_pipeline/update_coverage.sh"
   echo "After you copy this folder into its own git repo, run this script again."
   exit 0
 fi
@@ -20,10 +21,10 @@ fi
 hooks_dir="${app_root}/.git/hooks"
 
 chmod +x \
-  "${app_root}/tool/git-hooks/pre-commit" \
-  "${app_root}/tool/git-hooks/pre-push" \
-  "${app_root}/tool/update_coverage.sh"
+  "${app_root}/coverage_pipeline/git-hooks/pre-commit" \
+  "${app_root}/coverage_pipeline/git-hooks/pre-push" \
+  "${app_root}/coverage_pipeline/update_coverage.sh"
 
-ln -sf ../../tool/git-hooks/pre-commit "${hooks_dir}/pre-commit"
-ln -sf ../../tool/git-hooks/pre-push "${hooks_dir}/pre-push"
+ln -sf ../../coverage_pipeline/git-hooks/pre-commit "${hooks_dir}/pre-commit"
+ln -sf ../../coverage_pipeline/git-hooks/pre-push "${hooks_dir}/pre-push"
 echo "install-git-hooks: linked pre-commit and pre-push."

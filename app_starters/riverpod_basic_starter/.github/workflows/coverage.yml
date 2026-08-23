@@ -19,7 +19,7 @@ jobs:
           cache: true
 
       - name: Refresh coverage images
-        run: bash tool/update_coverage.sh
+        run: bash coverage_pipeline/update_coverage.sh
 
       - name: Coverage must match this commit
-        run: git diff --exit-code -- images/coverage.svg images/coverage_badge.svg README.md
+        run: git diff --exit-code -- assets/coverage/badge.svg assets/coverage/card.svg README.md
