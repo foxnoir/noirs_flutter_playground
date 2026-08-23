@@ -54,6 +54,8 @@ The root README stays short: a link and a rough summary per project. Getting sta
 
 Starter app for **Riverpod** fundamentals: providers, `ConsumerWidget`, and reactive UI.
 
+[![Coverage](riverpod_basics/images/coverage_badge.svg)](riverpod_basics/README.md#test-coverage)
+
 More detail: [riverpod_basics/README.md](riverpod_basics/README.md)
 
 <p align="right"><a href="#readme-top">back to top</a></p>

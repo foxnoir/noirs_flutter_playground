@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Boot iPhone 17 Pro Simulator",
+      "type": "shell",
+      "command": "xcrun simctl boot E207ED10-9E72-4D1C-82E5-4B23BB22D09B 2>/dev/null || true; open -a Simulator",
+      "presentation": {
+        "reveal": "silent",
+        "panel": "dedicated",
+        "showReuseMessage": false
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Test with coverage",
+      "type": "shell",
+      "command": "fvm flutter test --coverage",
+      "options": {
+        "cwd": "${workspaceFolder}/riverpod_basics",
+        "env": {
+          "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+        }
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
+    }
+  ]
+}
