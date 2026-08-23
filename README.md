@@ -10,7 +10,7 @@
 <br />
 
 <div align="center">
-  <img src="assets/logo.png" alt="Logo" width="80" height="80">
+  <img src="assets/logo.png" alt="Logo" width="134" height="134">
   <h1 align="center">Noir's Flutter Playground</h1>
   <p>
      Practice projects for Flutter — among other things Riverpod, architecture, and advanced topics.

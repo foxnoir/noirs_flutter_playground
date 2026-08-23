@@ -10,7 +10,7 @@
 <br />
 
 <div align="center">
-  <img src="../assets/logo.png" alt="Logo" width="80" height="80">
+  <img src="../assets/logo.png" alt="Logo" width="134" height="134">
   <h1 align="center">App Starters</h1>
   <p>
      Copyable Flutter starters for new apps.
