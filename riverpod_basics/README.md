@@ -11,16 +11,19 @@
 
 <div align="center">
   <img src="assets/logo.png" alt="Logo" width="80" height="80">
-  <h1 align="center">Riverpod Basics</h1>
-  <p>
-     Practice project for Riverpod fundamentals: providers, ConsumerWidget, and reactive Flutter UI.
-  </p>
-  <p>
-    <a href="lib/"><strong>Explore the project »</strong></a>
-    <br/>
-    <a href="../README.md"><strong>Back to playground »</strong></a>
-  </p>
 </div>
+
+<a href="#test-coverage"><img align="right" src="assets/coverage/badge.svg" alt="Coverage"></a>
+<h1 align="center">Riverpod Basics</h1>
+<p align="center">
+   Practice project for Riverpod fundamentals: providers, ConsumerWidget, and reactive Flutter UI.
+</p>
+
+<p align="left">
+  <a href="lib/"><strong>Explore the project »</strong></a>
+  <br/>
+  <a href="../README.md"><strong>Back to playground »</strong></a>
+</p>
 
 ---
 
@@ -36,8 +39,6 @@
 [![FVM][fvm]][fvm-url]
 [![iOS][ios]][ios-url]
 [![Web][web]][web-url]
-
-[![Coverage][coverage-shield]](#test-coverage)
 
 </div>
 
@@ -59,7 +60,6 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#test-coverage">Test coverage</a></li>
-        <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
       </ul>
     </li>
     <li><a href="#changelog">Changelog</a></li>
@@ -342,30 +342,7 @@ fvm flutter test --coverage
 
 Or run the VS Code task **Flutter: Test with coverage**, then Command Palette → **Coverage Gutters: Display Coverage**.
 
-### Coverage pipeline
-
-The badge on GitHub must match the code in that commit.
-
-1. Tests run with coverage (`fvm flutter test --coverage`).
-2. `lcov.info` is turned into two images: [`assets/coverage/badge.svg`](assets/coverage/badge.svg) (header) and [`assets/coverage/card.svg`](assets/coverage/card.svg) (README card), plus the percent in this file.
-3. `pre-commit` stages those files so they ride in the **same** commit.
-4. `pre-push` runs the tests again and blocks a failing push.
-5. GitHub Actions repeats the generation and fails if the committed images are stale.
-
-This playground keeps that flow once in [`coverage_pipeline/`](../coverage_pipeline/). This app only stores the generated images and the percent above.
-
-Refresh this app from the playground root:
-
-```
-./coverage_pipeline/update_coverage.sh riverpod_basics
-```
-
-Inside this playground the install script does not attach hooks to the playground repo. After you copy this folder into its **own** git repo, also copy `coverage_pipeline/` next to `pubspec.yaml`, copy [`coverage.yml`](../coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/badges/`](../assets/badges/) into that repo's `assets/badges/`. Point the README badge links at `assets/badges/`, then:
-
-```
-./coverage_pipeline/update_coverage.sh
-./coverage_pipeline/install-git-hooks.sh
-```
+The shared scripts live in the playground [coverage pipeline](../README.md#coverage-pipeline).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -389,7 +366,6 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 
 ---
 
-[coverage-shield]: assets/coverage/badge.svg
 [dart]: ../assets/badges/dart.svg
 [dart-url]: https://dart.dev/
 [flutter]: ../assets/badges/flutter.svg

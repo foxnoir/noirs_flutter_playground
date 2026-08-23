@@ -1,9 +1,10 @@
 #!/usr/bin/env python3
-"""Generate local README badges. Official brand colors stay official.
+"""Generate local README badges.
 
-When a tool has no published badge color, pick from the playground palette
-(purple / blue / turquoise / pink / green). Avoid orange, red, and yellow
-unless that is the official brand color.
+Official brand colors stay official, except black — it is hard to see.
+When a tool has no published color, or the official color is black, pick from
+the playground palette (purple / blue / turquoise / pink / green).
+Avoid black, orange, red, and yellow.
 """
 
 from __future__ import annotations
@@ -22,11 +23,11 @@ BADGES: list[tuple[str, str, str, str]] = [
     ("intl", "Intl", "#7A5EA8", "purple (replaces orange)"),
     ("very_good", "Very Good Analysis", "#B22C89", "Very Good Ventures magenta"),
     ("fvm", "FVM", "#2A9D8F", "turquoise (no published badge color)"),
-    ("ios", "iOS", "#000000", "official Apple"),
+    ("ios", "iOS", "#4DB8C4", "pastel turquoise (replaces black)"),
     ("web", "Web", "#1A7A84", "turquoise (no published badge color)"),
     ("linkedin", "LinkedIn", "#0A66C2", "official LinkedIn"),
     ("instagram", "Instagram", "#E4405F", "official Instagram"),
-    ("x", "X", "#000000", "official X"),
+    ("x", "X", "#7EB8D6", "pastel light blue (replaces black)"),
 ]
 
 

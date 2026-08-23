@@ -39,7 +39,6 @@
   <ol>
     <li><a href="#about">About</a></li>
     <li><a href="#starters">Starters</a></li>
-    <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
   </ol>
 </details>
 
@@ -54,53 +53,18 @@ Copy a starter folder when you begin a new Flutter app.
 
 There is no Android project.
 
-Coverage scripts live once in the playground [`coverage_pipeline/`](../coverage_pipeline/). Header badges live once in [`assets/badges/`](../assets/badges/). Each starter still owns its own coverage images.
-
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
 ## Starters
 
-### [Riverpod Basic Starter »](riverpod_basic_starter/)
+<a href="riverpod_basic_starter/README.md#test-coverage"><img align="right" src="riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
+<h3 align="center"><a href="riverpod_basic_starter/">Riverpod Basic Starter »</a></h3>
 
-<p align="center">Copyable starter for <strong>Riverpod</strong>: GoRouter, l10n, feature folders, and a Material 3 seed theme.</p>
-
-<div align="center">
-
-[![Coverage](riverpod_basic_starter/assets/coverage/badge.svg)](riverpod_basic_starter/README.md#test-coverage)
+Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Material 3 seed theme.
 
 [README »](riverpod_basic_starter/README.md)
-
-</div>
-
-<p align="right"><a href="#readme-top">back to top</a></p>
-
----
-
-## Coverage pipeline
-
-The badge on GitHub must match the code in that commit.
-
-Scripts live once in the playground [`coverage_pipeline/`](../coverage_pipeline/). Each starter still owns `assets/coverage/` and the percent in its README.
-
-1. Tests run with coverage.
-2. `lcov.info` becomes `assets/coverage/badge.svg` (header) and `assets/coverage/card.svg` (README card).
-3. `pre-commit` puts those images in the **same** commit.
-4. `pre-push` blocks a failing push.
-5. After the starter is its own repo, [coverage.yml](../coverage_pipeline/coverage.yml) fails CI if the committed images are stale.
-
-Refresh this starter's badge from the playground root:
-
-```
-./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
-```
-
-After you copy a starter into its **own** git repo, also copy `coverage_pipeline/` next to `pubspec.yaml`, copy [`coverage.yml`](../coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/badges/`](../assets/badges/) into that repo's `assets/badges/`. Then:
-
-```
-./coverage_pipeline/install-git-hooks.sh
-```
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
