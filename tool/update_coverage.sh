@@ -15,10 +15,8 @@ fi
 found_project=0
 failed=0
 
-for pubspec in */pubspec.yaml; do
-  [ -f "$pubspec" ] || continue
+while IFS= read -r project_dir; do
   found_project=1
-  project_dir="$(dirname "$pubspec")"
   echo "update_coverage: testing ${project_dir}…"
 
   if [ -n "${CI:-}" ] || ! command -v fvm >/dev/null 2>&1 || [ ! -f "${project_dir}/.fvmrc" ]; then
@@ -47,7 +45,9 @@ for pubspec in */pubspec.yaml; do
     --badge "${project_dir}/images/coverage_badge.svg" \
     --card "${project_dir}/images/coverage.svg" \
     --readme "${project_dir}/README.md"
-done
+done <<EOF
+$("${repo_root}/tool/flutter_apps.sh")
+EOF
 
 if [ "$found_project" -eq 0 ]; then
   echo "update_coverage: no Flutter projects found." >&2

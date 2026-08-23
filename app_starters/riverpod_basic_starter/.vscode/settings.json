@@ -1,0 +1,5 @@
+{
+  "dart.flutterSdkPath": ".fvm/flutter_sdk",
+  "coverage-gutters.coverageFileNames": ["lcov.info"],
+  "coverage-gutters.coverageBaseDir": "."
+}

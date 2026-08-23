@@ -6,6 +6,8 @@
 [![X][x-shield]][x-url]
 [![Instagram][instagram-shield]][instagram-url]
 [![Coverage][coverage-shield]](#test-coverage)
+[![iOS][ios]][ios-url]
+[![Web][web]][web-url]
 
 <!-- PROJECT LOGO -->
 <br />
@@ -15,7 +17,7 @@
   <h1 align="center">Riverpod Basics</h1>
 
   <p align="left">
-     Practice project for Riverpod fundamentals: providers, ConsumerWidget, and reactive Flutter UI.
+     Practice project for Riverpod fundamentals: providers, ConsumerWidget, and reactive Flutter UI. **iOS + Web.**
   </p>
   
   <p align="left">
@@ -50,6 +52,7 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#test-coverage">Test coverage</a></li>
+        <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
       </ul>
     </li>
     <li><a href="#changelog">Changelog</a></li>
@@ -64,6 +67,8 @@
 This app is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
 The goal is to learn the building blocks: what a provider is, why Riverpod exists, which provider type to pick, and how widgets read that state.
+
+**iOS + Web** — there is no Android project. Run on the iOS Simulator or Chrome.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -294,6 +299,8 @@ Widgets that read providers use `ConsumerWidget` and `WidgetRef`:
 - [![Flutter][flutter]][flutter-url]
 - [![Dart][dart]][dart-url]
 - [![Riverpod][riverpod]][riverpod-url]
+- [![iOS][ios]][ios-url]
+- [![Web][web]][web-url]
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -318,6 +325,8 @@ fvm flutter pub get
 fvm flutter run
 ```
 
+`fvm flutter run` uses the **iOS Simulator**. For web, use `fvm flutter run -d chrome`. There is no Android project.
+
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
 ### Test coverage
@@ -336,6 +345,30 @@ fvm flutter test --coverage
 ```
 
 Or run the VS Code task **Flutter: Test with coverage**, then Command Palette → **Coverage Gutters: Display Coverage**.
+
+### Coverage pipeline
+
+The badge on GitHub must match the code in that commit.
+
+1. Tests run with coverage (`fvm flutter test --coverage`).
+2. `lcov.info` is turned into two images: the small header **badge** and the README **card**, plus the percent in this file.
+3. `pre-commit` stages those files so they ride in the **same** commit.
+4. `pre-push` runs the tests again and blocks a failing push.
+5. GitHub Actions repeats the generation and fails if the committed images are stale.
+
+This app uses the playground pipeline in [`../tool/`](../tool/). There is no `tool/` folder inside `riverpod_basics`.
+
+- [`install-git-hooks.sh`](../tool/install-git-hooks.sh) — after a clone, run once from the playground root
+- [`update_coverage.sh`](../tool/update_coverage.sh) — tests + image generation for every app
+- [`coverage_badge.py`](../tool/coverage_badge.py) — SVG badge and card from `lcov.info`
+- [`flutter_apps.sh`](../tool/flutter_apps.sh) — which folders count as apps
+- [`git-hooks/pre-commit`](../tool/git-hooks/pre-commit) / [`pre-push`](../tool/git-hooks/pre-push)
+- [`.github/workflows/coverage.yml`](../.github/workflows/coverage.yml) — CI check
+
+```
+cd ..
+./tool/install-git-hooks.sh
+```
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -364,6 +397,10 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 [dart-url]: https://dart.dev/
 [flutter]: https://img.shields.io/badge/Flutter-%2302569B.svg?style=for-the-badge&logo=flutter&logoColor=white
 [flutter-url]: https://flutter.dev/
+[ios]: https://img.shields.io/badge/iOS-000000.svg?style=for-the-badge&logo=apple&logoColor=white
+[ios-url]: https://developer.apple.com/ios/
+[web]: https://img.shields.io/badge/Web-02569B.svg?style=for-the-badge&logo=googlechrome&logoColor=white
+[web-url]: https://docs.flutter.dev/platform-integration/web
 [instagram-shield]: https://img.shields.io/badge/Instagram-%23E4405F.svg?style=for-the-badge&logo=instagram&logoColor=white
 [instagram-url]: https://www.instagram.com/codeincouture/
 [linkedin-shield]: https://img.shields.io/badge/LinkedIn-%230A66C2.svg?style=for-the-badge&logo=linkedin&logoColor=white

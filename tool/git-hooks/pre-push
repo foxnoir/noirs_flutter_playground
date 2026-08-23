@@ -10,10 +10,8 @@ export PATH="${HOME}/.pub-cache/bin:${PATH}"
 found_project=0
 failed=0
 
-for pubspec in */pubspec.yaml; do
-  [ -f "$pubspec" ] || continue
+while IFS= read -r project_dir; do
   found_project=1
-  project_dir="$(dirname "$pubspec")"
   echo "pre-push: running tests in ${project_dir}…"
 
   if [ -f "${project_dir}/.fvmrc" ] && command -v fvm >/dev/null 2>&1; then
@@ -27,7 +25,9 @@ for pubspec in */pubspec.yaml; do
       failed=1
     fi
   fi
-done
+done <<EOF
+$("${repo_root}/tool/flutter_apps.sh")
+EOF
 
 if [ "$found_project" -eq 0 ]; then
   echo "pre-push: no Flutter projects found. Push blocked." >&2

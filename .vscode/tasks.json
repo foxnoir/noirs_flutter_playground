@@ -28,6 +28,23 @@
         "panel": "shared"
       },
       "problemMatcher": []
+    },
+    {
+      "label": "Flutter: Test starter with coverage",
+      "type": "shell",
+      "command": "fvm flutter test --coverage",
+      "options": {
+        "cwd": "${workspaceFolder}/app_starters/riverpod_basic_starter",
+        "env": {
+          "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+        }
+      },
+      "group": "test",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "problemMatcher": []
     }
   ]
 }
