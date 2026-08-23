@@ -67,17 +67,12 @@ The root README stays short: a link and a rough summary per project. Getting sta
 
 ## Previous Projects
 
-### [Riverpod Basics »](riverpod_basics/)
+<a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
+<h3 align="center"><a href="riverpod_basics/">Riverpod Basics »</a></h3>
 
-<p align="center">Practice app for <strong>Riverpod</strong> fundamentals: providers, <code>ConsumerWidget</code>, and reactive UI.</p>
-
-<div align="center">
-
-[![Coverage](riverpod_basics/assets/coverage/badge.svg)](riverpod_basics/README.md#test-coverage)
+Practice app for **Riverpod** fundamentals: providers, `ConsumerWidget`, and reactive UI.
 
 [README »](riverpod_basics/README.md)
-
-</div>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -85,17 +80,12 @@ The root README stays short: a link and a rough summary per project. Getting sta
 
 ## Starters
 
-### [Riverpod Basic Starter »](app_starters/riverpod_basic_starter/)
+<a href="app_starters/riverpod_basic_starter/README.md#test-coverage"><img align="right" src="app_starters/riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
+<h3 align="center"><a href="app_starters/riverpod_basic_starter/">Riverpod Basic Starter »</a></h3>
 
-<p align="center">Copyable starter for <strong>Riverpod</strong>: GoRouter, l10n, feature folders, and a Material 3 seed theme.</p>
-
-<div align="center">
-
-[![Coverage](app_starters/riverpod_basic_starter/assets/coverage/badge.svg)](app_starters/riverpod_basic_starter/README.md#test-coverage)
+Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Material 3 seed theme.
 
 [README »](app_starters/riverpod_basic_starter/README.md)
-
-</div>
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

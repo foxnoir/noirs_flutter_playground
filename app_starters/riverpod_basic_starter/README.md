@@ -11,16 +11,19 @@
 
 <div align="center">
   <img src="assets/logo.png" alt="Logo" width="80" height="80">
-  <h1 align="center">Riverpod Basic Starter</h1>
-  <p>
-     Starter for Riverpod — copy this app when you begin a new project.
-  </p>
-  <p>
-    <a href="lib/"><strong>Explore the project »</strong></a>
-    <br/>
-    <a href="../../README.md"><strong>Back to playground »</strong></a>
-  </p>
 </div>
+
+<a href="#test-coverage"><img align="right" src="assets/coverage/badge.svg" alt="Coverage"></a>
+<h1 align="center">Riverpod Basic Starter</h1>
+<p align="center">
+   Starter for Riverpod — copy this app when you begin a new project.
+</p>
+
+<p align="left">
+  <a href="lib/"><strong>Explore the project »</strong></a>
+  <br/>
+  <a href="../../README.md"><strong>Back to playground »</strong></a>
+</p>
 
 ---
 
@@ -37,8 +40,6 @@
 [![iOS][ios]][ios-url]
 [![Web][web]][web-url]
 
-[![Coverage][coverage-shield]](#test-coverage)
-
 </div>
 
 <details>
@@ -50,7 +51,6 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#test-coverage">Test coverage</a></li>
-        <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
       </ul>
     </li>
   </ol>
@@ -80,7 +80,7 @@ There is no Android project. Run on the iOS Simulator or Chrome.
 - Feature folders (`presentation` / `data` / `domain`)
 - Material 3 seed theme
 - [FVM](https://fvm.app) pin
-- Coverage pipeline (badge, card, git hooks)
+- Coverage badge and card
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -126,38 +126,12 @@ fvm flutter test --coverage
 
 Or run the VS Code task **Flutter: Test with coverage**, then Command Palette → **Coverage Gutters: Display Coverage**.
 
-### Coverage pipeline
-
-The badge on GitHub must match the code in that commit.
-
-1. Tests run with coverage (`fvm flutter test --coverage`).
-2. `lcov.info` is turned into two images: [`assets/coverage/badge.svg`](assets/coverage/badge.svg) (header) and [`assets/coverage/card.svg`](assets/coverage/card.svg) (README card), plus the percent in this file.
-3. `pre-commit` stages those files so they ride in the **same** commit.
-4. `pre-push` runs the tests again and blocks a failing push.
-5. GitHub Actions repeats the generation and fails if the committed images are stale.
-
-`coverage/lcov.info` stays gitignored for Coverage Gutters. The SVGs and the README percent are committed.
-
-This playground keeps that flow once in [`coverage_pipeline/`](../../coverage_pipeline/). This starter only stores the generated images and the percent above.
-
-Refresh this starter from the playground root:
-
-```
-./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
-```
-
-Inside this playground the install script does not attach hooks to the playground repo. After you copy this folder into its **own** git repo, also copy `coverage_pipeline/` next to `pubspec.yaml`, copy [`coverage.yml`](../../coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/badges/`](../../assets/badges/) into that repo's `assets/badges/`. Point the README badge links at `assets/badges/`, then:
-
-```
-./coverage_pipeline/update_coverage.sh
-./coverage_pipeline/install-git-hooks.sh
-```
+The shared scripts live in the playground [coverage pipeline](../../README.md#coverage-pipeline).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
 
-[coverage-shield]: assets/coverage/badge.svg
 [dart]: ../../assets/badges/dart.svg
 [dart-url]: https://dart.dev/
 [flutter]: ../../assets/badges/flutter.svg
