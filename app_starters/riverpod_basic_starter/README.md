@@ -106,7 +106,7 @@ This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**65%** line coverage (65 of 100 lines).
+**66.0%** line coverage (68 of 103 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
