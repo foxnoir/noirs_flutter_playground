@@ -13,8 +13,6 @@ void main() {
 
     expect(find.byType(LandingPage), findsOneWidget);
     expect(find.text('Riverpod Basics'), findsWidgets);
-    // Intentional failure: verify pre-push blocks and shows a warning.
-    expect(find.text('THIS_FAILURE_IS_INTENTIONAL'), findsOneWidget);
   });
 
   testWidgets(
