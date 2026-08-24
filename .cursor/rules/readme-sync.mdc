@@ -14,13 +14,13 @@ Check and update:
 - Project cards in the root and `app_starters/`: heading left, that app's coverage badge on the **same line, far right**
 - One-line summary under each card
 - Card and header links (`README »`, folder `»`, coverage → `#test-coverage`)
-- Header logo and tech-stack badges live once in playground `assets/` (`logo.png`, `badges/`). App READMEs point there with a relative path.
+- Header logo and tech-stack badges live once in playground `assets/` (`logo.png`, `badges/`). App READMEs point there with a relative path. Put the target URL on the badge line; do not add a `[flutter-url]:` footer.
 - Tech-stack badges are **left**-aligned (`<div align="left">`) so wrapped rows start on the left. Do not center that row.
 - Coverage images stay per app in `assets/coverage/`
 - The **Packages** table if a `pubspec.yaml` added, removed, or replaced a package
 - Architecture notes only if the folder approach actually changed
 
-Do not copy the **Coverage pipeline** section into app READMEs. Point to the root section.
+Do not copy the **Coverage pipeline** or **Badges** sections into app READMEs. Point to the root sections.
 
 ```
 # ❌ BAD — leave the root card stale after renaming a starter

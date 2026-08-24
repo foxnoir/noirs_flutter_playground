@@ -2,9 +2,9 @@
 
 <!-- Top Links Bar -->
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
-[![X][x-shield]][x-url]
-[![Instagram][instagram-shield]][instagram-url]
+[![LinkedIn](assets/badges/linkedin.svg)](https://www.linkedin.com/in/tanja-polz-5636401a5/)
+[![X](assets/badges/x.svg)](https://twitter.com/_foxnoir_?lang=de)
+[![Instagram](assets/badges/instagram.svg)](https://www.instagram.com/codeincouture/)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -21,16 +21,16 @@
 
 <div align="left">
 
-[![Flutter][flutter]][flutter-url]
-[![Dart][dart]][dart-url]
-[![Riverpod][riverpod]][riverpod-url]
-[![GoRouter][gorouter]][gorouter-url]
-[![Flutter Localizations][flutter-localizations]][flutter-localizations-url]
-[![Intl][intl]][intl-url]
-[![Very Good Analysis][very-good]][very-good-url]
-[![FVM][fvm]][fvm-url]
-[![iOS][ios]][ios-url]
-[![Web][web]][web-url]
+[![Flutter](assets/badges/flutter.svg)](https://flutter.dev/)
+[![Dart](assets/badges/dart.svg)](https://dart.dev/)
+[![Riverpod](assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![GoRouter](assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
+[![Flutter Localizations](assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
+[![Intl](assets/badges/intl.svg)](https://pub.dev/packages/intl)
+[![Very Good Analysis](assets/badges/very_good.svg)](https://pub.dev/packages/very_good_analysis)
+[![FVM](assets/badges/fvm.svg)](https://fvm.app)
+[![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
+[![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
 </div>
 
@@ -42,6 +42,7 @@
     <li><a href="#packages">Packages</a></li>
     <li><a href="#previous-projects">Previous Projects</a></li>
     <li><a href="#starters">Starters</a></li>
+    <li><a href="#badges">Badges</a></li>
     <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
   </ol>
 </details>
@@ -54,8 +55,8 @@ This repository is a playground for practicing Flutter.
 
 Each folder is a standalone Flutter app. Topics include **Riverpod**, architecture, and other advanced Flutter subjects — without mixing everything into one project.
 
-[![iOS][ios]][ios-url]
-[![Web][web]][web-url]
+[![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
+[![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
 There is no Android project.
 
@@ -99,7 +100,7 @@ app/
 │   │       │   ├── repositories/
 │   │       │   └── use_cases/
 │   │       └── presentation/
-│   │           ├── controllers/
+│   │           ├── providers/
 │   │           ├── widgets/
 │   │           └── feature_page.dart
 │   ├── shared_widgets/
@@ -163,7 +164,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **Riverpod**: no provider, `StateProvider`, then `NotifierProvider`.
+Practice app for **Riverpod**: no provider, then `NotifierProvider`. `StateProvider` is the shortcut.
 
 [README »](riverpod_basics/README.md)
 
@@ -181,6 +182,40 @@ Practice app for **Riverpod**: no provider, `StateProvider`, then `NotifierProvi
 Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Material 3 seed theme.
 
 [README »](app_starters/riverpod_basic_starter/README.md)
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Badges
+
+Tech-stack and social badges live once in [`assets/badges/`](assets/badges/). After changing labels or colors:
+
+```
+python3 assets/badges/generate.py
+```
+
+Target URLs sit **on the badge line** (`[![Flutter](assets/badges/flutter.svg)](https://flutter.dev/)`). GitHub cannot import another file into a README, so there is no footer of `[flutter-url]:` refs. The href list is [`assets/badges/links.json`](assets/badges/links.json) when you add a badge.
+
+Every badge is a vertical dark → mid → light gradient (same contrast as Instagram). The mid stop is the brand or playground color. Official colors stay official, except black — it is hard to see. Everything else uses purple, blue, turquoise, pink, or green — not black, orange, red, or yellow.
+
+After you copy an app into its **own** git repo, copy `assets/badges/` there and point the README badge links at that path.
+
+| File | Color (dark → mid → light) | Why |
+| --- | --- | --- |
+| `flutter.svg` | `#012F55` → `#02569B` → `#7BA7CB` | official Flutter |
+| `dart.svg` | `#01406B` → `#0175C2` → `#7BB7DF` | official Dart |
+| `riverpod.svg` | `#4C3469` → `#8B5FBF` → `#C3ACDE` | app purple |
+| `gorouter.svg` | `#194C4A` → `#2D8A86` → `#92C2C0` | teal |
+| `flutter_localizations.svg` | `#012F55` → `#02569B` → `#7BA7CB` | official Flutter |
+| `intl.svg` | `#43345C` → `#7A5EA8` → `#BAABD2` | purple |
+| `very_good.svg` | `#62184B` → `#B22C89` → `#D791C2` | Very Good Ventures |
+| `fvm.svg` | `#17564F` → `#2A9D8F` → `#90CCC5` | turquoise |
+| `ios.svg` | `#2A656C` → `#4DB8C4` → `#A2DAE0` | pastel turquoise |
+| `web.svg` | `#0E4349` → `#1A7A84` → `#88BABF` | turquoise |
+| `linkedin.svg` | `#06386B` → `#0A66C2` → `#80AFDF` | official LinkedIn |
+| `instagram.svg` | `#4C3469` → `#8B5FBF` → `#C3ACDE` | lilac |
+| `x.svg` | `#456576` → `#7EB8D6` → `#BCDAEA` | pastel light blue |
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -213,31 +248,3 @@ Git hooks and CI only after the folder is its **own** git repo. Copy `coverage_p
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
----
-
-[dart]: assets/badges/dart.svg
-[dart-url]: https://dart.dev/
-[flutter]: assets/badges/flutter.svg
-[flutter-url]: https://flutter.dev/
-[flutter-localizations]: assets/badges/flutter_localizations.svg
-[flutter-localizations-url]: https://docs.flutter.dev/ui/internationalization
-[fvm]: assets/badges/fvm.svg
-[fvm-url]: https://fvm.app
-[gorouter]: assets/badges/gorouter.svg
-[gorouter-url]: https://pub.dev/packages/go_router
-[instagram-shield]: assets/badges/instagram.svg
-[instagram-url]: https://www.instagram.com/codeincouture/
-[intl]: assets/badges/intl.svg
-[intl-url]: https://pub.dev/packages/intl
-[ios]: assets/badges/ios.svg
-[ios-url]: https://developer.apple.com/ios/
-[linkedin-shield]: assets/badges/linkedin.svg
-[linkedin-url]: https://www.linkedin.com/in/tanja-polz-5636401a5/
-[riverpod]: assets/badges/riverpod.svg
-[riverpod-url]: https://pub.dev/packages/flutter_riverpod
-[very-good]: assets/badges/very_good.svg
-[very-good-url]: https://pub.dev/packages/very_good_analysis
-[web]: assets/badges/web.svg
-[web-url]: https://docs.flutter.dev/platform-integration/web
-[x-shield]: assets/badges/x.svg
-[x-url]: https://twitter.com/_foxnoir_?lang=de

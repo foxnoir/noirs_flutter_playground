@@ -1,0 +1,80 @@
+[
+  {
+    "image": "dart",
+    "file": "dart.svg",
+    "url": "dart-url",
+    "href": "https://dart.dev/"
+  },
+  {
+    "image": "flutter",
+    "file": "flutter.svg",
+    "url": "flutter-url",
+    "href": "https://flutter.dev/"
+  },
+  {
+    "image": "flutter-localizations",
+    "file": "flutter_localizations.svg",
+    "url": "flutter-localizations-url",
+    "href": "https://docs.flutter.dev/ui/internationalization"
+  },
+  {
+    "image": "fvm",
+    "file": "fvm.svg",
+    "url": "fvm-url",
+    "href": "https://fvm.app"
+  },
+  {
+    "image": "gorouter",
+    "file": "gorouter.svg",
+    "url": "gorouter-url",
+    "href": "https://pub.dev/packages/go_router"
+  },
+  {
+    "image": "instagram-shield",
+    "file": "instagram.svg",
+    "url": "instagram-url",
+    "href": "https://www.instagram.com/codeincouture/"
+  },
+  {
+    "image": "intl",
+    "file": "intl.svg",
+    "url": "intl-url",
+    "href": "https://pub.dev/packages/intl"
+  },
+  {
+    "image": "ios",
+    "file": "ios.svg",
+    "url": "ios-url",
+    "href": "https://developer.apple.com/ios/"
+  },
+  {
+    "image": "linkedin-shield",
+    "file": "linkedin.svg",
+    "url": "linkedin-url",
+    "href": "https://www.linkedin.com/in/tanja-polz-5636401a5/"
+  },
+  {
+    "image": "riverpod",
+    "file": "riverpod.svg",
+    "url": "riverpod-url",
+    "href": "https://pub.dev/packages/flutter_riverpod"
+  },
+  {
+    "image": "very-good",
+    "file": "very_good.svg",
+    "url": "very-good-url",
+    "href": "https://pub.dev/packages/very_good_analysis"
+  },
+  {
+    "image": "web",
+    "file": "web.svg",
+    "url": "web-url",
+    "href": "https://docs.flutter.dev/platform-integration/web"
+  },
+  {
+    "image": "x-shield",
+    "file": "x.svg",
+    "url": "x-url",
+    "href": "https://twitter.com/_foxnoir_?lang=de"
+  }
+]

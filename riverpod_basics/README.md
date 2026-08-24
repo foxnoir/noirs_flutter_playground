@@ -4,9 +4,9 @@
 
 <a href="#test-coverage"><img align="right" src="assets/coverage/badge.svg" alt="Coverage"></a>
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
-[![X][x-shield]][x-url]
-[![Instagram][instagram-shield]][instagram-url]
+[![LinkedIn](../assets/badges/linkedin.svg)](https://www.linkedin.com/in/tanja-polz-5636401a5/)
+[![X](../assets/badges/x.svg)](https://twitter.com/_foxnoir_?lang=de)
+[![Instagram](../assets/badges/instagram.svg)](https://www.instagram.com/codeincouture/)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: no provider, StateProvider, NotifierProvider, and when to pick which.
+     Practice project for Riverpod: no provider, NotifierProvider, and StateProvider as the shortcut.
   </p>
 </div>
 
@@ -23,15 +23,15 @@
 
 <div align="left">
 
-[![Flutter][flutter]][flutter-url]
-[![Dart][dart]][dart-url]
-[![Riverpod][riverpod]][riverpod-url]
-[![GoRouter][gorouter]][gorouter-url]
-[![Flutter Localizations][flutter-localizations]][flutter-localizations-url]
-[![Intl][intl]][intl-url]
-[![Very Good Analysis][very-good]][very-good-url]
-[![FVM][fvm]][fvm-url]
-[![iOS][ios]][ios-url]
+[![Flutter](../assets/badges/flutter.svg)](https://flutter.dev/)
+[![Dart](../assets/badges/dart.svg)](https://dart.dev/)
+[![Riverpod](../assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![GoRouter](../assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
+[![Flutter Localizations](../assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
+[![Intl](../assets/badges/intl.svg)](https://pub.dev/packages/intl)
+[![Very Good Analysis](../assets/badges/very_good.svg)](https://pub.dev/packages/very_good_analysis)
+[![FVM](../assets/badges/fvm.svg)](https://fvm.app)
+[![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
 </div>
 
@@ -44,16 +44,24 @@
       <ul>
         <li><a href="#what-is-riverpod">What is Riverpod</a></li>
         <li><a href="#why-riverpod">Why Riverpod</a></li>
-        <li><a href="#no-provider">No provider</a></li>
-        <li><a href="#stateprovider">StateProvider</a></li>
-        <li><a href="#notifierprovider">NotifierProvider</a></li>
-        <li><a href="#how-they-connect">How they connect</a></li>
-        <li><a href="#summary">Summary</a></li>
+        <li><a href="#watch-read-listen">watch, read, listen</a></li>
       </ul>
     </li>
     <li>
-      <a href="#getting-started">Getting Started</a>
+      <a href="#providers">Providers</a>
       <ul>
+        <li><a href="#no-provider">No provider</a></li>
+        <li><a href="#notifierprovider">NotifierProvider</a></li>
+        <li><a href="#stateprovider">StateProvider</a></li>
+        <li><a href="#how-they-connect">How they connect</a></li>
+      </ul>
+    </li>
+    <li><a href="#getting-started">Getting Started</a></li>
+    <li>
+      <a href="#testing">Testing</a>
+      <ul>
+        <li><a href="#testing-in-flutter">Testing in Flutter</a></li>
+        <li><a href="#testing-riverpod">Testing Riverpod</a></li>
         <li><a href="#test-coverage">Test coverage</a></li>
       </ul>
     </li>
@@ -68,9 +76,9 @@
 
 This app is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
-The first lesson is the same button-press counter three ways: local `setState` (no provider), then `StateProvider`, then `NotifierProvider`. The point is when to leave the widget and when to move again.
+The first lesson is the same button-press counter three ways. `NotifierProvider` is the real mutable type. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget. The point is when to leave the widget, and that the shortcut is not a different kind of state.
 
-[![iOS][ios]][ios-url]
+[![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
 There is no Android project or Chrome. Run on the iOS Simulator.
 
@@ -107,6 +115,32 @@ Use Riverpod when state is shared, async, or needs to be tested. Keep `setState`
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
+### watch, read, listen
+
+These three are how a widget talks to a provider. Match the call to the job.
+
+**`ref.watch(provider)`** subscribes. When the value changes, this widget rebuilds. Use it in `build` to **show** the value (`final count = ref.watch(counterStateProvider)`).
+
+**Do not `watch` in a button callback.** A tap is not a rebuild. The subscribe would be wasted, and it is easy to think the UI will update from that line. It will not.
+
+**`ref.read(provider)`** is a one-shot lookup. No subscribe, no rebuild. Use it in `onPressed` and in tests (`container.read` is the same idea): `ref.read(counterStateProvider.notifier).state++`.
+
+**Do not `read` in `build` for a value you display.** The widget will not rebuild when the provider changes, so the text stays stale.
+
+**`ref.listen(provider, (previous, next) { ... })`** runs a callback when the value changes. Use it for **side effects**: snackbar, dialog, navigation. Not for putting the number on screen — that is `watch`.
+
+`.notifier` is the object that owns the mutable value. `watch` / `read` the provider for the `int`. `read` the `.notifier` when you need to change it.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Providers
+
+A provider is the declared source of state. The type you pick is how that state is allowed to change. The same counter in this app shows the three steps: local `setState`, a `Notifier` class, and `StateProvider` as the shortcut.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 ### No provider
 
 No provider means the count lives in the widget with `setState`. Nothing outside that screen can read it.
@@ -117,41 +151,39 @@ No provider means the count lives in the widget with `setState`. Nothing outside
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
-### StateProvider
-
-`StateProvider` holds **one mutable value**. The UI writes `state` directly. There are no named methods and no place for rules.
-
-**Use it when** the value is a primitive or enum, any write is valid, and nothing else depends on how it changed. Typical cases: a selected tab, a filter chip, a “dark mode” switch, a throwaway counter on one screen.
-
-**Do not use it when** two writes must stay consistent, a value has a floor or a max, more than one field changes together, or you would want to unit-test the update. Do not use it for login, a cart, or anything that talks to an API.
-
-<p align="right"><a href="#readme-top">back to top</a></p>
-
 ### NotifierProvider
 
-`NotifierProvider` holds the same kind of state, but updates go through a **class with methods**. The widget calls `increment()` or `applyFilter()`. The notifier owns the rules.
+`NotifierProvider` is the default way to hold **mutable state outside the widget**. Updates go through a **class with methods**. The widget calls `increment()` or `applyFilter()`. The notifier owns the rules.
 
-**Use it when** plus and minus must not go below zero, a form field needs validation, a list can add and remove items, or two screens share the same actions. Use it as soon as you would write a test for the change.
+This is the type everything else is built on. A `StateProvider` is a notifier whose public API is only `state`.
+
+**Use it when** the value leaves the widget: plus and minus must not go below zero, a form field needs validation, a list can add and remove items, or two screens share the same actions. Use it as soon as you would write a test for the change.
 
 **Do not use it when** the value never changes (that is a read-only `Provider`) or the widget is the only thing that ever sees a one-off toggle. Do not reach for a notifier to store a theme color constant.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
-### How they connect
+### StateProvider
 
-The app walks the same counter up the ladder.
+`StateProvider` is **not** a second kind of state. It is a pre-built notifier that holds **one mutable value**. The UI writes `state` directly. There are no named methods and no place for rules.
 
-1. **No provider** — `setState` on one screen. Fine while nobody else needs the count.
-2. **StateProvider** — same number, now outside the widget. Any screen can watch it. Writes are still `state++`.
-3. **NotifierProvider** — same number, but updates go through methods. Use this when minus has a floor or the change should be tested.
+In Riverpod 3 it lives in `legacy.dart`. Fine to recognize and to lift a throwaway `int`. Not the type you start a feature with.
 
-`StateProvider` is a shortcut: a tiny notifier whose public API is “set `state`”. You graduate when the widget starts making decisions.
+**Use it when** the value is a primitive or enum, any write is valid, and nothing else depends on how it changed. Typical cases: a selected tab, a filter chip, a “dark mode” switch, a counter you will throw away.
+
+**Do not use it when** two writes must stay consistent, a value has a floor or a max, more than one field changes together, or you would want to unit-test the update. Do not use it for login, a cart, or anything that talks to an API. Use `NotifierProvider`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
-### Summary
+### How they connect
 
-Start with `setState` while the value is local. Move to `StateProvider` when another widget must see it. Move to `NotifierProvider` when updates need names and rules.
+Conceptually there is one ladder:
+
+1. **No provider** — `setState` on one screen. Fine while nobody else needs the count.
+2. **NotifierProvider** — same number, now a class outside the widget. Any screen can watch it. Writes go through methods.
+3. **StateProvider** — the same notifier with the class stripped off. Writes are `state++`. You already know what it is.
+
+The app screens still go `setState` → `StateProvider` → `NotifierProvider`. That is the smallest syntax jump from a widget field, then you write the class. Read the types the other way around: the class is the foundation, the shortcut is optional.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -179,6 +211,56 @@ fvm flutter run
 `fvm flutter run` uses the **iOS Simulator**. There is no Android project or Chrome.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Testing
+
+A test is a small program that checks your code. It does not change the app. You run an action, then **assert** that the result is what you meant.
+
+`expect(actual, matcher)` is that assertion: left is what happened, right is what must be true. If they differ, the test fails. That is the point — you catch the break before a user does.
+
+Keep tests deterministic. One test, one claim. Do not depend on the order of other tests.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Testing in Flutter
+
+`flutter_test` is the same idea on a fake widget tree. You do not need a simulator for these.
+
+- **`test`** — no widgets. Use it for logic and providers.
+- **`testWidgets`** — a screen via `WidgetTester`.
+- **`pumpWidget`** — put a widget on that screen.
+- **`find.text` / `find.byIcon`** — locate widgets.
+- **`tester.tap`** — a user gesture.
+- **`pump`** — one frame. Use it after `setState` or a provider notify.
+- **`pumpAndSettle`** — wait until animations and `go_router` finish.
+- **`addTearDown`** — cleanup after **this** test, pass or fail. Do not put `dispose()` only at the bottom of the happy path: a failing `expect` would skip it.
+
+See `test/widget_test.dart`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Testing Riverpod
+
+**Dependency injection** means a unit does not construct its own dependencies (API, database, clock). They are passed in. In a test you pass a fake, so nothing hits the network. That is why DI is so useful for tests.
+
+Riverpod **is** that injection. `ProviderScope` and `ProviderContainer` hold the graph. `overrideWith` replaces one node. You do not add GetIt for feature state. GetIt is also DI; a second locator is only worth it in a mixed codebase that already uses it. This playground stays on Riverpod.
+
+Two test shapes:
+
+1. **Provider tests** — no widgets. Create a `ProviderContainer`, `read` the provider, mutate through `.notifier`, then dispose. See `test/features/state_provider/counter_state_provider_test.dart`.
+2. **Widget tests** — wrap the tree in `ProviderScope` (the app already does this in `main.dart`). Tap UI, assert text. Fake repositories later with `overrides`.
+
+`addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
+
+The Riverpod calls in tests are the same as in the app. See [watch, read, listen](#watch-read-listen). In a `ProviderContainer` you write `container.read` instead of `ref.read`.
+
+- **`ProviderScope`** — widget that creates the container for the real app and for widget tests.
+- **`ProviderContainer`** — the same world without widgets. Use it in provider tests.
+- **`overrideWith`** — replace a provider in this scope/container so tests never hit a real API.
 
 ### Test coverage
 
@@ -217,31 +299,3 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
----
-
-[dart]: ../assets/badges/dart.svg
-[dart-url]: https://dart.dev/
-[flutter]: ../assets/badges/flutter.svg
-[flutter-url]: https://flutter.dev/
-[flutter-localizations]: ../assets/badges/flutter_localizations.svg
-[flutter-localizations-url]: https://docs.flutter.dev/ui/internationalization
-[fvm]: ../assets/badges/fvm.svg
-[fvm-url]: https://fvm.app
-[gorouter]: ../assets/badges/gorouter.svg
-[gorouter-url]: https://pub.dev/packages/go_router
-[instagram-shield]: ../assets/badges/instagram.svg
-[instagram-url]: https://www.instagram.com/codeincouture/
-[intl]: ../assets/badges/intl.svg
-[intl-url]: https://pub.dev/packages/intl
-[ios]: ../assets/badges/ios.svg
-[ios-url]: https://developer.apple.com/ios/
-[linkedin-shield]: ../assets/badges/linkedin.svg
-[linkedin-url]: https://www.linkedin.com/in/tanja-polz-5636401a5/
-[riverpod]: ../assets/badges/riverpod.svg
-[riverpod-url]: https://pub.dev/packages/flutter_riverpod
-[very-good]: ../assets/badges/very_good.svg
-[very-good-url]: https://pub.dev/packages/very_good_analysis
-[web]: ../assets/badges/web.svg
-[web-url]: https://docs.flutter.dev/platform-integration/web
-[x-shield]: ../assets/badges/x.svg
-[x-url]: https://twitter.com/_foxnoir_?lang=de
