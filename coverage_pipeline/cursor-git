@@ -1,6 +1,10 @@
 #!/bin/sh
 # Cursor Source Control injects core.hooksPath=/dev/null via GIT_CONFIG_* so
 # pre-commit / pre-push never run. Strip that pair, then call the real git.
+#
+# Cursor also maps any failed `git push` to "Try running Pull first" because
+# git prints "failed to push some refs". Run the pre-push hook ourselves and
+# exit before `git push` so the UI shows "Tests failed…" instead.
 set -eu
 
 git_bin=/usr/bin/git
@@ -27,6 +31,28 @@ if [ "$count" -gt 0 ]; then
     i=$((i + 1))
   done
   export GIT_CONFIG_COUNT="$new_i"
+fi
+
+is_push=0
+has_no_verify=0
+for arg in "$@"; do
+  case "$arg" in
+    push) is_push=1 ;;
+    --no-verify | -n) has_no_verify=1 ;;
+  esac
+done
+
+if [ "$is_push" -eq 1 ] && [ "$has_no_verify" -eq 0 ]; then
+  hook="$("$git_bin" rev-parse --git-path hooks/pre-push 2>/dev/null || true)"
+  if [ -n "${hook:-}" ] && [ -f "$hook" ]; then
+    if ! "$hook"; then
+      exit 1
+    fi
+  fi
+  if [ "$1" = "push" ]; then
+    shift
+    exec "$git_bin" push --no-verify "$@"
+  fi
 fi
 
 exec "$git_bin" "$@"
