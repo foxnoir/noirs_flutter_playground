@@ -46,4 +46,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get goToLanding => 'Go to landing';
+
+  @override
+  String get providers => 'Providers';
+
+  @override
+  String get scenarios => 'Scenarios';
+
+  @override
+  String scenarioNumber(int number) {
+    return 'Scenario $number';
+  }
 }

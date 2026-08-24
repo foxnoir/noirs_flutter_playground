@@ -1,28 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:riverpod_basics/core/theme/app_color.dart';
 
-const _primary = Color(0xFFB385DC);
-const _primaryContainer = Color(0xFFD0B6EB);
-const _tertiary = Color(0xFFC7EFFB);
-const _secondaryContainer = Color(0xFFA8E2DC);
-const _secondary = Color(0xFF9CD1D0);
+export 'package:riverpod_basics/core/theme/app_color.dart';
 
 ThemeData getLightTheme() {
-  final colorScheme = ColorScheme.fromSeed(
-    seedColor: _primary,
-    dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
-    primary: _primary,
-    primaryContainer: _primaryContainer,
-    secondary: _secondary,
-    secondaryContainer: _secondaryContainer,
-    tertiary: _tertiary,
+  return _buildTheme(_getColorScheme());
+}
+
+ThemeData _buildTheme(ColorScheme colorScheme) {
+  const textTheme = TextTheme(
+    /// Landing section titles (Providers, Scenarios).
+    titleLarge: TextStyle(
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
+      color: AppColor.teal,
+    ),
   );
 
   return ThemeData(
     colorScheme: colorScheme,
+    textTheme: textTheme,
     appBarTheme: AppBarTheme(
       backgroundColor: colorScheme.primaryContainer,
       foregroundColor: colorScheme.onPrimaryContainer,
       elevation: 0,
     ),
+  );
+}
+
+ColorScheme _getColorScheme() {
+  return ColorScheme.fromSeed(
+    seedColor: AppColor.primary,
+    dynamicSchemeVariant: DynamicSchemeVariant.fidelity,
+    primary: AppColor.primary,
+    primaryContainer: AppColor.primaryContainer,
+    secondary: AppColor.secondary,
+    secondaryContainer: AppColor.secondaryContainer,
+    tertiary: AppColor.tertiary,
   );
 }

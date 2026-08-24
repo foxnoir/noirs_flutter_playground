@@ -80,6 +80,8 @@ This app is the **Riverpod** practice project in [Noir's Flutter Playground](../
 
 The first lesson is the same button-press counter five ways. `NotifierProvider` is the real mutable type. `AsyncNotifierProvider` is that type when the value comes from a `Future`. **Persistent State** keeps the count when you leave the page (plain provider, in memory for the app). **Non-Persistent State** is the same class plus `.autoDispose` — not disk, not a cache. Back to landing drops the last watcher, Riverpod disposes the notifier, next visit loads from zero. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget.
 
+The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Scenarios** (placeholder rows for later). Both use `LandingPageDropdown` in `lib/features/landing_page/presentation/widgets/`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`) so they read as headers, not as destination rows. Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
+
 Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. **`ErrorWidget`** lives there: `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
@@ -296,6 +298,7 @@ Examples:
 
 - `lib/main.dart` → `test/main_test.dart`
 - `lib/features/landing_page/presentation/landing_page.dart` → `test/features/landing_page/presentation/landing_page_test.dart`
+- `lib/features/landing_page/presentation/widgets/landing_page_dropdown.dart` → `test/features/landing_page/presentation/widgets/landing_page_dropdown_test.dart`
 - `lib/features/state_provider/presentation/providers/state_provider.dart` → `test/features/state_provider/presentation/providers/state_provider_test.dart`
 
 <p align="right"><a href="#readme-top">back to top</a></p>

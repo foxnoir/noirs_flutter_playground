@@ -169,6 +169,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Go to landing'**
   String get goToLanding;
+
+  /// No description provided for @providers.
+  ///
+  /// In en, this message translates to:
+  /// **'Providers'**
+  String get providers;
+
+  /// No description provided for @scenarios.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenarios'**
+  String get scenarios;
+
+  /// No description provided for @scenarioNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Scenario {number}'**
+  String scenarioNumber(int number);
 }
 
 class _AppLocalizationsDelegate
