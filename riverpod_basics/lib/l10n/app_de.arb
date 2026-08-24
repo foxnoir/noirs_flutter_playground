@@ -11,5 +11,8 @@
   "buttonPressCount": "Du hast den Button so oft gedrückt: {count}",
   "counter": "Zähler",
   "pageNotFound": "Seite nicht gefunden",
-  "goToLanding": "Zur Startseite"
+  "goToLanding": "Zur Startseite",
+  "providers": "Providers",
+  "scenarios": "Szenarien",
+  "scenarioNumber": "Szenario {number}"
 }

@@ -13,17 +13,16 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(LandingPage), findsOneWidget);
-    expect(find.text('No Provider'), findsOneWidget);
-    expect(find.text('StateProvider'), findsOneWidget);
-    expect(find.text('NotifierProvider'), findsOneWidget);
-    expect(find.text('AsyncNotifier Persistent State'), findsOneWidget);
-    expect(find.text('AsyncNotifier Non-Persistent State'), findsOneWidget);
+    expect(find.text('Providers'), findsOneWidget);
+    expect(find.text('Scenarios'), findsOneWidget);
   });
 
   testWidgets('Landing navigates to StateProvider', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
     await tester.pumpAndSettle();
 
+    await tester.tap(find.text('Providers'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('StateProvider'));
     await tester.pumpAndSettle();
 
@@ -38,6 +37,8 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
     await tester.pumpAndSettle();
 
+    await tester.tap(find.text('Providers'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('No Provider'));
     await tester.pumpAndSettle();
 

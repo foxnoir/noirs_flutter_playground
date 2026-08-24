@@ -19,5 +19,15 @@
   },
   "counter": "Counter",
   "pageNotFound": "Page not found",
-  "goToLanding": "Go to landing"
+  "goToLanding": "Go to landing",
+  "providers": "Providers",
+  "scenarios": "Scenarios",
+  "scenarioNumber": "Scenario {number}",
+  "@scenarioNumber": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  }
 }

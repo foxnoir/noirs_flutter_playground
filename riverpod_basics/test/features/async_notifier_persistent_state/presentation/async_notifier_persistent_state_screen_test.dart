@@ -126,6 +126,8 @@ void main() {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
     await tester.pumpAndSettle();
 
+    await tester.tap(find.text('Providers'));
+    await tester.pumpAndSettle();
     await tester.tap(find.text('AsyncNotifier Persistent State'));
     await tester.pump();
     await tester.pump();
