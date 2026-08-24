@@ -140,6 +140,12 @@ abstract class AppLocalizations {
   /// **'AsyncNotifier Non-Persistent State'**
   String get asyncNotifierNonPersistentState;
 
+  /// No description provided for @errorOccurred.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfortunately, an error occurred.'**
+  String get errorOccurred;
+
   /// Shown on the StateProvider screen with the current press count.
   ///
   /// In en, this message translates to:

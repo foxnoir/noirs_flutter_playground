@@ -1,13 +1,34 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_basics/features/async_notifier_persistent_state/presentation/providers/async_notifier_persistent_state.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
+import 'package:riverpod_basics/shared_widgets/error_widget.dart';
 
-class AsyncNotifierPersistentStateScreen extends ConsumerWidget {
+class AsyncNotifierPersistentStateScreen extends ConsumerStatefulWidget {
   const AsyncNotifierPersistentStateScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<AsyncNotifierPersistentStateScreen> createState() =>
+      _AsyncNotifierPersistentStateScreenState();
+}
+
+class _AsyncNotifierPersistentStateScreenState
+    extends ConsumerState<AsyncNotifierPersistentStateScreen> {
+  @override
+  void initState() {
+    super.initState();
+    // Count this visit once. Doing it in build() would increment on
+    // every rebuild. build() on the notifier does not run again.
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) {
+        return;
+      }
+      ref.read(persistentStateAsyncNotifierProvider.notifier).onPageEntered();
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     // watch is AsyncValue<int>, not int. Pop does not dispose this
     // provider: no autoDispose, so the same notifier is still there.
@@ -28,7 +49,7 @@ class AsyncNotifierPersistentStateScreen extends ConsumerWidget {
           skipLoadingOnRefresh: false,
           skipLoadingOnReload: false,
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(child: Text('$error')),
+          error: (_, _) => ErrorWidget(message: l10n.errorOccurred),
           data: (count) => Column(
             children: [
               Expanded(

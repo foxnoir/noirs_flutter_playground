@@ -80,6 +80,8 @@ This app is the **Riverpod** practice project in [Noir's Flutter Playground](../
 
 The first lesson is the same button-press counter five ways. `NotifierProvider` is the real mutable type. `AsyncNotifierProvider` is that type when the value comes from a `Future`. **Persistent State** keeps the count when you leave the page (plain provider, in memory for the app). **Non-Persistent State** is the same class plus `.autoDispose` — not disk, not a cache. Back to landing drops the last watcher, Riverpod disposes the notifier, next visit loads from zero. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget.
 
+Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. **`ErrorWidget`** lives there: `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback.
+
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
 There is no Android project or Chrome. Run on the iOS Simulator.
@@ -171,13 +173,17 @@ This is the type everything else is built on. A `StateProvider` is a notifier wh
 
 This screen uses a **plain** `AsyncNotifierProvider` (`isAutoDispose: false`). The count lives **in memory** on that notifier, not on disk. The notifier lives as long as `ProviderScope` (the app). Leave with the back button, open the screen again: **same count, no loading**.
 
-`ref.watch` is therefore not an `int`. It is `AsyncValue<int>`. **`when`** is how the widget maps each state to UI: `loading` (spinner), `error` (message), `data` (the counter). Skip a callback and that state has no widget. `switch` on `AsyncValue` does the same job.
+`ref.watch` is therefore not an `int`. It is `AsyncValue<int>`. **`when`** maps each state to UI: `loading` (spinner), `error` (`ErrorWidget`), `data` (the counter). Skip a callback and that state has no widget. `switch` on `AsyncValue` does the same job.
 
-Do not read `.value` or `.value!` in `build` to “just show the number”. While `build()` is still awaiting, there is no number yet.
+Do not read `.value` or `.value!` in `build` to “just show the number”. While `build()` is still awaiting, there is no number yet. Buttons still `ref.read(...notifier)` like the sync screen. `when` is only for rendering.
 
-Buttons still `ref.read(...notifier)` like the sync screen. `when` is only for rendering the `AsyncValue`.
+**`build`, `state`, and `future` are one object.** The provider holds a single `PersistentStateAsyncNotifier`. First `watch`/`read`: Riverpod constructs it and calls `build()`. While `build()` awaits, `state` is `AsyncLoading`. `build()` `return`s `0` → `state = AsyncData(0)`. That return value **is** the first `state`.
 
-The **refresh** FAB at the bottom is **reset**, not navigation. `reset()` assigns `state = AsyncLoading()` so the spinner shows **now**, waits the same fake API delay as `build()`, then `AsyncData(0)`. You never left the page; Persistent State is still the same notifier.
+`future` is not the `Future.delayed` in `build()`. It is a getter on `AsyncNotifier`: unwrap `state` as `int` once it is no longer loading. After `build()` finished, `await future` is `0`. The `<int>` on `AsyncNotifier<int>` is why that value is an `int`. Plus calls `.increment()` on **that same instance**; `await future` reads the current `state`, then `state = AsyncData(current + 1)` replaces it. `build()` does not run again.
+
+**`AsyncValue.guard`** is the clean way to turn a `Future` into `AsyncValue` without writing try/catch. `state = await AsyncValue.guard(fakeApi)` → success becomes `AsyncData`, `throw` / `Future.error` becomes `AsyncError`. `guard` does **not** set loading. Both async screens still assign `state = const AsyncLoading()` first so the spinner shows now. `reset()` uses this path. The commented `throw` inside `reset()` is how you would fake a failed reload instead of returning `0`.
+
+The **`error`** branch is not empty theory. The screen counts **page enters** once in `initState` (not in `build()`, or every rebuild would increment) and calls `onPageEntered()`. `build()` on the notifier does not run again (no `autoDispose`), so the visit count lives on that notifier. Every 3rd enter (`visit % 3 == 0`) sets `AsyncLoading`, then `guard` throws `FakePageEnterException` → `AsyncError`. Visit 4 restores the **persisted** count. Same notifier; the error was only a state. The UI is **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`): `assets/img/error_dragon.png` and `l10n.errorOccurred`. Imports `hide ErrorWidget` because Flutter already uses that name for the build-failure fallback.
 
 `when` defaults **`skipLoadingOnRefresh: true`**. After `invalidate` the widget would keep painting the old number until the Future finishes. Both async screens set `skipLoadingOnRefresh` / `skipLoadingOnReload` to **false** so `loading:` runs on reset.
 
@@ -189,7 +195,7 @@ The **refresh** FAB at the bottom is **reset**, not navigation. `reset()` assign
 
 ### AsyncNotifier Non-Persistent State
 
-Same `AsyncNotifier` class, same `when`, same plus / minus / **reset** FAB. The only code difference is **`AsyncNotifierProvider.autoDispose`**. There is no SharedPreferences, no `keepAlive`, no extra cache. “Non-persistent” here means **lifetime**: the count lives in memory only while something `watch`es it.
+Same `AsyncNotifier` class, same `when`, same plus / minus / **reset** FAB, same `build` → `state` → `future` chain (see Persistent State). The `error` branch uses the same **`ErrorWidget`**. The only code difference is **`AsyncNotifierProvider.autoDispose`**. There is no SharedPreferences, no `keepAlive`, no extra cache. “Non-persistent” here means **lifetime**: the count lives in memory only while something `watch`es it.
 
 How that lifetime works:
 
@@ -198,7 +204,7 @@ How that lifetime works:
 3. **Back** pops the screen. The widget is gone, last watcher is gone, Riverpod **disposes** the notifier. Count `5` does not exist anymore.
 4. Open the screen again: a **new** notifier, `build()` runs, spinner, count is **0**.
 
-**Reset** is a different path. The refresh FAB stays on the page and assigns `AsyncLoading` → fake API → `0`. It does not dispose the provider. Persistent State uses the same reset; the two screens only differ on **leave**.
+**Reset** is a different path. The refresh FAB stays on the page, assigns `AsyncLoading`, then `AsyncValue.guard` (same as Persistent State). It does not dispose the provider. The two screens only differ on **leave**.
 
 **Use it when** the async state belongs to that screen only: a form fetch, a one-off detail page, a retryable request you do not want to keep in memory after pop.
 

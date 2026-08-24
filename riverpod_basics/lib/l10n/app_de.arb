@@ -7,6 +7,7 @@
   "notifierProvider": "NotifierProvider",
   "asyncNotifierPersistentState": "AsyncNotifier Persistent State",
   "asyncNotifierNonPersistentState": "AsyncNotifier Non-Persistent State",
+  "errorOccurred": "Es ist leider ein Fehler aufgetreten.",
   "buttonPressCount": "Du hast den Button so oft gedrückt: {count}",
   "counter": "Zähler",
   "pageNotFound": "Seite nicht gefunden",
