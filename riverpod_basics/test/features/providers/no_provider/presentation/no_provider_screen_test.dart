@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/no_provider/presentation/no_provider_screen.dart';
+import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
 void main() {

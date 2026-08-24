@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/state_provider/presentation/providers/state_provider.dart';
+import 'package:riverpod_basics/features/providers/state_provider/presentation/providers/state_provider.dart';
 
 void main() {
   test('counterStateProvider starts at 0 and updates through the notifier', () {

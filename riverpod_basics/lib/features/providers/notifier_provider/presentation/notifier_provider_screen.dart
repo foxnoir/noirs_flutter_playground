@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_basics/features/notifier_provider/presentation/providers/notifier_provider.dart';
+import 'package:riverpod_basics/features/providers/notifier_provider/presentation/providers/notifier_provider.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
 class NotifierProviderScreen extends ConsumerWidget {
