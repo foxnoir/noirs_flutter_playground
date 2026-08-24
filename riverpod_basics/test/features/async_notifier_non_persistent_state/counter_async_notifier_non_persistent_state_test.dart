@@ -18,6 +18,17 @@ void main() {
     await container.read(nonPersistentStateAsyncNotifierProvider.notifier).increment();
     expect(container.read(nonPersistentStateAsyncNotifierProvider).value, 1);
 
+    await container.read(nonPersistentStateAsyncNotifierProvider.notifier).decrement();
+    expect(container.read(nonPersistentStateAsyncNotifierProvider).value, 0);
+
+    await container.read(nonPersistentStateAsyncNotifierProvider.notifier).increment();
+    expect(container.read(nonPersistentStateAsyncNotifierProvider).value, 1);
+
+    final reset = container.read(nonPersistentStateAsyncNotifierProvider.notifier).reset();
+    expect(container.read(nonPersistentStateAsyncNotifierProvider).isLoading, isTrue);
+    await reset;
+    expect(container.read(nonPersistentStateAsyncNotifierProvider).value, 0);
+
     // Same as Back: last watcher gone. pump lets autoDispose run.
     sub.close();
     await container.pump();
