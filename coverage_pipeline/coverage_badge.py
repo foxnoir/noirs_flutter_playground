@@ -7,6 +7,21 @@ import argparse
 import re
 from pathlib import Path
 
+_GENERATED_SUFFIXES = (".g.dart", ".freezed.dart", ".mocks.dart")
+_SKIP_PREFIXES = (
+    "import ",
+    "export ",
+    "library ",
+    "part ",
+    "part of ",
+    "static const ",
+)
+_CLASS_DECL = re.compile(
+    r"^(abstract\s+|base\s+|final\s+|sealed\s+|mixin\s+)*"
+    r"(class|mixin|enum|extension)\s+"
+)
+_STRING_ONLY = re.compile(r"^[rRuU]?['\"].+['\"];?$")
+
 
 def parse_lcov(path: Path) -> tuple[int, int]:
     lines_found = 0
@@ -17,6 +32,79 @@ def parse_lcov(path: Path) -> tuple[int, int]:
         elif raw.startswith("LH:"):
             lines_hit += int(raw[3:])
     return lines_hit, lines_found
+
+
+def lcov_source_files(path: Path) -> set[str]:
+    return {
+        raw[3:]
+        for raw in path.read_text(encoding="utf-8").splitlines()
+        if raw.startswith("SF:")
+    }
+
+
+def executable_line_numbers(source: str) -> list[int]:
+    """Approximate VM-instrumented lines for a Dart file tests never loaded.
+
+    `flutter test --coverage` only emits records for libraries the VM loaded.
+    An unused copy under lib/ would otherwise not change the percent.
+    """
+    numbers: list[int] = []
+    in_block_comment = False
+    for index, raw in enumerate(source.splitlines(), start=1):
+        stripped = raw.strip()
+        if not stripped:
+            continue
+        if in_block_comment:
+            if "*/" in stripped:
+                in_block_comment = False
+            continue
+        if stripped.startswith("/*"):
+            if "*/" not in stripped:
+                in_block_comment = True
+            continue
+        if stripped.startswith("//"):
+            continue
+        if stripped.startswith(_SKIP_PREFIXES):
+            continue
+        if stripped in ("{", "}", "(", ");", ","):
+            continue
+        if _CLASS_DECL.match(stripped):
+            continue
+        if _STRING_ONLY.match(stripped):
+            continue
+        numbers.append(index)
+    return numbers
+
+
+def append_unhit_lib_files(lcov_path: Path, app_root: Path) -> int:
+    """Add lib/*.dart files missing from lcov as 0-hit records. Returns files added."""
+    lib_root = app_root / "lib"
+    if not lib_root.is_dir():
+        return 0
+    known = lcov_source_files(lcov_path)
+    records: list[str] = []
+    for dart in sorted(lib_root.rglob("*.dart")):
+        if dart.name.endswith(_GENERATED_SUFFIXES):
+            continue
+        relative = dart.relative_to(app_root).as_posix()
+        if relative in known:
+            continue
+        numbers = executable_line_numbers(dart.read_text(encoding="utf-8"))
+        if not numbers:
+            continue
+        lines = [f"SF:{relative}"]
+        lines.extend(f"DA:{number},0" for number in numbers)
+        lines.append(f"LF:{len(numbers)}")
+        lines.append("LH:0")
+        lines.append("end_of_record")
+        records.append("\n".join(lines) + "\n")
+    if not records:
+        return 0
+    text = lcov_path.read_text(encoding="utf-8")
+    if text and not text.endswith("\n"):
+        text += "\n"
+    lcov_path.write_text(text + "".join(records), encoding="utf-8")
+    return len(records)
 
 
 def coverage_color(percent: float) -> str:
@@ -108,13 +196,16 @@ def main() -> int:
     parser.add_argument("--readme", type=Path)
     args = parser.parse_args()
 
+    app_root = args.lcov.resolve().parent.parent
+    added = append_unhit_lib_files(args.lcov, app_root)
     hit, found = parse_lcov(args.lcov)
     percent, label = format_percent(hit, found)
     write_badge(args.badge, percent, label)
     write_card(args.card, percent, label, hit, found)
     if args.readme:
         update_readme(args.readme, label, hit, found)
-    print(f"coverage: {label} ({hit}/{found})")
+    extra = f", +{added} unhit lib file(s)" if added else ""
+    print(f"coverage: {label} ({hit}/{found}){extra}")
     return 0
 
 

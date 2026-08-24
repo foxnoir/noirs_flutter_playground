@@ -230,11 +230,12 @@ This playground is one git repo. On **commit**, the playground hooks refresh **e
 On commit the pipeline:
 
 1. Runs `flutter test --coverage` in each listed app.
-2. Turns `lcov.info` into two images: `assets/coverage/badge.svg` (header) and `assets/coverage/card.svg` (README card).
-3. Writes the percent into that app's README.
-4. Stages those files so they land in the **same** commit (`pre-commit`).
-5. Runs the tests again on `git push` and blocks a failing push (`pre-push`).
-6. GitHub Actions repeats steps 1–3 on push and commits the result if it still differs.
+2. Adds any `lib/**/*.dart` the tests never loaded as **0 hits**. Dart coverage only records libraries the VM actually imported. An unused copy of a screen would otherwise leave the percent unchanged.
+3. Turns `lcov.info` into two images: `assets/coverage/badge.svg` (header) and `assets/coverage/card.svg` (README card).
+4. Writes the percent into that app's README.
+5. Stages those files so they land in the **same** commit (`pre-commit`).
+6. Runs the tests again on `git push` and blocks a failing push (`pre-push`).
+7. GitHub Actions repeats steps 1–4 on push and commits the result if it still differs.
 
 Install the playground hooks once:
 
