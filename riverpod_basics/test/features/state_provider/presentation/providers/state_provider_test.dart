@@ -25,5 +25,8 @@ void main() {
 
     container.read(counterStateProvider.notifier).state--;
     expect(container.read(counterStateProvider), 0);
+
+    container.read(counterStateProvider.notifier).state--;
+    expect(container.read(counterStateProvider), -1);
   });
 }
