@@ -9,7 +9,8 @@ class AsyncNotifierNonPersistentStateScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    // watch is AsyncValue<int>, not int.
+    // watch is AsyncValue<int>, not int. This listener is what keeps the
+    // autoDispose provider alive; pop removes it and the notifier is gone.
     final counter = ref.watch(nonPersistentStateAsyncNotifierProvider);
 
     return Scaffold(
@@ -70,6 +71,7 @@ class AsyncNotifierNonPersistentStateScreen extends ConsumerWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
+                // Reset stays on this page. Back is what disposes autoDispose.
                 child: FloatingActionButton(
                   heroTag: 'async-notifier-non-persistent-reset',
                   onPressed: () {
