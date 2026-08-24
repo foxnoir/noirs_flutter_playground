@@ -25,7 +25,7 @@ void main() {
       addTearDown(tester.platformDispatcher.clearLocaleTestValue);
       addTearDown(tester.platformDispatcher.clearLocalesTestValue);
 
-      await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+      await tester.pumpW
       await tester.pumpAndSettle();
 
       expect(find.text('Scenarios'), findsOneWidget);
