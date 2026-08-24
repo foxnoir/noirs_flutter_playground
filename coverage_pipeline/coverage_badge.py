@@ -107,16 +107,21 @@ def append_unhit_lib_files(lcov_path: Path, app_root: Path) -> int:
     return len(records)
 
 
+# Mid colors from assets/badges/generate.py.
+_COVERAGE_PINK = "#B22C89"  # Very Good Analysis — weak
+_COVERAGE_PURPLE = "#8B5FBF"  # Riverpod
+_COVERAGE_BLUE = "#02569B"  # Flutter
+_COVERAGE_GREEN = "#2D8A86"  # GoRouter — strong
+
+
 def coverage_color(percent: float) -> str:
-    if percent >= 90:
-        return "#4c1"
     if percent >= 80:
-        return "#97ca00"
+        return _COVERAGE_GREEN
     if percent >= 70:
-        return "#dfb317"
+        return _COVERAGE_BLUE
     if percent >= 60:
-        return "#B385DC"
-    return "#9B7BB8"
+        return _COVERAGE_PURPLE
+    return _COVERAGE_PINK
 
 
 def format_percent(hit: int, found: int) -> tuple[float, str]:
