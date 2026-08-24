@@ -1,0 +1,32 @@
+#!/bin/sh
+# Cursor Source Control injects core.hooksPath=/dev/null via GIT_CONFIG_* so
+# pre-commit / pre-push never run. Strip that pair, then call the real git.
+set -eu
+
+git_bin=/usr/bin/git
+if [ -x /opt/homebrew/bin/git ]; then
+  git_bin=/opt/homebrew/bin/git
+fi
+
+count=${GIT_CONFIG_COUNT:-0}
+if [ "$count" -gt 0 ]; then
+  i=0
+  new_i=0
+  while [ "$i" -lt "$count" ]; do
+    eval "key=\${GIT_CONFIG_KEY_${i}-}"
+    eval "val=\${GIT_CONFIG_VALUE_${i}-}"
+    case "$key$val" in
+      core.hooksPath/dev/null | core.hooksPath'\\.\nul')
+        ;;
+      *)
+        eval "export GIT_CONFIG_KEY_${new_i}=\"\$key\""
+        eval "export GIT_CONFIG_VALUE_${new_i}=\"\$val\""
+        new_i=$((new_i + 1))
+        ;;
+    esac
+    i=$((i + 1))
+  done
+  export GIT_CONFIG_COUNT="$new_i"
+fi
+
+exec "$git_bin" "$@"
