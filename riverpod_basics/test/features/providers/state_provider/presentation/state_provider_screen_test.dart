@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/state_provider/presentation/state_provider_screen.dart';
+import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
 void main() {

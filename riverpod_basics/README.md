@@ -82,7 +82,7 @@ The first lesson is the same button-press counter five ways. `NotifierProvider` 
 
 The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Scenarios** (placeholder rows for later). Both use `LandingPageDropdown` in `lib/features/landing_page/presentation/widgets/`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`) so they read as headers, not as destination rows. Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
 
-Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. **`ErrorWidget`** lives there: `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback.
+Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. **`ErrorWidget`** lives in `shared_widgets/`: `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -292,14 +292,14 @@ Keep tests deterministic. One test, one claim. Do not depend on the order of oth
 - **`pumpAndSettle`** — wait until animations and `go_router` finish.
 - **`addTearDown`** — cleanup after **this** test, pass or fail. Do not put `dispose()` only at the bottom of the happy path: a failing `expect` would skip it.
 
-`test/` mirrors `lib/`. Each source file has a matching `*_test.dart` in the same folders (`presentation/`, `providers/`, `core/router/`, `shared_widgets/`).
+`test/` mirrors `lib/`. Each source file has a matching `*_test.dart` in the same folders (`features/providers/`, `presentation/`, `core/router/`, `shared_widgets/`).
 
 Examples:
 
 - `lib/main.dart` → `test/main_test.dart`
 - `lib/features/landing_page/presentation/landing_page.dart` → `test/features/landing_page/presentation/landing_page_test.dart`
 - `lib/features/landing_page/presentation/widgets/landing_page_dropdown.dart` → `test/features/landing_page/presentation/widgets/landing_page_dropdown_test.dart`
-- `lib/features/state_provider/presentation/providers/state_provider.dart` → `test/features/state_provider/presentation/providers/state_provider_test.dart`
+- `lib/features/providers/state_provider/presentation/providers/state_provider.dart` → `test/features/providers/state_provider/presentation/providers/state_provider_test.dart`
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -311,7 +311,7 @@ Riverpod **is** that injection. `ProviderScope` and `ProviderContainer` hold the
 
 Two test shapes:
 
-1. **Provider tests** — no widgets. Create a `ProviderContainer`, `read` the provider, mutate through `.notifier`, then dispose. See `test/features/state_provider/presentation/providers/state_provider_test.dart`, `test/features/async_notifier_persistent_state/presentation/providers/`, and `test/features/async_notifier_non_persistent_state/presentation/providers/` (the last one closes the listener and checks the provider is gone).
+1. **Provider tests** — no widgets. Create a `ProviderContainer`, `read` the provider, mutate through `.notifier`, then dispose. See `test/features/providers/state_provider/presentation/providers/state_provider_test.dart`, `test/features/providers/async_notifier_persistent_state/presentation/providers/`, and `test/features/providers/async_notifier_non_persistent_state/presentation/providers/` (the last one closes the listener and checks the provider is gone).
 2. **Widget tests** — wrap the tree in `ProviderScope` (the app already does this in `main.dart`). Tap UI, assert text. Fake repositories later with `overrides`.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.

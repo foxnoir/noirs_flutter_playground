@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/async_notifier_non_persistent_state/presentation/async_notifier_non_persistent_state_screen.dart';
-import 'package:riverpod_basics/features/async_notifier_non_persistent_state/presentation/providers/async_notifier_non_persistent_state.dart';
+import 'package:riverpod_basics/features/providers/async_notifier_non_persistent_state/presentation/async_notifier_non_persistent_state_screen.dart';
+import 'package:riverpod_basics/features/providers/async_notifier_non_persistent_state/presentation/providers/async_notifier_non_persistent_state.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/main.dart';
 import 'package:riverpod_basics/shared_widgets/error_widget.dart';
