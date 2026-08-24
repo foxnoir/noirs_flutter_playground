@@ -12,7 +12,8 @@ void main() {
     expect(find.text('No Provider'), findsOneWidget);
     expect(find.text('StateProvider'), findsOneWidget);
     expect(find.text('NotifierProvider'), findsOneWidget);
-    expect(find.text('Provider 3'), findsOneWidget);
+    expect(find.text('AsyncNotifier Persistent State'), findsOneWidget);
+    expect(find.text('AsyncNotifier Non-Persistent State'), findsOneWidget);
   });
 
   testWidgets('Landing page navigates to StateProvider', (tester) async {
@@ -35,5 +36,38 @@ void main() {
       find.text('You have pressed the button this many times: 1'),
       findsOneWidget,
     );
+  });
+
+  testWidgets('Non-Persistent State loads again after back', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+
+    await tester.tap(find.text('AsyncNotifier Non-Persistent State'));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pump();
+
+    expect(
+      find.text('You have pressed the button this many times: 1'),
+      findsOneWidget,
+    );
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('AsyncNotifier Non-Persistent State'));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
   });
 }

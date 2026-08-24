@@ -14,7 +14,14 @@ class LandingPage extends StatelessWidget {
       (label: l10n.noProvider, routeName: AppRouteNames.noProvider),
       (label: l10n.stateProvider, routeName: AppRouteNames.stateProvider),
       (label: l10n.notifierProvider, routeName: AppRouteNames.notifierProvider),
-      (label: l10n.provider3, routeName: AppRouteNames.provider3),
+      (
+        label: l10n.asyncNotifierPersistentState,
+        routeName: AppRouteNames.asyncNotifierPersistentState,
+      ),
+      (
+        label: l10n.asyncNotifierNonPersistentState,
+        routeName: AppRouteNames.asyncNotifierNonPersistentState,
+      ),
     ];
 
     return Scaffold(

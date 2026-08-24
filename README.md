@@ -164,7 +164,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **Riverpod**: no provider, then `NotifierProvider`. `StateProvider` is the shortcut.
+Practice app for **Riverpod**: no provider, `NotifierProvider`, AsyncNotifier Persistent / Non-Persistent State. `StateProvider` is the shortcut.
 
 [README »](riverpod_basics/README.md)
 
@@ -225,22 +225,37 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 
 Scripts live once in [`coverage_pipeline/`](coverage_pipeline/). Each app still owns its own images under `assets/coverage/` and the percent in its README.
 
+This playground is one git repo. On **commit**, the playground hooks refresh **every** app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) and stage the SVGs in that same commit. On **push**, GitHub Actions (`.github/workflows/coverage.yml`) runs the same generator for every listed app. If the images or README percent changed (for example a commit skipped the hooks), CI **commits** `chore: refresh coverage badges` and **pushes** it to that branch. A follow-up run of that chore commit is skipped so the job does not loop. Pull requests only **check**; they do not write commits.
+
 On commit the pipeline:
 
-1. Runs `flutter test --coverage` in **that** app.
+1. Runs `flutter test --coverage` in each listed app.
 2. Turns `lcov.info` into two images: `assets/coverage/badge.svg` (header) and `assets/coverage/card.svg` (README card).
 3. Writes the percent into that app's README.
 4. Stages those files so they land in the **same** commit (`pre-commit`).
 5. Runs the tests again on `git push` and blocks a failing push (`pre-push`).
+6. GitHub Actions repeats steps 1–3 on push and commits the result if it still differs.
 
-Refresh one app from the playground root:
+Install the playground hooks once:
+
+```
+./coverage_pipeline/install-git-hooks.sh
+```
+
+Refresh every app from the playground root:
+
+```
+./coverage_pipeline/update_all.sh
+```
+
+Refresh one app:
 
 ```
 ./coverage_pipeline/update_coverage.sh riverpod_basics
 ./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
 ```
 
-Git hooks and CI only after the folder is its **own** git repo. Copy `coverage_pipeline/` next to that repo's `pubspec.yaml`, copy [`coverage_pipeline/coverage.yml`](coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/logo.png`](assets/logo.png) plus [`assets/badges/`](assets/badges/) into that repo's `assets/`. Then:
+After you copy an app into its **own** git repo: copy `coverage_pipeline/` next to that repo's `pubspec.yaml`, copy [`coverage_pipeline/coverage.yml`](coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/logo.png`](assets/logo.png) plus [`assets/badges/`](assets/badges/) into that repo's `assets/`. Then:
 
 ```
 ./coverage_pipeline/install-git-hooks.sh

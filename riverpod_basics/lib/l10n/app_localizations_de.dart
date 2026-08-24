@@ -15,9 +15,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get provider1 => 'Provider 1';
 
   @override
-  String get provider3 => 'Provider 3';
-
-  @override
   String get noProvider => 'Kein Provider';
 
   @override
@@ -25,6 +22,13 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get notifierProvider => 'NotifierProvider';
+
+  @override
+  String get asyncNotifierPersistentState => 'AsyncNotifier Persistent State';
+
+  @override
+  String get asyncNotifierNonPersistentState =>
+      'AsyncNotifier Non-Persistent State';
 
   @override
   String buttonPressCount(int count) {

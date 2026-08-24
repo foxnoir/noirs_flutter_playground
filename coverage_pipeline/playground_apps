@@ -1,0 +1,4 @@
+# Flutter apps in this playground that own assets/coverage/ images.
+# Paths are relative to the playground git root.
+riverpod_basics
+app_starters/riverpod_basic_starter

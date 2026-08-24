@@ -17,6 +17,7 @@ Check and update:
 - Header logo and tech-stack badges live once in playground `assets/` (`logo.png`, `badges/`). App READMEs point there with a relative path. Put the target URL on the badge line; do not add a `[flutter-url]:` footer.
 - Tech-stack badges are **left**-aligned (`<div align="left">`) so wrapped rows start on the left. Do not center that row.
 - Coverage images stay per app in `assets/coverage/`
+- The **Coverage pipeline** section lives only in the playground root README. App READMEs point there. They must not say that `flutter test --coverage` updates the badge SVGs; that command is Gutters/`lcov.info` only. SVGs refresh on playground **commit** (hooks). On **push**, GitHub Actions regenerates every app in `playground_apps` and **commits + pushes** if the images or percent still differ.
 - The **Packages** table if a `pubspec.yaml` added, removed, or replaced a package
 - Architecture notes only if the folder approach actually changed
 
