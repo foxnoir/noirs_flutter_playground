@@ -228,19 +228,27 @@ Scripts live once in [`coverage_pipeline/`](coverage_pipeline/). Each app still 
 
 Badge color uses the same mid tones as the tech badges: **pink** (Very Good Analysis) below 60%, **purple** (Riverpod) from 60%, **blue** (Flutter) from 70%, **green** (GoRouter) from 80%.
 
-This playground is one git repo. On **commit**, the playground hooks refresh **every** app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) and stage the SVGs in that same commit. On **push**, GitHub Actions (`.github/workflows/coverage.yml`) runs the same generator for every listed app so tests still run on Linux. CI **does not** commit or push badges — that extra bot commit was forcing a pull after every push. Pull requests run the same job; they do not write commits.
+This playground is one git repo. **Commit** is not gated — you can commit and fix tests later. **Push** runs `flutter test` for every app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) and **blocks** if anything fails (`pre-push`). GitHub Actions (`.github/workflows/coverage.yml`) runs the same tests on Linux. CI **does not** commit or push badges — that extra bot commit was forcing a pull after every push.
 
-On commit the pipeline:
+On push the pipeline:
+
+1. Runs `flutter test` in each listed app (`pre-push`). If a test fails, the push is blocked.
+2. GitHub Actions runs the coverage generator on Linux (tests plus badge refresh in the runner). It does **not** commit the result.
+
+Coverage images are **not** updated on commit. Refresh them when you want current badges:
+
+```
+./coverage_pipeline/update_all.sh
+```
+
+That script:
 
 1. Runs `flutter test --coverage` in each listed app.
 2. Adds any `lib/**/*.dart` the tests never loaded as **0 hits**. Dart coverage only records libraries the VM actually imported. An unused copy of a screen would otherwise leave the percent unchanged.
 3. Turns `lcov.info` into two images: `assets/coverage/badge.svg` (header) and `assets/coverage/card.svg` (README card).
 4. Writes the percent into that app's README.
-5. Stages those files so they land in the **same** commit (`pre-commit`).
-6. Runs the tests again on `git push` and blocks a failing push (`pre-push`).
-7. GitHub Actions repeats steps 1–4 on push so Linux still runs the tests. It does **not** commit the result.
 
-Cursor Source Control currently skips git hooks (`core.hooksPath=/dev/null`). This workspace sets `git.path` to [`coverage_pipeline/cursor-git`](coverage_pipeline/cursor-git) so commit and push from the UI still run them. Reload the window after pulling that file. A terminal `git push` always runs the hooks.
+Cursor Source Control currently skips git hooks (`core.hooksPath=/dev/null`). Cursor also **ignores** `git.path` in workspace settings. The User setting `git.path` must point at [`coverage_pipeline/cursor-git`](coverage_pipeline/cursor-git) (or a copy of that wrapper) so commit and push from the UI still run them. A terminal `git push` always runs the hooks.
 
 Install the playground hooks once:
 
