@@ -1,4 +1,36 @@
 #!/bin/sh
-# Commits are not gated. Tests run on push so you can commit first
-# and fix failing tests later.
+# Playground monorepo: refresh coverage badges in THIS commit when tests pass.
+# A failing test does not block the commit — push still gates that.
+
+repo_root="$(git rev-parse --show-toplevel)"
+cd "$repo_root" || exit 1
+
+export PATH="${HOME}/.pub-cache/bin:${PATH}"
+
+if [ ! -x "${repo_root}/coverage_pipeline/update_all.sh" ]; then
+  echo "pre-commit: coverage_pipeline/update_all.sh is missing." >&2
+  exit 1
+fi
+
+if ! "${repo_root}/coverage_pipeline/update_all.sh"; then
+  echo "Tests failed. Coverage was not updated. Commit continues — fix tests before push."
+  echo "Tests failed. Coverage was not updated. Commit continues — fix tests before push." >&2
+  exit 0
+fi
+
+apps_file="${repo_root}/coverage_pipeline/playground_apps"
+while IFS= read -r app || [ -n "${app:-}" ]; do
+  case "$app" in
+    '' | \#*) continue ;;
+  esac
+  for file in \
+    "${app}/assets/coverage/badge.svg" \
+    "${app}/assets/coverage/card.svg" \
+    "${app}/README.md"; do
+    [ -f "$file" ] || continue
+    git add -- "$file"
+  done
+done <"$apps_file"
+
+echo "pre-commit: coverage badges included in this commit."
 exit 0
