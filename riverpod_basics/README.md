@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: no provider, NotifierProvider, AsyncNotifier Persistent / Non-Persistent State, and StateProvider as the shortcut.
+     Practice project for Riverpod: NotifierProvider, AsyncNotifier Persistent / Non-Persistent State, and StateProvider as the shortcut.
   </p>
   <p>
     <sub>Inspired by <a href="https://github.com/rddewan">Richard Dewan</a>’s <a href="https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/">Udemy course</a>.</sub>

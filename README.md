@@ -240,6 +240,8 @@ On commit the pipeline:
 6. Runs the tests again on `git push` and blocks a failing push (`pre-push`).
 7. GitHub Actions repeats steps 1–4 on push so Linux still runs the tests. It does **not** commit the result.
 
+Cursor Source Control currently skips git hooks (`core.hooksPath=/dev/null`). This workspace sets `git.path` to [`coverage_pipeline/cursor-git`](coverage_pipeline/cursor-git) so commit and push from the UI still run them. Reload the window after pulling that file. A terminal `git push` always runs the hooks.
+
 Install the playground hooks once:
 
 ```
