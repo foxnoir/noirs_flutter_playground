@@ -1,7 +1,9 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// autoDispose: last watcher gone (back to landing) → provider disposed.
-// Open the page again → build() runs, loading, count is 0.
+// Same class as Persistent State. Non-persistence is only .autoDispose —
+// in-memory lifetime, not disk. Screen watch keeps this alive. Back pops
+// the widget → last watcher gone → Riverpod disposes. Next visit: new
+// notifier, build() runs, loading, count is 0.
 final nonPersistentStateAsyncNotifierProvider =
     AsyncNotifierProvider.autoDispose<NonPersistentStateAsyncNotifier, int>(
       NonPersistentStateAsyncNotifier.new,
@@ -30,6 +32,7 @@ class NonPersistentStateAsyncNotifier extends AsyncNotifier<int> {
     state = AsyncData(current - 1);
   }
 
+  // Reload on this page. Does not dispose the provider — Back does that.
   // Assigning AsyncLoading notifies watchers now. invalidate() does not:
   // when() keeps showing data on refresh (skipLoadingOnRefresh).
   Future<void> reset() async {

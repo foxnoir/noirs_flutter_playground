@@ -9,7 +9,8 @@ class AsyncNotifierPersistentStateScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    // watch is AsyncValue<int>, not int.
+    // watch is AsyncValue<int>, not int. Pop does not dispose this
+    // provider: no autoDispose, so the same notifier is still there.
     final counter = ref.watch(persistentStateAsyncNotifierProvider);
 
     return Scaffold(
@@ -68,6 +69,7 @@ class AsyncNotifierPersistentStateScreen extends ConsumerWidget {
               ),
               Padding(
                 padding: const EdgeInsets.only(bottom: 24),
+                // Reset reloads on this page. Back still keeps the count.
                 child: FloatingActionButton(
                   heroTag: 'async-notifier-persistent-reset',
                   onPressed: () {

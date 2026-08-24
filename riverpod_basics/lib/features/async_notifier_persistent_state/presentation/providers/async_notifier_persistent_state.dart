@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-// No autoDispose: lives for the ProviderScope (the app). Leave the page
-// and come back — same count, no loading.
+// No autoDispose: in-memory for ProviderScope (the app), not disk.
+// Leave the page and come back — same notifier, same count, no loading.
 final persistentStateAsyncNotifierProvider =
     AsyncNotifierProvider<PersistentStateAsyncNotifier, int>(
       PersistentStateAsyncNotifier.new,
@@ -30,6 +30,7 @@ class PersistentStateAsyncNotifier extends AsyncNotifier<int> {
     state = AsyncData(current - 1);
   }
 
+  // Reload on this page. Back does not dispose this provider (no autoDispose).
   // Assigning AsyncLoading notifies watchers now. invalidate() does not:
   // when() keeps showing data on refresh (skipLoadingOnRefresh).
   Future<void> reset() async {

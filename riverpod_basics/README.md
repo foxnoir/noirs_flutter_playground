@@ -78,7 +78,7 @@
 
 This app is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
-The first lesson is the same button-press counter five ways. `NotifierProvider` is the real mutable type. `AsyncNotifierProvider` is that type when the value comes from a `Future`. **Persistent State** keeps the count when you leave the page. **Non-Persistent State** uses `.autoDispose` — back to landing disposes it, so the next visit loads again from zero. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget.
+The first lesson is the same button-press counter five ways. `NotifierProvider` is the real mutable type. `AsyncNotifierProvider` is that type when the value comes from a `Future`. **Persistent State** keeps the count when you leave the page (plain provider, in memory for the app). **Non-Persistent State** is the same class plus `.autoDispose` — not disk, not a cache. Back to landing drops the last watcher, Riverpod disposes the notifier, next visit loads from zero. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -169,7 +169,7 @@ This is the type everything else is built on. A `StateProvider` is a notifier wh
 
 `AsyncNotifierProvider` is the same class-and-methods idea, but `build` returns a `Future`. Riverpod stores **`AsyncValue<T>`**: loading, error, data.
 
-This screen uses a **plain** `AsyncNotifierProvider` (`isAutoDispose: false`). The notifier lives as long as `ProviderScope` (the app). Leave with the back button, open the screen again: **same count, no loading**.
+This screen uses a **plain** `AsyncNotifierProvider` (`isAutoDispose: false`). The count lives **in memory** on that notifier, not on disk. The notifier lives as long as `ProviderScope` (the app). Leave with the back button, open the screen again: **same count, no loading**.
 
 `ref.watch` is therefore not an `int`. It is `AsyncValue<int>`. **`when`** is how the widget maps each state to UI: `loading` (spinner), `error` (message), `data` (the counter). Skip a callback and that state has no widget. `switch` on `AsyncValue` does the same job.
 
@@ -177,9 +177,9 @@ Do not read `.value` or `.value!` in `build` to “just show the number”. Whil
 
 Buttons still `ref.read(...notifier)` like the sync screen. `when` is only for rendering the `AsyncValue`.
 
-`when` defaults **`skipLoadingOnRefresh: true`**. After `invalidate` the provider is loading again, but the widget still paints the old number until the Future finishes. That is why refresh looked like a no-op.
+The **refresh** FAB at the bottom is **reset**, not navigation. `reset()` assigns `state = AsyncLoading()` so the spinner shows **now**, waits the same fake API delay as `build()`, then `AsyncData(0)`. You never left the page; Persistent State is still the same notifier.
 
-**Reset** assigns `state = AsyncLoading()` (spinner now) then the same fake API delay, then `AsyncData(0)`. `skipLoadingOnRefresh` / `skipLoadingOnReload` are **false** on this screen so `loading:` actually runs.
+`when` defaults **`skipLoadingOnRefresh: true`**. After `invalidate` the widget would keep painting the old number until the Future finishes. Both async screens set `skipLoadingOnRefresh` / `skipLoadingOnReload` to **false** so `loading:` runs on reset.
 
 **Use it when** the first value comes from a repository, HTTP, or disk, and the result should survive leaving the screen (a profile you still need on the next page).
 
@@ -189,9 +189,16 @@ Buttons still `ref.read(...notifier)` like the sync screen. `when` is only for r
 
 ### AsyncNotifier Non-Persistent State
 
-Same `AsyncNotifier` and the same UI. The provider is **`AsyncNotifierProvider.autoDispose`**.
+Same `AsyncNotifier` class, same `when`, same plus / minus / **reset** FAB. The only code difference is **`AsyncNotifierProvider.autoDispose`**. There is no SharedPreferences, no `keepAlive`, no extra cache. “Non-persistent” here means **lifetime**: the count lives in memory only while something `watch`es it.
 
-When the last widget stops watching — the back button, back on landing — Riverpod **disposes** the notifier. Open the screen again: `build()` runs, you see **loading**, the count is **0**. Incrementing before you left is gone.
+How that lifetime works:
+
+1. The screen `ref.watch`es the provider. That listener keeps the notifier alive.
+2. Plus / minus write `state` on that same in-memory notifier.
+3. **Back** pops the screen. The widget is gone, last watcher is gone, Riverpod **disposes** the notifier. Count `5` does not exist anymore.
+4. Open the screen again: a **new** notifier, `build()` runs, spinner, count is **0**.
+
+**Reset** is a different path. The refresh FAB stays on the page and assigns `AsyncLoading` → fake API → `0`. It does not dispose the provider. Persistent State uses the same reset; the two screens only differ on **leave**.
 
 **Use it when** the async state belongs to that screen only: a form fetch, a one-off detail page, a retryable request you do not want to keep in memory after pop.
 
@@ -217,8 +224,8 @@ Conceptually there is one ladder:
 
 1. **No provider** — `setState` on one screen. Fine while nobody else needs the count.
 2. **NotifierProvider** — same number, now a class outside the widget. Writes go through methods.
-3. **AsyncNotifier Persistent State** — `build` is a `Future`. Leave the page; the count stays.
-4. **AsyncNotifier Non-Persistent State** — same class with `.autoDispose`. Leave the page; the next visit loads from scratch.
+3. **AsyncNotifier Persistent State** — `build` is a `Future`. In memory for the app, not disk. Leave the page; the count stays.
+4. **AsyncNotifier Non-Persistent State** — same class, only `.autoDispose`. Leave the page; last watcher gone, notifier disposed, next visit loads from scratch.
 5. **StateProvider** — the same notifier with the class stripped off. Writes are `state++`. Legacy in Riverpod 3.
 
 The app screens still go `setState` → `StateProvider` → `NotifierProvider` → Persistent AsyncNotifier → Non-Persistent AsyncNotifier. That is the smallest syntax jump from a widget field, then you write the class, then the class may wait, then you choose whether that wait survives a pop. Read the types the other way around: the class is the foundation, async is the class plus `AsyncValue`, `autoDispose` is lifetime, the shortcut is optional.
@@ -289,7 +296,7 @@ Riverpod **is** that injection. `ProviderScope` and `ProviderContainer` hold the
 
 Two test shapes:
 
-1. **Provider tests** — no widgets. Create a `ProviderContainer`, `read` the provider, mutate through `.notifier`, then dispose. See `test/features/state_provider/counter_state_provider_test.dart`.
+1. **Provider tests** — no widgets. Create a `ProviderContainer`, `read` the provider, mutate through `.notifier`, then dispose. See `test/features/state_provider/counter_state_provider_test.dart`, `test/features/async_notifier_persistent_state/`, and `test/features/async_notifier_non_persistent_state/` (the last one closes the listener and checks the provider is gone).
 2. **Widget tests** — wrap the tree in `ProviderScope` (the app already does this in `main.dart`). Tap UI, assert text. Fake repositories later with `overrides`.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
