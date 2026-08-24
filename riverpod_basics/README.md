@@ -322,7 +322,7 @@ The Riverpod calls in tests are the same as in the app. See [watch, read, listen
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**73.8%** line coverage (225 of 305 lines).
+**95.7%** line coverage (290 of 303 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
