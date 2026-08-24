@@ -31,6 +31,9 @@ class AppLocalizationsDe extends AppLocalizations {
       'AsyncNotifier Non-Persistent State';
 
   @override
+  String get errorOccurred => 'Es ist leider ein Fehler aufgetreten.';
+
+  @override
   String buttonPressCount(int count) {
     return 'Du hast den Button so oft gedrückt: $count';
   }

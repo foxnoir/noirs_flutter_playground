@@ -80,6 +80,7 @@ app/
 ├── web/
 ├── assets/
 │   ├── coverage/
+│   ├── img/
 │   └── logo.png
 ├── lib/
 │   ├── core/
@@ -134,7 +135,7 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 - **widgets/** — feature-local UI.
 - **feature_page.dart** — the screen for that feature.
 
-`shared_widgets/` holds UI used by more than one feature. `core/` holds app-wide routing, theme, and similar infrastructure.
+`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error illustration plus message (`assets/img/` in the app that uses it). `core/` holds app-wide routing, theme, and similar infrastructure.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

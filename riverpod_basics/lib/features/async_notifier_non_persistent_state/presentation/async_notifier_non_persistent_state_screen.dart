@@ -1,7 +1,8 @@
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_basics/features/async_notifier_non_persistent_state/presentation/providers/async_notifier_non_persistent_state.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
+import 'package:riverpod_basics/shared_widgets/error_widget.dart';
 
 class AsyncNotifierNonPersistentStateScreen extends ConsumerWidget {
   const AsyncNotifierNonPersistentStateScreen({super.key});
@@ -28,7 +29,7 @@ class AsyncNotifierNonPersistentStateScreen extends ConsumerWidget {
           skipLoadingOnRefresh: false,
           skipLoadingOnReload: false,
           loading: () => const Center(child: CircularProgressIndicator()),
-          error: (error, _) => Center(child: Text('$error')),
+          error: (_, _) => ErrorWidget(message: l10n.errorOccurred),
           data: (count) => Column(
             children: [
               Expanded(
