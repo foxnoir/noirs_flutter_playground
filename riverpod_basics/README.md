@@ -17,6 +17,9 @@
   <p>
      Practice project for Riverpod: no provider, NotifierProvider, AsyncNotifier Persistent / Non-Persistent State, and StateProvider as the shortcut.
   </p>
+  <p>
+    <sub>Inspired by <a href="https://github.com/rddewan">Richard Dewan</a>’s <a href="https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/">Udemy course</a>.</sub>
+  </p>
 </div>
 
 ---
@@ -80,9 +83,9 @@ This app is the **Riverpod** practice project in [Noir's Flutter Playground](../
 
 The first lesson is the same button-press counter five ways. `NotifierProvider` is the real mutable type. `AsyncNotifierProvider` is that type when the value comes from a `Future`. **Persistent State** keeps the count when you leave the page (plain provider, in memory for the app). **Non-Persistent State** is the same class plus `.autoDispose` — not disk, not a cache. Back to landing drops the last watcher, Riverpod disposes the notifier, next visit loads from zero. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget.
 
-The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Scenarios** (placeholder rows for later). Both use `LandingPageDropdown` in `lib/features/landing_page/presentation/widgets/`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`) so they read as headers, not as destination rows. Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
+The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Scenarios**. Both use `LandingPageDropdown`. The first scenario is a dummy **Current User** screen (`features/scenarios/current_user/`) — one username field and a placeholder value, no provider, empty Add. That name stays distinct from later User List, User Detail, and Stream User screens. Scenarios 2 and 3 are `ScenarioPlaceholderScreen`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`). Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
 
-Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. **`ErrorWidget`** lives in `shared_widgets/`: `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback.
+Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. Scenario shells live under **`features/scenarios/`**. **`ErrorWidget`** and **`FullWidthElevatedButton`** live in `shared_widgets/`. **`ErrorWidget`** is `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback. **`FullWidthElevatedButton`** is a labeled, full-width `ElevatedButton`. The UI locale is pinned to English (`locale: Locale('en')` in `MaterialApp`); German ARBs remain for tests and later switching. `l10n.yaml` lists `en` first as the fallback.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -356,6 +359,7 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 ## Sources
 
 - [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
+- [Flutter Riverpod For Complete Beginner](https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/) — [Richard Dewan](https://github.com/rddewan)
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

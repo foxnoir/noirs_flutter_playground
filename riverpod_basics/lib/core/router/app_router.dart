@@ -8,6 +8,8 @@ import 'package:riverpod_basics/features/providers/async_notifier_persistent_sta
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/notifier_provider/presentation/notifier_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
+import 'package:riverpod_basics/features/scenarios/current_user/presentation/current_user_screen.dart';
+import 'package:riverpod_basics/features/scenarios/placeholder/presentation/scenario_placeholder_screen.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -45,6 +47,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             name: AppRouteNames.asyncNotifierNonPersistentState,
             builder: (context, state) =>
                 const AsyncNotifierNonPersistentStateScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.currentUser,
+            name: AppRouteNames.currentUser,
+            builder: (context, state) => const CurrentUserScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.scenario2,
+            name: AppRouteNames.scenario2,
+            builder: (context, state) =>
+                const ScenarioPlaceholderScreen(number: 2),
+          ),
+          GoRoute(
+            path: AppRoutePaths.scenario3,
+            name: AppRouteNames.scenario3,
+            builder: (context, state) =>
+                const ScenarioPlaceholderScreen(number: 3),
           ),
         ],
       ),

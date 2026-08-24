@@ -14,5 +14,9 @@
   "goToLanding": "Zur Startseite",
   "providers": "Providers",
   "scenarios": "Szenarien",
-  "scenarioNumber": "Szenario {number}"
+  "scenarioNumber": "Szenario {number}",
+  "currentUser": "Aktueller Benutzer",
+  "username": "Benutzername",
+  "addUser": "Benutzer hinzufügen",
+  "userValue": "Benutzer: {name}"
 }

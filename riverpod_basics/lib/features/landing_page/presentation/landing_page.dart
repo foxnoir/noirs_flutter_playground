@@ -11,7 +11,7 @@ class LandingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    LandingPageDropdownItem provider({
+    LandingPageDropdownItem destination({
       required String label,
       required String routeName,
     }) {
@@ -28,23 +28,23 @@ class LandingPage extends StatelessWidget {
           LandingPageDropdown(
             title: l10n.providers,
             items: [
-              provider(
+              destination(
                 label: l10n.noProvider,
                 routeName: AppRouteNames.noProvider,
               ),
-              provider(
+              destination(
                 label: l10n.stateProvider,
                 routeName: AppRouteNames.stateProvider,
               ),
-              provider(
+              destination(
                 label: l10n.notifierProvider,
                 routeName: AppRouteNames.notifierProvider,
               ),
-              provider(
+              destination(
                 label: l10n.asyncNotifierPersistentState,
                 routeName: AppRouteNames.asyncNotifierPersistentState,
               ),
-              provider(
+              destination(
                 label: l10n.asyncNotifierNonPersistentState,
                 routeName: AppRouteNames.asyncNotifierNonPersistentState,
               ),
@@ -53,8 +53,18 @@ class LandingPage extends StatelessWidget {
           LandingPageDropdown(
             title: l10n.scenarios,
             items: [
-              for (final number in [1, 2, 3])
-                LandingPageDropdownItem(label: l10n.scenarioNumber(number)),
+              destination(
+                label: l10n.currentUser,
+                routeName: AppRouteNames.currentUser,
+              ),
+              destination(
+                label: l10n.scenarioNumber(2),
+                routeName: AppRouteNames.scenario2,
+              ),
+              destination(
+                label: l10n.scenarioNumber(3),
+                routeName: AppRouteNames.scenario3,
+              ),
             ],
           ),
         ],

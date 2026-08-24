@@ -29,5 +29,16 @@
         "type": "int"
       }
     }
+  },
+  "currentUser": "Current User",
+  "username": "Username",
+  "addUser": "Add User",
+  "userValue": "User: {name}",
+  "@userValue": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

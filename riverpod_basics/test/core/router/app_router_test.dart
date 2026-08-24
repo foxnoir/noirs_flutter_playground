@@ -5,6 +5,7 @@ import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
+import 'package:riverpod_basics/features/scenarios/current_user/presentation/current_user_screen.dart';
 import 'package:riverpod_basics/main.dart';
 
 void main() {
@@ -62,5 +63,18 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(LandingPage), findsOneWidget);
+  });
+
+  testWidgets('Landing navigates to Current User scenario', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Scenarios'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Current User'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(CurrentUserScreen), findsOneWidget);
+    expect(find.text('Add User'), findsOneWidget);
   });
 }
