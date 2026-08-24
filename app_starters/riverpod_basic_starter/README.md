@@ -106,12 +106,12 @@ This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**66.3%** line coverage (65 of 98 lines).
+**65%** line coverage (65 of 100 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
 
-The card and the header badge are regenerated on every commit and committed with the same snapshot as the code. Raw `lcov.info` stays local for **Coverage Gutters**.
+The card and the header badge are regenerated on **playground commit** (git hooks at the repo root). On **push**, GitHub Actions regenerates every playground app and **commits** the SVGs and percent if they are still stale. `fvm flutter test --coverage` only writes local `lcov.info` for **Coverage Gutters**. It does not update the SVGs.
 
 ```
 cd app_starters/riverpod_basic_starter
@@ -120,7 +120,7 @@ fvm flutter test --coverage
 
 Or run the VS Code task **Flutter: Test with coverage**, then Command Palette → **Coverage Gutters: Display Coverage**.
 
-The shared scripts live in the playground [coverage pipeline](../../README.md#coverage-pipeline).
+How the badges are produced: playground [coverage pipeline](../../README.md#coverage-pipeline).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

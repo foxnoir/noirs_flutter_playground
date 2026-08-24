@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: no provider, NotifierProvider, and StateProvider as the shortcut.
+     Practice project for Riverpod: no provider, NotifierProvider, AsyncNotifier Persistent / Non-Persistent State, and StateProvider as the shortcut.
   </p>
 </div>
 
@@ -52,6 +52,8 @@
       <ul>
         <li><a href="#no-provider">No provider</a></li>
         <li><a href="#notifierprovider">NotifierProvider</a></li>
+        <li><a href="#asyncnotifier-persistent-state">AsyncNotifier Persistent State</a></li>
+        <li><a href="#asyncnotifier-non-persistent-state">AsyncNotifier Non-Persistent State</a></li>
         <li><a href="#stateprovider">StateProvider</a></li>
         <li><a href="#how-they-connect">How they connect</a></li>
       </ul>
@@ -76,7 +78,7 @@
 
 This app is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
-The first lesson is the same button-press counter three ways. `NotifierProvider` is the real mutable type. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget. The point is when to leave the widget, and that the shortcut is not a different kind of state.
+The first lesson is the same button-press counter five ways. `NotifierProvider` is the real mutable type. `AsyncNotifierProvider` is that type when the value comes from a `Future`. **Persistent State** keeps the count when you leave the page. **Non-Persistent State** uses `.autoDispose` — back to landing disposes it, so the next visit loads again from zero. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -137,7 +139,7 @@ These three are how a widget talks to a provider. Match the call to the job.
 
 ## Providers
 
-A provider is the declared source of state. The type you pick is how that state is allowed to change. The same counter in this app shows the three steps: local `setState`, a `Notifier` class, and `StateProvider` as the shortcut.
+A provider is the declared source of state. The type you pick is how that state is allowed to change. The same counter in this app shows the steps: local `setState`, a `Notifier` class, an `AsyncNotifier` when the first value is a `Future` (kept alive or auto-disposed), and `StateProvider` as the shortcut.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -159,7 +161,41 @@ This is the type everything else is built on. A `StateProvider` is a notifier wh
 
 **Use it when** the value leaves the widget: plus and minus must not go below zero, a form field needs validation, a list can add and remove items, or two screens share the same actions. Use it as soon as you would write a test for the change.
 
-**Do not use it when** the value never changes (that is a read-only `Provider`) or the widget is the only thing that ever sees a one-off toggle. Do not reach for a notifier to store a theme color constant.
+**Do not use it when** the value never changes (that is a read-only `Provider`) or the widget is the only thing that ever sees a one-off toggle. Do not reach for a notifier to store a theme color constant. Do not use it when the first value is a `Future` — that is `AsyncNotifierProvider`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### AsyncNotifier Persistent State
+
+`AsyncNotifierProvider` is the same class-and-methods idea, but `build` returns a `Future`. Riverpod stores **`AsyncValue<T>`**: loading, error, data.
+
+This screen uses a **plain** `AsyncNotifierProvider` (`isAutoDispose: false`). The notifier lives as long as `ProviderScope` (the app). Leave with the back button, open the screen again: **same count, no loading**.
+
+`ref.watch` is therefore not an `int`. It is `AsyncValue<int>`. **`when`** is how the widget maps each state to UI: `loading` (spinner), `error` (message), `data` (the counter). Skip a callback and that state has no widget. `switch` on `AsyncValue` does the same job.
+
+Do not read `.value` or `.value!` in `build` to “just show the number”. While `build()` is still awaiting, there is no number yet.
+
+Buttons still `ref.read(...notifier)` like the sync screen. `when` is only for rendering the `AsyncValue`.
+
+`when` defaults **`skipLoadingOnRefresh: true`**. After `invalidate` the provider is loading again, but the widget still paints the old number until the Future finishes. That is why refresh looked like a no-op.
+
+**Reset** assigns `state = AsyncLoading()` (spinner now) then the same fake API delay, then `AsyncData(0)`. `skipLoadingOnRefresh` / `skipLoadingOnReload` are **false** on this screen so `loading:` actually runs.
+
+**Use it when** the first value comes from a repository, HTTP, or disk, and the result should survive leaving the screen (a profile you still need on the next page).
+
+**Do not use it when** the number is already in memory and there is no `Future`. That is `NotifierProvider`. Do not wrap a local counter in `AsyncValue` just to look async.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### AsyncNotifier Non-Persistent State
+
+Same `AsyncNotifier` and the same UI. The provider is **`AsyncNotifierProvider.autoDispose`**.
+
+When the last widget stops watching — the back button, back on landing — Riverpod **disposes** the notifier. Open the screen again: `build()` runs, you see **loading**, the count is **0**. Incrementing before you left is gone.
+
+**Use it when** the async state belongs to that screen only: a form fetch, a one-off detail page, a retryable request you do not want to keep in memory after pop.
+
+**Do not use it when** another route still needs the same `AsyncValue` after you leave. That is Persistent State (no `autoDispose`).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -180,10 +216,12 @@ In Riverpod 3 `StateProvider` is **legacy** (`legacy.dart`). Do not start a feat
 Conceptually there is one ladder:
 
 1. **No provider** — `setState` on one screen. Fine while nobody else needs the count.
-2. **NotifierProvider** — same number, now a class outside the widget. Any screen can watch it. Writes go through methods.
-3. **StateProvider** — the same notifier with the class stripped off. Writes are `state++`. You already know what it is.
+2. **NotifierProvider** — same number, now a class outside the widget. Writes go through methods.
+3. **AsyncNotifier Persistent State** — `build` is a `Future`. Leave the page; the count stays.
+4. **AsyncNotifier Non-Persistent State** — same class with `.autoDispose`. Leave the page; the next visit loads from scratch.
+5. **StateProvider** — the same notifier with the class stripped off. Writes are `state++`. Legacy in Riverpod 3.
 
-The app screens still go `setState` → `StateProvider` → `NotifierProvider`. That is the smallest syntax jump from a widget field, then you write the class. Read the types the other way around: the class is the foundation, the shortcut is optional.
+The app screens still go `setState` → `StateProvider` → `NotifierProvider` → Persistent AsyncNotifier → Non-Persistent AsyncNotifier. That is the smallest syntax jump from a widget field, then you write the class, then the class may wait, then you choose whether that wait survives a pop. Read the types the other way around: the class is the foundation, async is the class plus `AsyncValue`, `autoDispose` is lifetime, the shortcut is optional.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -265,12 +303,12 @@ The Riverpod calls in tests are the same as in the app. See [watch, read, listen
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**66.3%** line coverage (65 of 98 lines).
+**53.3%** line coverage (138 of 259 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
 
-The card and the header badge are regenerated on every commit and committed with the same snapshot as the code. Raw `lcov.info` stays local for **Coverage Gutters**.
+The card and the header badge are regenerated on **playground commit** (git hooks at the repo root). On **push**, GitHub Actions regenerates every playground app and **commits** the SVGs and percent if they are still stale. `fvm flutter test --coverage` only writes local `lcov.info` for **Coverage Gutters**. It does not update the SVGs.
 
 ```
 cd riverpod_basics
@@ -279,7 +317,7 @@ fvm flutter test --coverage
 
 Or run the VS Code task **Flutter: Test with coverage**, then Command Palette → **Coverage Gutters: Display Coverage**.
 
-The shared scripts live in the playground [coverage pipeline](../README.md#coverage-pipeline).
+How the badges are produced: playground [coverage pipeline](../README.md#coverage-pipeline).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

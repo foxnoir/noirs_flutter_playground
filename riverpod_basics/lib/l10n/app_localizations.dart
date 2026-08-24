@@ -110,12 +110,6 @@ abstract class AppLocalizations {
   /// **'Provider 1'**
   String get provider1;
 
-  /// No description provided for @provider3.
-  ///
-  /// In en, this message translates to:
-  /// **'Provider 3'**
-  String get provider3;
-
   /// No description provided for @noProvider.
   ///
   /// In en, this message translates to:
@@ -133,6 +127,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'NotifierProvider'**
   String get notifierProvider;
+
+  /// No description provided for @asyncNotifierPersistentState.
+  ///
+  /// In en, this message translates to:
+  /// **'AsyncNotifier Persistent State'**
+  String get asyncNotifierPersistentState;
+
+  /// No description provided for @asyncNotifierNonPersistentState.
+  ///
+  /// In en, this message translates to:
+  /// **'AsyncNotifier Non-Persistent State'**
+  String get asyncNotifierNonPersistentState;
 
   /// Shown on the StateProvider screen with the current press count.
   ///

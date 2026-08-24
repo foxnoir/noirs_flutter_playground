@@ -1,0 +1,77 @@
+# Playground monorepo — refreshes coverage for every app in
+# coverage_pipeline/playground_apps. On push, commits and pushes the
+# updated SVGs and README percents if they changed. Pull requests only
+# check that the branch already matches (no commit).
+#
+# Copied-out single-app repos still use coverage_pipeline/coverage.yml.
+name: Coverage badge
+
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+
+concurrency:
+  group: coverage-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+
+jobs:
+  coverage:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request' || !contains(github.event.head_commit.message || '', 'chore: refresh coverage')
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref || github.ref_name }}
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.47.1"
+          channel: stable
+          cache: true
+
+      - name: Refresh coverage for every playground app
+        run: bash coverage_pipeline/update_all.sh
+        env:
+          CI: true
+
+      - name: Commit and push coverage
+        if: github.event_name == 'push'
+        run: |
+          set -eu
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          while IFS= read -r app || [ -n "${app:-}" ]; do
+            case "$app" in
+              '' | \#*) continue ;;
+            esac
+            git add -- \
+              "${app}/assets/coverage/badge.svg" \
+              "${app}/assets/coverage/card.svg" \
+              "${app}/README.md"
+          done < coverage_pipeline/playground_apps
+          if git diff --cached --quiet; then
+            echo "Coverage already up to date."
+            exit 0
+          fi
+          git commit -m "chore: refresh coverage badges"
+          git push
+
+      - name: Coverage must match this branch
+        if: github.event_name == 'pull_request'
+        run: |
+          set -eu
+          files=""
+          while IFS= read -r app || [ -n "${app:-}" ]; do
+            case "$app" in
+              '' | \#*) continue ;;
+            esac
+            files="$files ${app}/assets/coverage/badge.svg ${app}/assets/coverage/card.svg ${app}/README.md"
+          done < coverage_pipeline/playground_apps
+          # shellcheck disable=SC2086
+          git diff --exit-code -- $files

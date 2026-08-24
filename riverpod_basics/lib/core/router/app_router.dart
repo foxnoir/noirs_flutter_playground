@@ -2,12 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/app_router_names.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
-import 'package:riverpod_basics/core/router/placeholder_screen.dart';
+import 'package:riverpod_basics/features/async_notifier_non_persistent_state/presentation/async_notifier_non_persistent_state_screen.dart';
+import 'package:riverpod_basics/features/async_notifier_persistent_state/presentation/async_notifier_persistent_state_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/notifier_provider/presentation/notifier_provider_screen.dart';
 import 'package:riverpod_basics/features/state_provider/presentation/state_provider_screen.dart';
-import 'package:riverpod_basics/l10n/app_localizations.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -35,12 +35,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const NotifierProviderScreen(),
           ),
           GoRoute(
-            path: AppRoutePaths.provider3,
-            name: AppRouteNames.provider3,
-            builder: (context, state) {
-              final l10n = AppLocalizations.of(context);
-              return PlaceholderScreen(title: l10n.provider3);
-            },
+            path: AppRoutePaths.asyncNotifierPersistentState,
+            name: AppRouteNames.asyncNotifierPersistentState,
+            builder: (context, state) =>
+                const AsyncNotifierPersistentStateScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.asyncNotifierNonPersistentState,
+            name: AppRouteNames.asyncNotifierNonPersistentState,
+            builder: (context, state) =>
+                const AsyncNotifierNonPersistentStateScreen(),
           ),
         ],
       ),
