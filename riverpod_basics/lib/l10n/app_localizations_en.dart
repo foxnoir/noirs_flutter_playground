@@ -57,4 +57,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String scenarioNumber(int number) {
     return 'Scenario $number';
   }
+
+  @override
+  String get currentUser => 'Current User';
+
+  @override
+  String get username => 'Username';
+
+  @override
+  String get addUser => 'Add User';
+
+  @override
+  String userValue(String name) {
+    return 'User: $name';
+  }
 }

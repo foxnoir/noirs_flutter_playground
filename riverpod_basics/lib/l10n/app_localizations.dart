@@ -94,8 +94,8 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
-    Locale('de'),
     Locale('en'),
+    Locale('de'),
   ];
 
   /// No description provided for @appTitle.
@@ -187,6 +187,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Scenario {number}'**
   String scenarioNumber(int number);
+
+  /// No description provided for @currentUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Current User'**
+  String get currentUser;
+
+  /// No description provided for @username.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get username;
+
+  /// No description provided for @addUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Add User'**
+  String get addUser;
+
+  /// No description provided for @userValue.
+  ///
+  /// In en, this message translates to:
+  /// **'User: {name}'**
+  String userValue(String name);
 }
 
 class _AppLocalizationsDelegate

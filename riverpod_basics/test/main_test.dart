@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
@@ -13,4 +14,20 @@ void main() {
     expect(find.byType(LandingPage), findsOneWidget);
     expect(find.text('Riverpod Basics'), findsWidgets);
   });
+
+  testWidgets(
+    'RiverpodBasicsApp stays English when the platform locale is German',
+    (tester) async {
+      tester.platformDispatcher.localeTestValue = const Locale('de');
+      tester.platformDispatcher.localesTestValue = [const Locale('de')];
+      addTearDown(tester.platformDispatcher.clearLocaleTestValue);
+      addTearDown(tester.platformDispatcher.clearLocalesTestValue);
+
+      await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+      await tester.pumpAndSettle();
+
+      expect(find.text('Scenarios'), findsOneWidget);
+      expect(find.text('Szenarien'), findsNothing);
+    },
+  );
 }
