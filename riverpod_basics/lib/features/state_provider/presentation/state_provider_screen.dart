@@ -1,20 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_basics/features/state_provider/presentation/providers/state_provider.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
-class StateProviderScreen extends ConsumerStatefulWidget {
+class StateProviderScreen extends ConsumerWidget {
   const StateProviderScreen({super.key});
 
   @override
-  ConsumerState<ConsumerStatefulWidget> createState() => _State();
-}
-
-class _State extends ConsumerState<StateProviderScreen> {
-  int _counter = 0;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
+    final counter = ref.watch(counterStateProvider);
 
     return Scaffold(
       appBar: AppBar(title: Text(l10n.stateProvider)),
@@ -29,25 +24,21 @@ class _State extends ConsumerState<StateProviderScreen> {
                 FloatingActionButton(
                   heroTag: 'state-provider-increment',
                   onPressed: () {
-                    setState(() {
-                      _counter++;
-                    });
+                    ref.read(counterStateProvider.notifier).state++;
                   },
                   child: const Icon(Icons.add),
                 ),
                 FloatingActionButton(
                   heroTag: 'state-provider-decrement',
                   onPressed: () {
-                    setState(() {
-                      _counter--;
-                    });
+                    ref.read(counterStateProvider.notifier).state--;
                   },
                   child: const Icon(Icons.remove),
                 ),
               ],
             ),
             const SizedBox(height: 24),
-            Text(l10n.buttonPressCount(_counter)),
+            Text(l10n.buttonPressCount(counter)),
           ],
         ),
       ),

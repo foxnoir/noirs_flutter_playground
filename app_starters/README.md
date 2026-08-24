@@ -2,9 +2,9 @@
 
 <!-- Top Links Bar -->
 
-[![LinkedIn][linkedin-shield]][linkedin-url]
-[![X][x-shield]][x-url]
-[![Instagram][instagram-shield]][instagram-url]
+[![LinkedIn](../assets/badges/linkedin.svg)](https://www.linkedin.com/in/tanja-polz-5636401a5/)
+[![X](../assets/badges/x.svg)](https://twitter.com/_foxnoir_?lang=de)
+[![Instagram](../assets/badges/instagram.svg)](https://www.instagram.com/codeincouture/)
 
 <!-- PROJECT LOGO -->
 <br />
@@ -21,16 +21,16 @@
 
 <div align="left">
 
-[![Flutter][flutter]][flutter-url]
-[![Dart][dart]][dart-url]
-[![Riverpod][riverpod]][riverpod-url]
-[![GoRouter][gorouter]][gorouter-url]
-[![Flutter Localizations][flutter-localizations]][flutter-localizations-url]
-[![Intl][intl]][intl-url]
-[![Very Good Analysis][very-good]][very-good-url]
-[![FVM][fvm]][fvm-url]
-[![iOS][ios]][ios-url]
-[![Web][web]][web-url]
+[![Flutter](../assets/badges/flutter.svg)](https://flutter.dev/)
+[![Dart](../assets/badges/dart.svg)](https://dart.dev/)
+[![Riverpod](../assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![GoRouter](../assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
+[![Flutter Localizations](../assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
+[![Intl](../assets/badges/intl.svg)](https://pub.dev/packages/intl)
+[![Very Good Analysis](../assets/badges/very_good.svg)](https://pub.dev/packages/very_good_analysis)
+[![FVM](../assets/badges/fvm.svg)](https://fvm.app)
+[![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
+[![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
 </div>
 
@@ -48,8 +48,8 @@
 
 Copy a starter folder when you begin a new Flutter app.
 
-[![iOS][ios]][ios-url]
-[![Web][web]][web-url]
+[![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
+[![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
 There is no Android project.
 
@@ -70,31 +70,3 @@ Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Materi
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
----
-
-[dart]: ../assets/badges/dart.svg
-[dart-url]: https://dart.dev/
-[flutter]: ../assets/badges/flutter.svg
-[flutter-url]: https://flutter.dev/
-[flutter-localizations]: ../assets/badges/flutter_localizations.svg
-[flutter-localizations-url]: https://docs.flutter.dev/ui/internationalization
-[fvm]: ../assets/badges/fvm.svg
-[fvm-url]: https://fvm.app
-[gorouter]: ../assets/badges/gorouter.svg
-[gorouter-url]: https://pub.dev/packages/go_router
-[instagram-shield]: ../assets/badges/instagram.svg
-[instagram-url]: https://www.instagram.com/codeincouture/
-[intl]: ../assets/badges/intl.svg
-[intl-url]: https://pub.dev/packages/intl
-[ios]: ../assets/badges/ios.svg
-[ios-url]: https://developer.apple.com/ios/
-[linkedin-shield]: ../assets/badges/linkedin.svg
-[linkedin-url]: https://www.linkedin.com/in/tanja-polz-5636401a5/
-[riverpod]: ../assets/badges/riverpod.svg
-[riverpod-url]: https://pub.dev/packages/flutter_riverpod
-[very-good]: ../assets/badges/very_good.svg
-[very-good-url]: https://pub.dev/packages/very_good_analysis
-[web]: ../assets/badges/web.svg
-[web-url]: https://docs.flutter.dev/platform-integration/web
-[x-shield]: ../assets/badges/x.svg
-[x-url]: https://twitter.com/_foxnoir_?lang=de
