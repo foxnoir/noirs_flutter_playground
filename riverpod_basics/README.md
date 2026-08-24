@@ -333,7 +333,7 @@ The Riverpod calls in tests are the same as in the app. See [watch, read, listen
 
 ![Coverage](assets/coverage/card.svg)
 
-The card and the header badge are regenerated on **playground commit** (git hooks at the repo root). On **push**, GitHub Actions regenerates every playground app and **commits** the SVGs and percent if they are still stale. `fvm flutter test --coverage` only writes local `lcov.info` for **Coverage Gutters**, and only for files the tests loaded. Unused `lib/` files are added as 0 hits when the playground generator runs. Saving a Dart file does not update the SVGs by itself.
+The card and the header badge are regenerated on **playground commit** (git hooks at the repo root). On **push**, GitHub Actions regenerates every playground app so tests still run on Linux; it does **not** commit the SVGs. `fvm flutter test --coverage` only writes local `lcov.info` for **Coverage Gutters**, and only for files the tests loaded. Unused `lib/` files are added as 0 hits when the playground generator runs. Saving a Dart file does not update the SVGs by itself.
 
 ```
 cd riverpod_basics

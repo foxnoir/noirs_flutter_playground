@@ -228,7 +228,7 @@ Scripts live once in [`coverage_pipeline/`](coverage_pipeline/). Each app still 
 
 Badge color uses the same mid tones as the tech badges: **pink** (Very Good Analysis) below 60%, **purple** (Riverpod) from 60%, **blue** (Flutter) from 70%, **green** (GoRouter) from 80%.
 
-This playground is one git repo. On **commit**, the playground hooks refresh **every** app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) and stage the SVGs in that same commit. On **push**, GitHub Actions (`.github/workflows/coverage.yml`) runs the same generator for every listed app. If the images or README percent changed (for example a commit skipped the hooks), CI **commits** `chore: refresh coverage badges` and **pushes** it to that branch. The next run then sees no diff and does not commit again. Pull requests only **check**; they do not write commits.
+This playground is one git repo. On **commit**, the playground hooks refresh **every** app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) and stage the SVGs in that same commit. On **push**, GitHub Actions (`.github/workflows/coverage.yml`) runs the same generator for every listed app so tests still run on Linux. CI **does not** commit or push badges — that extra bot commit was forcing a pull after every push. Pull requests run the same job; they do not write commits.
 
 On commit the pipeline:
 
@@ -238,7 +238,7 @@ On commit the pipeline:
 4. Writes the percent into that app's README.
 5. Stages those files so they land in the **same** commit (`pre-commit`).
 6. Runs the tests again on `git push` and blocks a failing push (`pre-push`).
-7. GitHub Actions repeats steps 1–4 on push and commits the result if it still differs.
+7. GitHub Actions repeats steps 1–4 on push so Linux still runs the tests. It does **not** commit the result.
 
 Install the playground hooks once:
 
