@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/features/async_notifier_persistent_state/presentation/async_notifier_persistent_state_screen.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
+import 'package:riverpod_basics/main.dart';
 import 'package:riverpod_basics/shared_widgets/error_widget.dart';
 
 void main() {
@@ -117,6 +118,40 @@ void main() {
     await openScreen();
     expect(
       find.text('You have pressed the button this many times: 0'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('Persistent State keeps count after back', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('AsyncNotifier Persistent State'));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
+
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+
+    await tester.tap(find.byIcon(Icons.add));
+    await tester.pump();
+
+    expect(
+      find.text('You have pressed the button this many times: 1'),
+      findsOneWidget,
+    );
+
+    await tester.pageBack();
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('AsyncNotifier Persistent State'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(CircularProgressIndicator), findsNothing);
+    expect(
+      find.text('You have pressed the button this many times: 1'),
       findsOneWidget,
     );
   });

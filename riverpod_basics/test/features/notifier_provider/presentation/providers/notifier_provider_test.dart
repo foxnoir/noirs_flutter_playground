@@ -15,5 +15,8 @@ void main() {
 
     container.read(counterNotifierProvider.notifier).decrement();
     expect(container.read(counterNotifierProvider), 0);
+
+    container.read(counterNotifierProvider.notifier).decrement();
+    expect(container.read(counterNotifierProvider), -1);
   });
 }

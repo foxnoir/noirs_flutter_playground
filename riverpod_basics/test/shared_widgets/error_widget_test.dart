@@ -21,4 +21,19 @@ void main() {
     expect(find.byType(Image), findsOneWidget);
     expect(find.text('Unfortunately, an error occurred.'), findsOneWidget);
   });
+
+  testWidgets('ErrorWidget shows a German message', (tester) async {
+    await tester.pumpWidget(
+      const MaterialApp(
+        locale: Locale('de'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: Scaffold(
+          body: ErrorWidget(message: 'Es ist leider ein Fehler aufgetreten.'),
+        ),
+      ),
+    );
+
+    expect(find.text('Es ist leider ein Fehler aufgetreten.'), findsOneWidget);
+  });
 }
