@@ -5,6 +5,7 @@ import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/core/router/placeholder_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/no_provider/presentation/no_provider_screen.dart';
+import 'package:riverpod_basics/features/notifier_provider/presentation/notifier_provider_screen.dart';
 import 'package:riverpod_basics/features/state_provider/presentation/state_provider_screen.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
@@ -29,12 +30,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const StateProviderScreen(),
           ),
           GoRoute(
-            path: AppRoutePaths.provider2,
-            name: AppRouteNames.provider2,
-            builder: (context, state) {
-              final l10n = AppLocalizations.of(context);
-              return PlaceholderScreen(title: l10n.provider2);
-            },
+            path: AppRoutePaths.notifierProvider,
+            name: AppRouteNames.notifierProvider,
+            builder: (context, state) => const NotifierProviderScreen(),
           ),
           GoRoute(
             path: AppRoutePaths.provider3,

@@ -167,7 +167,7 @@ This is the type everything else is built on. A `StateProvider` is a notifier wh
 
 `StateProvider` is **not** a second kind of state. It is a pre-built notifier that holds **one mutable value**. The UI writes `state` directly. There are no named methods and no place for rules.
 
-In Riverpod 3 it lives in `legacy.dart`. Fine to recognize and to lift a throwaway `int`. Not the type you start a feature with.
+In Riverpod 3 `StateProvider` is **legacy** (`legacy.dart`). Do not start a feature with it. Fine to recognize in older code or to lift a throwaway `int`. New mutable state goes through `NotifierProvider`.
 
 **Use it when** the value is a primitive or enum, any write is valid, and nothing else depends on how it changed. Typical cases: a selected tab, a filter chip, a “dark mode” switch, a counter you will throw away.
 

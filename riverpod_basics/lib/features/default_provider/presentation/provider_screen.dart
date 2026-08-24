@@ -22,18 +22,18 @@ class StateProviderScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FloatingActionButton(
-                  heroTag: 'state-provider-decrement',
-                  onPressed: () {
-                    ref.read(counterStateProvider.notifier).state--;
-                  },
-                  child: const Icon(Icons.remove),
-                ),
-                FloatingActionButton(
                   heroTag: 'state-provider-increment',
                   onPressed: () {
                     ref.read(counterStateProvider.notifier).state++;
                   },
                   child: const Icon(Icons.add),
+                ),
+                FloatingActionButton(
+                  heroTag: 'state-provider-decrement',
+                  onPressed: () {
+                    ref.read(counterStateProvider.notifier).state--;
+                  },
+                  child: const Icon(Icons.remove),
                 ),
               ],
             ),

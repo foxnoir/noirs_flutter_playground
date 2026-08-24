@@ -110,12 +110,6 @@ abstract class AppLocalizations {
   /// **'Provider 1'**
   String get provider1;
 
-  /// No description provided for @provider2.
-  ///
-  /// In en, this message translates to:
-  /// **'Provider 2'**
-  String get provider2;
-
   /// No description provided for @provider3.
   ///
   /// In en, this message translates to:
@@ -133,6 +127,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'StateProvider'**
   String get stateProvider;
+
+  /// No description provided for @notifierProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'NotifierProvider'**
+  String get notifierProvider;
 
   /// Shown on the StateProvider screen with the current press count.
   ///
