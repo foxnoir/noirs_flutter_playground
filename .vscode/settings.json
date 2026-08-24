@@ -1,5 +1,4 @@
 {
-  "git.path": "${workspaceFolder}/coverage_pipeline/cursor-git",
   "dart.flutterSdkPath": "riverpod_basics/.fvm/flutter_sdk",
   "dart.flutterSdkPaths": [
     "riverpod_basics/.fvm/flutter_sdk",

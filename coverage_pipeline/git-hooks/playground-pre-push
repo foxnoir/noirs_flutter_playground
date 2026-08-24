@@ -12,26 +12,31 @@ if [ ! -f "$apps_file" ]; then
   exit 1
 fi
 
-echo "pre-push: running tests…"
+fail_push() {
+  app=$1
+  msg="Tests failed in ${app}. Fix the tests, then push again."
+  echo "$msg"
+  echo "$msg" >&2
+  exit 1
+}
+
+echo "Running tests before push…"
 
 while IFS= read -r app || [ -n "${app:-}" ]; do
   case "$app" in
     '' | \#*) continue ;;
   esac
   app_root="${repo_root}/${app}"
-  echo "pre-push: ${app}"
   if [ -f "${app_root}/.fvmrc" ] && command -v fvm >/dev/null 2>&1; then
-    if ! (cd "$app_root" && fvm flutter test); then
-      echo "pre-push: tests failed in ${app}. Push blocked." >&2
-      exit 1
+    if ! (cd "$app_root" && fvm flutter test --reporter compact); then
+      fail_push "$app"
     fi
   else
-    if ! (cd "$app_root" && flutter test); then
-      echo "pre-push: tests failed in ${app}. Push blocked." >&2
-      exit 1
+    if ! (cd "$app_root" && flutter test --reporter compact); then
+      fail_push "$app"
     fi
   fi
 done <"$apps_file"
 
-echo "pre-push: all tests passed."
+echo "All tests passed."
 exit 0
