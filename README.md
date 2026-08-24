@@ -226,6 +226,8 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 
 Scripts live once in [`coverage_pipeline/`](coverage_pipeline/). Each app still owns its own images under `assets/coverage/` and the percent in its README.
 
+Badge color uses the same mid tones as the tech badges: **pink** (Very Good Analysis) below 60%, **purple** (Riverpod) from 60%, **blue** (Flutter) from 70%, **green** (GoRouter) from 80%.
+
 This playground is one git repo. On **commit**, the playground hooks refresh **every** app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) and stage the SVGs in that same commit. On **push**, GitHub Actions (`.github/workflows/coverage.yml`) runs the same generator for every listed app. If the images or README percent changed (for example a commit skipped the hooks), CI **commits** `chore: refresh coverage badges` and **pushes** it to that branch. The next run then sees no diff and does not commit again. Pull requests only **check**; they do not write commits.
 
 On commit the pipeline:

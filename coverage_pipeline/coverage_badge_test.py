@@ -9,9 +9,22 @@ from pathlib import Path
 
 from coverage_badge import (
     append_unhit_lib_files,
+    coverage_color,
     executable_line_numbers,
     parse_lcov,
 )
+
+
+class CoverageColorTest(unittest.TestCase):
+    def test_uses_badge_palette_from_weak_to_strong(self) -> None:
+        self.assertEqual(coverage_color(0), "#B22C89")
+        self.assertEqual(coverage_color(59.9), "#B22C89")
+        self.assertEqual(coverage_color(60), "#8B5FBF")
+        self.assertEqual(coverage_color(69.9), "#8B5FBF")
+        self.assertEqual(coverage_color(70), "#02569B")
+        self.assertEqual(coverage_color(79.9), "#02569B")
+        self.assertEqual(coverage_color(80), "#2D8A86")
+        self.assertEqual(coverage_color(100), "#2D8A86")
 
 
 class ExecutableLineNumbersTest(unittest.TestCase):
