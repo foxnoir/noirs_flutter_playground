@@ -11,7 +11,7 @@ void main() {
 
     expect(find.text('No Provider'), findsOneWidget);
     expect(find.text('StateProvider'), findsOneWidget);
-    expect(find.text('Provider 2'), findsOneWidget);
+    expect(find.text('NotifierProvider'), findsOneWidget);
     expect(find.text('Provider 3'), findsOneWidget);
   });
 

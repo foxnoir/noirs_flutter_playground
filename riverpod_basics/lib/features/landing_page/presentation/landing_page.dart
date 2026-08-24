@@ -13,7 +13,7 @@ class LandingPage extends StatelessWidget {
     final destinations = [
       (label: l10n.noProvider, routeName: AppRouteNames.noProvider),
       (label: l10n.stateProvider, routeName: AppRouteNames.stateProvider),
-      (label: l10n.provider2, routeName: AppRouteNames.provider2),
+      (label: l10n.notifierProvider, routeName: AppRouteNames.notifierProvider),
       (label: l10n.provider3, routeName: AppRouteNames.provider3),
     ];
 

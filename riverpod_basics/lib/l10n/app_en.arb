@@ -2,10 +2,10 @@
   "@@locale": "en",
   "appTitle": "Riverpod Basics",
   "provider1": "Provider 1",
-  "provider2": "Provider 2",
   "provider3": "Provider 3",
   "noProvider": "No Provider",
   "stateProvider": "StateProvider",
+  "notifierProvider": "NotifierProvider",
   "buttonPressCount": "You have pressed the button this many times: {count}",
   "@buttonPressCount": {
     "description": "Shown on the StateProvider screen with the current press count.",

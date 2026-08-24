@@ -26,15 +26,6 @@ class _NoProviderScreenState extends State<NoProviderScreen> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FloatingActionButton(
-                  heroTag: 'no-provider-increment',
-                  onPressed: () {
-                    setState(() {
-                      _counter++;
-                    });
-                  },
-                  child: const Icon(Icons.add),
-                ),
-                FloatingActionButton(
                   heroTag: 'no-provider-decrement',
                   onPressed: () {
                     setState(() {
@@ -42,6 +33,15 @@ class _NoProviderScreenState extends State<NoProviderScreen> {
                     });
                   },
                   child: const Icon(Icons.remove),
+                ),
+                FloatingActionButton(
+                  heroTag: 'no-provider-increment',
+                  onPressed: () {
+                    setState(() {
+                      _counter++;
+                    });
+                  },
+                  child: const Icon(Icons.add),
                 ),
               ],
             ),

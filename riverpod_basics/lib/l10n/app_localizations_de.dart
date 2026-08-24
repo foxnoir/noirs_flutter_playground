@@ -15,9 +15,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get provider1 => 'Provider 1';
 
   @override
-  String get provider2 => 'Provider 2';
-
-  @override
   String get provider3 => 'Provider 3';
 
   @override
@@ -25,6 +22,9 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get stateProvider => 'StateProvider';
+
+  @override
+  String get notifierProvider => 'NotifierProvider';
 
   @override
   String buttonPressCount(int count) {

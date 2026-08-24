@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_basics/features/state_provider/presentation/providers/state_provider.dart';
+import 'package:riverpod_basics/features/notifier_provider/presentation/providers/notifier_provider.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
-class StateProviderScreen extends ConsumerWidget {
-  const StateProviderScreen({super.key});
+class NotifierProviderScreen extends ConsumerWidget {
+  const NotifierProviderScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final counter = ref.watch(counterStateProvider);
+    final counter = ref.watch(counterNotifierProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.stateProvider)),
+      appBar: AppBar(title: Text(l10n.notifierProvider)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
@@ -22,16 +22,16 @@ class StateProviderScreen extends ConsumerWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 FloatingActionButton(
-                  heroTag: 'state-provider-decrement',
+                  heroTag: 'notifier-provider-decrement',
                   onPressed: () {
-                    ref.read(counterStateProvider.notifier).state--;
+                    ref.read(counterNotifierProvider.notifier).decrement();
                   },
                   child: const Icon(Icons.remove),
                 ),
                 FloatingActionButton(
-                  heroTag: 'state-provider-increment',
+                  heroTag: 'notifier-provider-increment',
                   onPressed: () {
-                    ref.read(counterStateProvider.notifier).state++;
+                    ref.read(counterNotifierProvider.notifier).increment();
                   },
                   child: const Icon(Icons.add),
                 ),
