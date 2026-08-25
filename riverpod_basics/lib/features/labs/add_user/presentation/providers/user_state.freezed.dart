@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserState {
 
- bool get isLoading; bool get isAdded; String? get error; List<User> get users;
+ bool get isAdded; String? get error;
 /// Create a copy of UserState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -26,16 +26,16 @@ $UserStateCopyWith<UserState> get copyWith => _$UserStateCopyWithImpl<UserState>
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isAdded, isAdded) || other.isAdded == isAdded)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other.users, users));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is UserState&&(identical(other.isAdded, isAdded) || other.isAdded == isAdded)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isAdded,error,const DeepCollectionEquality().hash(users));
+int get hashCode => Object.hash(runtimeType,isAdded,error);
 
 @override
 String toString() {
-  return 'UserState(isLoading: $isLoading, isAdded: $isAdded, error: $error, users: $users)';
+  return 'UserState(isAdded: $isAdded, error: $error)';
 }
 
 
@@ -46,7 +46,7 @@ abstract mixin class $UserStateCopyWith<$Res>  {
   factory $UserStateCopyWith(UserState value, $Res Function(UserState) _then) = _$UserStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, bool isAdded, String? error, List<User> users
+ bool isAdded, String? error
 });
 
 
@@ -63,13 +63,11 @@ class _$UserStateCopyWithImpl<$Res>
 
 /// Create a copy of UserState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? isLoading = null,Object? isAdded = null,Object? error = freezed,Object? users = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? isAdded = null,Object? error = freezed,}) {
   return _then(UserState(
-isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,isAdded: null == isAdded ? _self.isAdded : isAdded // ignore: cast_nullable_to_non_nullable
+isAdded: null == isAdded ? _self.isAdded : isAdded // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,users: null == users ? _self.users : users // ignore: cast_nullable_to_non_nullable
-as List<User>,
+as String?,
   ));
 }
 
@@ -154,10 +152,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  bool isAdded,  String? error,  List<User> users)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isAdded,  String? error)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserState() when $default != null:
-return $default(_that.isLoading,_that.isAdded,_that.error,_that.users);case _:
+return $default(_that.isAdded,_that.error);case _:
   return orElse();
 
 }
@@ -175,10 +173,10 @@ return $default(_that.isLoading,_that.isAdded,_that.error,_that.users);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  bool isAdded,  String? error,  List<User> users)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isAdded,  String? error)  $default,) {final _that = this;
 switch (_that) {
 case _UserState():
-return $default(_that.isLoading,_that.isAdded,_that.error,_that.users);case _:
+return $default(_that.isAdded,_that.error);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -195,10 +193,10 @@ return $default(_that.isLoading,_that.isAdded,_that.error,_that.users);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  bool isAdded,  String? error,  List<User> users)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isAdded,  String? error)?  $default,) {final _that = this;
 switch (_that) {
 case _UserState() when $default != null:
-return $default(_that.isLoading,_that.isAdded,_that.error,_that.users);case _:
+return $default(_that.isAdded,_that.error);case _:
   return null;
 
 }
@@ -210,19 +208,11 @@ return $default(_that.isLoading,_that.isAdded,_that.error,_that.users);case _:
 
 
 class _UserState implements UserState {
-  const _UserState({this.isLoading = false, this.isAdded = false, this.error,  List<User> users = const <User>[]}): _users = users;
+  const _UserState({this.isAdded = false, this.error});
   
 
-@override@JsonKey() final  bool isLoading;
 @override@JsonKey() final  bool isAdded;
 @override final  String? error;
- final  List<User> _users;
-@override@JsonKey() List<User> get users {
-  if (_users is EqualUnmodifiableListView) return _users;
-  // ignore: implicit_dynamic_type
-  return EqualUnmodifiableListView(_users);
-}
-
 
 /// Create a copy of UserState
 /// with the given fields replaced by the non-null parameter values.
@@ -234,16 +224,16 @@ _$UserStateCopyWith<_UserState> get copyWith => __$UserStateCopyWithImpl<_UserSt
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserState&&(identical(other.isLoading, isLoading) || other.isLoading == isLoading)&&(identical(other.isAdded, isAdded) || other.isAdded == isAdded)&&(identical(other.error, error) || other.error == error)&&const DeepCollectionEquality().equals(other._users, _users));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _UserState&&(identical(other.isAdded, isAdded) || other.isAdded == isAdded)&&(identical(other.error, error) || other.error == error));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,isLoading,isAdded,error,const DeepCollectionEquality().hash(_users));
+int get hashCode => Object.hash(runtimeType,isAdded,error);
 
 @override
 String toString() {
-  return 'UserState(isLoading: $isLoading, isAdded: $isAdded, error: $error, users: $users)';
+  return 'UserState(isAdded: $isAdded, error: $error)';
 }
 
 
@@ -254,7 +244,7 @@ abstract mixin class _$UserStateCopyWith<$Res> implements $UserStateCopyWith<$Re
   factory _$UserStateCopyWith(_UserState value, $Res Function(_UserState) _then) = __$UserStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, bool isAdded, String? error, List<User> users
+ bool isAdded, String? error
 });
 
 
@@ -271,13 +261,11 @@ class __$UserStateCopyWithImpl<$Res>
 
 /// Create a copy of UserState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? isLoading = null,Object? isAdded = null,Object? error = freezed,Object? users = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? isAdded = null,Object? error = freezed,}) {
   return _then(_UserState(
-isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
-as bool,isAdded: null == isAdded ? _self.isAdded : isAdded // ignore: cast_nullable_to_non_nullable
+isAdded: null == isAdded ? _self.isAdded : isAdded // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,users: null == users ? _self._users : users // ignore: cast_nullable_to_non_nullable
-as List<User>,
+as String?,
   ));
 }
 

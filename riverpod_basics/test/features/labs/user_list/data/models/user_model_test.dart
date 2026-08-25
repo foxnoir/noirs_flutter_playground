@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/labs/add_user/data/models/user_model.dart';
-import 'package:riverpod_basics/features/labs/add_user/domain/entities/user.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/models/user_model.dart';
+import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 
 void main() {
   const ada = User(id: 1, username: 'Ada', age: 36, email: 'ada@example.com');

@@ -87,7 +87,7 @@
     {
       "label": "Build Runner",
       "type": "shell",
-      "command": "fvm dart run build_runner build",
+      "command": "fvm dart run build_runner build --force-jit",
       "options": {
         "cwd": "${workspaceFolder}",
         "env": {
@@ -103,7 +103,7 @@
     {
       "label": "Build Runner Watch",
       "type": "shell",
-      "command": "fvm dart run build_runner watch",
+      "command": "fvm dart run build_runner watch --force-jit",
       "options": {
         "cwd": "${workspaceFolder}",
         "env": {
