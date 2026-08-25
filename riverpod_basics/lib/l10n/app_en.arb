@@ -44,6 +44,7 @@
   "add": "Add",
   "providerLifetimes": "AutoDispose Provider Lifetimes",
   "addUser": "Add User",
+  "userList": "User List",
   "userValue": "User: {name}",
   "@userValue": {
     "placeholders": {

@@ -83,6 +83,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get addUser => 'Add User';
 
   @override
+  String get userList => 'User List';
+
+  @override
   String userValue(String name) {
     return 'User: $name';
   }

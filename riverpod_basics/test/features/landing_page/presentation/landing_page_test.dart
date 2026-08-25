@@ -29,6 +29,7 @@ void main() {
     expect(find.text('No Provider'), findsNothing);
     expect(find.text('AutoDispose Provider Lifetimes'), findsNothing);
     expect(find.text('Add User'), findsNothing);
+    expect(find.text('User List'), findsNothing);
     expect(find.text('Lab 1'), findsNothing);
   });
 
@@ -44,18 +45,20 @@ void main() {
     expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
   });
 
-  testWidgets('Labs dropdown lists lifetimes, add user, and placeholder rows', (
-    tester,
-  ) async {
-    await tester.pumpWidget(app());
-    await expand(tester, 'Labs');
+  testWidgets(
+    'Labs dropdown lists lifetimes, add user, user list, and placeholder rows',
+    (tester) async {
+      await tester.pumpWidget(app());
+      await expand(tester, 'Labs');
 
-    expect(find.text('AutoDispose Provider Lifetimes'), findsOneWidget);
-    expect(find.text('Add User'), findsOneWidget);
-    expect(find.text('Lab 2'), findsOneWidget);
-    expect(find.text('Lab 3'), findsOneWidget);
-    expect(find.byIcon(Icons.chevron_right), findsNWidgets(4));
-  });
+      expect(find.text('AutoDispose Provider Lifetimes'), findsOneWidget);
+      expect(find.text('Add User'), findsOneWidget);
+      expect(find.text('User List'), findsOneWidget);
+      expect(find.text('Lab 2'), findsOneWidget);
+      expect(find.text('Lab 3'), findsOneWidget);
+      expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
+    },
+  );
 
   testWidgets('Landing page lists destinations in German', (tester) async {
     await tester.pumpWidget(app(locale: const Locale('de')));
@@ -66,6 +69,7 @@ void main() {
     await expand(tester, 'Labs');
     expect(find.text('AutoDispose Provider Lifetimes'), findsOneWidget);
     expect(find.text('Benutzer hinzufügen'), findsOneWidget);
+    expect(find.text('Benutzerliste'), findsOneWidget);
     expect(find.text('Lab 2'), findsOneWidget);
   });
 }

@@ -83,6 +83,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get addUser => 'Benutzer hinzufügen';
 
   @override
+  String get userList => 'Benutzerliste';
+
+  @override
   String userValue(String name) {
     return 'Benutzer: $name';
   }

@@ -230,6 +230,12 @@ abstract class AppLocalizations {
   /// **'Add User'**
   String get addUser;
 
+  /// No description provided for @userList.
+  ///
+  /// In en, this message translates to:
+  /// **'User List'**
+  String get userList;
+
   /// No description provided for @userValue.
   ///
   /// In en, this message translates to:

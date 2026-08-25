@@ -5,6 +5,7 @@ import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
 import 'package:riverpod_basics/features/labs/placeholder/presentation/lab_placeholder_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
+import 'package:riverpod_basics/features/labs/user_list/presentation/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/async_notifier_non_persistent_state/presentation/async_notifier_non_persistent_state_screen.dart';
 import 'package:riverpod_basics/features/providers/async_notifier_persistent_state/presentation/async_notifier_persistent_state_screen.dart';
@@ -58,6 +59,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutePaths.addUser,
             name: AppRouteNames.addUser,
             builder: (context, state) => const AddUserScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.userList,
+            name: AppRouteNames.userList,
+            builder: (context, state) => const UserListScreen(),
           ),
           GoRoute(
             path: AppRoutePaths.lab2,

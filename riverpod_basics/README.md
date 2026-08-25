@@ -44,6 +44,13 @@
   <ol>
     <li><a href="#about">About</a></li>
     <li>
+      <a href="#style-guide">Style Guide</a>
+      <ul>
+        <li><a href="#color-palette">Color Palette</a></li>
+      </ul>
+    </li>
+    <li><a href="#example-screens">Example Screens</a></li>
+    <li>
       <a href="#riverpod">Riverpod</a>
       <ul>
         <li><a href="#what-is-riverpod">What is Riverpod</a></li>
@@ -91,15 +98,37 @@
 
 This app is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
-The first lesson is the same button-press counter five ways. `NotifierProvider` is the real mutable type. `AsyncNotifierProvider` is that type when the value comes from a `Future`. **Persistent State** keeps the count when you leave the page (plain provider, in memory for the app). **Non-Persistent State** is the same class plus `.autoDispose` — not disk, not a cache. Back to landing drops the last watcher, Riverpod disposes the notifier, next visit loads from zero. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget.
+The landing page has two sections: **Providers** and **Labs**.
 
-The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Labs**. Both use `LandingPageDropdown`. The first lab is **AutoDispose Provider Lifetimes** (`features/labs/provider_lifetimes/`) — three username fields on one screen so you can feel lifetime. Each field is a `ProviderLifetimesSection` in `presentation/widgets/`. **Persistent** is `NotifierProvider` in `lifetimes_persistent_provider.dart` (lives as long as `ProviderScope`). **Non-Persistent** is `NotifierProvider.autoDispose` in `lifetimes_auto_dispose_provider.dart` (dies on Back). **Keep Alive 5 Seconds** is `NotifierProvider.autoDispose` plus `ref.keepAlive()` in `lifetimes_keep_alive_provider.dart`: Back starts a one-shot timer; come back within 5s (`onResume` cancels it) and the name is still there; stay away (`keepAlive.close()` then `onDispose`) and the next visit is `-`. `debugPrint` and a 1.5s SnackBar (`KeepAliveSnackBarListener` on `MaterialApp.router`) fire on resume and dispose so you can see the life-cycle on the landing page too. Same setter, same `build()` → `'-'`. That is a playground to feel the life-cycle, not a disk cache. The second lab is **Add User** (`features/labs/add_user/`) — a form for the Freezed `User` (`id`, `username`, `age`, `email`). `AddUserNotifier` holds `UserState` (`users`, `isAdded`, `error`, `isLoading`). Opening the screen calls `fetchUsers()`: `InMemoryUserRepository` parses JSON `UserModel`s and maps them to `User` entities. `ref.listen` shows a SnackBar on success and a dialog on a duplicate id or a failed fetch. The list lives on a plain `NotifierProvider` (same lifetime as `ProviderScope`, like `@Riverpod(keepAlive: true)`). Labs 2 and 3 are `LabPlaceholderScreen`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`). Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
+**Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. Lab shells live under **`features/labs/`**. **`ErrorWidget`** and **`FullWidthElevatedButton`** live in `shared_widgets/`. **`ErrorWidget`** is `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback. **`FullWidthElevatedButton`** is a labeled, full-width `ElevatedButton`. The UI locale is pinned to English (`locale: Locale('en')` in `MaterialApp`); German ARBs remain for tests and later switching. `l10n.yaml` lists `en` first as the fallback. **Freezed** is in use: domain `User` in `lib/features/labs/add_user/domain/entities/user.dart`, JSON `UserModel` in `lib/features/labs/add_user/data/models/user_model.dart`, and screen `UserState` in `lib/features/labs/add_user/presentation/providers/user_state.dart`. See [Freezed](#freezed).
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **Add User** is a form with a Freezed `User`, a custom `UserState`, and a fake fetch through a repository. **User List** is still a dummy list. Two more labs are placeholders. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
 There is no Android project or Chrome. Run on the iOS Simulator.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Style Guide
+
+Coming soon.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Color Palette
+
+<img src="assets/color_palette.png" alt="Color palette">
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Example Screens
+
+Coming soon.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -391,20 +420,6 @@ Keep tests deterministic. One test, one claim. Do not depend on the order of oth
 
 `test/` mirrors `lib/`. Each source file has a matching `*_test.dart` in the same folders (`features/providers/`, `presentation/`, `core/router/`, `shared_widgets/`).
 
-Examples:
-
-- `lib/main.dart` → `test/main_test.dart`
-- `lib/features/landing_page/presentation/landing_page.dart` → `test/features/landing_page/presentation/landing_page_test.dart`
-- `lib/features/landing_page/presentation/widgets/landing_page_dropdown.dart` → `test/features/landing_page/presentation/widgets/landing_page_dropdown_test.dart`
-- `lib/features/labs/add_user/domain/entities/user.dart` → `test/features/labs/add_user/domain/entities/user_test.dart`
-- `lib/features/labs/add_user/data/models/user_model.dart` → `test/features/labs/add_user/data/models/user_model_test.dart`
-- `lib/features/labs/add_user/data/repositories/in_memory_user_repository.dart` → `test/features/labs/add_user/data/repositories/in_memory_user_repository_test.dart`
-- `lib/features/labs/add_user/presentation/add_user_screen.dart` → `test/features/labs/add_user/presentation/add_user_screen_test.dart`
-- `lib/features/labs/add_user/presentation/widgets/add_user_text_field.dart` → `test/features/labs/add_user/presentation/widgets/add_user_text_field_test.dart`
-- `lib/features/labs/provider_lifetimes/presentation/widgets/provider_lifetimes_section.dart` → `test/features/labs/provider_lifetimes/presentation/widgets/provider_lifetimes_section_test.dart`
-- `lib/features/labs/provider_lifetimes/presentation/widgets/keep_alive_snack_bar_listener.dart` → `test/features/labs/provider_lifetimes/presentation/widgets/keep_alive_snack_bar_listener_test.dart`
-- `lib/features/providers/state_provider/presentation/providers/state_provider.dart` → `test/features/providers/state_provider/presentation/providers/state_provider_test.dart`
-
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Testing Riverpod
@@ -413,14 +428,17 @@ Examples:
 
 Riverpod **is** that injection. `ProviderScope` and `ProviderContainer` hold the graph. `overrideWith` replaces one node. You do not add GetIt for feature state. GetIt is also DI; a second locator is only worth it in a mixed codebase that already uses it. This playground stays on Riverpod.
 
-Two test shapes:
+Two shapes:
 
-1. **Provider tests** — no widgets. Create a `ProviderContainer`, `read` the provider, mutate through `.notifier`, then dispose. See `test/features/providers/state_provider/presentation/providers/state_provider_test.dart`, `test/features/providers/async_notifier_persistent_state/presentation/providers/`, `test/features/providers/async_notifier_non_persistent_state/presentation/providers/`, and `test/features/labs/provider_lifetimes/presentation/providers/` (autoDispose tests close the listener and check the provider is gone; the persistent lifetime test checks it is still there; Keep Alive uses `fakeAsync` to elapse 5s without waiting). `test/features/labs/add_user/presentation/providers/` covers `UserState` add, duplicate id, and `fetchUsers`.
-2. **Widget tests** — wrap the tree in `ProviderScope` (the app already does this in `main.dart`). Tap UI, assert text. Fake repositories later with `overrides`.
+**Provider tests** have no widgets. You build a `ProviderContainer`, `read` the provider, call methods on `.notifier`, then dispose. Same Riverpod calls as in the app, but `container.read` instead of `ref.read`. See [watch, read, listen](#watch-read-listen).
+
+**Widget tests** pump a screen. Wrap the tree in `ProviderScope` (the app already does this in `main.dart`). Tap, then assert text.
+
+Lifetime tests (AutoDispose Provider Lifetimes) still use a `ProviderContainer`. Close the last listener and the autoDispose provider is gone. A persistent one is still there. Keep Alive uses `fakeAsync` so 5 seconds pass without a real wait.
+
+Add User provider tests cover `addUser`, a duplicate id, and `fetchUsers`. The widget test fakes the repository with `overrideWith` so nothing hits a delay or seed data.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
-
-The Riverpod calls in tests are the same as in the app. See [watch, read, listen](#watch-read-listen). In a `ProviderContainer` you write `container.read` instead of `ref.read`.
 
 - **`ProviderScope`** — widget that creates the container for the real app and for widget tests.
 - **`ProviderContainer`** — the same world without widgets. Use it in provider tests.
@@ -429,7 +447,7 @@ The Riverpod calls in tests are the same as in the app. See [watch, read, listen
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**91.7%** line coverage (641 of 699 lines).
+**92.1%** line coverage (661 of 718 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
