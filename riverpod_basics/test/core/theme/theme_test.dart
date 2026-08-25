@@ -14,6 +14,9 @@ void main() {
     );
     expect(theme.textTheme.titleLarge?.color, AppColor.teal);
     expect(theme.textTheme.titleLarge?.fontSize, 22);
+    expect(theme.colorScheme.tertiary, AppColor.tertiary);
+    expect(theme.colorScheme.tertiary, const Color(0xFFC7EFFB));
+    expect(theme.snackBarTheme.backgroundColor, AppColor.tertiary);
     expect(AppColor.teal, const Color(0xFF0E6971));
   });
 }

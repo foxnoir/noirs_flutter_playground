@@ -26,8 +26,12 @@ void main() {
       await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
       await tester.pumpAndSettle();
 
-      expect(find.text('Scenarios'), findsOneWidget);
-      expect(find.text('Szenarien'), findsNothing);
+      expect(find.text('Labs'), findsOneWidget);
+
+      await tester.tap(find.text('Providers'));
+      await tester.pumpAndSettle();
+      expect(find.text('No Provider'), findsOneWidget);
+      expect(find.text('Kein Provider'), findsNothing);
     },
   );
 }

@@ -1,11 +1,12 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
+import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
-import 'package:riverpod_basics/features/scenarios/current_user/presentation/current_user_screen.dart';
 import 'package:riverpod_basics/main.dart';
 
 void main() {
@@ -15,7 +16,7 @@ void main() {
 
     expect(find.byType(LandingPage), findsOneWidget);
     expect(find.text('Providers'), findsOneWidget);
-    expect(find.text('Scenarios'), findsOneWidget);
+    expect(find.text('Labs'), findsOneWidget);
   });
 
   testWidgets('Landing navigates to StateProvider', (tester) async {
@@ -65,16 +66,16 @@ void main() {
     expect(find.byType(LandingPage), findsOneWidget);
   });
 
-  testWidgets('Landing navigates to Current User scenario', (tester) async {
+  testWidgets('Landing navigates to Add User lab', (tester) async {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
     await tester.pumpAndSettle();
 
-    await tester.tap(find.text('Scenarios'));
+    await tester.tap(find.text('Labs'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Current User'));
+    await tester.tap(find.text('Add User'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(CurrentUserScreen), findsOneWidget);
-    expect(find.text('Add User'), findsOneWidget);
+    expect(find.byType(AddUserScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Add User'), findsOneWidget);
   });
 }

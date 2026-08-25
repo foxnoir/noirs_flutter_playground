@@ -18,17 +18,18 @@ void main() {
     await tester.pumpAndSettle();
   }
 
-  testWidgets('Landing page shows Providers and Scenarios dropdowns', (
+  testWidgets('Landing page shows Providers and Labs dropdowns', (
     tester,
   ) async {
     await tester.pumpWidget(app());
 
     expect(find.text('Riverpod Basics'), findsOneWidget);
     expect(find.text('Providers'), findsOneWidget);
-    expect(find.text('Scenarios'), findsOneWidget);
+    expect(find.text('Labs'), findsOneWidget);
     expect(find.text('No Provider'), findsNothing);
-    expect(find.text('Current User'), findsNothing);
-    expect(find.text('Scenario 1'), findsNothing);
+    expect(find.text('Add User'), findsNothing);
+    expect(find.text(' (Auto Dispose Provider)'), findsNothing);
+    expect(find.text('Lab 1'), findsNothing);
   });
 
   testWidgets('Providers dropdown lists every destination', (tester) async {
@@ -43,26 +44,28 @@ void main() {
     expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
   });
 
-  testWidgets('Scenarios dropdown lists current user and placeholder rows', (
+  testWidgets('Labs dropdown lists add user and placeholder rows', (
     tester,
   ) async {
     await tester.pumpWidget(app());
-    await expand(tester, 'Scenarios');
+    await expand(tester, 'Labs');
 
-    expect(find.text('Current User'), findsOneWidget);
-    expect(find.text('Scenario 2'), findsOneWidget);
-    expect(find.text('Scenario 3'), findsOneWidget);
+    expect(find.text('Add User'), findsOneWidget);
+    expect(find.text(' (Auto Dispose Provider)'), findsOneWidget);
+    expect(find.text('Lab 2'), findsOneWidget);
+    expect(find.text('Lab 3'), findsOneWidget);
     expect(find.byIcon(Icons.chevron_right), findsNWidgets(3));
   });
 
   testWidgets('Landing page lists destinations in German', (tester) async {
     await tester.pumpWidget(app(locale: const Locale('de')));
 
-    expect(find.text('Szenarien'), findsOneWidget);
+    expect(find.text('Labs'), findsOneWidget);
     await expand(tester, 'Providers');
     expect(find.text('Kein Provider'), findsOneWidget);
-    await expand(tester, 'Szenarien');
-    expect(find.text('Aktueller Benutzer'), findsOneWidget);
-    expect(find.text('Szenario 2'), findsOneWidget);
+    await expand(tester, 'Labs');
+    expect(find.text('Benutzer hinzufügen'), findsOneWidget);
+    expect(find.text(' (Auto Dispose Provider)'), findsOneWidget);
+    expect(find.text('Lab 2'), findsOneWidget);
   });
 }

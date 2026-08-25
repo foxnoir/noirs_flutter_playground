@@ -21,18 +21,30 @@
   "pageNotFound": "Page not found",
   "goToLanding": "Go to landing",
   "providers": "Providers",
-  "scenarios": "Scenarios",
-  "scenarioNumber": "Scenario {number}",
-  "@scenarioNumber": {
+  "labs": "Labs",
+  "labNumber": "Lab {number}",
+  "@labNumber": {
     "placeholders": {
       "number": {
         "type": "int"
       }
     }
   },
-  "currentUser": "Current User",
+  "persistent": "Persistent",
+  "nonPersistent": "Non-Persistent",
+  "keepAliveForSeconds": "Keep Alive {seconds} Seconds",
+  "@keepAliveForSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "keepAliveOnResume": "Keep Alive: onResume (Timer stopped)",
+  "keepAliveOnDispose": "Keep Alive: onDispose",
   "username": "Username",
   "addUser": "Add User",
+  "autoDisposeProvider": "Auto Dispose Provider",
   "userValue": "User: {name}",
   "@userValue": {
     "placeholders": {

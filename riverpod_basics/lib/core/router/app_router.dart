@@ -2,14 +2,14 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/app_router_names.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
+import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
+import 'package:riverpod_basics/features/labs/placeholder/presentation/lab_placeholder_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/async_notifier_non_persistent_state/presentation/async_notifier_non_persistent_state_screen.dart';
 import 'package:riverpod_basics/features/providers/async_notifier_persistent_state/presentation/async_notifier_persistent_state_screen.dart';
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/notifier_provider/presentation/notifier_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
-import 'package:riverpod_basics/features/scenarios/current_user/presentation/current_user_screen.dart';
-import 'package:riverpod_basics/features/scenarios/placeholder/presentation/scenario_placeholder_screen.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   return GoRouter(
@@ -49,21 +49,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 const AsyncNotifierNonPersistentStateScreen(),
           ),
           GoRoute(
-            path: AppRoutePaths.currentUser,
-            name: AppRouteNames.currentUser,
-            builder: (context, state) => const CurrentUserScreen(),
+            path: AppRoutePaths.addUser,
+            name: AppRouteNames.addUser,
+            builder: (context, state) => const AddUserScreen(),
           ),
           GoRoute(
-            path: AppRoutePaths.scenario2,
-            name: AppRouteNames.scenario2,
-            builder: (context, state) =>
-                const ScenarioPlaceholderScreen(number: 2),
+            path: AppRoutePaths.lab2,
+            name: AppRouteNames.lab2,
+            builder: (context, state) => const LabPlaceholderScreen(number: 2),
           ),
           GoRoute(
-            path: AppRoutePaths.scenario3,
-            name: AppRouteNames.scenario3,
-            builder: (context, state) =>
-                const ScenarioPlaceholderScreen(number: 3),
+            path: AppRoutePaths.lab3,
+            name: AppRouteNames.lab3,
+            builder: (context, state) => const LabPlaceholderScreen(number: 3),
           ),
         ],
       ),

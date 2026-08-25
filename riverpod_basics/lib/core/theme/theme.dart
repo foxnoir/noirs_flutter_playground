@@ -9,7 +9,7 @@ ThemeData getLightTheme() {
 
 ThemeData _buildTheme(ColorScheme colorScheme) {
   const textTheme = TextTheme(
-    /// Landing section titles (Providers, Scenarios).
+    /// Landing section titles (Providers, Labs) and Add User headings.
     titleLarge: TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.w600,
@@ -25,6 +25,14 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
       foregroundColor: colorScheme.onPrimaryContainer,
       elevation: 0,
     ),
+    snackBarTheme: const SnackBarThemeData(
+      backgroundColor: AppColor.tertiary,
+      contentTextStyle: TextStyle(
+        color: AppColor.teal,
+        fontWeight: FontWeight.w600,
+      ),
+      behavior: SnackBarBehavior.floating,
+    ),
   );
 }
 
@@ -37,5 +45,5 @@ ColorScheme _getColorScheme() {
     secondary: AppColor.secondary,
     secondaryContainer: AppColor.secondaryContainer,
     tertiary: AppColor.tertiary,
-  );
+  ).copyWith(tertiary: AppColor.tertiary, onTertiary: AppColor.teal);
 }

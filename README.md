@@ -43,7 +43,18 @@
     <li><a href="#previous-projects">Previous Projects</a></li>
     <li><a href="#starters">Starters</a></li>
     <li><a href="#badges">Badges</a></li>
-    <li><a href="#coverage-pipeline">Coverage pipeline</a></li>
+    <li>
+      <a href="#coverage-pipeline">Coverage pipeline</a>
+      <ul>
+        <li><a href="#what-it-does">What it does</a></li>
+        <li><a href="#files">Files</a></li>
+        <li><a href="#install-in-this-playground">Install in this playground</a></li>
+        <li><a href="#cursor-source-control">Cursor Source Control</a></li>
+        <li><a href="#wire-an-app">Wire an app</a></li>
+        <li><a href="#add-another-playground-app">Add another playground app</a></li>
+        <li><a href="#copy-an-app-into-its-own-repo">Copy an app into its own repo</a></li>
+      </ul>
+    </li>
   </ol>
 </details>
 
@@ -165,7 +176,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **Riverpod**: no provider, `NotifierProvider`, AsyncNotifier Persistent / Non-Persistent State. `StateProvider` is the shortcut.
+Practice app for **Riverpod**: no provider, `NotifierProvider`, AsyncNotifier Persistent / Non-Persistent State. `StateProvider` is the shortcut. Landing is **Providers** (counters) and **Labs** (Add User lifetimes).
 
 [README »](riverpod_basics/README.md)
 
@@ -226,11 +237,13 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 
 Scripts live once in [`coverage_pipeline/`](coverage_pipeline/). Each app still owns its own images under `assets/coverage/` and the percent in its README.
 
-Badge color uses the same mid tones as the tech badges: **pink** (Very Good Analysis) below 60%, **purple** (Riverpod) from 60%, **blue** (Flutter) from 70%, **green** (GoRouter) from 80%.
+Badge color uses the same mid tones as the tech badges: **pink** (Very Good Analysis) below 60%, **purple** (Riverpod) from 60%, **blue** (Flutter) from 70%, **green** (GoRouter) from 80%. GitHub Camo may keep an old header SVG for a while; the **Test coverage** percent in that app’s README is the source of truth.
+
+### What it does
 
 This playground is one git repo. On **commit**, the playground hook runs tests and refreshes coverage for every app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps), then stages the SVGs in that same commit. If tests fail, the commit still goes through and badges stay as they were — fix tests before **push**. **Push** runs `flutter test` again and **blocks** if anything fails (`pre-push`). GitHub Actions (`.github/workflows/coverage.yml`) runs tests on Linux. CI **does not** commit or push badges.
 
-On commit (when tests pass) the pipeline:
+On commit (when tests pass):
 
 1. Runs `flutter test --coverage` in each listed app.
 2. Adds any `lib/**/*.dart` the tests never loaded as **0 hits**. Dart coverage only records libraries the VM actually imported. An unused copy of a screen would otherwise leave the percent unchanged.
@@ -240,32 +253,106 @@ On commit (when tests pass) the pipeline:
 6. On **push**, runs the tests again and blocks a failing push (`pre-push`).
 7. GitHub Actions runs the same tests on Linux. It does **not** commit the result.
 
-Cursor Source Control currently skips git hooks (`core.hooksPath=/dev/null`). Cursor also **ignores** `git.path` in workspace settings. The User setting `git.path` must point at [`coverage_pipeline/cursor-git`](coverage_pipeline/cursor-git) (or a copy of that wrapper) so commit and push from the UI still run them. A terminal `git push` always runs the hooks.
+`.git/hooks/` is **not** committed. After a fresh clone, install the links again.
 
-Install the playground hooks once:
+### Files
+
+| Path | Role |
+| --- | --- |
+| [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) | One relative app path per line. Playground hooks and CI iterate this list. |
+| [`coverage_pipeline/update_coverage.sh`](coverage_pipeline/update_coverage.sh) | Tests one Flutter app with coverage and writes its SVGs + README percent. Needs `python3`. |
+| [`coverage_pipeline/update_all.sh`](coverage_pipeline/update_all.sh) | Runs `update_coverage.sh` for every path in `playground_apps`. |
+| [`coverage_pipeline/coverage_badge.py`](coverage_pipeline/coverage_badge.py) | Builds `badge.svg` / `card.svg` and replaces the README percent markers. |
+| [`coverage_pipeline/install-git-hooks.sh`](coverage_pipeline/install-git-hooks.sh) | Symlinks scripts into `.git/hooks/pre-commit` and `pre-push`. |
+| [`coverage_pipeline/git-hooks/playground-pre-commit`](coverage_pipeline/git-hooks/playground-pre-commit) | Playground commit hook: refresh every listed app; **does not** block the commit if tests fail. |
+| [`coverage_pipeline/git-hooks/playground-pre-push`](coverage_pipeline/git-hooks/playground-pre-push) | Playground push hook: `flutter test` in every listed app; **blocks** the push if anything fails. |
+| [`coverage_pipeline/git-hooks/pre-commit`](coverage_pipeline/git-hooks/pre-commit) | Single-app repo commit hook (copied-out app). **Blocks** the commit if tests fail. |
+| [`coverage_pipeline/git-hooks/pre-push`](coverage_pipeline/git-hooks/pre-push) | Single-app repo push hook: blocks the push if tests fail. |
+| [`coverage_pipeline/cursor-git`](coverage_pipeline/cursor-git) | Git wrapper so Cursor Source Control actually runs hooks (see below). |
+| [`coverage_pipeline/coverage.yml`](coverage_pipeline/coverage.yml) | Workflow template for a copied-out single-app repo. |
+| [`.github/workflows/coverage.yml`](.github/workflows/coverage.yml) | This playground’s workflow: `update_all.sh` on Linux, **no** badge commit. |
+| `<app>/assets/coverage/badge.svg` | Small header badge. |
+| `<app>/assets/coverage/card.svg` | README card. |
+| `<app>/README.md` | Percent block between HTML comments (see [Wire an app](#wire-an-app)). |
+
+### Install in this playground
+
+From the repo root, once per clone:
 
 ```
 ./coverage_pipeline/install-git-hooks.sh
 ```
 
-Refresh every app from the playground root:
+That links:
+
+```
+.git/hooks/pre-commit  →  coverage_pipeline/git-hooks/playground-pre-commit
+.git/hooks/pre-push    →  coverage_pipeline/git-hooks/playground-pre-push
+```
+
+Refresh every app from the playground root (same as the commit hook, without committing):
 
 ```
 ./coverage_pipeline/update_all.sh
 ```
 
-Refresh one app:
+One app:
 
 ```
 ./coverage_pipeline/update_coverage.sh riverpod_basics
 ./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
 ```
 
-After you copy an app into its **own** git repo: copy `coverage_pipeline/` next to that repo's `pubspec.yaml`, copy [`coverage_pipeline/coverage.yml`](coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/logo.png`](assets/logo.png) plus [`assets/badges/`](assets/badges/) into that repo's `assets/`. Then:
+### Cursor Source Control
+
+Cursor Source Control injects `core.hooksPath=/dev/null`, so hooks never run from the **Changes** panel. Cursor also **ignores** `git.path` in workspace `.vscode/settings.json`.
+
+Set **User** Settings:
+
+```json
+"git.path": "/absolute/path/to/noirs_flutter_playground/coverage_pipeline/cursor-git"
+```
+
+Then **Developer: Reload Window**. A terminal `git commit` / `git push` always runs the hooks. The wrapper strips Cursor’s override and, on `git push`, runs `pre-push` itself so a test failure shows `Tests failed…` instead of Cursor’s “Try running Pull first”.
+
+### Wire an app
+
+Each app that should get badges needs:
+
+1. `pubspec.yaml` and a normal `test/` tree.
+2. Folder `assets/coverage/` (the generator creates the SVGs).
+3. In that app’s `README.md`, a percent block the Python script can replace:
+
+```html
+<!-- coverage-percent:start -->
+**0%** line coverage (0 of 0 lines).
+<!-- coverage-percent:end -->
+
+![Coverage](assets/coverage/card.svg)
+```
+
+4. Optional header badge (same file GitHub may cache):
+
+```html
+<a href="#test-coverage"><img align="right" src="assets/coverage/badge.svg" alt="Coverage"></a>
+```
+
+### Add another playground app
+
+1. Put the app somewhere under this repo (for example `my_app/`).
+2. Wire its README as above.
+3. Append the relative path to [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) (one path per line, no leading `./`).
+4. Commit. The playground `pre-commit` hook will test that app and stage its SVGs with the rest.
+
+### Copy an app into its own repo
+
+Copy `coverage_pipeline/` next to that repo’s `pubspec.yaml`, copy [`coverage_pipeline/coverage.yml`](coverage_pipeline/coverage.yml) to `.github/workflows/coverage.yml`, and copy [`assets/logo.png`](assets/logo.png) plus [`assets/badges/`](assets/badges/) into that repo’s `assets/`. Then:
 
 ```
 ./coverage_pipeline/install-git-hooks.sh
 ```
+
+That links the **single-app** hooks (`git-hooks/pre-commit`, `git-hooks/pre-push`). There the commit hook **does** block if tests fail, and CI checks that the committed SVGs match a fresh generate (`git diff --exit-code`).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
