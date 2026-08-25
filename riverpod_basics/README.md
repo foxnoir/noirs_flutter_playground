@@ -261,10 +261,13 @@ git@github.com:foxnoir/noirs_flutter_playground.git
 cd riverpod_basics
 fvm install
 fvm flutter pub get
+fvm dart run build_runner build --delete-conflicting-outputs
 fvm flutter run
 ```
 
 `fvm flutter run` uses the **iOS Simulator**. There is no Android project or Chrome.
+
+Codegen: **Freezed** + **json_serializable** for models, **riverpod_generator** for `@riverpod` providers. Do not edit `*.freezed.dart` or `*.g.dart`. After changing annotations, run `build_runner` again (or `watch` while you work). `analysis_options.yaml` already excludes those generated files.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
@@ -361,6 +364,7 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 ## Sources
 
 - [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
+- [freezed](https://pub.dev/packages/freezed)
 - [Flutter Riverpod For Complete Beginner](https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/) — [Richard Dewan](https://github.com/rddewan)
 
 <p align="right"><a href="#readme-top">back to top</a></p>

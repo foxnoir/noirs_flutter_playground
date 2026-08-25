@@ -22,6 +22,7 @@ analyzer:
   errors:
     public_member_api_docs: ignore
     sort_pub_dependencies: ignore
+    invalid_annotation_target: ignore
 
   exclude:
     - "**/*.freezed.dart"
