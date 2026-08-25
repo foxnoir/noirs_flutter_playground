@@ -67,9 +67,11 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(l10n.errorTitle),
-            content: Text(
-              error == duplicateUserIdError ? l10n.duplicateUserId : error,
-            ),
+            content: Text(switch (error) {
+              duplicateUserIdError => l10n.duplicateUserId,
+              duplicateEmailError => l10n.duplicateEmail,
+              _ => error,
+            }),
           );
         },
       );

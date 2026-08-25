@@ -5,6 +5,8 @@ import 'package:riverpod_basics/features/labs/user_list/presentation/providers/u
 
 const fetchUsersError = 'fetchUsers';
 
+enum AddUserResult { added, duplicateId, duplicateEmail }
+
 final userListProvider = NotifierProvider<UserListNotifier, UserListState>(
   UserListNotifier.new,
 );
@@ -28,13 +30,16 @@ class UserListNotifier extends Notifier<UserListState> {
     }
   }
 
-  bool addUser(User user) {
+  AddUserResult addUser(User user) {
     if (state.users.any((existing) => existing.id == user.id)) {
-      return false;
+      return AddUserResult.duplicateId;
+    }
+    if (state.users.any((existing) => existing.email == user.email)) {
+      return AddUserResult.duplicateEmail;
     }
 
     state = state.copyWith(users: [...state.users, user]);
-    return true;
+    return AddUserResult.added;
   }
 
   void clearError() {

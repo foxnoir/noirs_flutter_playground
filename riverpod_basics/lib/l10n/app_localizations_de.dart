@@ -112,6 +112,10 @@ class AppLocalizationsDe extends AppLocalizations {
   String get duplicateUserId => 'Ein Benutzer mit dieser Id existiert bereits.';
 
   @override
+  String get duplicateEmail =>
+      'Ein Benutzer mit dieser E-Mail existiert bereits.';
+
+  @override
   String get userAdded => 'Benutzer hinzugefügt.';
 
   @override

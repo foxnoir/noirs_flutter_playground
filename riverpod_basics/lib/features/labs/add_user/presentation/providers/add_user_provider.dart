@@ -4,6 +4,7 @@ import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dar
 import 'package:riverpod_basics/features/labs/user_list/presentation/providers/user_list_provider.dart';
 
 const duplicateUserIdError = 'duplicateId';
+const duplicateEmailError = 'duplicateEmail';
 
 final addUserProvider = NotifierProvider<AddUserNotifier, UserState>(
   AddUserNotifier.new,
@@ -14,13 +15,14 @@ class AddUserNotifier extends Notifier<UserState> {
   UserState build() => const UserState();
 
   void addUser(User user) {
-    final wasAdded = ref.read(userListProvider.notifier).addUser(user);
-    if (!wasAdded) {
-      state = state.copyWith(isAdded: false, error: duplicateUserIdError);
-      return;
+    switch (ref.read(userListProvider.notifier).addUser(user)) {
+      case AddUserResult.added:
+        state = state.copyWith(isAdded: true, error: null);
+      case AddUserResult.duplicateId:
+        state = state.copyWith(isAdded: false, error: duplicateUserIdError);
+      case AddUserResult.duplicateEmail:
+        state = state.copyWith(isAdded: false, error: duplicateEmailError);
     }
-
-    state = state.copyWith(isAdded: true, error: null);
   }
 
   void acknowledgeAdded() {

@@ -68,11 +68,14 @@ void main() {
   test('addUser appends a user', () {
     final container = containerWith(const FakeUserRepository());
 
-    expect(container.read(userListProvider.notifier).addUser(ada), isTrue);
+    expect(
+      container.read(userListProvider.notifier).addUser(ada),
+      AddUserResult.added,
+    );
     expect(container.read(userListProvider).users, [ada]);
   });
 
-  test('addUser with a duplicate id returns false', () {
+  test('addUser with a duplicate id returns duplicateId', () {
     final container = containerWith(const FakeUserRepository());
 
     container.read(userListProvider.notifier).addUser(ada);
@@ -81,7 +84,21 @@ void main() {
       container
           .read(userListProvider.notifier)
           .addUser(ada.copyWith(username: 'Other')),
-      isFalse,
+      AddUserResult.duplicateId,
+    );
+    expect(container.read(userListProvider).users, [ada]);
+  });
+
+  test('addUser with a duplicate email returns duplicateEmail', () {
+    final container = containerWith(const FakeUserRepository());
+
+    container.read(userListProvider.notifier).addUser(ada);
+
+    expect(
+      container
+          .read(userListProvider.notifier)
+          .addUser(ada.copyWith(id: 2, username: 'Other')),
+      AddUserResult.duplicateEmail,
     );
     expect(container.read(userListProvider).users, [ada]);
   });

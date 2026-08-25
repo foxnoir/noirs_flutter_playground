@@ -85,4 +85,28 @@ void main() {
     expect(find.text('Error'), findsOneWidget);
     expect(find.text('A user with this id already exists.'), findsOneWidget);
   });
+
+  testWidgets('AddUserScreen shows a dialog for a duplicate email', (
+    tester,
+  ) async {
+    await tester.pumpWidget(addUserApp());
+    await tester.pumpAndSettle();
+
+    await addAda(tester);
+    await tester.enterText(find.widgetWithText(TextFormField, 'Id'), '2');
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Username'),
+      'Ada',
+    );
+    await tester.enterText(find.widgetWithText(TextFormField, 'Age'), '36');
+    await tester.enterText(
+      find.widgetWithText(TextFormField, 'Email'),
+      'ada@example.com',
+    );
+    await tester.tap(find.byType(FullWidthElevatedButton));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Error'), findsOneWidget);
+    expect(find.text('A user with this email already exists.'), findsOneWidget);
+  });
 }
