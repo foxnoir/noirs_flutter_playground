@@ -159,9 +159,16 @@ Packages currently used in the playground apps. Update this table when a `pubspe
 | Package | Reason |
 | --- | --- |
 | [flutter_riverpod](https://pub.dev/packages/flutter_riverpod) | State and dependency injection. `ProviderScope`, `ref.watch` / `ref.read`. |
+| [riverpod_annotation](https://pub.dev/packages/riverpod_annotation) | `@riverpod` annotations for `riverpod_generator`. |
+| [freezed_annotation](https://pub.dev/packages/freezed_annotation) | Annotations for immutable Freezed models. |
+| [json_annotation](https://pub.dev/packages/json_annotation) | Annotations for `fromJson` / `toJson` codegen. |
 | [go_router](https://pub.dev/packages/go_router) | Declarative routes for iOS and web. |
 | [flutter_localizations](https://docs.flutter.dev/ui/internationalization) | Generated EN/DE l10n from ARB files. |
 | [intl](https://pub.dev/packages/intl) | Message and date formatting used by l10n. |
+| [freezed](https://pub.dev/packages/freezed) | Codegen for immutable models and unions (`dev`). |
+| [json_serializable](https://pub.dev/packages/json_serializable) | JSON codegen used with Freezed (`dev`). |
+| [riverpod_generator](https://pub.dev/packages/riverpod_generator) | Generates providers from `@riverpod` (`dev`). |
+| [build_runner](https://pub.dev/packages/build_runner) | Runs the code generators (`dev`). |
 | [very_good_analysis](https://pub.dev/packages/very_good_analysis) | Shared lint rules. |
 | [FVM](https://fvm.app) | Pins the Flutter SDK per app (`.fvmrc`). |
 
