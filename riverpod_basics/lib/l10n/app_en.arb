@@ -60,6 +60,7 @@
   "invalidNumber": "Enter a number.",
   "invalidEmail": "Enter a valid email.",
   "duplicateUserId": "A user with this id already exists.",
+  "duplicateEmail": "A user with this email already exists.",
   "userAdded": "User added.",
   "fetchUsersFailed": "Could not load users.",
   "errorTitle": "Error"

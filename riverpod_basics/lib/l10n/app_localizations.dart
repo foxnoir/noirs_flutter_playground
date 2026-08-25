@@ -284,6 +284,12 @@ abstract class AppLocalizations {
   /// **'A user with this id already exists.'**
   String get duplicateUserId;
 
+  /// No description provided for @duplicateEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'A user with this email already exists.'**
+  String get duplicateEmail;
+
   /// No description provided for @userAdded.
   ///
   /// In en, this message translates to:

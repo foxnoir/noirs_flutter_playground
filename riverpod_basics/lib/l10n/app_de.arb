@@ -31,6 +31,7 @@
   "invalidNumber": "Bitte eine Zahl eingeben.",
   "invalidEmail": "Bitte eine gültige E-Mail eingeben.",
   "duplicateUserId": "Ein Benutzer mit dieser Id existiert bereits.",
+  "duplicateEmail": "Ein Benutzer mit dieser E-Mail existiert bereits.",
   "userAdded": "Benutzer hinzugefügt.",
   "fetchUsersFailed": "Benutzer konnten nicht geladen werden.",
   "errorTitle": "Fehler"

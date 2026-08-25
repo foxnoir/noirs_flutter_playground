@@ -41,4 +41,18 @@ void main() {
     expect(container.read(addUserProvider).isAdded, isFalse);
     expect(container.read(addUserProvider).error, duplicateUserIdError);
   });
+
+  test('addUser with a duplicate email sets error', () {
+    final container = containerWith(const FakeUserRepository());
+
+    container.read(addUserProvider.notifier).addUser(ada);
+    container.read(addUserProvider.notifier).acknowledgeAdded();
+    container
+        .read(addUserProvider.notifier)
+        .addUser(ada.copyWith(id: 2, username: 'Other'));
+
+    expect(container.read(userListProvider).users, [ada]);
+    expect(container.read(addUserProvider).isAdded, isFalse);
+    expect(container.read(addUserProvider).error, duplicateEmailError);
+  });
 }
