@@ -29,6 +29,7 @@
 [![Flutter](../assets/badges/flutter.svg)](https://flutter.dev/)
 [![Dart](../assets/badges/dart.svg)](https://dart.dev/)
 [![Riverpod](../assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![Freezed](../assets/badges/freezed.svg)](https://pub.dev/packages/freezed)
 [![GoRouter](../assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
 [![Flutter Localizations](../assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
 [![Intl](../assets/badges/intl.svg)](https://pub.dev/packages/intl)
@@ -61,6 +62,14 @@
         <li><a href="#how-they-connect">How they connect</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#freezed">Freezed</a>
+      <ul>
+        <li><a href="#what-is-freezed">What is Freezed</a></li>
+        <li><a href="#why-freezed">Why Freezed</a></li>
+        <li><a href="#codegen">Codegen</a></li>
+      </ul>
+    </li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li>
       <a href="#testing">Testing</a>
@@ -85,7 +94,7 @@ The first lesson is the same button-press counter five ways. `NotifierProvider` 
 
 The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Labs**. Both use `LandingPageDropdown`. The first lab is **Add User** `(Auto Dispose Provider)` (`features/labs/add_user/`) — three username fields on one screen so you can feel lifetime. Each field is an `AddUserSection` in `presentation/widgets/`. **Persistent** is `NotifierProvider` in `add_user_provider.dart` (lives as long as `ProviderScope`). **Non-Persistent** is `NotifierProvider.autoDispose` in `add_user_non_persistent_provider.dart` (dies on Back). **Keep Alive 5 Seconds** is `NotifierProvider.autoDispose` plus `ref.keepAlive()` in `add_user_keep_alive_provider.dart`: Back starts a one-shot timer; come back within 5s (`onResume` cancels it) and the name is still there; stay away (`keepAlive.close()` then `onDispose`) and the next visit is `-`. `debugPrint` and a 1.5s SnackBar (`AddUserKeepAliveSnackBarListener` on `MaterialApp.router`) fire on resume and dispose so you can see the life-cycle on the landing page too. Same setter, same `build()` → `'-'`. That is a playground to feel the life-cycle, not a disk cache. That route name stays distinct from later User List, User Detail, and Stream User screens. Labs 2 and 3 are `LabPlaceholderScreen`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`). Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
 
-Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. Lab shells live under **`features/labs/`**. **`ErrorWidget`** and **`FullWidthElevatedButton`** live in `shared_widgets/`. **`ErrorWidget`** is `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback. **`FullWidthElevatedButton`** is a labeled, full-width `ElevatedButton`. The UI locale is pinned to English (`locale: Locale('en')` in `MaterialApp`); German ARBs remain for tests and later switching. `l10n.yaml` lists `en` first as the fallback.
+Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. Lab shells live under **`features/labs/`**. **`ErrorWidget`** and **`FullWidthElevatedButton`** live in `shared_widgets/`. **`ErrorWidget`** is `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback. **`FullWidthElevatedButton`** is a labeled, full-width `ElevatedButton`. The UI locale is pinned to English (`locale: Locale('en')` in `MaterialApp`); German ARBs remain for tests and later switching. `l10n.yaml` lists `en` first as the fallback. **Freezed**, **json_serializable**, and **riverpod_generator** are installed for later labs (User List, JSON models, `@riverpod`). There is no generated model in the tree yet. See [Freezed](#freezed).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -245,6 +254,63 @@ The app screens still go `setState` → `StateProvider` → `NotifierProvider` �
 
 ---
 
+## [Freezed](https://pub.dev/packages/freezed)
+
+### What is Freezed
+
+Freezed generates **immutable data classes**. You write the fields. It writes `==`, `hashCode`, `toString`, `copyWith`, and (if you ask) union types.
+
+That is a **model**, not a provider. Riverpod holds and updates state. Freezed is the shape of a value you put *in* that state: a user, a list item, an API response. A `String` username on Add User does not need Freezed. A `User` with `id`, `name`, and `email` that you copy, compare, and parse from JSON does.
+
+`freezed_annotation` is what you import in app code (`@freezed`). `freezed` is the generator. It lives in `dev_dependencies` because the app never imports it at runtime.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Why Freezed
+
+Hand-written models get stale. You add a field and forget `==` or `copyWith`. Tests compare objects and fail for the wrong reason. JSON parsing lives in `fromJson` that nobody wants to maintain.
+
+Freezed keeps those in sync with the constructor:
+
+- **Immutable**: no `user.name = …`. Change means `copyWith(name: …)` and a new instance. That matches how Riverpod wants you to replace `state`, not mutate it in place.
+- **Equality**: two users with the same fields are equal. Useful in tests and in `ref.listen`.
+- **Unions**: a result that is `loading` / `data` / `error` as sealed types, not a pile of nullable fields. Pattern-match with `switch`.
+- **JSON**: add a `fromJson` factory; **json_serializable** fills `toJson` / `fromJson`. Freezed does not parse JSON by itself.
+
+**Use it when** the value has more than one field, comes from an API, must be copied with one field changed, or you would write `==` by hand. Typical: a `User` entity, a DTO next to a repository, a sealed `Result`.
+
+**Do not use it when** the value is one `int` or `String` (the counters, the Add User name). Do not Freezed a widget. Do not put JSON parsing in the UI — map API models to entities in the repository, then hold entities in the provider.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Codegen
+
+Three generators share **build_runner**. They write files you never edit:
+
+| Annotation | Package (dev) | Output | Job |
+| --- | --- | --- | --- |
+| `@freezed` | `freezed` | `*.freezed.dart` | `copyWith`, `==`, unions |
+| `@JsonSerializable` / Freezed `fromJson` | `json_serializable` | `*.g.dart` | JSON |
+| `@riverpod` | `riverpod_generator` | `*.g.dart` | provider class from a function or `Notifier` |
+
+`json_annotation` and `riverpod_annotation` are the runtime annotations, same split as `freezed_annotation` vs `freezed`.
+
+`part 'user.freezed.dart';` and `part 'user.g.dart';` glue those files to your source. Change the source, then run:
+
+```
+fvm dart run build_runner build --delete-conflicting-outputs
+```
+
+`watch` instead of `build` while you edit models. `-d` / `--delete-conflicting-outputs` drops stale generated files so a rename does not leave two outputs.
+
+Do not edit `*.freezed.dart` or `*.g.dart`. `analysis_options.yaml` excludes them. `invalid_annotation_target` is ignored so `@JsonKey` on Freezed fields does not warn.
+
+This app has the packages. The first `@freezed` class lands when a lab needs a real model (not a single username `String`).
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
 ## Getting Started
 
 Clone the playground, then open this project folder:
@@ -267,7 +333,7 @@ fvm flutter run
 
 `fvm flutter run` uses the **iOS Simulator**. There is no Android project or Chrome.
 
-Codegen: **Freezed** + **json_serializable** for models, **riverpod_generator** for `@riverpod` providers. Do not edit `*.freezed.dart` or `*.g.dart`. After changing annotations, run `build_runner` again (or `watch` while you work). `analysis_options.yaml` already excludes those generated files.
+After you add or change a `@freezed` / `@riverpod` type, run `build_runner` again. See [Codegen](#codegen).
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
@@ -365,6 +431,8 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 
 - [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
 - [freezed](https://pub.dev/packages/freezed)
+- [json_serializable](https://pub.dev/packages/json_serializable)
+- [riverpod_generator](https://pub.dev/packages/riverpod_generator)
 - [Flutter Riverpod For Complete Beginner](https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/) — [Richard Dewan](https://github.com/rddewan)
 
 <p align="right"><a href="#readme-top">back to top</a></p>

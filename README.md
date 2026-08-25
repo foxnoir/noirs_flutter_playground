@@ -24,6 +24,7 @@
 [![Flutter](assets/badges/flutter.svg)](https://flutter.dev/)
 [![Dart](assets/badges/dart.svg)](https://dart.dev/)
 [![Riverpod](assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![Freezed](assets/badges/freezed.svg)](https://pub.dev/packages/freezed)
 [![GoRouter](assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
 [![Flutter Localizations](assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
 [![Intl](assets/badges/intl.svg)](https://pub.dev/packages/intl)
@@ -225,6 +226,7 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 | `flutter.svg` | `#012F55` → `#02569B` → `#7BA7CB` | official Flutter |
 | `dart.svg` | `#01406B` → `#0175C2` → `#7BB7DF` | official Dart |
 | `riverpod.svg` | `#4C3469` → `#8B5FBF` → `#C3ACDE` | app purple |
+| `freezed.svg` | `#294D3D` → `#4A8C6F` → `#A1C3B4` | green |
 | `gorouter.svg` | `#194C4A` → `#2D8A86` → `#92C2C0` | teal |
 | `flutter_localizations.svg` | `#012F55` → `#02569B` → `#7BA7CB` | official Flutter |
 | `intl.svg` | `#43345C` → `#7A5EA8` → `#BAABD2` | purple |
