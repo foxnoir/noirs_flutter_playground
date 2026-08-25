@@ -1,7 +1,6 @@
 {
   "@@locale": "en",
   "appTitle": "Riverpod Basics",
-  "provider1": "Provider 1",
   "noProvider": "No Provider",
   "stateProvider": "StateProvider",
   "notifierProvider": "NotifierProvider",
@@ -17,7 +16,6 @@
       }
     }
   },
-  "counter": "Counter",
   "pageNotFound": "Page not found",
   "goToLanding": "Go to landing",
   "providers": "Providers",
@@ -43,6 +41,8 @@
   "keepAliveOnResume": "Keep Alive: onResume (Timer stopped)",
   "keepAliveOnDispose": "Keep Alive: onDispose",
   "username": "Username",
+  "add": "Add",
+  "providerLifetimes": "Provider Lifetimes",
   "addUser": "Add User",
   "autoDisposeProvider": "Auto Dispose Provider",
   "userValue": "User: {name}",
@@ -52,5 +52,15 @@
         "type": "String"
       }
     }
-  }
+  },
+  "id": "Id",
+  "age": "Age",
+  "email": "Email",
+  "fieldRequired": "Required.",
+  "invalidNumber": "Enter a number.",
+  "invalidEmail": "Enter a valid email.",
+  "duplicateUserId": "A user with this id already exists.",
+  "userAdded": "User added.",
+  "fetchUsersFailed": "Could not load users.",
+  "errorTitle": "Error"
 }

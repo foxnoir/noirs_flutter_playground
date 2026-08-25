@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
@@ -64,6 +65,19 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(LandingPage), findsOneWidget);
+  });
+
+  testWidgets('Landing navigates to Provider Lifetimes lab', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Provider Lifetimes'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ProviderLifetimesScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Provider Lifetimes'), findsOneWidget);
   });
 
   testWidgets('Landing navigates to Add User lab', (tester) async {

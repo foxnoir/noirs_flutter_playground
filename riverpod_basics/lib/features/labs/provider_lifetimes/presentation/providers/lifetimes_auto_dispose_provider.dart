@@ -2,12 +2,12 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // Same Notifier class as the kept-alive provider. autoDispose drops it when
 // the last watcher is gone (Back). Next visit: new notifier, build() → '-'.
-final addUserNonPersistentProvider =
-    NotifierProvider.autoDispose<AddUserNonPersistentNotifier, String>(
-      AddUserNonPersistentNotifier.new,
+final lifetimesAutoDisposeProvider =
+    NotifierProvider.autoDispose<LifetimesAutoDisposeNotifier, String>(
+      LifetimesAutoDisposeNotifier.new,
     );
 
-class AddUserNonPersistentNotifier extends Notifier<String> {
+class LifetimesAutoDisposeNotifier extends Notifier<String> {
   @override
   String build() => '-';
 

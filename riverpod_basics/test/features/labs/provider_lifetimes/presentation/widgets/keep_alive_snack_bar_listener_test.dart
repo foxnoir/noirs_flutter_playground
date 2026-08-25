@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/theme/theme.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_keep_alive_provider.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/widgets/add_user_keep_alive_snack_bar_listener.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/providers/lifetimes_keep_alive_provider.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/widgets/keep_alive_snack_bar_listener.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
 void main() {
@@ -17,15 +17,15 @@ void main() {
           theme: getLightTheme(),
           localizationsDelegates: AppLocalizations.localizationsDelegates,
           supportedLocales: AppLocalizations.supportedLocales,
-          home: AddUserKeepAliveSnackBarListener(
+          home: KeepAliveSnackBarListener(
             child: Scaffold(
               body: Consumer(
                 builder: (context, ref, _) {
                   return TextButton(
                     onPressed: () {
                       ref
-                          .read(addUserKeepAliveNoticeProvider.notifier)
-                          .emit(AddUserKeepAliveLifecycle.resume);
+                          .read(keepAliveNoticeProvider.notifier)
+                          .emit(KeepAliveLifecycle.resume);
                     },
                     child: const Text('Emit'),
                   );

@@ -2,22 +2,11 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Boot iPhone 17 Pro Simulator",
-      "type": "shell",
-      "command": "xcrun simctl boot E207ED10-9E72-4D1C-82E5-4B23BB22D09B 2>/dev/null || true; open -a Simulator",
-      "presentation": {
-        "reveal": "silent",
-        "panel": "dedicated",
-        "showReuseMessage": false
-      },
-      "problemMatcher": []
-    },
-    {
       "label": "Pub Get",
       "type": "shell",
       "command": "fvm flutter pub get",
       "options": {
-        "cwd": "${workspaceFolder}/riverpod_basics",
+        "cwd": "${workspaceFolder}",
         "env": {
           "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
         }
@@ -33,7 +22,7 @@
       "type": "shell",
       "command": "fvm flutter doctor",
       "options": {
-        "cwd": "${workspaceFolder}/riverpod_basics",
+        "cwd": "${workspaceFolder}",
         "env": {
           "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
         }
@@ -49,7 +38,7 @@
       "type": "shell",
       "command": "fvm flutter test",
       "options": {
-        "cwd": "${workspaceFolder}/riverpod_basics",
+        "cwd": "${workspaceFolder}",
         "env": {
           "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
         }
@@ -66,24 +55,7 @@
       "type": "shell",
       "command": "fvm flutter test --coverage",
       "options": {
-        "cwd": "${workspaceFolder}/riverpod_basics",
-        "env": {
-          "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
-        }
-      },
-      "group": "test",
-      "presentation": {
-        "reveal": "always",
-        "panel": "shared"
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Flutter: Test starter with coverage",
-      "type": "shell",
-      "command": "fvm flutter test --coverage",
-      "options": {
-        "cwd": "${workspaceFolder}/app_starters/riverpod_basic_starter",
+        "cwd": "${workspaceFolder}",
         "env": {
           "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
         }
@@ -100,7 +72,7 @@
       "type": "shell",
       "command": "fvm flutter run",
       "options": {
-        "cwd": "${workspaceFolder}/riverpod_basics",
+        "cwd": "${workspaceFolder}",
         "env": {
           "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
         }
@@ -117,7 +89,7 @@
       "type": "shell",
       "command": "fvm dart run build_runner build",
       "options": {
-        "cwd": "${workspaceFolder}/riverpod_basics",
+        "cwd": "${workspaceFolder}",
         "env": {
           "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
         }
@@ -133,7 +105,7 @@
       "type": "shell",
       "command": "fvm dart run build_runner watch",
       "options": {
-        "cwd": "${workspaceFolder}/riverpod_basics",
+        "cwd": "${workspaceFolder}",
         "env": {
           "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
         }

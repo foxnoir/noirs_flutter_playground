@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 
-class AddUserSection extends StatelessWidget {
-  const AddUserSection({
+class ProviderLifetimesSection extends StatelessWidget {
+  const ProviderLifetimesSection({
     required this.title,
     required this.user,
     required this.controller,
@@ -45,7 +45,7 @@ class AddUserSection extends StatelessWidget {
               const SizedBox(width: 8),
               Flexible(
                 child: FullWidthElevatedButton(
-                  label: l10n.addUser,
+                  label: l10n.add,
                   onPressed: onAddPressed,
                 ),
               ),

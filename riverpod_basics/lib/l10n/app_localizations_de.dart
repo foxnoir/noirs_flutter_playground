@@ -13,9 +13,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get appTitle => 'Riverpod Basics';
 
   @override
-  String get provider1 => 'Provider 1';
-
-  @override
   String get noProvider => 'Kein Provider';
 
   @override
@@ -38,9 +35,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String buttonPressCount(int count) {
     return 'Du hast den Button so oft gedrückt: $count';
   }
-
-  @override
-  String get counter => 'Zähler';
 
   @override
   String get pageNotFound => 'Seite nicht gefunden';
@@ -80,6 +74,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get username => 'Benutzername';
 
   @override
+  String get add => 'Hinzufügen';
+
+  @override
+  String get providerLifetimes => 'Provider Lifetimes';
+
+  @override
   String get addUser => 'Benutzer hinzufügen';
 
   @override
@@ -89,4 +89,34 @@ class AppLocalizationsDe extends AppLocalizations {
   String userValue(String name) {
     return 'Benutzer: $name';
   }
+
+  @override
+  String get id => 'Id';
+
+  @override
+  String get age => 'Alter';
+
+  @override
+  String get email => 'E-Mail';
+
+  @override
+  String get fieldRequired => 'Pflichtfeld.';
+
+  @override
+  String get invalidNumber => 'Bitte eine Zahl eingeben.';
+
+  @override
+  String get invalidEmail => 'Bitte eine gültige E-Mail eingeben.';
+
+  @override
+  String get duplicateUserId => 'Ein Benutzer mit dieser Id existiert bereits.';
+
+  @override
+  String get userAdded => 'Benutzer hinzugefügt.';
+
+  @override
+  String get fetchUsersFailed => 'Benutzer konnten nicht geladen werden.';
+
+  @override
+  String get errorTitle => 'Fehler';
 }

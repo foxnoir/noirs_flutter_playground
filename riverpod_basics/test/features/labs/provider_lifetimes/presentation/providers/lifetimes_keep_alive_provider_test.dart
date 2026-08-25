@@ -1,7 +1,7 @@
 import 'package:fake_async/fake_async.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_keep_alive_provider.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/providers/lifetimes_keep_alive_provider.dart';
 
 void main() {
   void pumpDispose(FakeAsync async, ProviderContainer container) {
@@ -9,34 +9,34 @@ void main() {
     async.flushMicrotasks();
   }
 
-  test('addUserKeepAliveProvider keeps state for 5s after last listener', () {
+  test('lifetimesKeepAliveProvider keeps state for 5s after last listener', () {
     fakeAsync((async) {
       final container = ProviderContainer.test();
       addTearDown(container.dispose);
 
-      final sub = container.listen(addUserKeepAliveProvider, (_, _) {});
+      final sub = container.listen(lifetimesKeepAliveProvider, (_, _) {});
 
-      expect(container.read(addUserKeepAliveProvider), '-');
-      container.read(addUserKeepAliveProvider.notifier).user = 'Ada';
-      expect(container.read(addUserKeepAliveProvider), 'Ada');
+      expect(container.read(lifetimesKeepAliveProvider), '-');
+      container.read(lifetimesKeepAliveProvider.notifier).user = 'Ada';
+      expect(container.read(lifetimesKeepAliveProvider), 'Ada');
 
       sub.close();
       pumpDispose(async, container);
 
-      expect(container.exists(addUserKeepAliveProvider), isTrue);
+      expect(container.exists(lifetimesKeepAliveProvider), isTrue);
 
-      async.elapse(addUserKeepAliveDuration - const Duration(milliseconds: 1));
+      async.elapse(keepAliveDuration - const Duration(milliseconds: 1));
       pumpDispose(async, container);
-      expect(container.exists(addUserKeepAliveProvider), isTrue);
+      expect(container.exists(lifetimesKeepAliveProvider), isTrue);
 
       async.elapse(const Duration(milliseconds: 1));
       pumpDispose(async, container);
-      expect(container.exists(addUserKeepAliveProvider), isFalse);
+      expect(container.exists(lifetimesKeepAliveProvider), isFalse);
 
-      final next = container.listen(addUserKeepAliveProvider, (_, _) {});
+      final next = container.listen(lifetimesKeepAliveProvider, (_, _) {});
       addTearDown(next.close);
 
-      expect(container.read(addUserKeepAliveProvider), '-');
+      expect(container.read(lifetimesKeepAliveProvider), '-');
     });
   });
 
@@ -45,29 +45,29 @@ void main() {
       final container = ProviderContainer.test();
       addTearDown(container.dispose);
 
-      var sub = container.listen(addUserKeepAliveProvider, (_, _) {});
-      container.read(addUserKeepAliveProvider.notifier).user = 'Ada';
+      var sub = container.listen(lifetimesKeepAliveProvider, (_, _) {});
+      container.read(lifetimesKeepAliveProvider.notifier).user = 'Ada';
       sub.close();
       pumpDispose(async, container);
 
       async.elapse(const Duration(seconds: 4));
       pumpDispose(async, container);
-      expect(container.exists(addUserKeepAliveProvider), isTrue);
+      expect(container.exists(lifetimesKeepAliveProvider), isTrue);
 
       // Back on the screen: onResume cancels the remaining 1s.
-      sub = container.listen(addUserKeepAliveProvider, (_, _) {});
-      expect(container.read(addUserKeepAliveProvider), 'Ada');
+      sub = container.listen(lifetimesKeepAliveProvider, (_, _) {});
+      expect(container.read(lifetimesKeepAliveProvider), 'Ada');
 
       async.elapse(const Duration(seconds: 5));
       pumpDispose(async, container);
-      expect(container.exists(addUserKeepAliveProvider), isTrue);
-      expect(container.read(addUserKeepAliveProvider), 'Ada');
+      expect(container.exists(lifetimesKeepAliveProvider), isTrue);
+      expect(container.read(lifetimesKeepAliveProvider), 'Ada');
 
       sub.close();
       pumpDispose(async, container);
-      async.elapse(addUserKeepAliveDuration);
+      async.elapse(keepAliveDuration);
       pumpDispose(async, container);
-      expect(container.exists(addUserKeepAliveProvider), isFalse);
+      expect(container.exists(lifetimesKeepAliveProvider), isFalse);
     });
   });
 
@@ -76,32 +76,29 @@ void main() {
       final container = ProviderContainer.test();
       addTearDown(container.dispose);
 
-      final notices = <AddUserKeepAliveLifecycle>[];
-      container.listen(addUserKeepAliveNoticeProvider, (_, next) {
+      final notices = <KeepAliveLifecycle>[];
+      container.listen(keepAliveNoticeProvider, (_, next) {
         if (next != null) {
           notices.add(next.lifecycle);
         }
       });
 
-      final sub = container.listen(addUserKeepAliveProvider, (_, _) {});
-      container.read(addUserKeepAliveProvider.notifier).user = 'Ada';
+      final sub = container.listen(lifetimesKeepAliveProvider, (_, _) {});
+      container.read(lifetimesKeepAliveProvider.notifier).user = 'Ada';
       sub.close();
       pumpDispose(async, container);
       expect(notices, isEmpty);
 
-      final resumed = container.listen(addUserKeepAliveProvider, (_, _) {});
+      final resumed = container.listen(lifetimesKeepAliveProvider, (_, _) {});
       pumpDispose(async, container);
       async.flushMicrotasks();
-      expect(notices, [AddUserKeepAliveLifecycle.resume]);
+      expect(notices, [KeepAliveLifecycle.resume]);
 
       resumed.close();
-      async.elapse(addUserKeepAliveDuration);
+      async.elapse(keepAliveDuration);
       pumpDispose(async, container);
       async.flushMicrotasks();
-      expect(notices, [
-        AddUserKeepAliveLifecycle.resume,
-        AddUserKeepAliveLifecycle.dispose,
-      ]);
+      expect(notices, [KeepAliveLifecycle.resume, KeepAliveLifecycle.dispose]);
     });
   });
 }

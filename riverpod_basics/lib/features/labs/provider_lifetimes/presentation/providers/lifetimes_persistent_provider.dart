@@ -1,12 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 // No autoDispose: in-memory for ProviderScope (the app), not disk.
-// Leave Add User and come back — same notifier, same username.
-final addUserProvider = NotifierProvider<AddUserNotifier, String>(
-  AddUserNotifier.new,
-);
+// Leave Provider Lifetimes and come back — same notifier, same username.
+final lifetimesPersistentProvider =
+    NotifierProvider<LifetimesPersistentNotifier, String>(
+      LifetimesPersistentNotifier.new,
+    );
 
-class AddUserNotifier extends Notifier<String> {
+class LifetimesPersistentNotifier extends Notifier<String> {
   @override
   String build() => '-';
 
