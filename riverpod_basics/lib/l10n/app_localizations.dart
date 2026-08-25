@@ -176,23 +176,47 @@ abstract class AppLocalizations {
   /// **'Providers'**
   String get providers;
 
-  /// No description provided for @scenarios.
+  /// No description provided for @labs.
   ///
   /// In en, this message translates to:
-  /// **'Scenarios'**
-  String get scenarios;
+  /// **'Labs'**
+  String get labs;
 
-  /// No description provided for @scenarioNumber.
+  /// No description provided for @labNumber.
   ///
   /// In en, this message translates to:
-  /// **'Scenario {number}'**
-  String scenarioNumber(int number);
+  /// **'Lab {number}'**
+  String labNumber(int number);
 
-  /// No description provided for @currentUser.
+  /// No description provided for @persistent.
   ///
   /// In en, this message translates to:
-  /// **'Current User'**
-  String get currentUser;
+  /// **'Persistent'**
+  String get persistent;
+
+  /// No description provided for @nonPersistent.
+  ///
+  /// In en, this message translates to:
+  /// **'Non-Persistent'**
+  String get nonPersistent;
+
+  /// No description provided for @keepAliveForSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Alive {seconds} Seconds'**
+  String keepAliveForSeconds(int seconds);
+
+  /// No description provided for @keepAliveOnResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Alive: onResume (Timer stopped)'**
+  String get keepAliveOnResume;
+
+  /// No description provided for @keepAliveOnDispose.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep Alive: onDispose'**
+  String get keepAliveOnDispose;
 
   /// No description provided for @username.
   ///
@@ -205,6 +229,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add User'**
   String get addUser;
+
+  /// No description provided for @autoDisposeProvider.
+  ///
+  /// In en, this message translates to:
+  /// **'Auto Dispose Provider'**
+  String get autoDisposeProvider;
 
   /// No description provided for @userValue.
   ///

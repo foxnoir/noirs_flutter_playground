@@ -83,9 +83,9 @@ This app is the **Riverpod** practice project in [Noir's Flutter Playground](../
 
 The first lesson is the same button-press counter five ways. `NotifierProvider` is the real mutable type. `AsyncNotifierProvider` is that type when the value comes from a `Future`. **Persistent State** keeps the count when you leave the page (plain provider, in memory for the app). **Non-Persistent State** is the same class plus `.autoDispose` — not disk, not a cache. Back to landing drops the last watcher, Riverpod disposes the notifier, next visit loads from zero. `StateProvider` is a tiny notifier whose only API is “set `state`”. Local `setState` stays in the widget.
 
-The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Scenarios**. Both use `LandingPageDropdown`. The first scenario is a dummy **Current User** screen (`features/scenarios/current_user/`) — one username field and a placeholder value, no provider, empty Add. That name stays distinct from later User List, User Detail, and Stream User screens. Scenarios 2 and 3 are `ScenarioPlaceholderScreen`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`). Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
+The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Labs**. Both use `LandingPageDropdown`. The first lab is **Add User** `(Auto Dispose Provider)` (`features/labs/add_user/`) — three username fields on one screen so you can feel lifetime. Each field is an `AddUserSection` in `presentation/widgets/`. **Persistent** is `NotifierProvider` in `add_user_provider.dart` (lives as long as `ProviderScope`). **Non-Persistent** is `NotifierProvider.autoDispose` in `add_user_non_persistent_provider.dart` (dies on Back). **Keep Alive 5 Seconds** is `NotifierProvider.autoDispose` plus `ref.keepAlive()` in `add_user_keep_alive_provider.dart`: Back starts a one-shot timer; come back within 5s (`onResume` cancels it) and the name is still there; stay away (`keepAlive.close()` then `onDispose`) and the next visit is `-`. `debugPrint` and a 1.5s SnackBar (`AddUserKeepAliveSnackBarListener` on `MaterialApp.router`) fire on resume and dispose so you can see the life-cycle on the landing page too. Same setter, same `build()` → `'-'`. That is a playground to feel the life-cycle, not a disk cache. That route name stays distinct from later User List, User Detail, and Stream User screens. Labs 2 and 3 are `LabPlaceholderScreen`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`). Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
 
-Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. Scenario shells live under **`features/scenarios/`**. **`ErrorWidget`** and **`FullWidthElevatedButton`** live in `shared_widgets/`. **`ErrorWidget`** is `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback. **`FullWidthElevatedButton`** is a labeled, full-width `ElevatedButton`. The UI locale is pinned to English (`locale: Locale('en')` in `MaterialApp`); German ARBs remain for tests and later switching. `l10n.yaml` lists `en` first as the fallback.
+Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. Lab shells live under **`features/labs/`**. **`ErrorWidget`** and **`FullWidthElevatedButton`** live in `shared_widgets/`. **`ErrorWidget`** is `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback. **`FullWidthElevatedButton`** is a labeled, full-width `ElevatedButton`. The UI locale is pinned to English (`locale: Locale('en')` in `MaterialApp`); German ARBs remain for tests and later switching. `l10n.yaml` lists `en` first as the fallback.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -164,7 +164,7 @@ No provider means the count lives in the widget with `setState`. Nothing outside
 
 `NotifierProvider` is the default way to hold **mutable state outside the widget**. Updates go through a **class with methods**. The widget calls `increment()` or `applyFilter()`. The notifier owns the rules.
 
-This is the type everything else is built on. A `StateProvider` is a notifier whose public API is only `state`.
+This is the type everything else is built on. A `StateProvider` is a notifier whose public API is only `state`. **Add User** puts three lifetimes on one screen: plain `NotifierProvider` (Persistent), `NotifierProvider.autoDispose` (Non-Persistent), and autoDispose plus `keepAlive` for 5 seconds after Back.
 
 **Use it when** the value leaves the widget: plus and minus must not go below zero, a form field needs validation, a list can add and remove items, or two screens share the same actions. Use it as soon as you would write a test for the change.
 
@@ -302,6 +302,8 @@ Examples:
 - `lib/main.dart` → `test/main_test.dart`
 - `lib/features/landing_page/presentation/landing_page.dart` → `test/features/landing_page/presentation/landing_page_test.dart`
 - `lib/features/landing_page/presentation/widgets/landing_page_dropdown.dart` → `test/features/landing_page/presentation/widgets/landing_page_dropdown_test.dart`
+- `lib/features/labs/add_user/presentation/widgets/add_user_section.dart` → `test/features/labs/add_user/presentation/widgets/add_user_section_test.dart`
+- `lib/features/labs/add_user/presentation/widgets/add_user_keep_alive_snack_bar_listener.dart` → `test/features/labs/add_user/presentation/widgets/add_user_keep_alive_snack_bar_listener_test.dart`
 - `lib/features/providers/state_provider/presentation/providers/state_provider.dart` → `test/features/providers/state_provider/presentation/providers/state_provider_test.dart`
 
 <p align="right"><a href="#readme-top">back to top</a></p>
@@ -314,7 +316,7 @@ Riverpod **is** that injection. `ProviderScope` and `ProviderContainer` hold the
 
 Two test shapes:
 
-1. **Provider tests** — no widgets. Create a `ProviderContainer`, `read` the provider, mutate through `.notifier`, then dispose. See `test/features/providers/state_provider/presentation/providers/state_provider_test.dart`, `test/features/providers/async_notifier_persistent_state/presentation/providers/`, and `test/features/providers/async_notifier_non_persistent_state/presentation/providers/` (the last one closes the listener and checks the provider is gone).
+1. **Provider tests** — no widgets. Create a `ProviderContainer`, `read` the provider, mutate through `.notifier`, then dispose. See `test/features/providers/state_provider/presentation/providers/state_provider_test.dart`, `test/features/providers/async_notifier_persistent_state/presentation/providers/`, `test/features/providers/async_notifier_non_persistent_state/presentation/providers/`, and `test/features/labs/add_user/presentation/providers/` (autoDispose tests close the listener and check the provider is gone; the persistent Add User test checks it is still there; Keep Alive uses `fakeAsync` to elapse 5s without waiting).
 2. **Widget tests** — wrap the tree in `ProviderScope` (the app already does this in `main.dart`). Tap UI, assert text. Fake repositories later with `overrides`.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
@@ -328,7 +330,7 @@ The Riverpod calls in tests are the same as in the app. See [watch, read, listen
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**94.3%** line coverage (380 of 403 lines).
+**94.3%** line coverage (483 of 512 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

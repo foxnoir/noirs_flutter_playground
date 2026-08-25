@@ -50,16 +50,16 @@ void main() {
     await tester.pumpWidget(
       app(
         home: const LandingPageDropdown(
-          title: 'Scenarios',
-          items: [LandingPageDropdownItem(label: 'Scenario 1')],
+          title: 'Labs',
+          items: [LandingPageDropdownItem(label: 'Lab 1')],
         ),
       ),
     );
 
-    await tester.tap(find.text('Scenarios'));
+    await tester.tap(find.text('Labs'));
     await tester.pumpAndSettle();
 
-    expect(find.text('Scenario 1'), findsOneWidget);
+    expect(find.text('Lab 1'), findsOneWidget);
     expect(find.byIcon(Icons.chevron_right), findsNothing);
   });
 
@@ -78,5 +78,31 @@ void main() {
     final appliedTheme = Theme.of(tester.element(titleFinder));
     expect(title.style?.color, AppColor.teal);
     expect(title.style?.fontSize, appliedTheme.textTheme.titleLarge?.fontSize);
+  });
+
+  testWidgets('item caption is smaller and in parentheses', (tester) async {
+    await tester.pumpWidget(
+      app(
+        home: const LandingPageDropdown(
+          title: 'Labs',
+          items: [
+            LandingPageDropdownItem(
+              label: 'Add User',
+              caption: 'Auto Dispose Provider',
+            ),
+          ],
+        ),
+      ),
+    );
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Add User'), findsOneWidget);
+    final captionFinder = find.text(' (Auto Dispose Provider)');
+    final caption = tester.widget<Text>(captionFinder);
+    final appliedTheme = Theme.of(tester.element(captionFinder));
+    expect(caption.style?.fontSize, appliedTheme.textTheme.bodySmall?.fontSize);
+    expect(caption.style?.color, appliedTheme.colorScheme.onSurfaceVariant);
   });
 }

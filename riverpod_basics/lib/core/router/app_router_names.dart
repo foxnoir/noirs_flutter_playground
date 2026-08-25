@@ -6,9 +6,9 @@ abstract final class AppRouteNames {
   static const asyncNotifierPersistentState = 'asyncNotifierPersistentState';
   static const asyncNotifierNonPersistentState =
       'asyncNotifierNonPersistentState';
-  static const currentUser = 'currentUser';
-  static const scenario2 = 'scenario2';
-  static const scenario3 = 'scenario3';
+  static const addUser = 'addUser';
+  static const lab2 = 'lab2';
+  static const lab3 = 'lab3';
 }
 
 /// URL slugs stay stable across locales. Nested routes are relative.
@@ -20,7 +20,7 @@ abstract final class AppRoutePaths {
   static const asyncNotifierPersistentState = 'async-notifier-persistent-state';
   static const asyncNotifierNonPersistentState =
       'async-notifier-non-persistent-state';
-  static const currentUser = 'current-user';
-  static const scenario2 = 'scenario-2';
-  static const scenario3 = 'scenario-3';
+  static const addUser = 'add-user';
+  static const lab2 = 'lab-2';
+  static const lab3 = 'lab-3';
 }

@@ -13,10 +13,15 @@
   "pageNotFound": "Seite nicht gefunden",
   "goToLanding": "Zur Startseite",
   "providers": "Providers",
-  "scenarios": "Szenarien",
-  "scenarioNumber": "Szenario {number}",
-  "currentUser": "Aktueller Benutzer",
+  "labs": "Labs",
+  "labNumber": "Lab {number}",
+  "persistent": "Persistent",
+  "nonPersistent": "Non-Persistent",
+  "keepAliveForSeconds": "Keep Alive {seconds} Seconds",
+  "keepAliveOnResume": "Keep Alive: onResume (Timer stopped)",
+  "keepAliveOnDispose": "Keep Alive: onDispose",
   "username": "Benutzername",
   "addUser": "Benutzer hinzufügen",
+  "autoDisposeProvider": "Auto Dispose Provider",
   "userValue": "Benutzer: {name}"
 }

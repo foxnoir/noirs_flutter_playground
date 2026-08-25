@@ -14,9 +14,11 @@ class LandingPage extends StatelessWidget {
     LandingPageDropdownItem destination({
       required String label,
       required String routeName,
+      String? caption,
     }) {
       return LandingPageDropdownItem(
         label: label,
+        caption: caption,
         onTap: () => context.pushNamed(routeName),
       );
     }
@@ -51,19 +53,20 @@ class LandingPage extends StatelessWidget {
             ],
           ),
           LandingPageDropdown(
-            title: l10n.scenarios,
+            title: l10n.labs,
             items: [
               destination(
-                label: l10n.currentUser,
-                routeName: AppRouteNames.currentUser,
+                label: l10n.addUser,
+                caption: l10n.autoDisposeProvider,
+                routeName: AppRouteNames.addUser,
               ),
               destination(
-                label: l10n.scenarioNumber(2),
-                routeName: AppRouteNames.scenario2,
+                label: l10n.labNumber(2),
+                routeName: AppRouteNames.lab2,
               ),
               destination(
-                label: l10n.scenarioNumber(3),
-                routeName: AppRouteNames.scenario3,
+                label: l10n.labNumber(3),
+                routeName: AppRouteNames.lab3,
               ),
             ],
           ),

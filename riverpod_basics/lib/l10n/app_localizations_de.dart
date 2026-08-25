@@ -51,21 +51,38 @@ class AppLocalizationsDe extends AppLocalizations {
   String get providers => 'Providers';
 
   @override
-  String get scenarios => 'Szenarien';
+  String get labs => 'Labs';
 
   @override
-  String scenarioNumber(int number) {
-    return 'Szenario $number';
+  String labNumber(int number) {
+    return 'Lab $number';
   }
 
   @override
-  String get currentUser => 'Aktueller Benutzer';
+  String get persistent => 'Persistent';
+
+  @override
+  String get nonPersistent => 'Non-Persistent';
+
+  @override
+  String keepAliveForSeconds(int seconds) {
+    return 'Keep Alive $seconds Seconds';
+  }
+
+  @override
+  String get keepAliveOnResume => 'Keep Alive: onResume (Timer stopped)';
+
+  @override
+  String get keepAliveOnDispose => 'Keep Alive: onDispose';
 
   @override
   String get username => 'Benutzername';
 
   @override
   String get addUser => 'Benutzer hinzufügen';
+
+  @override
+  String get autoDisposeProvider => 'Auto Dispose Provider';
 
   @override
   String userValue(String name) {
