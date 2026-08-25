@@ -42,9 +42,8 @@
   "keepAliveOnDispose": "Keep Alive: onDispose",
   "username": "Username",
   "add": "Add",
-  "providerLifetimes": "Provider Lifetimes",
+  "providerLifetimes": "AutoDispose Provider Lifetimes",
   "addUser": "Add User",
-  "autoDisposeProvider": "Auto Dispose Provider",
   "userValue": "User: {name}",
   "@userValue": {
     "placeholders": {

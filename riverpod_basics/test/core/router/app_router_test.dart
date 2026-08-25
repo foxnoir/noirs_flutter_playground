@@ -67,17 +67,22 @@ void main() {
     expect(find.byType(LandingPage), findsOneWidget);
   });
 
-  testWidgets('Landing navigates to Provider Lifetimes lab', (tester) async {
+  testWidgets('Landing navigates to AutoDispose Provider Lifetimes lab', (
+    tester,
+  ) async {
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Labs'));
     await tester.pumpAndSettle();
-    await tester.tap(find.text('Provider Lifetimes'));
+    await tester.tap(find.text('AutoDispose Provider Lifetimes'));
     await tester.pumpAndSettle();
 
     expect(find.byType(ProviderLifetimesScreen), findsOneWidget);
-    expect(find.widgetWithText(AppBar, 'Provider Lifetimes'), findsOneWidget);
+    expect(
+      find.widgetWithText(AppBar, 'AutoDispose Provider Lifetimes'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('Landing navigates to Add User lab', (tester) async {

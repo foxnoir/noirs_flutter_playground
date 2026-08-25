@@ -42,7 +42,10 @@ void main() {
         ),
       );
 
-      expect(find.widgetWithText(AppBar, 'Provider Lifetimes'), findsOneWidget);
+      expect(
+        find.widgetWithText(AppBar, 'AutoDispose Provider Lifetimes'),
+        findsOneWidget,
+      );
       expect(find.text('Persistent'), findsOneWidget);
       expect(find.text('Non-Persistent'), findsOneWidget);
       expect(find.text('Keep Alive 5 Seconds'), findsOneWidget);
