@@ -221,7 +221,7 @@ abstract class AppLocalizations {
   /// No description provided for @providerLifetimes.
   ///
   /// In en, this message translates to:
-  /// **'Provider Lifetimes'**
+  /// **'AutoDispose Provider Lifetimes'**
   String get providerLifetimes;
 
   /// No description provided for @addUser.
@@ -229,12 +229,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add User'**
   String get addUser;
-
-  /// No description provided for @autoDisposeProvider.
-  ///
-  /// In en, this message translates to:
-  /// **'Auto Dispose Provider'**
-  String get autoDisposeProvider;
 
   /// No description provided for @userValue.
   ///

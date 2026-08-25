@@ -14,11 +14,9 @@ class LandingPage extends StatelessWidget {
     LandingPageDropdownItem destination({
       required String label,
       required String routeName,
-      String? caption,
     }) {
       return LandingPageDropdownItem(
         label: label,
-        caption: caption,
         onTap: () => context.pushNamed(routeName),
       );
     }
@@ -57,7 +55,6 @@ class LandingPage extends StatelessWidget {
             items: [
               destination(
                 label: l10n.providerLifetimes,
-                caption: l10n.autoDisposeProvider,
                 routeName: AppRouteNames.providerLifetimes,
               ),
               destination(

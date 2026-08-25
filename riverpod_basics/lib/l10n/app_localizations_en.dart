@@ -77,13 +77,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get add => 'Add';
 
   @override
-  String get providerLifetimes => 'Provider Lifetimes';
+  String get providerLifetimes => 'AutoDispose Provider Lifetimes';
 
   @override
   String get addUser => 'Add User';
-
-  @override
-  String get autoDisposeProvider => 'Auto Dispose Provider';
 
   @override
   String userValue(String name) {
