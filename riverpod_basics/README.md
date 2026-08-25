@@ -175,7 +175,24 @@ These three are how a widget talks to a provider. Match the call to the job.
 
 **Do not `read` in `build` for a value you display.** The widget will not rebuild when the provider changes, so the text stays stale.
 
-**`ref.listen(provider, (previous, next) { ... })`** runs a callback when the value changes. Use it for **side effects**: snackbar, dialog, navigation. Not for putting the number on screen — that is `watch`.
+**`ref.listen(provider, (previous, next) { ... })`** runs a callback when the value **changes**. Use it for **side effects**: snackbar, dialog, navigation. Not for putting the number on screen — that is `watch`. A snackbar in `build` after `watch` would fire on every rebuild (keyboard, rotation, parent notify). `listen` fires once per change.
+
+Call `listen` in `build`. Riverpod registers it; it does not stack a new subscription every frame. Do not put it in `onPressed`.
+
+The callback gets `(previous, next)`. Add User ignores `previous` (`_`) and acts on `next`. Guard the “nothing happened” values: `if (!isAdded) return;` / `if (error == null) return;` so the reset after the side effect does not loop.
+
+**`.select`** listens to one field so a list update does not open the duplicate-id dialog:
+
+```
+ref.listen(addUserProvider.select((state) => state.isAdded), (_, isAdded) { ... });
+ref.listen(addUserProvider.select((state) => state.error), (_, error) { ... });
+```
+
+**One-shot flags.** `isAdded` is not “the user exists”. It is “show the snackbar now”. After the snackbar, **`acknowledgeAdded()`** sets it back to `false`. Without that, the next successful add is `true` → `true` and `listen` does not run. Same idea for `error` + **`clearError()`** after the dialog. Add User does this for the form; User List does it for `fetchUsers` errors.
+
+**Use `listen` when** something must happen *because the value changed*, once, and is not a widget on screen.
+
+**Do not use `listen` when** you need the value in the tree. That is `watch`. Do not `watch` a flag only to `showSnackBar` in `build`.
 
 `.notifier` is the object that owns the mutable value. `watch` / `read` the provider for the `int`. `read` the `.notifier` when you need to change it.
 
@@ -327,7 +344,7 @@ Why not a plain provider of the list:
 - `Notifier<List<User>>` holds only the list. The flags would be extra providers you have to keep in sync.
 - `AsyncValue<List<User>>` is loading / error / data. It has no `isAdded` for the SnackBar, and `addUser` is synchronous.
 
-One `copyWith` replaces `state`. One `ref.watch` per notifier. `ref.listen` on `isAdded` or `error` for side effects.
+One `copyWith` replaces `state`. One `ref.watch` per notifier. `ref.listen` + `.select` on `isAdded` or `error` for side effects, then reset the flag (`acknowledgeAdded` / `clearError`). See [watch, read, listen](#watch-read-listen).
 
 **Use a custom state class when** several fields must change together and at least one is not the domain object itself (loading, a one-shot UI flag, a form error).
 
