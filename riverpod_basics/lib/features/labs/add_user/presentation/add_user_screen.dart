@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_basics/features/labs/add_user/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_provider.dart';
+import 'package:riverpod_basics/features/labs/add_user/presentation/widgets/add_user_text_field.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 
@@ -87,57 +88,38 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
           child: CustomScrollView(
             slivers: [
               SliverToBoxAdapter(
-                child: TextFormField(
+                child: AddUserTextField(
                   controller: _idController,
-                  textInputAction: TextInputAction.next,
+                  label: l10n.id,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: l10n.id,
-                  ),
                   validator: (value) => _requiredNumber(l10n, value),
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
               SliverToBoxAdapter(
-                child: TextFormField(
+                child: AddUserTextField(
                   controller: _nameController,
-                  textInputAction: TextInputAction.next,
+                  label: l10n.username,
                   keyboardType: TextInputType.name,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: l10n.username,
-                  ),
                   validator: (value) => _requiredText(l10n, value),
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
               SliverToBoxAdapter(
-                child: TextFormField(
+                child: AddUserTextField(
                   controller: _ageController,
-                  textInputAction: TextInputAction.next,
+                  label: l10n.age,
                   keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: l10n.age,
-                  ),
                   validator: (value) => _requiredNumber(l10n, value),
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
               SliverToBoxAdapter(
-                child: TextFormField(
+                child: AddUserTextField(
                   controller: _emailController,
-                  textInputAction: TextInputAction.done,
+                  label: l10n.email,
                   keyboardType: TextInputType.emailAddress,
-                  decoration: InputDecoration(
-                    border: const OutlineInputBorder(),
-                    labelText: l10n.email,
-                  ),
+                  textInputAction: TextInputAction.done,
                   validator: (value) => _requiredEmail(l10n, value),
                 ),
               ),
-              const SliverToBoxAdapter(child: SizedBox(height: 16)),
               SliverToBoxAdapter(
                 child: FullWidthElevatedButton(
                   label: l10n.addUser,
