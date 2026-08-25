@@ -94,7 +94,7 @@ The first lesson is the same button-press counter five ways. `NotifierProvider` 
 
 The landing page is two `ExpansionTile`s: **Providers** (the five counters) and **Labs**. Both use `LandingPageDropdown`. The first lab is **AutoDispose Provider Lifetimes** (`features/labs/provider_lifetimes/`) — three username fields on one screen so you can feel lifetime. Each field is a `ProviderLifetimesSection` in `presentation/widgets/`. **Persistent** is `NotifierProvider` in `lifetimes_persistent_provider.dart` (lives as long as `ProviderScope`). **Non-Persistent** is `NotifierProvider.autoDispose` in `lifetimes_auto_dispose_provider.dart` (dies on Back). **Keep Alive 5 Seconds** is `NotifierProvider.autoDispose` plus `ref.keepAlive()` in `lifetimes_keep_alive_provider.dart`: Back starts a one-shot timer; come back within 5s (`onResume` cancels it) and the name is still there; stay away (`keepAlive.close()` then `onDispose`) and the next visit is `-`. `debugPrint` and a 1.5s SnackBar (`KeepAliveSnackBarListener` on `MaterialApp.router`) fire on resume and dispose so you can see the life-cycle on the landing page too. Same setter, same `build()` → `'-'`. That is a playground to feel the life-cycle, not a disk cache. The second lab is **Add User** (`features/labs/add_user/`) — a form for the Freezed `User` (`id`, `username`, `age`, `email`). `AddUserNotifier` holds `UserState` (`users`, `isAdded`, `error`, `isLoading`). Opening the screen calls `fetchUsers()`: `InMemoryUserRepository` parses JSON `UserModel`s and maps them to `User` entities. `ref.listen` shows a SnackBar on success and a dialog on a duplicate id or a failed fetch. The list lives on a plain `NotifierProvider` (same lifetime as `ProviderScope`, like `@Riverpod(keepAlive: true)`). Labs 2 and 3 are `LabPlaceholderScreen`. Section titles use `textTheme.titleLarge` (`AppColor.teal`, `#0E6971`). Colors live in `lib/core/theme/app_color.dart`; title styles are set in `getLightTheme()`.
 
-Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. Lab shells live under **`features/labs/`**. **`ErrorWidget`** and **`FullWidthElevatedButton`** live in `shared_widgets/`. **`ErrorWidget`** is `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback. **`FullWidthElevatedButton`** is a labeled, full-width `ElevatedButton`. The UI locale is pinned to English (`locale: Locale('en')` in `MaterialApp`); German ARBs remain for tests and later switching. `l10n.yaml` lists `en` first as the fallback. **Freezed** is in use: domain `User` in `lib/features/labs/add_user/domain/entities/user.dart` and JSON `UserModel` in `lib/features/labs/add_user/data/models/user_model.dart`. See [Freezed](#freezed).
+Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure): `core/`, `features/`, `l10n/`, and **`shared_widgets/`** for UI used by more than one screen. Counter lessons live under **`features/providers/`**. Lab shells live under **`features/labs/`**. **`ErrorWidget`** and **`FullWidthElevatedButton`** live in `shared_widgets/`. **`ErrorWidget`** is `assets/img/error_dragon.png` plus the localized “an error occurred” line. Files that import it also `hide ErrorWidget` on `package:flutter/material.dart`, because Flutter already uses that name for the build-failure fallback. **`FullWidthElevatedButton`** is a labeled, full-width `ElevatedButton`. The UI locale is pinned to English (`locale: Locale('en')` in `MaterialApp`); German ARBs remain for tests and later switching. `l10n.yaml` lists `en` first as the fallback. **Freezed** is in use: domain `User` in `lib/features/labs/add_user/domain/entities/user.dart`, JSON `UserModel` in `lib/features/labs/add_user/data/models/user_model.dart`, and screen `UserState` in `lib/features/labs/add_user/presentation/providers/user_state.dart`. See [Freezed](#freezed).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -173,7 +173,9 @@ No provider means the count lives in the widget with `setState`. Nothing outside
 
 `NotifierProvider` is the default way to hold **mutable state outside the widget**. Updates go through a **class with methods**. The widget calls `increment()` or `applyFilter()`. The notifier owns the rules.
 
-This is the type everything else is built on. A `StateProvider` is a notifier whose public API is only `state`. **AutoDispose Provider Lifetimes** puts three lifetimes on one screen: plain `NotifierProvider` (Persistent), `NotifierProvider.autoDispose` (Non-Persistent), and autoDispose plus `keepAlive` for 5 seconds after Back. **Add User** holds a Freezed `UserState` (list, `isAdded`, `error`) on one `NotifierProvider`.
+This is the type everything else is built on. A `StateProvider` is a notifier whose public API is only `state`. **AutoDispose Provider Lifetimes** puts three lifetimes on one screen: plain `NotifierProvider` (Persistent), `NotifierProvider.autoDispose` (Non-Persistent), and autoDispose plus `keepAlive` for 5 seconds after Back.
+
+**Add User** does not put `List<User>` on the provider. It puts a Freezed **`UserState`** (`lib/features/labs/add_user/presentation/providers/user_state.dart`) on one `NotifierProvider`. That snapshot is the list plus `isLoading`, `error`, and `isAdded`. Those fields change together; one `copyWith` replaces `state`. A read-only `Provider<List<User>>` cannot run `addUser` or `fetchUsers`. `Notifier<List<User>>` would need extra providers for the flags. `AsyncValue<List<User>>` is already loading / error / data — it has no place for the one-shot SnackBar flag, and `addUser` is synchronous. `UserState` is presentation, not a domain entity. See [Why Freezed](#why-freezed).
 
 **Use it when** the value leaves the widget: plus and minus must not go below zero, a form field needs validation, a list can add and remove items, or two screens share the same actions. Use it as soon as you would write a test for the change.
 
@@ -260,7 +262,7 @@ The app screens still go `setState` → `StateProvider` → `NotifierProvider` �
 
 Freezed generates **immutable data classes**. You write the fields. It writes `==`, `hashCode`, `toString`, `copyWith`, and (if you ask) union types.
 
-That is a **data class**, not a provider. Riverpod holds and updates state. Freezed is the shape of a value you put *in* that state: a domain entity, a JSON model, a list item. A `String` username on AutoDispose Provider Lifetimes does not need Freezed. The Add User `User` with `id`, `username`, `age`, and `email` does.
+That is a **data class**, not a provider. Riverpod holds and updates state. Freezed is the shape of a value you put *in* that state: a domain entity, a JSON model, a **screen snapshot**. A `String` username on AutoDispose Provider Lifetimes does not need Freezed. The Add User `User` and **`UserState`** do.
 
 `freezed_annotation` is what you import in app code (`@freezed`). `freezed` is the generator. It lives in `dev_dependencies` because the app never imports it at runtime.
 
@@ -277,9 +279,9 @@ Freezed keeps those in sync with the constructor:
 - **Unions**: a result that is `loading` / `data` / `error` as sealed types, not a pile of nullable fields. Pattern-match with `switch`.
 - **JSON**: add a `fromJson` factory; **json_serializable** fills `toJson` / `fromJson`. Freezed does not parse JSON by itself.
 
-**Use it when** the value has more than one field, comes from an API, must be copied with one field changed, or you would write `==` by hand. Typical: a `User` entity, a DTO next to a repository, a sealed `Result`.
+**Use it when** the value has more than one field, comes from an API, must be copied with one field changed, or you would write `==` by hand. Typical: a `User` entity, **`UserState` on Add User** (`users`, `isLoading`, `error`, `isAdded`), a DTO next to a repository, a sealed `Result`.
 
-**Do not use it when** the value is one `int` or `String` (the counters, the AutoDispose Provider Lifetimes name). Do not Freezed a widget. Do not put JSON parsing in the UI — map API models to entities in the repository, then hold entities in the provider.
+**Do not use it when** the value is one `int` or `String` (the counters, the AutoDispose Provider Lifetimes name). Do not Freezed a widget. Do not put JSON parsing in the UI — map API models to entities in the repository, then hold entities in the provider. Do not skip `UserState` and hang `List<User>` on the provider once loading, errors, and a one-shot UI flag must move together — that is [NotifierProvider](#notifierprovider).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -307,7 +309,7 @@ Or the Cursor / VS Code task **Build Runner** (Command Palette → **Tasks: Run 
 
 Do not edit `*.freezed.dart` or `*.g.dart`. `analysis_options.yaml` excludes them. `invalid_annotation_target` is ignored so `@JsonKey` on Freezed fields does not warn.
 
-The Add User lab splits that shape in two. **`User`** is the domain entity (`lib/features/labs/add_user/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/add_user/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. `InMemoryUserRepository` is where that mapping runs. The screen and `AddUserNotifier` hold `User`. `UserState` stays in **presentation**.
+The Add User lab splits that shape in two, then adds screen state. **`User`** is the domain entity (`lib/features/labs/add_user/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/add_user/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. `InMemoryUserRepository` is where that mapping runs. **`UserState`** (`lib/features/labs/add_user/presentation/providers/user_state.dart`) is the presentation snapshot: `users` plus `isLoading`, `error`, `isAdded`. The screen and `AddUserNotifier` hold `User` inside that snapshot, not `UserModel`. Why a state class instead of `Provider<List<User>>` is in [NotifierProvider](#notifierprovider).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -405,7 +407,7 @@ The Riverpod calls in tests are the same as in the app. See [watch, read, listen
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**91.8%** line coverage (636 of 693 lines).
+**88.2%** line coverage (635 of 720 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
