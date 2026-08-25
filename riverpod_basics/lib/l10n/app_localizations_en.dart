@@ -13,9 +13,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get appTitle => 'Riverpod Basics';
 
   @override
-  String get provider1 => 'Provider 1';
-
-  @override
   String get noProvider => 'No Provider';
 
   @override
@@ -38,9 +35,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String buttonPressCount(int count) {
     return 'You have pressed the button this many times: $count';
   }
-
-  @override
-  String get counter => 'Counter';
 
   @override
   String get pageNotFound => 'Page not found';
@@ -80,6 +74,12 @@ class AppLocalizationsEn extends AppLocalizations {
   String get username => 'Username';
 
   @override
+  String get add => 'Add';
+
+  @override
+  String get providerLifetimes => 'Provider Lifetimes';
+
+  @override
   String get addUser => 'Add User';
 
   @override
@@ -89,4 +89,34 @@ class AppLocalizationsEn extends AppLocalizations {
   String userValue(String name) {
     return 'User: $name';
   }
+
+  @override
+  String get id => 'Id';
+
+  @override
+  String get age => 'Age';
+
+  @override
+  String get email => 'Email';
+
+  @override
+  String get fieldRequired => 'Required.';
+
+  @override
+  String get invalidNumber => 'Enter a number.';
+
+  @override
+  String get invalidEmail => 'Enter a valid email.';
+
+  @override
+  String get duplicateUserId => 'A user with this id already exists.';
+
+  @override
+  String get userAdded => 'User added.';
+
+  @override
+  String get fetchUsersFailed => 'Could not load users.';
+
+  @override
+  String get errorTitle => 'Error';
 }

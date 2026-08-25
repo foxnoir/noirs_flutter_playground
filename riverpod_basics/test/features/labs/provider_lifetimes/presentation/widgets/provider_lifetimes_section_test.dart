@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/theme/theme.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/widgets/add_user_section.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/widgets/provider_lifetimes_section.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 
@@ -24,12 +24,12 @@ void main() {
     return userController;
   }
 
-  testWidgets('AddUserSection shows title, field, and user value', (
+  testWidgets('ProviderLifetimesSection shows title, field, and user value', (
     tester,
   ) async {
     await tester.pumpWidget(
       app(
-        home: AddUserSection(
+        home: ProviderLifetimesSection(
           title: 'Persistent',
           user: '-',
           controller: controller(),
@@ -41,16 +41,18 @@ void main() {
     expect(find.text('Persistent'), findsOneWidget);
     expect(find.widgetWithText(TextFormField, 'Username'), findsOneWidget);
     expect(find.byType(FullWidthElevatedButton), findsOneWidget);
-    expect(find.text('Add User'), findsOneWidget);
+    expect(find.text('Add'), findsOneWidget);
     expect(find.text('User: -'), findsOneWidget);
   });
 
-  testWidgets('AddUserSection add button calls onAddPressed', (tester) async {
+  testWidgets('ProviderLifetimesSection add button calls onAddPressed', (
+    tester,
+  ) async {
     var added = false;
 
     await tester.pumpWidget(
       app(
-        home: AddUserSection(
+        home: ProviderLifetimesSection(
           title: 'Persistent',
           user: '-',
           controller: controller(),
@@ -59,7 +61,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.text('Add User'));
+    await tester.tap(find.text('Add'));
     await tester.pump();
 
     expect(added, isTrue);
@@ -68,7 +70,7 @@ void main() {
   testWidgets('section title uses theme titleLarge teal', (tester) async {
     await tester.pumpWidget(
       app(
-        home: AddUserSection(
+        home: ProviderLifetimesSection(
           title: 'Persistent',
           user: '-',
           controller: controller(),

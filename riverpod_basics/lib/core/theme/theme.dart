@@ -9,7 +9,7 @@ ThemeData getLightTheme() {
 
 ThemeData _buildTheme(ColorScheme colorScheme) {
   const textTheme = TextTheme(
-    /// Landing section titles (Providers, Labs) and Add User headings.
+    /// Landing section titles (Providers, Labs) and lab headings.
     titleLarge: TextStyle(
       fontSize: 22,
       fontWeight: FontWeight.w600,

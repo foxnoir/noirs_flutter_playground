@@ -56,9 +56,8 @@ class _LandingPageDropdownItemLabel extends StatelessWidget {
       return Text(item.label);
     }
 
-    final captionStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
-      color: Theme.of(context).colorScheme.onSurfaceVariant,
-    );
+    final captionStyle = Theme.of(context).textTheme.bodySmall
+        ?.copyWith(color: Theme.of(context).colorScheme.onSurfaceVariant);
 
     return Wrap(
       crossAxisAlignment: WrapCrossAlignment.center,

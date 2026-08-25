@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 
 void main() {
-  const persistentSection = Key('add-user-persistent');
-  const nonPersistentSection = Key('add-user-non-persistent');
-  const keepAliveSection = Key('add-user-keep-alive');
+  const persistentSection = Key('lifetimes-persistent');
+  const nonPersistentSection = Key('lifetimes-non-persistent');
+  const keepAliveSection = Key('lifetimes-keep-alive');
 
   Finder fieldIn(Key section) {
     return find.descendant(
@@ -18,10 +18,7 @@ void main() {
   }
 
   Finder addButtonIn(Key section) {
-    return find.descendant(
-      of: find.byKey(section),
-      matching: find.text('Add User'),
-    );
+    return find.descendant(of: find.byKey(section), matching: find.text('Add'));
   }
 
   Finder userValueIn(Key section, String name) {
@@ -32,7 +29,7 @@ void main() {
   }
 
   testWidgets(
-    'AddUserScreen updates persistent, non-persistent, and keep-alive users independently',
+    'ProviderLifetimesScreen updates persistent, non-persistent, and keep-alive users independently',
     (tester) async {
       await tester.pumpWidget(
         const ProviderScope(
@@ -40,12 +37,12 @@ void main() {
             locale: Locale('en'),
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            home: AddUserScreen(),
+            home: ProviderLifetimesScreen(),
           ),
         ),
       );
 
-      expect(find.widgetWithText(AppBar, 'Add User'), findsOneWidget);
+      expect(find.widgetWithText(AppBar, 'Provider Lifetimes'), findsOneWidget);
       expect(find.text('Persistent'), findsOneWidget);
       expect(find.text('Non-Persistent'), findsOneWidget);
       expect(find.text('Keep Alive 5 Seconds'), findsOneWidget);

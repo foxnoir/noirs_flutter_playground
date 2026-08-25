@@ -1,7 +1,6 @@
 {
   "@@locale": "de",
   "appTitle": "Riverpod Basics",
-  "provider1": "Provider 1",
   "noProvider": "Kein Provider",
   "stateProvider": "StateProvider",
   "notifierProvider": "NotifierProvider",
@@ -9,7 +8,6 @@
   "asyncNotifierNonPersistentState": "AsyncNotifier Non-Persistent State",
   "errorOccurred": "Es ist leider ein Fehler aufgetreten.",
   "buttonPressCount": "Du hast den Button so oft gedrückt: {count}",
-  "counter": "Zähler",
   "pageNotFound": "Seite nicht gefunden",
   "goToLanding": "Zur Startseite",
   "providers": "Providers",
@@ -21,7 +19,19 @@
   "keepAliveOnResume": "Keep Alive: onResume (Timer stopped)",
   "keepAliveOnDispose": "Keep Alive: onDispose",
   "username": "Benutzername",
+  "add": "Hinzufügen",
+  "providerLifetimes": "Provider Lifetimes",
   "addUser": "Benutzer hinzufügen",
   "autoDisposeProvider": "Auto Dispose Provider",
-  "userValue": "Benutzer: {name}"
+  "userValue": "Benutzer: {name}",
+  "id": "Id",
+  "age": "Alter",
+  "email": "E-Mail",
+  "fieldRequired": "Pflichtfeld.",
+  "invalidNumber": "Bitte eine Zahl eingeben.",
+  "invalidEmail": "Bitte eine gültige E-Mail eingeben.",
+  "duplicateUserId": "Ein Benutzer mit dieser Id existiert bereits.",
+  "userAdded": "Benutzer hinzugefügt.",
+  "fetchUsersFailed": "Benutzer konnten nicht geladen werden.",
+  "errorTitle": "Fehler"
 }

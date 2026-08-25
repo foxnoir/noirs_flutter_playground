@@ -56,8 +56,12 @@ class LandingPage extends StatelessWidget {
             title: l10n.labs,
             items: [
               destination(
-                label: l10n.addUser,
+                label: l10n.providerLifetimes,
                 caption: l10n.autoDisposeProvider,
+                routeName: AppRouteNames.providerLifetimes,
+              ),
+              destination(
+                label: l10n.addUser,
                 routeName: AppRouteNames.addUser,
               ),
               destination(

@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_keep_alive_provider.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_non_persistent_provider.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_provider.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/widgets/add_user_section.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/providers/lifetimes_auto_dispose_provider.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/providers/lifetimes_keep_alive_provider.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/providers/lifetimes_persistent_provider.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/widgets/provider_lifetimes_section.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
-class AddUserScreen extends ConsumerStatefulWidget {
-  const AddUserScreen({super.key});
+class ProviderLifetimesScreen extends ConsumerStatefulWidget {
+  const ProviderLifetimesScreen({super.key});
 
   @override
-  ConsumerState<AddUserScreen> createState() => _AddUserScreenState();
+  ConsumerState<ProviderLifetimesScreen> createState() =>
+      _ProviderLifetimesScreenState();
 }
 
-class _AddUserScreenState extends ConsumerState<AddUserScreen> {
+class _ProviderLifetimesScreenState
+    extends ConsumerState<ProviderLifetimesScreen> {
   late final TextEditingController _persistentController;
   late final TextEditingController _nonPersistentController;
   late final TextEditingController _keepAliveController;
@@ -37,52 +39,50 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final persistentUser = ref.watch(addUserProvider);
-    final nonPersistentUser = ref.watch(addUserNonPersistentProvider);
-    final keepAliveUser = ref.watch(addUserKeepAliveProvider);
+    final persistentUser = ref.watch(lifetimesPersistentProvider);
+    final nonPersistentUser = ref.watch(lifetimesAutoDisposeProvider);
+    final keepAliveUser = ref.watch(lifetimesKeepAliveProvider);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.addUser)),
+      appBar: AppBar(title: Text(l10n.providerLifetimes)),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: CustomScrollView(
           slivers: [
             SliverToBoxAdapter(
-              child: AddUserSection(
-                key: const Key('add-user-persistent'),
+              child: ProviderLifetimesSection(
+                key: const Key('lifetimes-persistent'),
                 title: l10n.persistent,
                 user: persistentUser,
                 controller: _persistentController,
                 onAddPressed: () {
-                  ref.read(addUserProvider.notifier).user =
+                  ref.read(lifetimesPersistentProvider.notifier).user =
                       _persistentController.text;
                 },
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
             SliverToBoxAdapter(
-              child: AddUserSection(
-                key: const Key('add-user-non-persistent'),
+              child: ProviderLifetimesSection(
+                key: const Key('lifetimes-non-persistent'),
                 title: l10n.nonPersistent,
                 user: nonPersistentUser,
                 controller: _nonPersistentController,
                 onAddPressed: () {
-                  ref.read(addUserNonPersistentProvider.notifier).user =
+                  ref.read(lifetimesAutoDisposeProvider.notifier).user =
                       _nonPersistentController.text;
                 },
               ),
             ),
             const SliverToBoxAdapter(child: SizedBox(height: 24)),
             SliverToBoxAdapter(
-              child: AddUserSection(
-                key: const Key('add-user-keep-alive'),
-                title: l10n.keepAliveForSeconds(
-                  addUserKeepAliveDuration.inSeconds,
-                ),
+              child: ProviderLifetimesSection(
+                key: const Key('lifetimes-keep-alive'),
+                title: l10n.keepAliveForSeconds(keepAliveDuration.inSeconds),
                 user: keepAliveUser,
                 controller: _keepAliveController,
                 onAddPressed: () {
-                  ref.read(addUserKeepAliveProvider.notifier).user =
+                  ref.read(lifetimesKeepAliveProvider.notifier).user =
                       _keepAliveController.text;
                 },
               ),

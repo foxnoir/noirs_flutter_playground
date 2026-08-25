@@ -6,48 +6,48 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 // Playground, not a production cache. autoDispose would drop the name on
 // Back. keepAlive + a 5s timer lets you feel onCancel / onResume / onDispose
 // on the same screen as Persistent (never dies) and Non-Persistent (dies now).
-const addUserKeepAliveDuration = Duration(seconds: 5);
+const keepAliveDuration = Duration(seconds: 5);
 
-const addUserKeepAliveSnackBarDuration = Duration(milliseconds: 1500);
+const keepAliveSnackBarDuration = Duration(milliseconds: 1500);
 
-enum AddUserKeepAliveLifecycle { resume, dispose }
+enum KeepAliveLifecycle { resume, dispose }
 
-class AddUserKeepAliveNotice {
-  AddUserKeepAliveNotice(this.lifecycle);
+class KeepAliveNotice {
+  KeepAliveNotice(this.lifecycle);
 
-  final AddUserKeepAliveLifecycle lifecycle;
+  final KeepAliveLifecycle lifecycle;
 }
 
-final addUserKeepAliveNoticeProvider =
-    NotifierProvider<AddUserKeepAliveNoticeNotifier, AddUserKeepAliveNotice?>(
-      AddUserKeepAliveNoticeNotifier.new,
+final keepAliveNoticeProvider =
+    NotifierProvider<KeepAliveNoticeNotifier, KeepAliveNotice?>(
+      KeepAliveNoticeNotifier.new,
     );
 
-class AddUserKeepAliveNoticeNotifier extends Notifier<AddUserKeepAliveNotice?> {
+class KeepAliveNoticeNotifier extends Notifier<KeepAliveNotice?> {
   @override
-  AddUserKeepAliveNotice? build() => null;
+  KeepAliveNotice? build() => null;
 
-  void emit(AddUserKeepAliveLifecycle lifecycle) {
-    state = AddUserKeepAliveNotice(lifecycle);
+  void emit(KeepAliveLifecycle lifecycle) {
+    state = KeepAliveNotice(lifecycle);
   }
 }
 
-final addUserKeepAliveProvider =
-    NotifierProvider.autoDispose<AddUserKeepAliveNotifier, String>(
-      AddUserKeepAliveNotifier.new,
+final lifetimesKeepAliveProvider =
+    NotifierProvider.autoDispose<LifetimesKeepAliveNotifier, String>(
+      LifetimesKeepAliveNotifier.new,
     );
 
 void _notifyKeepAliveLifecycle(
   ProviderContainer container,
-  AddUserKeepAliveLifecycle lifecycle,
+  KeepAliveLifecycle lifecycle,
 ) {
   // Life-cycle callbacks cannot write other providers. Defer until the stack is clear.
   scheduleMicrotask(() {
-    container.read(addUserKeepAliveNoticeProvider.notifier).emit(lifecycle);
+    container.read(keepAliveNoticeProvider.notifier).emit(lifecycle);
   });
 }
 
-class AddUserKeepAliveNotifier extends Notifier<String> {
+class LifetimesKeepAliveNotifier extends Notifier<String> {
   @override
   String build() {
     // "Do not dispose yet." Closing the link later lets autoDispose run
@@ -60,8 +60,8 @@ class AddUserKeepAliveNotifier extends Notifier<String> {
     // One-shot Timer — not periodic; we only want one close().
     // Notify before close() so the 1.5s SnackBar can show on the landing page.
     ref.onCancel(() {
-      timer = Timer(addUserKeepAliveDuration, () {
-        _notifyKeepAliveLifecycle(container, AddUserKeepAliveLifecycle.dispose);
+      timer = Timer(keepAliveDuration, () {
+        _notifyKeepAliveLifecycle(container, KeepAliveLifecycle.dispose);
         keepAlive.close();
       });
     });
@@ -71,14 +71,14 @@ class AddUserKeepAliveNotifier extends Notifier<String> {
     // the next Back gets a fresh 5s.
     ref.onResume(() {
       timer?.cancel();
-      debugPrint('AddUserKeepAlive: onResume (Timer stopped)');
-      _notifyKeepAliveLifecycle(container, AddUserKeepAliveLifecycle.resume);
+      debugPrint('KeepAlive: onResume (Timer stopped)');
+      _notifyKeepAliveLifecycle(container, KeepAliveLifecycle.resume);
     });
 
     // Provider is actually gone. Drop a timer that never got to fire.
     ref.onDispose(() {
       timer?.cancel();
-      debugPrint('AddUserKeepAlive: onDispose');
+      debugPrint('KeepAlive: onDispose');
     });
 
     return '-';

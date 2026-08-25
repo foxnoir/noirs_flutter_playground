@@ -104,12 +104,6 @@ abstract class AppLocalizations {
   /// **'Riverpod Basics'**
   String get appTitle;
 
-  /// No description provided for @provider1.
-  ///
-  /// In en, this message translates to:
-  /// **'Provider 1'**
-  String get provider1;
-
   /// No description provided for @noProvider.
   ///
   /// In en, this message translates to:
@@ -151,12 +145,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'You have pressed the button this many times: {count}'**
   String buttonPressCount(int count);
-
-  /// No description provided for @counter.
-  ///
-  /// In en, this message translates to:
-  /// **'Counter'**
-  String get counter;
 
   /// No description provided for @pageNotFound.
   ///
@@ -224,6 +212,18 @@ abstract class AppLocalizations {
   /// **'Username'**
   String get username;
 
+  /// No description provided for @add.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get add;
+
+  /// No description provided for @providerLifetimes.
+  ///
+  /// In en, this message translates to:
+  /// **'Provider Lifetimes'**
+  String get providerLifetimes;
+
   /// No description provided for @addUser.
   ///
   /// In en, this message translates to:
@@ -241,6 +241,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User: {name}'**
   String userValue(String name);
+
+  /// No description provided for @id.
+  ///
+  /// In en, this message translates to:
+  /// **'Id'**
+  String get id;
+
+  /// No description provided for @age.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get age;
+
+  /// No description provided for @email.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get email;
+
+  /// No description provided for @fieldRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Required.'**
+  String get fieldRequired;
+
+  /// No description provided for @invalidNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a number.'**
+  String get invalidNumber;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a valid email.'**
+  String get invalidEmail;
+
+  /// No description provided for @duplicateUserId.
+  ///
+  /// In en, this message translates to:
+  /// **'A user with this id already exists.'**
+  String get duplicateUserId;
+
+  /// No description provided for @userAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'User added.'**
+  String get userAdded;
+
+  /// No description provided for @fetchUsersFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load users.'**
+  String get fetchUsersFailed;
+
+  /// No description provided for @errorTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Error'**
+  String get errorTitle;
 }
 
 class _AppLocalizationsDelegate

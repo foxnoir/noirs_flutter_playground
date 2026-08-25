@@ -6,6 +6,7 @@ abstract final class AppRouteNames {
   static const asyncNotifierPersistentState = 'asyncNotifierPersistentState';
   static const asyncNotifierNonPersistentState =
       'asyncNotifierNonPersistentState';
+  static const providerLifetimes = 'providerLifetimes';
   static const addUser = 'addUser';
   static const lab2 = 'lab2';
   static const lab3 = 'lab3';
@@ -20,6 +21,7 @@ abstract final class AppRoutePaths {
   static const asyncNotifierPersistentState = 'async-notifier-persistent-state';
   static const asyncNotifierNonPersistentState =
       'async-notifier-non-persistent-state';
+  static const providerLifetimes = 'provider-lifetimes';
   static const addUser = 'add-user';
   static const lab2 = 'lab-2';
   static const lab3 = 'lab-3';

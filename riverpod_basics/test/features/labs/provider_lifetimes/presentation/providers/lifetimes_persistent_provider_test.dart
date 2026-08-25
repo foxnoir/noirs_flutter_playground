@@ -1,22 +1,22 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_provider.dart';
+import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/providers/lifetimes_persistent_provider.dart';
 
 void main() {
-  test('addUserProvider keeps state when unlistened', () async {
+  test('lifetimesPersistentProvider keeps state when unlistened', () async {
     final container = ProviderContainer.test();
     addTearDown(container.dispose);
 
-    final sub = container.listen(addUserProvider, (_, _) {});
+    final sub = container.listen(lifetimesPersistentProvider, (_, _) {});
 
-    expect(container.read(addUserProvider), '-');
-    container.read(addUserProvider.notifier).user = 'Ada';
-    expect(container.read(addUserProvider), 'Ada');
+    expect(container.read(lifetimesPersistentProvider), '-');
+    container.read(lifetimesPersistentProvider.notifier).user = 'Ada';
+    expect(container.read(lifetimesPersistentProvider), 'Ada');
 
     sub.close();
     await container.pump();
 
-    expect(container.exists(addUserProvider), isTrue);
-    expect(container.read(addUserProvider), 'Ada');
+    expect(container.exists(lifetimesPersistentProvider), isTrue);
+    expect(container.read(lifetimesPersistentProvider), 'Ada');
   });
 }
