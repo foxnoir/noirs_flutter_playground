@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
+import 'package:riverpod_basics/features/labs/user_list/presentation/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
@@ -96,5 +97,19 @@ void main() {
 
     expect(find.byType(AddUserScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Add User'), findsOneWidget);
+  });
+
+  testWidgets('Landing navigates to User List lab', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('User List'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(UserListScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'User List'), findsOneWidget);
+    expect(find.text('Grace'), findsOneWidget);
   });
 }
