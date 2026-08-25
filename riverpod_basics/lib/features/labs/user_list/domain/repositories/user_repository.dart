@@ -1,4 +1,4 @@
-import 'package:riverpod_basics/features/labs/add_user/domain/entities/user.dart';
+import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 
 // ignore: one_member_abstracts -- contract; write APIs come later
 abstract interface class UserRepository {

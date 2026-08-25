@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_basics/features/labs/add_user/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_provider.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/widgets/add_user_text_field.dart';
+import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
+import 'package:riverpod_basics/features/labs/user_list/presentation/providers/user_list_provider.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 
@@ -29,8 +30,7 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
     _emailController = TextEditingController();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
-      if (ref.read(addUserProvider).users.isNotEmpty) return;
-      ref.read(addUserProvider.notifier).fetchUsers();
+      ref.read(userListProvider.notifier).ensureLoaded();
     });
   }
 
@@ -46,7 +46,7 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final userState = ref.watch(addUserProvider);
+    final listState = ref.watch(userListProvider);
 
     ref.listen(addUserProvider.select((state) => state.isAdded), (_, isAdded) {
       if (!isAdded) return;
@@ -62,21 +62,34 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
 
     ref.listen(addUserProvider.select((state) => state.error), (_, error) {
       if (error == null) return;
-      final message = switch (error) {
-        duplicateUserIdError => l10n.duplicateUserId,
-        fetchUsersError => l10n.fetchUsersFailed,
-        _ => error,
-      };
       showDialog<void>(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: Text(l10n.errorTitle),
-            content: Text(message),
+            content: Text(
+              error == duplicateUserIdError ? l10n.duplicateUserId : error,
+            ),
           );
         },
       );
       ref.read(addUserProvider.notifier).clearError();
+    });
+
+    ref.listen(userListProvider.select((state) => state.error), (_, error) {
+      if (error == null) return;
+      showDialog<void>(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text(l10n.errorTitle),
+            content: Text(
+              error == fetchUsersError ? l10n.fetchUsersFailed : error,
+            ),
+          );
+        },
+      );
+      ref.read(userListProvider.notifier).clearError();
     });
 
     return Scaffold(
@@ -123,19 +136,19 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
               SliverToBoxAdapter(
                 child: FullWidthElevatedButton(
                   label: l10n.addUser,
-                  onPressed: userState.isLoading ? null : _addUser,
+                  onPressed: listState.isLoading ? null : _addUser,
                 ),
               ),
               const SliverToBoxAdapter(child: SizedBox(height: 24)),
-              if (userState.isLoading)
+              if (listState.isLoading)
                 const SliverToBoxAdapter(
                   child: Center(child: CircularProgressIndicator()),
                 )
               else
                 SliverList.builder(
-                  itemCount: userState.users.length,
+                  itemCount: listState.users.length,
                   itemBuilder: (context, index) {
-                    final user = userState.users[index];
+                    final user = listState.users[index];
                     return ListTile(
                       contentPadding: EdgeInsets.zero,
                       title: Text(user.username),

@@ -102,7 +102,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **Add User** is a form with a Freezed `User`, a custom `UserState`, and a fake fetch through a repository. **User List** is still a dummy list. Two more labs are placeholders. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). Two more labs are placeholders. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -203,7 +203,7 @@ No provider means the count lives in the widget with `setState`. Nothing outside
 
 `NotifierProvider` is the default way to hold **mutable state outside the widget**. Updates go through a **class with methods**. The widget calls `increment()` or `applyFilter()`. The notifier owns the rules.
 
-This is the type everything else is built on. A `StateProvider` is a notifier whose public API is only `state`. **AutoDispose Provider Lifetimes** puts three lifetimes on one screen: plain `NotifierProvider` (Persistent), `NotifierProvider.autoDispose` (Non-Persistent), and autoDispose plus `keepAlive` for 5 seconds after Back. **Add User** puts a custom state class (`UserState`) on the notifier, not `List<User>` and not a read-only `Provider`. See [Custom State Classes](#custom-state-classes).
+This is the type everything else is built on. A `StateProvider` is a notifier whose public API is only `state`. **AutoDispose Provider Lifetimes** puts three lifetimes on one screen: plain `NotifierProvider` (Persistent), `NotifierProvider.autoDispose` (Non-Persistent), and autoDispose plus `keepAlive` for 5 seconds after Back. **User List** and **Add User** each put a custom state class on a notifier, not `List<User>` and not a read-only `Provider`. See [Custom State Classes](#custom-state-classes).
 
 **Use it when** the value leaves the widget: plus and minus must not go below zero, a form field needs validation, a list can add and remove items, or two screens share the same actions. Use it as soon as you would write a test for the change.
 
@@ -290,7 +290,7 @@ The app screens still go `setState` → `StateProvider` → `NotifierProvider` �
 
 Freezed generates **immutable data classes**. You write the fields. It writes `==`, `hashCode`, `toString`, `copyWith`, and (if you ask) union types.
 
-That is a **data class**, not a provider. Riverpod holds and updates state. Freezed is the shape of a value you put *in* that state: a domain entity, a JSON model, a [custom state class](#custom-state-classes). A `String` username on AutoDispose Provider Lifetimes does not need Freezed. The Add User `User` and **`UserState`** do.
+That is a **data class**, not a provider. Riverpod holds and updates state. Freezed is the shape of a value you put *in* that state: a domain entity, a JSON model, a [custom state class](#custom-state-classes). A `String` username on AutoDispose Provider Lifetimes does not need Freezed. The User List `User`, **`UserListState`**, and Add User **`UserState`** do.
 
 `freezed_annotation` is what you import in app code (`@freezed`). `freezed` is the generator. It lives in `dev_dependencies` because the app never imports it at runtime.
 
@@ -307,7 +307,7 @@ Freezed keeps those in sync with the constructor:
 - **Unions**: a result that is `loading` / `data` / `error` as sealed types, not a pile of nullable fields. Pattern-match with `switch`.
 - **JSON**: add a `fromJson` factory; **json_serializable** fills `toJson` / `fromJson`. Freezed does not parse JSON by itself.
 
-**Use it when** the value has more than one field, comes from an API, must be copied with one field changed, or you would write `==` by hand. Typical: a `User` entity, **`UserState` on Add User** (`users`, `isLoading`, `error`, `isAdded`), a DTO next to a repository, a sealed `Result`.
+**Use it when** the value has more than one field, comes from an API, must be copied with one field changed, or you would write `==` by hand. Typical: a `User` entity, **`UserListState`** (`users`, `isLoading`, `error`), **`UserState` on Add User** (`isAdded`, `error`), a DTO next to a repository, a sealed `Result`.
 
 **Do not use it when** the value is one `int` or `String` (the counters, the AutoDispose Provider Lifetimes name). Do not Freezed a widget. Do not put JSON parsing in the UI — map API models to entities in the repository, then hold entities in the provider.
 
@@ -317,9 +317,9 @@ Freezed keeps those in sync with the constructor:
 
 A **custom state class** is the value on a `Notifier` when one `int` or `List<T>` is not enough. The notifier still owns the methods. The class is the snapshot those methods replace with `copyWith`.
 
-The counters and AutoDispose Provider Lifetimes put a single `int` or `String` on the provider. **Add User** cannot. The screen needs the `User` list *and* `isLoading`, `error`, and `isAdded` in the same update.
+The counters and AutoDispose Provider Lifetimes put a single `int` or `String` on the provider. **User List** cannot. The screen needs the `User` list *and* `isLoading` and `error` in the same update. **Add User** has its own smaller snapshot: `isAdded` and a duplicate-id `error`.
 
-**`UserState`** (`lib/features/labs/add_user/presentation/providers/user_state.dart`) is that class. Freezed. Presentation, not a domain entity.
+**`UserListState`** (`lib/features/labs/user_list/presentation/providers/user_list_state.dart`) owns the list. **`UserState`** (`lib/features/labs/add_user/presentation/providers/user_state.dart`) owns the form flags. Both are Freezed. Presentation, not domain entities. Add User writes through `userListProvider`; it does not keep a second copy of the list.
 
 Why not a plain provider of the list:
 
@@ -327,7 +327,7 @@ Why not a plain provider of the list:
 - `Notifier<List<User>>` holds only the list. The flags would be extra providers you have to keep in sync.
 - `AsyncValue<List<User>>` is loading / error / data. It has no `isAdded` for the SnackBar, and `addUser` is synchronous.
 
-One `copyWith` replaces `state`. One `ref.watch`. `ref.listen` on `isAdded` or `error` for side effects.
+One `copyWith` replaces `state`. One `ref.watch` per notifier. `ref.listen` on `isAdded` or `error` for side effects.
 
 **Use a custom state class when** several fields must change together and at least one is not the domain object itself (loading, a one-shot UI flag, a form error).
 
@@ -350,8 +350,10 @@ Three generators share **build_runner**. They write files you never edit:
 `part 'user.freezed.dart';` and `part 'user.g.dart';` glue those files to your source. Change the source, then run:
 
 ```
-fvm dart run build_runner build
+fvm dart run build_runner build --force-jit
 ```
+
+`--force-jit` is required here: build_runner 2.16 defaults to AOT compilation of the builders, and that snapshot can deadlock (stuck at `0s riverpod_generator`, 0% CPU). JIT finishes a full run in about 10s.
 
 Or the Cursor / VS Code task **Build Runner** (Command Palette → **Tasks: Run Task** → **Build Runner**). **Build Runner Watch** keeps generating while you edit.
 
@@ -359,7 +361,7 @@ Or the Cursor / VS Code task **Build Runner** (Command Palette → **Tasks: Run 
 
 Do not edit `*.freezed.dart` or `*.g.dart`. `analysis_options.yaml` excludes them. `invalid_annotation_target` is ignored so `@JsonKey` on Freezed fields does not warn.
 
-The Add User lab splits that shape in two, then adds a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/add_user/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/add_user/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. `InMemoryUserRepository` is where that mapping runs. **`UserState`** is the presentation snapshot: `users` plus `isLoading`, `error`, `isAdded`. The screen and `AddUserNotifier` hold `User` inside that snapshot, not `UserModel`.
+The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. `InMemoryUserRepository` is where that mapping runs. **`UserListState`** is the list snapshot: `users` plus `isLoading` and `error`. **`UserState`** on Add User is only `isAdded` and `error`. Screens hold `User` entities, not `UserModel`. Add User imports User List; there is no shared users folder.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -381,7 +383,7 @@ git@github.com:foxnoir/noirs_flutter_playground.git
 cd riverpod_basics
 fvm install
 fvm flutter pub get
-fvm dart run build_runner build
+fvm dart run build_runner build --force-jit
 fvm flutter run
 ```
 
@@ -436,7 +438,7 @@ Two shapes:
 
 Lifetime tests (AutoDispose Provider Lifetimes) still use a `ProviderContainer`. Close the last listener and the autoDispose provider is gone. A persistent one is still there. Keep Alive uses `fakeAsync` so 5 seconds pass without a real wait.
 
-Add User provider tests cover `addUser`, a duplicate id, and `fetchUsers`. The widget test fakes the repository with `overrideWith` so nothing hits a delay or seed data.
+User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add User provider tests cover writing through that list and a duplicate id. Widget tests fake the repository with `overrideWith` so nothing hits a delay or seed data.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
 
@@ -447,7 +449,7 @@ Add User provider tests cover `addUser`, a duplicate id, and `fetchUsers`. The w
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**92.1%** line coverage (661 of 718 lines).
+**89.9%** line coverage (678 of 754 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

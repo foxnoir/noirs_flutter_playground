@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/labs/add_user/data/repositories/in_memory_user_repository.dart';
-import 'package:riverpod_basics/features/labs/add_user/domain/entities/user.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 
 void main() {
   test('fetchUsers maps JSON models to domain users', () async {

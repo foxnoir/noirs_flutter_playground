@@ -2,19 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/theme/theme.dart';
-import 'package:riverpod_basics/features/labs/add_user/data/repositories/in_memory_user_repository.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 
-import '../fake_user_repository.dart';
+import '../../user_list/fake_user_repository.dart';
 
 void main() {
-  Widget addUserApp() {
+  Widget addUserApp({
+    FakeUserRepository repository = const FakeUserRepository(),
+  }) {
     return ProviderScope(
-      overrides: [
-        userRepositoryProvider.overrideWithValue(const FakeUserRepository()),
-      ],
+      overrides: [userRepositoryProvider.overrideWithValue(repository)],
       child: MaterialApp(
         locale: const Locale('en'),
         theme: getLightTheme(),
@@ -39,6 +40,27 @@ void main() {
     await tester.tap(find.byType(FullWidthElevatedButton));
     await tester.pumpAndSettle();
   }
+
+  testWidgets('AddUserScreen shows users from the user list', (tester) async {
+    await tester.pumpWidget(
+      addUserApp(
+        repository: const FakeUserRepository(
+          users: [
+            User(
+              id: 10,
+              username: 'Grace',
+              age: 85,
+              email: 'grace@example.com',
+            ),
+          ],
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Grace'), findsOneWidget);
+    expect(find.text('grace@example.com · 85'), findsOneWidget);
+  });
 
   testWidgets('AddUserScreen adds a user to the list', (tester) async {
     await tester.pumpWidget(addUserApp());

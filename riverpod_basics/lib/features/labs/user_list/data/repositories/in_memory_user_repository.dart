@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_basics/features/labs/add_user/data/models/user_model.dart';
-import 'package:riverpod_basics/features/labs/add_user/domain/entities/user.dart';
-import 'package:riverpod_basics/features/labs/add_user/domain/repositories/user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/models/user_model.dart';
+import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
+import 'package:riverpod_basics/features/labs/user_list/domain/repositories/user_repository.dart';
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
   return const InMemoryUserRepository();

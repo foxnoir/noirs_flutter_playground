@@ -5,7 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
-import 'package:riverpod_basics/features/labs/user_list/presentation/presentation/user_list_screen.dart';
+import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
