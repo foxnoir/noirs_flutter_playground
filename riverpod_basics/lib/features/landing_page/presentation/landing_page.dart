@@ -73,6 +73,10 @@ class LandingPage extends StatelessWidget {
                 label: l10n.consumerWidget,
                 routeName: AppRouteNames.consumerWidget,
               ),
+              destination(
+                label: l10n.refreshLab,
+                routeName: AppRouteNames.refresh,
+              ),
             ],
           ),
         ],

@@ -86,5 +86,19 @@
   "consumerWidgetBody": "Both panels show the same users because they watch the same provider. Top: a StatelessWidget wraps Consumer only to get ref. Bottom: ConsumerWidget — build already has ref, so there is no wrapper. Prefer ConsumerWidget. Use ConsumerStatefulWidget only when you need initState or dispose.",
   "consumerWrapLabel": "StatelessWidget + Consumer",
   "consumerWidgetLabel": "ConsumerWidget",
-  "addDemoUser": "Add demo user"
+  "addDemoUser": "Add demo user",
+  "refreshLab": "Refresh",
+  "refreshLabBody": "This provider does a fake GET /ping and shows the time it came back. Pull or Refresh: new GET, wait for the Future. Invalidate: also a new GET because this screen watches, but it returns nothing. Prefer invalidate unless something must wait.",
+  "refreshLabWatchLabel": "watch",
+  "refreshLabLoading": "Loading…",
+  "refreshLabPing": "Last fetch: {time}",
+  "@refreshLabPing": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "refreshLabRefresh": "Refresh",
+  "refreshLabInvalidate": "Invalidate"
 }

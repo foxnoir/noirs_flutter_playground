@@ -46,7 +46,7 @@ void main() {
   });
 
   testWidgets(
-    'Labs dropdown lists lifetimes, add user, user list, listen manual, and consumer widget',
+    'Labs dropdown lists lifetimes, add user, user list, listen manual, consumer widget, and refresh',
     (tester) async {
       await tester.pumpWidget(app());
       await expand(tester, 'Labs');
@@ -56,8 +56,9 @@ void main() {
       expect(find.text('User List'), findsOneWidget);
       expect(find.text('Listen Manual'), findsOneWidget);
       expect(find.text('Consumer Widget'), findsOneWidget);
+      expect(find.text('Refresh'), findsOneWidget);
       expect(find.text('Lab 3'), findsNothing);
-      expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
+      expect(find.byIcon(Icons.chevron_right), findsNWidgets(6));
     },
   );
 
@@ -73,6 +74,7 @@ void main() {
     expect(find.text('Benutzerliste'), findsOneWidget);
     expect(find.text('Listen Manual'), findsOneWidget);
     expect(find.text('Consumer Widget'), findsOneWidget);
+    expect(find.text('Refresh'), findsOneWidget);
     expect(find.text('Lab 3'), findsNothing);
   });
 }
