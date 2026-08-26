@@ -32,6 +32,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get errorOccurred => 'Es ist leider ein Fehler aufgetreten.';
 
   @override
+  String get errorNetwork =>
+      'Der Server ist nicht erreichbar. Prüfe die Verbindung.';
+
+  @override
+  String get errorNotFound => 'Dieser Eintrag wurde nicht gefunden.';
+
+  @override
   String buttonPressCount(int count) {
     return 'Du hast den Button so oft gedrückt: $count';
   }
@@ -117,9 +124,6 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get userAdded => 'Benutzer hinzugefügt.';
-
-  @override
-  String get fetchUsersFailed => 'Benutzer konnten nicht geladen werden.';
 
   @override
   String get errorTitle => 'Fehler';

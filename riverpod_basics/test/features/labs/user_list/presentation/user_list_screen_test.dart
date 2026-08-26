@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:riverpod_basics/core/errors/app_failure.dart';
 import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
@@ -47,5 +48,32 @@ void main() {
     expect(find.text('grace@example.com · 85'), findsOneWidget);
     expect(find.text('Alan'), findsOneWidget);
     expect(find.text('alan@example.com · 41'), findsOneWidget);
+  });
+
+  testWidgets('UserListScreen maps a fetch exception to l10n copy', (
+    tester,
+  ) async {
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          userRepositoryProvider.overrideWithValue(
+            const FakeUserRepository(error: NetworkFailure()),
+          ),
+        ],
+        child: const MaterialApp(
+          locale: Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: UserListScreen(),
+        ),
+      ),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Error'), findsOneWidget);
+    expect(
+      find.text('Could not reach the server. Check your connection.'),
+      findsOneWidget,
+    );
   });
 }

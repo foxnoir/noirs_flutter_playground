@@ -32,6 +32,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorOccurred => 'Unfortunately, an error occurred.';
 
   @override
+  String get errorNetwork =>
+      'Could not reach the server. Check your connection.';
+
+  @override
+  String get errorNotFound => 'That item was not found.';
+
+  @override
   String buttonPressCount(int count) {
     return 'You have pressed the button this many times: $count';
   }
@@ -116,9 +123,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get userAdded => 'User added.';
-
-  @override
-  String get fetchUsersFailed => 'Could not load users.';
 
   @override
   String get errorTitle => 'Error';

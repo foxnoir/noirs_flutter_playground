@@ -106,8 +106,9 @@ app/
 │   │   └── feature_name/
 │   │       ├── data/
 │   │       │   ├── models/
+│   │       │   ├── data_sources/   # or remote_services/ — throw AppException
 │   │       │   ├── remote_services/
-│   │       │   └── repositories/
+│   │       │   └── repositories/   # map AppException → AppFailure, models → entities
 │   │       ├── domain/
 │   │       │   ├── entities/
 │   │       │   ├── repositories/
@@ -132,8 +133,8 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 #### Data
 
 - **models/** — API, JSON, or local shapes.
-- **remote_services/** — network or Firebase calls.
-- **repositories/** — implementations of the domain repository contracts. Map models to entities here.
+- **data_sources/** / **remote_services/** — GET, prefs, Firebase. Throw `AppException`. Return models, not entities.
+- **repositories/** — implementations of the domain repository contracts. Map models to entities. Catch `on AppException` and `throw AppFailure.fromException(e)` (dartz equivalent: `Left(ApiFailure.fromException(e))`).
 
 #### Domain
 
@@ -147,7 +148,7 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 - **widgets/** — feature-local UI.
 - **feature_page.dart** — the screen for that feature.
 
-`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error illustration plus message (`assets/img/` in the app that uses it). `core/` holds app-wide routing, theme, and similar infrastructure.
+`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `core/` holds app-wide routing, theme, and similar infrastructure. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -184,7 +185,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **Riverpod**: no provider, `NotifierProvider`, AsyncNotifier Persistent / Non-Persistent State. `StateProvider` is the shortcut. Landing is **Providers** (counters) and **Labs** (Add User lifetimes).
+Practice app for **Riverpod**: providers, labs (listen, ConsumerWidget, refresh / invalidate, User List with data source + repository), Freezed, and sealed error mapping.
 
 [README »](riverpod_basics/README.md)
 
@@ -199,7 +200,7 @@ Practice app for **Riverpod**: no provider, `NotifierProvider`, AsyncNotifier Pe
   <a href="app_starters/riverpod_basic_starter/README.md#test-coverage"><img align="right" src="app_starters/riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Copyable starter for **Riverpod**: GoRouter, l10n, feature folders, and a Material 3 seed theme.
+Copyable starter for **Riverpod**: GoRouter, l10n, a sample Items feature (data source, repository, entities), sealed failures, and a Material 3 seed theme.
 
 [README »](app_starters/riverpod_basic_starter/README.md)
 

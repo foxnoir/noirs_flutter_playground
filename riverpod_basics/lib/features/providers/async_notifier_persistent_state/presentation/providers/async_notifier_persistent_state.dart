@@ -1,4 +1,5 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_basics/core/errors/app_exception.dart';
 
 // No autoDispose: in-memory for ProviderScope (the app), not disk.
 // Leave the page and come back — same notifier, same count, no loading.
@@ -8,11 +9,7 @@ final persistentStateAsyncNotifierProvider =
     );
 
 // Thrown on every 3rd page enter so `when(error:)` has something to show.
-class FakePageEnterException implements Exception {
-  const FakePageEnterException(this.visitCount);
-
-  final int visitCount;
-}
+// [FakePageEnterException] lives in core/errors (sealed [AppException]).
 
 // AsyncNotifier is a Notifier whose state is AsyncValue<T>: loading, error, data.
 // Use it when the first value (or an update) comes from a Future.

@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, refresh / invalidate), and Freezed.
+     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, refresh / invalidate), Freezed, and sealed errors.
   </p>
 </div>
 
@@ -77,6 +77,13 @@
         <li><a href="#codegen">Codegen</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#errors">Errors</a>
+      <ul>
+        <li><a href="#two-types">Two types</a></li>
+        <li><a href="#where-mapping-lives">Where mapping lives</a></li>
+      </ul>
+    </li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li>
       <a href="#testing">Testing</a>
@@ -101,7 +108,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, `UserModel`, the data source, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state. See [Errors](#errors) for sealed exceptions, failures, and l10n mapping.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -290,7 +297,7 @@ Do not read `.value` or `.value!` in `build` to “just show the number”. Whil
 
 **`AsyncValue.guard`** is the clean way to turn a `Future` into `AsyncValue` without writing try/catch. `state = await AsyncValue.guard(fakeApi)` → success becomes `AsyncData`, `throw` / `Future.error` becomes `AsyncError`. `guard` does **not** set loading. Both async screens still assign `state = const AsyncLoading()` first so the spinner shows now. `reset()` uses this path. The commented `throw` inside `reset()` is how you would fake a failed reload instead of returning `0`.
 
-The **`error`** branch is not empty theory. The screen counts **page enters** once in `initState` (not in `build()`, or every rebuild would increment) and calls `onPageEntered()`. `build()` on the notifier does not run again (no `autoDispose`), so the visit count lives on that notifier. Every 3rd enter (`visit % 3 == 0`) sets `AsyncLoading`, then `guard` throws `FakePageEnterException` → `AsyncError`. Visit 4 restores the **persisted** count. Same notifier; the error was only a state. The UI is **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`): `assets/img/error_dragon.png` and `l10n.errorOccurred`. Imports `hide ErrorWidget` because Flutter already uses that name for the build-failure fallback.
+The **`error`** branch is not empty theory. The screen counts **page enters** once in `initState` (not in `build()`, or every rebuild would increment) and calls `onPageEntered()`. `build()` on the notifier does not run again (no `autoDispose`), so the visit count lives on that notifier. Every 3rd enter (`visit % 3 == 0`) sets `AsyncLoading`, then `guard` throws `FakePageEnterException` → `AsyncError`. Visit 4 restores the **persisted** count. Same notifier; the error was only a state. The UI is **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`): `assets/img/error_dragon.png` and **`localizedError`**, which maps that exception to `l10n.errorNetwork`. Imports `hide ErrorWidget` because Flutter already uses that name for the build-failure fallback.
 
 `when` defaults **`skipLoadingOnRefresh: true`**. After `invalidate` the widget would keep painting the old number until the Future finishes. Both async screens set `skipLoadingOnRefresh` / `skipLoadingOnReload` to **false** so `loading:` runs on reset. The **Refresh** lab does the same for `ref.refresh` / `ref.invalidate`.
 
@@ -426,7 +433,46 @@ Or the Cursor / VS Code task **Build Runner** (Command Palette → **Tasks: Run 
 
 Do not edit `*.freezed.dart` or `*.g.dart`. `analysis_options.yaml` excludes them. `invalid_annotation_target` is ignored so `@JsonKey` on Freezed fields does not warn.
 
-The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. `InMemoryUserRepository` is where that mapping runs. **`UserListState`** is the list snapshot: `users` plus `isLoading` and `error`. **`UserState`** on Add User is only `isAdded` and `error`. Screens hold `User` entities, not `UserModel`. Add User imports User List; there is no shared users folder.
+The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. **`InMemoryUserDataSource`** returns models and throws `AppException`. **`InMemoryUserRepository`** maps models → entities and exceptions → `AppFailure`. **`UserListState`** is the list snapshot: `users`, `isLoading`, and `error` (`AppFailure?`, not a raw string). **`UserState`** on Add User is only `isAdded` and `error`. Screens hold `User` entities, not `UserModel`. Add User imports User List; there is no shared users folder.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Errors
+
+Thrown objects and UI copy are different types. There is no extra package: Dart 3 **`sealed class`** is enough. The older Equatable `Failure` plus an English `ExceptionMessage` map mixed status codes and copy into the domain. That is gone. There is also **no dartz**: a repository throws `AppFailure` instead of `Left(failure)`.
+
+### Two types
+
+**Data sources throw `AppException`.** `NetworkException`, `NotFoundException`. Raw GET / prefs / JSON. No user-facing strings, no mapping.
+
+**Repositories throw `AppFailure`.** They catch **`AppException` only** (same as `on ApiException` in the old dartz repos) and `throw AppFailure.fromException(e)`. That is `Left(ApiFailure.fromException(e))` without dartz. They also map models → entities. Unexpected errors are wrapped as `AppException` **in the data source**, not in the repository. The notifier only stores the failure.
+
+`lib/core/errors/` is the whole set: `app_exception.dart`, `app_failure.dart`, `map_to_app_failure.dart`, `app_failure_message.dart`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Where mapping lives
+
+| Layer | Owns |
+| --- | --- |
+| Data source | `throw NetworkException()` / `NotFoundException()`. Unknown `catch` → `AppException` (old 505 wrap). Models, not entities |
+| Repository | `on AppException catch (e)` → `throw AppFailure.fromException(e)`. Models → entities |
+| Notifier | store `AppFailure` / `AsyncError`. Do not map |
+| UI | `failure.message(l10n)` or `localizedError(l10n, error)` |
+
+Never show `error.toString()`. Never store a magic string like `'fetchUsers'` on state.
+
+User List has that split: `InMemoryUserDataSource` throws `AppException`; `InMemoryUserRepository` maps. A **repository fake** in tests throws `AppFailure` already — it stands in for the repository, not the data source.
+
+`AsyncNotifier` / `FutureProvider` put the thrown object on `AsyncError`. If the repository did its job, that object is already `AppFailure`. **`localizedError`** still runs the mapper so demo notifiers without a repository stay safe.
+
+Add User **validation** (`duplicateUserId` / `duplicateEmail`) is not a fetch failure. Those stay as form strings.
+
+`FakePageEnterException` is only Persistent State (every 3rd visit). That screen has no data source, so the notifier throws the exception and `localizedError` maps it to `l10n.errorNetwork`.
+
+ARB keys: `errorNetwork`, `errorNotFound`, `errorOccurred`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -505,7 +551,7 @@ Two shapes:
 
 Lifetime tests (AutoDispose Provider Lifetimes) still use a `ProviderContainer`. Close the last listener and the autoDispose provider is gone. A persistent one is still there. Keep Alive uses `fakeAsync` so 5 seconds pass without a real wait.
 
-User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add User provider tests cover writing through that list and a duplicate id. Widget tests fake the repository with `overrideWith` so nothing hits a delay or seed data. The Listen Manual widget test seeds the stored error with `overrideWith` so `fireImmediately` can show the dialog without a tap.
+User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **repository fake** throws `NetworkFailure` (already mapped); a **data-source fake** throws `NetworkException` and the real repository maps it. The widget test checks the dialog shows `errorNetwork`, not `toString()`. Mapper tests live in `test/core/errors/`. Add User provider tests cover writing through that list and a duplicate id. Widget tests fake the repository with `overrideWith` so nothing hits a delay or seed data. The Listen Manual widget test seeds the stored error with `overrideWith` so `fireImmediately` can show the dialog without a tap.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
 
@@ -516,7 +562,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**87.6%** line coverage (1141 of 1302 lines).
+**87.9%** line coverage (1182 of 1344 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

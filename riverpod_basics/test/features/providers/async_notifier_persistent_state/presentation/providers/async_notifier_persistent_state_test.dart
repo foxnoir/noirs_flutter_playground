@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:riverpod_basics/core/errors/app_exception.dart';
 import 'package:riverpod_basics/features/providers/async_notifier_persistent_state/presentation/providers/async_notifier_persistent_state.dart';
 
 void main() {

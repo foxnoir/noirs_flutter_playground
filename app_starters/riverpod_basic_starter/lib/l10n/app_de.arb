@@ -1,10 +1,14 @@
 {
   "@@locale": "de",
   "title": "Titel",
-  "one": "Eins",
+  "items": "Einträge",
+  "itemDetail": "Eintrag",
+  "retry": "Erneut versuchen",
   "two": "Zwei",
   "three": "Drei",
-  "page": "Seite",
   "missing": "Fehlt",
-  "back": "Zurück"
+  "back": "Zurück",
+  "errorOccurred": "Es ist leider ein Fehler aufgetreten.",
+  "errorNetwork": "Der Server ist nicht erreichbar. Prüfe die Verbindung.",
+  "errorNotFound": "Dieser Eintrag wurde nicht gefunden."
 }

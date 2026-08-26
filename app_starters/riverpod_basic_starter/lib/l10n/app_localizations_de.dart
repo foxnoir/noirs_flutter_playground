@@ -12,7 +12,13 @@ class AppLocalizationsDe extends AppLocalizations {
   String get title => 'Titel';
 
   @override
-  String get one => 'Eins';
+  String get items => 'Einträge';
+
+  @override
+  String get itemDetail => 'Eintrag';
+
+  @override
+  String get retry => 'Erneut versuchen';
 
   @override
   String get two => 'Zwei';
@@ -21,11 +27,18 @@ class AppLocalizationsDe extends AppLocalizations {
   String get three => 'Drei';
 
   @override
-  String get page => 'Seite';
-
-  @override
   String get missing => 'Fehlt';
 
   @override
   String get back => 'Zurück';
+
+  @override
+  String get errorOccurred => 'Es ist leider ein Fehler aufgetreten.';
+
+  @override
+  String get errorNetwork =>
+      'Der Server ist nicht erreichbar. Prüfe die Verbindung.';
+
+  @override
+  String get errorNotFound => 'Dieser Eintrag wurde nicht gefunden.';
 }

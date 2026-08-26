@@ -112,7 +112,10 @@ void main() {
     await tester.pump(const Duration(seconds: 3));
     await tester.pump();
     expect(find.byType(ErrorWidget), findsOneWidget);
-    expect(find.text('Unfortunately, an error occurred.'), findsOneWidget);
+    expect(
+      find.text('Could not reach the server. Check your connection.'),
+      findsOneWidget,
+    );
 
     await leaveScreen();
     await openScreen();

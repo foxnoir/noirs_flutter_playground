@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:riverpod_basics/core/errors/app_failure.dart';
 import 'package:riverpod_basics/features/labs/codegen/presentation/providers/user_by_id_provider.dart';
 import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
@@ -53,5 +54,15 @@ void main() {
       (await container.read(userByIdProvider(10).future)).username,
       'Grace',
     );
+  });
+
+  test('missing id is AsyncError with NotFoundFailure', () async {
+    final container = testContainer();
+    final sub = container.listen(userByIdProvider(99), (_, __) {});
+    addTearDown(sub.close);
+
+    await container.pump();
+
+    expect(sub.read().error, isA<NotFoundFailure>());
   });
 }

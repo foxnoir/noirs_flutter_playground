@@ -47,9 +47,7 @@ void main() {
     );
     expect(find.text('Live value. Filled — survives Back.'), findsOneWidget);
     expect(
-      find.text(
-        'Snapshot at open: null. Store an error will not change this.',
-      ),
+      find.text('Snapshot at open: null. Store an error will not change this.'),
       findsOneWidget,
     );
     expect(find.text('No stored error on open.'), findsOneWidget);

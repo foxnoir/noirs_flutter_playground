@@ -1,9 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_basics/core/errors/app_failure.dart';
 import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/providers/user_list_state.dart';
-
-const fetchUsersError = 'fetchUsers';
 
 enum AddUserResult { added, duplicateId, duplicateEmail }
 
@@ -25,8 +24,8 @@ class UserListNotifier extends Notifier<UserListState> {
     try {
       final users = await ref.read(userRepositoryProvider).fetchUsers();
       state = state.copyWith(isLoading: false, users: users);
-    } on Object {
-      state = state.copyWith(isLoading: false, error: fetchUsersError);
+    } on AppFailure catch (failure) {
+      state = state.copyWith(isLoading: false, error: failure);
     }
   }
 
