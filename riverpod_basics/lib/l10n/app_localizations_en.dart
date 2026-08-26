@@ -187,7 +187,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get consumerWidgetBody =>
-      'Both panels show the same users because they watch the same provider. Top: a StatelessWidget wraps Consumer only to get ref. Bottom: ConsumerWidget — build already has ref, so there is no wrapper. Prefer ConsumerWidget. Use ConsumerStatefulWidget only when you need initState or dispose.';
+      'Both panels show the same users because they **watch** the same provider.\n\nTop: a **StatelessWidget** wraps **Consumer** only to get **ref**.\n\nBottom: **ConsumerWidget** — **build** already has **ref**, so there is no wrapper. Prefer **ConsumerWidget**.\n\nUse **ConsumerStatefulWidget** only when you need **initState** or **dispose**.';
 
   @override
   String get consumerWrapLabel => 'StatelessWidget + Consumer';
@@ -203,7 +203,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get refreshLabBody =>
-      'This provider does a fake GET /ping and shows the time it came back. Pull or Refresh: new GET, wait for the Future. Invalidate: also a new GET because this screen watches, but it returns nothing. Prefer invalidate unless something must wait.';
+      '**refresh** is always **invalidate** plus an immediate **read**. That is why refresh returns a Future. Use **refresh** when this callback must wait. **Pull-to-refresh** is the usual case.\n\nUse **invalidate** when you do not need to wait. It marks the provider stale. Whoever **watch**es it reloads. That is the usual choice after a mutation: save, delete, logout, or any time the cache is old.\n\n**Refresh** and **Refresh 3x** disable while they wait so you cannot stack taps. **Invalidate** stays tappable.\n\n**Invalidate 3x** starts one GET. **Refresh 3x** starts three. The **Refresh** button blinks once. **Refresh 3x** blinks three times.';
 
   @override
   String get refreshLabWatchLabel => 'watch';
@@ -212,13 +212,25 @@ class AppLocalizationsEn extends AppLocalizations {
   String get refreshLabLoading => 'Loading…';
 
   @override
-  String refreshLabPing(String time) {
-    return 'Last fetch: $time';
+  String refreshLabPing(int n, String time) {
+    return 'Fetch $n · $time';
   }
 
   @override
   String get refreshLabRefresh => 'Refresh';
 
   @override
+  String get refreshLabWaitingOnFuture => 'Waiting on Future…';
+
+  @override
+  String get refreshLabWaitingOnThreeFutures => 'Waiting on 3 Futures…';
+
+  @override
   String get refreshLabInvalidate => 'Invalidate';
+
+  @override
+  String get refreshLabRefreshThree => 'Refresh 3x';
+
+  @override
+  String get refreshLabInvalidateThree => 'Invalidate 3x';
 }

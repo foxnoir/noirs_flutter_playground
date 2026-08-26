@@ -83,22 +83,29 @@
   "listenManualReadIdle": "Snapshot at open: null. Store an error will not change this.",
   "listenManualReadFired": "Snapshot at open: stored error. initState ran again.",
   "consumerWidget": "Consumer Widget",
-  "consumerWidgetBody": "Both panels show the same users because they watch the same provider. Top: a StatelessWidget wraps Consumer only to get ref. Bottom: ConsumerWidget — build already has ref, so there is no wrapper. Prefer ConsumerWidget. Use ConsumerStatefulWidget only when you need initState or dispose.",
+  "consumerWidgetBody": "Both panels show the same users because they **watch** the same provider.\n\nTop: a **StatelessWidget** wraps **Consumer** only to get **ref**.\n\nBottom: **ConsumerWidget** — **build** already has **ref**, so there is no wrapper. Prefer **ConsumerWidget**.\n\nUse **ConsumerStatefulWidget** only when you need **initState** or **dispose**.",
   "consumerWrapLabel": "StatelessWidget + Consumer",
   "consumerWidgetLabel": "ConsumerWidget",
   "addDemoUser": "Add demo user",
   "refreshLab": "Refresh",
-  "refreshLabBody": "This provider does a fake GET /ping and shows the time it came back. Pull or Refresh: new GET, wait for the Future. Invalidate: also a new GET because this screen watches, but it returns nothing. Prefer invalidate unless something must wait.",
+  "refreshLabBody": "**refresh** is always **invalidate** plus an immediate **read**. That is why refresh returns a Future. Use **refresh** when this callback must wait. **Pull-to-refresh** is the usual case.\n\nUse **invalidate** when you do not need to wait. It marks the provider stale. Whoever **watch**es it reloads. That is the usual choice after a mutation: save, delete, logout, or any time the cache is old.\n\n**Refresh** and **Refresh 3x** disable while they wait so you cannot stack taps. **Invalidate** stays tappable.\n\n**Invalidate 3x** starts one GET. **Refresh 3x** starts three. The **Refresh** button blinks once. **Refresh 3x** blinks three times.",
   "refreshLabWatchLabel": "watch",
   "refreshLabLoading": "Loading…",
-  "refreshLabPing": "Last fetch: {time}",
+  "refreshLabPing": "Fetch {n} · {time}",
   "@refreshLabPing": {
     "placeholders": {
+      "n": {
+        "type": "int"
+      },
       "time": {
         "type": "String"
       }
     }
   },
   "refreshLabRefresh": "Refresh",
-  "refreshLabInvalidate": "Invalidate"
+  "refreshLabWaitingOnFuture": "Waiting on Future…",
+  "refreshLabWaitingOnThreeFutures": "Waiting on 3 Futures…",
+  "refreshLabInvalidate": "Invalidate",
+  "refreshLabRefreshThree": "Refresh 3x",
+  "refreshLabInvalidateThree": "Invalidate 3x"
 }

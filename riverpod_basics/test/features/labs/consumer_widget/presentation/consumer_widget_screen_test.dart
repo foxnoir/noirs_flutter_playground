@@ -43,6 +43,9 @@ void main() {
     await tester.pumpWidget(consumerWidgetApp());
     await tester.pumpAndSettle();
 
+    await tester.ensureVisible(
+      find.widgetWithText(FullWidthElevatedButton, 'Add demo user').first,
+    );
     await tester.tap(
       find.widgetWithText(FullWidthElevatedButton, 'Add demo user').first,
     );
