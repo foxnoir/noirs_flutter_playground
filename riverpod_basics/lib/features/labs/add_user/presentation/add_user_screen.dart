@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_basics/core/errors/app_failure_message.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/providers/add_user_provider.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/widgets/add_user_text_field.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
@@ -85,9 +86,7 @@ class _AddUserScreenState extends ConsumerState<AddUserScreen> {
         builder: (context) {
           return AlertDialog(
             title: Text(l10n.errorTitle),
-            content: Text(
-              error == fetchUsersError ? l10n.fetchUsersFailed : error,
-            ),
+            content: Text(error.message(l10n)),
           );
         },
       );

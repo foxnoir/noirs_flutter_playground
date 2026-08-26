@@ -7,6 +7,8 @@
   "asyncNotifierPersistentState": "AsyncNotifier Persistent State",
   "asyncNotifierNonPersistentState": "AsyncNotifier Non-Persistent State",
   "errorOccurred": "Unfortunately, an error occurred.",
+  "errorNetwork": "Could not reach the server. Check your connection.",
+  "errorNotFound": "That item was not found.",
   "buttonPressCount": "You have pressed the button this many times: {count}",
   "@buttonPressCount": {
     "description": "Shown on the StateProvider screen with the current press count.",
@@ -62,7 +64,6 @@
   "duplicateUserId": "A user with this id already exists.",
   "duplicateEmail": "A user with this email already exists.",
   "userAdded": "User added.",
-  "fetchUsersFailed": "Could not load users.",
   "errorTitle": "Error",
   "listenManual": "Listen Manual",
   "listenManualBody": "Same stored error, four colors. Purple watch is always the live value — filled after Back. Gray read is frozen at open. Red listenManual is the dialog (also on reopen). Teal listen is the SnackBar and stays empty on the second visit.",

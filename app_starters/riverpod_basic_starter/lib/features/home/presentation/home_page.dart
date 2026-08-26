@@ -11,15 +11,13 @@ class HomePage extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
 
     final destinations = [
-      (label: l10n.one, routeName: AppRouteNames.one),
+      (label: l10n.items, routeName: AppRouteNames.items),
       (label: l10n.two, routeName: AppRouteNames.two),
       (label: l10n.three, routeName: AppRouteNames.three),
     ];
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.title),
-      ),
+      appBar: AppBar(title: Text(l10n.title)),
       body: ListView(
         children: [
           for (final destination in destinations)

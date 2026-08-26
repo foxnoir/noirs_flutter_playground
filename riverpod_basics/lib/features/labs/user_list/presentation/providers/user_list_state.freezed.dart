@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$UserListState {
 
- bool get isLoading; String? get error; List<User> get users;
+ bool get isLoading; AppFailure? get error; List<User> get users;
 /// Create a copy of UserListState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -46,7 +46,7 @@ abstract mixin class $UserListStateCopyWith<$Res>  {
   factory $UserListStateCopyWith(UserListState value, $Res Function(UserListState) _then) = _$UserListStateCopyWithImpl;
 @useResult
 $Res call({
- bool isLoading, String? error, List<User> users
+ bool isLoading, AppFailure? error, List<User> users
 });
 
 
@@ -67,7 +67,7 @@ class _$UserListStateCopyWithImpl<$Res>
   return _then(UserListState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,users: null == users ? _self.users : users // ignore: cast_nullable_to_non_nullable
+as AppFailure?,users: null == users ? _self.users : users // ignore: cast_nullable_to_non_nullable
 as List<User>,
   ));
 }
@@ -153,7 +153,7 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  String? error,  List<User> users)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool isLoading,  AppFailure? error,  List<User> users)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _UserListState() when $default != null:
 return $default(_that.isLoading,_that.error,_that.users);case _:
@@ -174,7 +174,7 @@ return $default(_that.isLoading,_that.error,_that.users);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  String? error,  List<User> users)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool isLoading,  AppFailure? error,  List<User> users)  $default,) {final _that = this;
 switch (_that) {
 case _UserListState():
 return $default(_that.isLoading,_that.error,_that.users);case _:
@@ -194,7 +194,7 @@ return $default(_that.isLoading,_that.error,_that.users);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  String? error,  List<User> users)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool isLoading,  AppFailure? error,  List<User> users)?  $default,) {final _that = this;
 switch (_that) {
 case _UserListState() when $default != null:
 return $default(_that.isLoading,_that.error,_that.users);case _:
@@ -213,7 +213,7 @@ class _UserListState implements UserListState {
   
 
 @override@JsonKey() final  bool isLoading;
-@override final  String? error;
+@override final  AppFailure? error;
  final  List<User> _users;
 @override@JsonKey() List<User> get users {
   if (_users is EqualUnmodifiableListView) return _users;
@@ -252,7 +252,7 @@ abstract mixin class _$UserListStateCopyWith<$Res> implements $UserListStateCopy
   factory _$UserListStateCopyWith(_UserListState value, $Res Function(_UserListState) _then) = __$UserListStateCopyWithImpl;
 @override @useResult
 $Res call({
- bool isLoading, String? error, List<User> users
+ bool isLoading, AppFailure? error, List<User> users
 });
 
 
@@ -273,7 +273,7 @@ class __$UserListStateCopyWithImpl<$Res>
   return _then(_UserListState(
 isLoading: null == isLoading ? _self.isLoading : isLoading // ignore: cast_nullable_to_non_nullable
 as bool,error: freezed == error ? _self.error : error // ignore: cast_nullable_to_non_nullable
-as String?,users: null == users ? _self._users : users // ignore: cast_nullable_to_non_nullable
+as AppFailure?,users: null == users ? _self._users : users // ignore: cast_nullable_to_non_nullable
 as List<User>,
   ));
 }

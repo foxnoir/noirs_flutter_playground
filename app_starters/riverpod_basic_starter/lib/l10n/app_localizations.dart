@@ -104,11 +104,23 @@ abstract class AppLocalizations {
   /// **'Title'**
   String get title;
 
-  /// No description provided for @one.
+  /// No description provided for @items.
   ///
   /// In en, this message translates to:
-  /// **'One'**
-  String get one;
+  /// **'Items'**
+  String get items;
+
+  /// No description provided for @itemDetail.
+  ///
+  /// In en, this message translates to:
+  /// **'Item'**
+  String get itemDetail;
+
+  /// No description provided for @retry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get retry;
 
   /// No description provided for @two.
   ///
@@ -122,12 +134,6 @@ abstract class AppLocalizations {
   /// **'Three'**
   String get three;
 
-  /// No description provided for @page.
-  ///
-  /// In en, this message translates to:
-  /// **'Page'**
-  String get page;
-
   /// No description provided for @missing.
   ///
   /// In en, this message translates to:
@@ -139,6 +145,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Back'**
   String get back;
+
+  /// No description provided for @errorOccurred.
+  ///
+  /// In en, this message translates to:
+  /// **'Unfortunately, an error occurred.'**
+  String get errorOccurred;
+
+  /// No description provided for @errorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check your connection.'**
+  String get errorNetwork;
+
+  /// No description provided for @errorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'That item was not found.'**
+  String get errorNotFound;
 }
 
 class _AppLocalizationsDelegate

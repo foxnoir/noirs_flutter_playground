@@ -12,7 +12,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get title => 'Title';
 
   @override
-  String get one => 'One';
+  String get items => 'Items';
+
+  @override
+  String get itemDetail => 'Item';
+
+  @override
+  String get retry => 'Retry';
 
   @override
   String get two => 'Two';
@@ -21,11 +27,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get three => 'Three';
 
   @override
-  String get page => 'Page';
-
-  @override
   String get missing => 'Missing';
 
   @override
   String get back => 'Back';
+
+  @override
+  String get errorOccurred => 'Unfortunately, an error occurred.';
+
+  @override
+  String get errorNetwork =>
+      'Could not reach the server. Check your connection.';
+
+  @override
+  String get errorNotFound => 'That item was not found.';
 }

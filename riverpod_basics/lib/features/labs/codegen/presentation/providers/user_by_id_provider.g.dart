@@ -49,7 +49,7 @@ final class UserByIdProvider extends $AsyncNotifierProvider<UserById, User> {
   }
 }
 
-String _$userByIdHash() => r'72fbc2fac934c3bf4c104635b35b38f68d10dfbd';
+String _$userByIdHash() => r'0934d3f0ee1bcc0fbb1e298889dc804465283a89';
 
 final class UserByIdFamily extends $Family
     with

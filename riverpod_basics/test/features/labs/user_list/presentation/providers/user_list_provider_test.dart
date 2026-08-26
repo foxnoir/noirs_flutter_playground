@@ -1,5 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:riverpod_basics/core/errors/app_failure.dart';
 import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/providers/user_list_provider.dart';
@@ -36,7 +37,7 @@ void main() {
 
   test('fetchUsers sets error when the repository throws', () async {
     final container = containerWith(
-      FakeUserRepository(error: Exception('offline')),
+      const FakeUserRepository(error: NetworkFailure()),
     );
 
     await container.read(userListProvider.notifier).fetchUsers();
@@ -44,7 +45,7 @@ void main() {
     final state = container.read(userListProvider);
     expect(state.users, isEmpty);
     expect(state.isLoading, isFalse);
-    expect(state.error, fetchUsersError);
+    expect(state.error, const NetworkFailure());
   });
 
   test('ensureLoaded skips fetch when users are already loaded', () async {

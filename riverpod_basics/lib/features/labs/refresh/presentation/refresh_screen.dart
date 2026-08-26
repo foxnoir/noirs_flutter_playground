@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:riverpod_basics/core/errors/app_failure_message.dart';
 import 'package:riverpod_basics/features/labs/refresh/presentation/providers/refresh_provider.dart';
 import 'package:riverpod_basics/features/labs/refresh/presentation/widgets/refresh_blink_button.dart';
 import 'package:riverpod_basics/features/labs/refresh/presentation/widgets/refresh_info_card.dart';
@@ -85,7 +86,7 @@ class _RefreshScreenState extends ConsumerState<RefreshScreen> {
                 skipLoadingOnRefresh: false,
                 skipLoadingOnReload: false,
                 loading: () => l10n.refreshLabLoading,
-                error: (_, _) => l10n.errorOccurred,
+                error: (error, _) => localizedError(l10n, error),
                 data: (result) =>
                     l10n.refreshLabPing(result.n, _clock(result.fetchedAt)),
               ),

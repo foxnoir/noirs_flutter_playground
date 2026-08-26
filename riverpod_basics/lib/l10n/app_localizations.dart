@@ -140,6 +140,18 @@ abstract class AppLocalizations {
   /// **'Unfortunately, an error occurred.'**
   String get errorOccurred;
 
+  /// No description provided for @errorNetwork.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not reach the server. Check your connection.'**
+  String get errorNetwork;
+
+  /// No description provided for @errorNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'That item was not found.'**
+  String get errorNotFound;
+
   /// Shown on the StateProvider screen with the current press count.
   ///
   /// In en, this message translates to:
@@ -295,12 +307,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'User added.'**
   String get userAdded;
-
-  /// No description provided for @fetchUsersFailed.
-  ///
-  /// In en, this message translates to:
-  /// **'Could not load users.'**
-  String get fetchUsersFailed;
 
   /// No description provided for @errorTitle.
   ///
