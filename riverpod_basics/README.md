@@ -516,7 +516,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**89.1%** line coverage (1141 of 1280 lines).
+**87.6%** line coverage (1141 of 1302 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
