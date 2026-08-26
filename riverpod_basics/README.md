@@ -17,9 +17,9 @@
   <p>
      Practice project for Riverpod: NotifierProvider, AsyncNotifier Persistent / Non-Persistent State, and StateProvider as the shortcut.
   </p>
-  <p>
+  <!-- <p>
     <sub>Inspired by <a href="https://github.com/rddewan">Richard Dewan</a>’s <a href="https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/">Udemy course</a>.</sub>
-  </p>
+  </p> -->
 </div>
 
 ---
@@ -103,7 +103,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. Lab 3 is still a placeholder. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -161,6 +161,8 @@ Riverpod avoids that:
 - **Explicit rebuilds**: `ref.watch` rebuilds, `ref.read` does not. You choose.
 
 Use Riverpod when state is shared, async, or needs to be tested. Keep `setState` for tiny local UI that never leaves one widget.
+
+**`ConsumerWidget`** is a `StatelessWidget` whose `build` already has `ref`. **`StatelessWidget` + `Consumer`** does the same `watch`, but you wrap a builder just to get `ref`. Prefer `ConsumerWidget`. **`ConsumerStatefulWidget`** only when you need `initState` / `dispose`. The **Consumer Widget** lab shows the first two on the same user list.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -485,7 +487,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**89.6%** line coverage (822 of 917 lines).
+**90.0%** line coverage (905 of 1006 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

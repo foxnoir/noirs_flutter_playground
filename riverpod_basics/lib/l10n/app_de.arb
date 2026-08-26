@@ -51,6 +51,11 @@
   "listenManualListenFired": "Hat eine Änderung in diesem Besuch gesehen.",
   "listenManualListenSnackBar": "listen: der Wert hat sich geändert.",
   "listenManualReadLabel": "read",
-  "listenManualReadIdle": "Snapshot beim Öffnen: null. Store ändert das nicht.",
-  "listenManualReadFired": "Snapshot beim Öffnen: gespeicherter Fehler. initState ist neu gelaufen."
+  "listenManualReadIdle": "Snapshot beim Öffnen: null. Fehler speichern ändert das nicht.",
+  "listenManualReadFired": "Snapshot beim Öffnen: gespeicherter Fehler. initState ist neu gelaufen.",
+  "consumerWidget": "Consumer Widget",
+  "consumerWidgetBody": "Beide Panels zeigen dieselben Benutzer, weil sie denselben Provider watchen. Oben: ein StatelessWidget umhüllt Consumer nur, um an ref zu kommen. Unten: ConsumerWidget — build hat ref schon als Parameter, ohne Wrapper. Nimm ConsumerWidget. ConsumerStatefulWidget nur, wenn du initState oder dispose brauchst.",
+  "consumerWrapLabel": "StatelessWidget + Consumer",
+  "consumerWidgetLabel": "ConsumerWidget",
+  "addDemoUser": "Demo-Benutzer hinzufügen"
 }

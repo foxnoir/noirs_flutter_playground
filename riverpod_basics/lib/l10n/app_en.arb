@@ -80,6 +80,11 @@
   "listenManualListenFired": "Saw a change this visit.",
   "listenManualListenSnackBar": "listen: the value changed.",
   "listenManualReadLabel": "read",
-  "listenManualReadIdle": "Snapshot at open: null. Store will not change this.",
-  "listenManualReadFired": "Snapshot at open: stored error. initState ran again."
+  "listenManualReadIdle": "Snapshot at open: null. Store an error will not change this.",
+  "listenManualReadFired": "Snapshot at open: stored error. initState ran again.",
+  "consumerWidget": "Consumer Widget",
+  "consumerWidgetBody": "Both panels show the same users because they watch the same provider. Top: a StatelessWidget wraps Consumer only to get ref. Bottom: ConsumerWidget — build already has ref, so there is no wrapper. Prefer ConsumerWidget. Use ConsumerStatefulWidget only when you need initState or dispose.",
+  "consumerWrapLabel": "StatelessWidget + Consumer",
+  "consumerWidgetLabel": "ConsumerWidget",
+  "addDemoUser": "Add demo user"
 }

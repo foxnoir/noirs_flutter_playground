@@ -407,7 +407,7 @@ abstract class AppLocalizations {
   /// No description provided for @listenManualReadIdle.
   ///
   /// In en, this message translates to:
-  /// **'Snapshot at open: null. Store will not change this.'**
+  /// **'Snapshot at open: null. Store an error will not change this.'**
   String get listenManualReadIdle;
 
   /// No description provided for @listenManualReadFired.
@@ -415,6 +415,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Snapshot at open: stored error. initState ran again.'**
   String get listenManualReadFired;
+
+  /// No description provided for @consumerWidget.
+  ///
+  /// In en, this message translates to:
+  /// **'Consumer Widget'**
+  String get consumerWidget;
+
+  /// No description provided for @consumerWidgetBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Both panels show the same users because they watch the same provider. Top: a StatelessWidget wraps Consumer only to get ref. Bottom: ConsumerWidget — build already has ref, so there is no wrapper. Prefer ConsumerWidget. Use ConsumerStatefulWidget only when you need initState or dispose.'**
+  String get consumerWidgetBody;
+
+  /// No description provided for @consumerWrapLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'StatelessWidget + Consumer'**
+  String get consumerWrapLabel;
+
+  /// No description provided for @consumerWidgetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ConsumerWidget'**
+  String get consumerWidgetLabel;
+
+  /// No description provided for @addDemoUser.
+  ///
+  /// In en, this message translates to:
+  /// **'Add demo user'**
+  String get addDemoUser;
 }
 
 class _AppLocalizationsDelegate

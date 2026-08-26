@@ -179,9 +179,25 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get listenManualReadIdle =>
-      'Snapshot beim Öffnen: null. Store ändert das nicht.';
+      'Snapshot beim Öffnen: null. Fehler speichern ändert das nicht.';
 
   @override
   String get listenManualReadFired =>
       'Snapshot beim Öffnen: gespeicherter Fehler. initState ist neu gelaufen.';
+
+  @override
+  String get consumerWidget => 'Consumer Widget';
+
+  @override
+  String get consumerWidgetBody =>
+      'Beide Panels zeigen dieselben Benutzer, weil sie denselben Provider watchen. Oben: ein StatelessWidget umhüllt Consumer nur, um an ref zu kommen. Unten: ConsumerWidget — build hat ref schon als Parameter, ohne Wrapper. Nimm ConsumerWidget. ConsumerStatefulWidget nur, wenn du initState oder dispose brauchst.';
+
+  @override
+  String get consumerWrapLabel => 'StatelessWidget + Consumer';
+
+  @override
+  String get consumerWidgetLabel => 'ConsumerWidget';
+
+  @override
+  String get addDemoUser => 'Demo-Benutzer hinzufügen';
 }

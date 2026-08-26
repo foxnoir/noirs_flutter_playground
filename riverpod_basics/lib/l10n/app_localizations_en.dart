@@ -176,9 +176,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get listenManualReadIdle =>
-      'Snapshot at open: null. Store will not change this.';
+      'Snapshot at open: null. Store an error will not change this.';
 
   @override
   String get listenManualReadFired =>
       'Snapshot at open: stored error. initState ran again.';
+
+  @override
+  String get consumerWidget => 'Consumer Widget';
+
+  @override
+  String get consumerWidgetBody =>
+      'Both panels show the same users because they watch the same provider. Top: a StatelessWidget wraps Consumer only to get ref. Bottom: ConsumerWidget — build already has ref, so there is no wrapper. Prefer ConsumerWidget. Use ConsumerStatefulWidget only when you need initState or dispose.';
+
+  @override
+  String get consumerWrapLabel => 'StatelessWidget + Consumer';
+
+  @override
+  String get consumerWidgetLabel => 'ConsumerWidget';
+
+  @override
+  String get addDemoUser => 'Add demo user';
 }
