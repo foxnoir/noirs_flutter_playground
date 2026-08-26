@@ -410,6 +410,8 @@ Three generators share **build_runner**. They write files you never edit:
 
 `json_annotation` and `riverpod_annotation` are the runtime annotations, same split as `freezed_annotation` vs `freezed`.
 
+A tiny `Provider` / `FutureProvider` is almost the same length with or without codegen — you still write what goes in the mailbox. The win is **family + autoDispose + AsyncNotifier**. By hand you type `AsyncNotifierProvider.autoDispose.family<UserByIdNotifier, User, int>(UserByIdNotifier.new)`, a constructor that stores `id`, and `extends AsyncNotifier<User>` with `build()` taking no argument. With `@riverpod` that is `class UserById extends _$UserById` and `build(int id)` — the generator keeps `id` for you. No screen; compare `lib/features/labs/codegen/presentation/providers/user_by_id_provider.dart` with `user_by_id_provider_manual.dart`. The Refresh lab's ping uses codegen too; that one is the small-savings case.
+
 `part 'user.freezed.dart';` and `part 'user.g.dart';` glue those files to your source. Change the source, then run:
 
 ```
@@ -514,7 +516,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**90.4%** line coverage (1083 of 1198 lines).
+**89.1%** line coverage (1141 of 1280 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
