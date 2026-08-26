@@ -15,11 +15,8 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: NotifierProvider, AsyncNotifier Persistent / Non-Persistent State, and StateProvider as the shortcut.
+     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, refresh / invalidate), and Freezed.
   </p>
-  <!-- <p>
-    <sub>Inspired by <a href="https://github.com/rddewan">Richard Dewan</a>’s <a href="https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/">Udemy course</a>.</sub>
-  </p> -->
 </div>
 
 ---
@@ -104,7 +101,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Refresh** is a fake GET /ping: `ref.refresh` (returns a Future) next to `ref.invalidate` (void). Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -208,11 +205,24 @@ Use `listenManual` when the side effect must see the current value on first open
 
 These two tell Riverpod: **run this provider again**. They are not `watch` / `read` / `listen`. They are also not a method on a notifier (`fetchUsers()`, `reset()`).
 
-**`ref.refresh(provider)`** is `invalidate` plus an immediate `read`. It **returns** the new value. On a `FutureProvider`, `ref.refresh(provider.future)` is the new GET as a `Future` — pull-to-refresh awaits that.
+**`ref.refresh(provider)` is always `invalidate` plus an immediate `read`.** Writing:
 
-**`ref.invalidate(provider)`** is **void**. Marks the provider stale. If something is watching, the GET runs again now. If nobody is looking, it waits until the next `watch` / `read`. Prefer **invalidate** unless a caller must wait. Several invalidates collapse into one rebuild; several refreshes do not.
+```
+ref.refresh(provider);
+```
 
-The **Refresh** lab has its **own** `FutureProvider`: a delayed fake GET /ping. The purple card is the time that GET came back. Pull-to-refresh and the Refresh button await `ref.refresh(provider.future)`. Invalidate is void; this screen still watches, so the GET runs again. `when(..., skipLoadingOnRefresh: false)` so the spinner shows — the default would keep painting the old time.
+is the same as:
+
+```
+ref.invalidate(provider);
+ref.read(provider);
+```
+
+That `read` is why refresh **returns** the new value. On a `FutureProvider`, `ref.refresh(provider.future)` is the new GET as a `Future` — pull-to-refresh awaits that. `RefreshIndicator.onRefresh` needs a `Future`; `invalidate` is `void` and cannot go there.
+
+**`ref.invalidate(provider)`** is **void**. Marks the provider stale. If something is watching, the GET runs again now. If nobody is looking, it waits until the next `watch` / `read`. Prefer **invalidate** unless this callback must wait. Several invalidates collapse into one rebuild; several refreshes do not.
+
+The **Refresh** lab has its **own** `FutureProvider`: a delayed fake GET /ping. Fetch count is `.next()` on a **second** provider (`refreshPingCountProvider`). The Refresh button stays on **Waiting on Future…** until `await` completes. **Refresh 3x** stays on **Waiting on 3 Futures…**. Those two buttons disable while they wait so you cannot stack taps — that is our UI, not a Riverpod rule. Invalidate stays enabled while a Refresh waits. **Invalidate 3x** vs **Refresh 3x**: three invalidates schedule one GET; three refreshes start three. The **Refresh** button blinks once; **Refresh 3x** blinks three times. Prefer **invalidate** when this callback does not need to wait: save, delete, logout, or any stale cache. Whoever **watch**es reloads. `when(..., skipLoadingOnRefresh: false)` so the spinner shows.
 
 This is not User List. `userListProvider.build()` returns empty state; the GET is `fetchUsers()`. Refreshing that provider would wipe the list. The async screens' refresh FAB is `reset()` on the notifier — same idea, not `ref.refresh`.
 
@@ -446,6 +456,8 @@ After you add or change a `@freezed` / `@riverpod` type, run `build_runner` agai
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
+Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `freezed_annotation`, `json_annotation`, `riverpod_annotation`, `intl`, `cupertino_icons`. Dev: `freezed`, `json_serializable`, `riverpod_generator`, `build_runner`, `very_good_analysis`.
+
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
@@ -502,7 +514,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**90.0%** line coverage (985 of 1095 lines).
+**90.4%** line coverage (1083 of 1198 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -533,9 +545,12 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 ## Sources
 
 - [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
+- [go_router](https://pub.dev/packages/go_router)
 - [freezed](https://pub.dev/packages/freezed)
 - [json_serializable](https://pub.dev/packages/json_serializable)
 - [riverpod_generator](https://pub.dev/packages/riverpod_generator)
+- [build_runner](https://pub.dev/packages/build_runner)
+- [very_good_analysis](https://pub.dev/packages/very_good_analysis)
 - [Flutter Riverpod For Complete Beginner](https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/) — [Richard Dewan](https://github.com/rddewan)
 
 <p align="right"><a href="#readme-top">back to top</a></p>

@@ -156,6 +156,6 @@ void main() {
 
     expect(find.byType(RefreshScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Refresh'), findsOneWidget);
-    expect(find.textContaining('Last fetch:'), findsOneWidget);
+    expect(find.textContaining('Fetch 1 ·'), findsOneWidget);
   });
 }

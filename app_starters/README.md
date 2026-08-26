@@ -15,6 +15,9 @@
   <p>
      Copyable Flutter starters for new apps.
   </p>
+    <p>
+    <sub>Inspired by <a href="https://github.com">John Doe</a>’s <a href="https://www.udemy.com">Udemy course</a>.</sub>
+  </p>
 </div>
 
 ---

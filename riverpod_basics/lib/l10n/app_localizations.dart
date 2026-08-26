@@ -425,7 +425,7 @@ abstract class AppLocalizations {
   /// No description provided for @consumerWidgetBody.
   ///
   /// In en, this message translates to:
-  /// **'Both panels show the same users because they watch the same provider. Top: a StatelessWidget wraps Consumer only to get ref. Bottom: ConsumerWidget — build already has ref, so there is no wrapper. Prefer ConsumerWidget. Use ConsumerStatefulWidget only when you need initState or dispose.'**
+  /// **'Both panels show the same users because they **watch** the same provider.\n\nTop: a **StatelessWidget** wraps **Consumer** only to get **ref**.\n\nBottom: **ConsumerWidget** — **build** already has **ref**, so there is no wrapper. Prefer **ConsumerWidget**.\n\nUse **ConsumerStatefulWidget** only when you need **initState** or **dispose**.'**
   String get consumerWidgetBody;
 
   /// No description provided for @consumerWrapLabel.
@@ -455,7 +455,7 @@ abstract class AppLocalizations {
   /// No description provided for @refreshLabBody.
   ///
   /// In en, this message translates to:
-  /// **'This provider does a fake GET /ping and shows the time it came back. Pull or Refresh: new GET, wait for the Future. Invalidate: also a new GET because this screen watches, but it returns nothing. Prefer invalidate unless something must wait.'**
+  /// **'**refresh** is always **invalidate** plus an immediate **read**. That is why refresh returns a Future. Use **refresh** when this callback must wait. **Pull-to-refresh** is the usual case.\n\nUse **invalidate** when you do not need to wait. It marks the provider stale. Whoever **watch**es it reloads. That is the usual choice after a mutation: save, delete, logout, or any time the cache is old.\n\n**Refresh** and **Refresh 3x** disable while they wait so you cannot stack taps. **Invalidate** stays tappable.\n\n**Invalidate 3x** starts one GET. **Refresh 3x** starts three. The **Refresh** button blinks once. **Refresh 3x** blinks three times.'**
   String get refreshLabBody;
 
   /// No description provided for @refreshLabWatchLabel.
@@ -473,8 +473,8 @@ abstract class AppLocalizations {
   /// No description provided for @refreshLabPing.
   ///
   /// In en, this message translates to:
-  /// **'Last fetch: {time}'**
-  String refreshLabPing(String time);
+  /// **'Fetch {n} · {time}'**
+  String refreshLabPing(int n, String time);
 
   /// No description provided for @refreshLabRefresh.
   ///
@@ -482,11 +482,35 @@ abstract class AppLocalizations {
   /// **'Refresh'**
   String get refreshLabRefresh;
 
+  /// No description provided for @refreshLabWaitingOnFuture.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting on Future…'**
+  String get refreshLabWaitingOnFuture;
+
+  /// No description provided for @refreshLabWaitingOnThreeFutures.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting on 3 Futures…'**
+  String get refreshLabWaitingOnThreeFutures;
+
   /// No description provided for @refreshLabInvalidate.
   ///
   /// In en, this message translates to:
   /// **'Invalidate'**
   String get refreshLabInvalidate;
+
+  /// No description provided for @refreshLabRefreshThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh 3x'**
+  String get refreshLabRefreshThree;
+
+  /// No description provided for @refreshLabInvalidateThree.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalidate 3x'**
+  String get refreshLabInvalidateThree;
 }
 
 class _AppLocalizationsDelegate

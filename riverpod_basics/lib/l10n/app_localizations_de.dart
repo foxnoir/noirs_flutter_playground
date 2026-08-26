@@ -190,7 +190,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get consumerWidgetBody =>
-      'Beide Panels zeigen dieselben Benutzer, weil sie denselben Provider watchen. Oben: ein StatelessWidget umhüllt Consumer nur, um an ref zu kommen. Unten: ConsumerWidget — build hat ref schon als Parameter, ohne Wrapper. Nimm ConsumerWidget. ConsumerStatefulWidget nur, wenn du initState oder dispose brauchst.';
+      'Beide Panels zeigen dieselben Benutzer, weil sie denselben Provider **watch**en.\n\nOben: ein **StatelessWidget** umhüllt **Consumer** nur, um an **ref** zu kommen.\n\nUnten: **ConsumerWidget** — **build** hat **ref** schon als Parameter, ohne Wrapper. Nimm **ConsumerWidget**.\n\n**ConsumerStatefulWidget** nur, wenn du **initState** oder **dispose** brauchst.';
 
   @override
   String get consumerWrapLabel => 'StatelessWidget + Consumer';
@@ -206,7 +206,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get refreshLabBody =>
-      'Dieser Provider macht ein Fake-GET /ping und zeigt die Uhrzeit der Antwort. Ziehen oder Refresh: neuer GET, warten auf das Future. Invalidate: auch ein neuer GET, weil dieser Screen watcht — gibt aber nichts zurück. Nimm invalidate, außer etwas muss warten.';
+      '**refresh** ist immer **invalidate** plus ein sofortiges **read**. Deshalb gibt refresh ein Future zurück. Nutze **refresh**, wenn dieser Callback warten muss. **Pull-to-refresh** ist der übliche Fall.\n\nNutze **invalidate**, wenn du nicht warten musst. Es markiert den Provider als veraltet. Wer **watch**t, lädt nach. Das ist die übliche Wahl nach einer Mutation: Speichern, Löschen, Logout, oder wenn der Cache alt ist.\n\n**Refresh** und **Refresh 3x** sperren, solange sie warten, damit du nicht stapeln kannst. **Invalidate** bleibt tippbar.\n\n**Invalidate 3x** startet einen GET. **Refresh 3x** startet drei. Der **Refresh**-Button blinkt einmal. **Refresh 3x** blinkt dreimal.';
 
   @override
   String get refreshLabWatchLabel => 'watch';
@@ -215,13 +215,25 @@ class AppLocalizationsDe extends AppLocalizations {
   String get refreshLabLoading => 'Laden…';
 
   @override
-  String refreshLabPing(String time) {
-    return 'Letzter Fetch: $time';
+  String refreshLabPing(int n, String time) {
+    return 'Fetch $n · $time';
   }
 
   @override
   String get refreshLabRefresh => 'Refresh';
 
   @override
+  String get refreshLabWaitingOnFuture => 'Waiting on Future…';
+
+  @override
+  String get refreshLabWaitingOnThreeFutures => 'Waiting on 3 Futures…';
+
+  @override
   String get refreshLabInvalidate => 'Invalidate';
+
+  @override
+  String get refreshLabRefreshThree => 'Refresh 3x';
+
+  @override
+  String get refreshLabInvalidateThree => 'Invalidate 3x';
 }
