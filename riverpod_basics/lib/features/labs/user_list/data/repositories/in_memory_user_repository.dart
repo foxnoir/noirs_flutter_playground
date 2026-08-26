@@ -4,6 +4,8 @@ import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dar
 import 'package:riverpod_basics/features/labs/user_list/domain/repositories/user_repository.dart';
 
 final userRepositoryProvider = Provider<UserRepository>((ref) {
+  // This function is the create: Riverpod calls it once and stores the
+  // result. The type is the interface; the returned object is the impl.
   return const InMemoryUserRepository();
 });
 
