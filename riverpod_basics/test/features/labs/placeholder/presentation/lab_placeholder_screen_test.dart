@@ -10,10 +10,10 @@ void main() {
         locale: Locale('en'),
         localizationsDelegates: AppLocalizations.localizationsDelegates,
         supportedLocales: AppLocalizations.supportedLocales,
-        home: LabPlaceholderScreen(number: 2),
+        home: LabPlaceholderScreen(number: 3),
       ),
     );
 
-    expect(find.text('Lab 2'), findsNWidgets(2));
+    expect(find.text('Lab 3'), findsNWidgets(2));
   });
 }

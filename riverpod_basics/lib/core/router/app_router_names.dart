@@ -9,7 +9,7 @@ abstract final class AppRouteNames {
   static const providerLifetimes = 'providerLifetimes';
   static const addUser = 'addUser';
   static const userList = 'userList';
-  static const lab2 = 'lab2';
+  static const listenManual = 'listenManual';
   static const lab3 = 'lab3';
 }
 
@@ -25,6 +25,6 @@ abstract final class AppRoutePaths {
   static const providerLifetimes = 'provider-lifetimes';
   static const addUser = 'add-user';
   static const userList = 'user-list';
-  static const lab2 = 'lab-2';
+  static const listenManual = 'listen-manual';
   static const lab3 = 'lab-3';
 }

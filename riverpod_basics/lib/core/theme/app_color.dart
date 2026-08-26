@@ -10,4 +10,12 @@ abstract final class AppColor {
 
   /// Web-badge teal. Landing section titles (`titleLarge`).
   static const teal = Color(0xFF0E6971);
+
+  /// Dusty rose. [ColorScheme.error].
+  static const error = Color(0xFFC18388);
+
+  /// Pastel rose. Listen Manual card and dialog.
+  static const errorContainer = Color(0xFFE3C7C9);
+  static const onError = Color(0xFF6A484B);
+  static const onErrorContainer = Color(0xFF6A484B);
 }

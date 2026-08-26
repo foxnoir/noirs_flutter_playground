@@ -17,6 +17,14 @@ void main() {
     expect(theme.colorScheme.tertiary, AppColor.tertiary);
     expect(theme.colorScheme.tertiary, const Color(0xFFC7EFFB));
     expect(theme.snackBarTheme.backgroundColor, AppColor.tertiary);
+    expect(theme.colorScheme.tertiaryContainer, AppColor.teal);
+    expect(theme.colorScheme.onTertiaryContainer, AppColor.tertiary);
+    expect(theme.colorScheme.error, AppColor.error);
+    expect(theme.colorScheme.onError, AppColor.onError);
+    expect(theme.colorScheme.errorContainer, AppColor.errorContainer);
+    expect(theme.colorScheme.onErrorContainer, AppColor.onErrorContainer);
     expect(AppColor.teal, const Color(0xFF0E6971));
+    expect(AppColor.error, const Color(0xFFC18388));
+    expect(AppColor.errorContainer, const Color(0xFFE3C7C9));
   });
 }

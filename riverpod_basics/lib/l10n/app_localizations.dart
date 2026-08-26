@@ -307,6 +307,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Error'**
   String get errorTitle;
+
+  /// No description provided for @listenManual.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen Manual'**
+  String get listenManual;
+
+  /// No description provided for @listenManualBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Same stored error, four colors. Purple watch is always the live value — filled after Back. Gray read is frozen at open. Red listenManual is the dialog (also on reopen). Teal listen is the SnackBar and stays empty on the second visit.'**
+  String get listenManualBody;
+
+  /// No description provided for @listenManualWatchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'watch'**
+  String get listenManualWatchLabel;
+
+  /// No description provided for @listenManualIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Live value. Empty now.'**
+  String get listenManualIdle;
+
+  /// No description provided for @listenManualStored.
+  ///
+  /// In en, this message translates to:
+  /// **'Live value. Filled — survives Back.'**
+  String get listenManualStored;
+
+  /// No description provided for @listenManualStoreError.
+  ///
+  /// In en, this message translates to:
+  /// **'Store an error'**
+  String get listenManualStoreError;
+
+  /// No description provided for @listenManualClearError.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear error'**
+  String get listenManualClearError;
+
+  /// No description provided for @listenManualFetchFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not load. This stays until you tap Clear error.'**
+  String get listenManualFetchFailed;
+
+  /// No description provided for @listenManualManualLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'listenManual'**
+  String get listenManualManualLabel;
+
+  /// No description provided for @listenManualManualIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'No stored error on open.'**
+  String get listenManualManualIdle;
+
+  /// No description provided for @listenManualManualFired.
+  ///
+  /// In en, this message translates to:
+  /// **'Ran on open — error was already stored.'**
+  String get listenManualManualFired;
+
+  /// No description provided for @listenManualListenLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'listen'**
+  String get listenManualListenLabel;
+
+  /// No description provided for @listenManualListenIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'No change this visit.'**
+  String get listenManualListenIdle;
+
+  /// No description provided for @listenManualListenFired.
+  ///
+  /// In en, this message translates to:
+  /// **'Saw a change this visit.'**
+  String get listenManualListenFired;
+
+  /// No description provided for @listenManualListenSnackBar.
+  ///
+  /// In en, this message translates to:
+  /// **'listen: the value changed.'**
+  String get listenManualListenSnackBar;
+
+  /// No description provided for @listenManualReadLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'read'**
+  String get listenManualReadLabel;
+
+  /// No description provided for @listenManualReadIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshot at open: null. Store will not change this.'**
+  String get listenManualReadIdle;
+
+  /// No description provided for @listenManualReadFired.
+  ///
+  /// In en, this message translates to:
+  /// **'Snapshot at open: stored error. initState ran again.'**
+  String get listenManualReadFired;
 }
 
 class _AppLocalizationsDelegate
