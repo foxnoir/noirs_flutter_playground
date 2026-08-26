@@ -197,4 +197,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addDemoUser => 'Add demo user';
+
+  @override
+  String get refreshLab => 'Refresh';
+
+  @override
+  String get refreshLabBody =>
+      'This provider does a fake GET /ping and shows the time it came back. Pull or Refresh: new GET, wait for the Future. Invalidate: also a new GET because this screen watches, but it returns nothing. Prefer invalidate unless something must wait.';
+
+  @override
+  String get refreshLabWatchLabel => 'watch';
+
+  @override
+  String get refreshLabLoading => 'Loading…';
+
+  @override
+  String refreshLabPing(String time) {
+    return 'Last fetch: $time';
+  }
+
+  @override
+  String get refreshLabRefresh => 'Refresh';
+
+  @override
+  String get refreshLabInvalidate => 'Invalidate';
 }

@@ -56,6 +56,7 @@
         <li><a href="#what-is-riverpod">What is Riverpod</a></li>
         <li><a href="#why-riverpod">Why Riverpod</a></li>
         <li><a href="#watch-read-listen">watch, read, listen</a></li>
+        <li><a href="#refresh-invalidate">refresh, invalidate</a></li>
         <li><a href="#three-switches">Three switches</a></li>
       </ul>
     </li>
@@ -103,7 +104,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Refresh** is a fake GET /ping: `ref.refresh` (returns a Future) next to `ref.invalidate` (void). Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -203,6 +204,20 @@ Use `listenManual` when the side effect must see the current value on first open
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
+### refresh, invalidate
+
+These two tell Riverpod: **run this provider again**. They are not `watch` / `read` / `listen`. They are also not a method on a notifier (`fetchUsers()`, `reset()`).
+
+**`ref.refresh(provider)`** is `invalidate` plus an immediate `read`. It **returns** the new value. On a `FutureProvider`, `ref.refresh(provider.future)` is the new GET as a `Future` — pull-to-refresh awaits that.
+
+**`ref.invalidate(provider)`** is **void**. Marks the provider stale. If something is watching, the GET runs again now. If nobody is looking, it waits until the next `watch` / `read`. Prefer **invalidate** unless a caller must wait. Several invalidates collapse into one rebuild; several refreshes do not.
+
+The **Refresh** lab has its **own** `FutureProvider`: a delayed fake GET /ping. The purple card is the time that GET came back. Pull-to-refresh and the Refresh button await `ref.refresh(provider.future)`. Invalidate is void; this screen still watches, so the GET runs again. `when(..., skipLoadingOnRefresh: false)` so the spinner shows — the default would keep painting the old time.
+
+This is not User List. `userListProvider.build()` returns empty state; the GET is `fetchUsers()`. Refreshing that provider would wipe the list. The async screens' refresh FAB is `reset()` on the notifier — same idea, not `ref.refresh`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 ### Three switches
 
 Three independent knobs. Mixing them is why `listenManual` feels like `autoDispose`.
@@ -267,7 +282,7 @@ Do not read `.value` or `.value!` in `build` to “just show the number”. Whil
 
 The **`error`** branch is not empty theory. The screen counts **page enters** once in `initState` (not in `build()`, or every rebuild would increment) and calls `onPageEntered()`. `build()` on the notifier does not run again (no `autoDispose`), so the visit count lives on that notifier. Every 3rd enter (`visit % 3 == 0`) sets `AsyncLoading`, then `guard` throws `FakePageEnterException` → `AsyncError`. Visit 4 restores the **persisted** count. Same notifier; the error was only a state. The UI is **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`): `assets/img/error_dragon.png` and `l10n.errorOccurred`. Imports `hide ErrorWidget` because Flutter already uses that name for the build-failure fallback.
 
-`when` defaults **`skipLoadingOnRefresh: true`**. After `invalidate` the widget would keep painting the old number until the Future finishes. Both async screens set `skipLoadingOnRefresh` / `skipLoadingOnReload` to **false** so `loading:` runs on reset.
+`when` defaults **`skipLoadingOnRefresh: true`**. After `invalidate` the widget would keep painting the old number until the Future finishes. Both async screens set `skipLoadingOnRefresh` / `skipLoadingOnReload` to **false** so `loading:` runs on reset. The **Refresh** lab does the same for `ref.refresh` / `ref.invalidate`.
 
 **Use it when** the first value comes from a repository, HTTP, or disk, and the result should survive leaving the screen (a profile you still need on the next page).
 
@@ -487,7 +502,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**90.0%** line coverage (905 of 1006 lines).
+**90.0%** line coverage (985 of 1095 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

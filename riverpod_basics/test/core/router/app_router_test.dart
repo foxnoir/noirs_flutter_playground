@@ -7,6 +7,7 @@ import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_scr
 import 'package:riverpod_basics/features/labs/consumer_widget/presentation/consumer_widget_screen.dart';
 import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_manual_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
+import 'package:riverpod_basics/features/labs/refresh/presentation/refresh_screen.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
@@ -142,5 +143,19 @@ void main() {
     expect(find.widgetWithText(AppBar, 'Consumer Widget'), findsOneWidget);
     expect(find.text('StatelessWidget + Consumer'), findsOneWidget);
     expect(find.text('ConsumerWidget'), findsOneWidget);
+  });
+
+  testWidgets('Landing navigates to Refresh lab', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Refresh'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(RefreshScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Refresh'), findsOneWidget);
+    expect(find.textContaining('Last fetch:'), findsOneWidget);
   });
 }

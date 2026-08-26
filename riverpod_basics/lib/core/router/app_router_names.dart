@@ -11,6 +11,7 @@ abstract final class AppRouteNames {
   static const userList = 'userList';
   static const listenManual = 'listenManual';
   static const consumerWidget = 'consumerWidget';
+  static const refresh = 'refresh';
 }
 
 /// URL slugs stay stable across locales. Nested routes are relative.
@@ -27,4 +28,5 @@ abstract final class AppRoutePaths {
   static const userList = 'user-list';
   static const listenManual = 'listen-manual';
   static const consumerWidget = 'consumer-widget';
+  static const refresh = 'refresh';
 }

@@ -57,5 +57,12 @@
   "consumerWidgetBody": "Beide Panels zeigen dieselben Benutzer, weil sie denselben Provider watchen. Oben: ein StatelessWidget umhüllt Consumer nur, um an ref zu kommen. Unten: ConsumerWidget — build hat ref schon als Parameter, ohne Wrapper. Nimm ConsumerWidget. ConsumerStatefulWidget nur, wenn du initState oder dispose brauchst.",
   "consumerWrapLabel": "StatelessWidget + Consumer",
   "consumerWidgetLabel": "ConsumerWidget",
-  "addDemoUser": "Demo-Benutzer hinzufügen"
+  "addDemoUser": "Demo-Benutzer hinzufügen",
+  "refreshLab": "Refresh",
+  "refreshLabBody": "Dieser Provider macht ein Fake-GET /ping und zeigt die Uhrzeit der Antwort. Ziehen oder Refresh: neuer GET, warten auf das Future. Invalidate: auch ein neuer GET, weil dieser Screen watcht — gibt aber nichts zurück. Nimm invalidate, außer etwas muss warten.",
+  "refreshLabWatchLabel": "watch",
+  "refreshLabLoading": "Laden…",
+  "refreshLabPing": "Letzter Fetch: {time}",
+  "refreshLabRefresh": "Refresh",
+  "refreshLabInvalidate": "Invalidate"
 }

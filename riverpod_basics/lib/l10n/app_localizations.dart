@@ -445,6 +445,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add demo user'**
   String get addDemoUser;
+
+  /// No description provided for @refreshLab.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refreshLab;
+
+  /// No description provided for @refreshLabBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This provider does a fake GET /ping and shows the time it came back. Pull or Refresh: new GET, wait for the Future. Invalidate: also a new GET because this screen watches, but it returns nothing. Prefer invalidate unless something must wait.'**
+  String get refreshLabBody;
+
+  /// No description provided for @refreshLabWatchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'watch'**
+  String get refreshLabWatchLabel;
+
+  /// No description provided for @refreshLabLoading.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading…'**
+  String get refreshLabLoading;
+
+  /// No description provided for @refreshLabPing.
+  ///
+  /// In en, this message translates to:
+  /// **'Last fetch: {time}'**
+  String refreshLabPing(String time);
+
+  /// No description provided for @refreshLabRefresh.
+  ///
+  /// In en, this message translates to:
+  /// **'Refresh'**
+  String get refreshLabRefresh;
+
+  /// No description provided for @refreshLabInvalidate.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalidate'**
+  String get refreshLabInvalidate;
 }
 
 class _AppLocalizationsDelegate
