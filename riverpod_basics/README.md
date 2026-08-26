@@ -56,6 +56,7 @@
         <li><a href="#what-is-riverpod">What is Riverpod</a></li>
         <li><a href="#why-riverpod">Why Riverpod</a></li>
         <li><a href="#watch-read-listen">watch, read, listen</a></li>
+        <li><a href="#three-switches">Three switches</a></li>
       </ul>
     </li>
     <li>
@@ -102,7 +103,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). Two more labs are placeholders. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. Lab 3 is still a placeholder. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -194,7 +195,25 @@ ref.listen(addUserProvider.select((state) => state.error), (_, error) { ... });
 
 **Do not use `listen` when** you need the value in the tree. That is `watch`. Do not `watch` a flag only to `showSnackBar` in `build`.
 
-`.notifier` is the object that owns the mutable value. `watch` / `read` the provider for the `int`. `read` the `.notifier` when you need to change it.
+**`ref.listenManual`** is for `initState` (`ref.listen` / `ref.watch` are illegal there) plus **`fireImmediately: true`**: current value *and* later changes. The same snapshot without a subscription is **`ref.read` in `initState`**. `read` has no callback, so it never shows a dialog or SnackBar — the gray card is the whole effect. The **Listen Manual** lab color-codes the four APIs: purple `watch`, gray `read`, red `listenManual` (dialog), teal `listen` (SnackBar). Store an error while the screen is open: teal SnackBar + red dialog; gray `read` stays empty. Leave and come back: purple `watch` and gray `read` are filled; red dialog again; teal `listen` stays empty. `showDialog` waits until after the first layout. Close the `ProviderSubscription` in `dispose`.
+
+Use `listenManual` when the side effect must see the current value on first open, or you must start/stop the listener outside `build`. Add User and User List stay on `listen` in `build`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Three switches
+
+Three independent knobs. Mixing them is why `listenManual` feels like `autoDispose`.
+
+| Switch | What it is |
+| --- | --- |
+| **Provider** | The mailbox. The value lives in it. `watch` / `read` the mailbox. |
+| **Notifier** | Who may put letters in (`storeError()` / `clearError()`). Write with `.notifier`. A `NotifierProvider` is mailbox **plus** person. |
+| **autoDispose** | When nobody is looking, throw the state away. Next open: empty. Without it, Back keeps whatever was in the mailbox. Not `listen`. |
+| **`listen`** | Callback only in `build`, and only when the value **changes** while this screen is open. |
+| **`listenManual`** | Same listening, but you start it in `initState` and `close()` it in `dispose`. `fireImmediately: true` also reports what is already in the mailbox. |
+
+`listenManual` does not hold the state. `autoDispose` is not “Notifier instead of Provider”.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -455,7 +474,7 @@ Two shapes:
 
 Lifetime tests (AutoDispose Provider Lifetimes) still use a `ProviderContainer`. Close the last listener and the autoDispose provider is gone. A persistent one is still there. Keep Alive uses `fakeAsync` so 5 seconds pass without a real wait.
 
-User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add User provider tests cover writing through that list and a duplicate id. Widget tests fake the repository with `overrideWith` so nothing hits a delay or seed data.
+User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add User provider tests cover writing through that list and a duplicate id. Widget tests fake the repository with `overrideWith` so nothing hits a delay or seed data. The Listen Manual widget test seeds the stored error with `overrideWith` so `fireImmediately` can show the dialog without a tap.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
 
@@ -466,7 +485,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. Add 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**89.9%** line coverage (685 of 762 lines).
+**89.6%** line coverage (822 of 917 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

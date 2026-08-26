@@ -122,4 +122,63 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorTitle => 'Error';
+
+  @override
+  String get listenManual => 'Listen Manual';
+
+  @override
+  String get listenManualBody =>
+      'Same stored error, four colors. Purple watch is always the live value — filled after Back. Gray read is frozen at open. Red listenManual is the dialog (also on reopen). Teal listen is the SnackBar and stays empty on the second visit.';
+
+  @override
+  String get listenManualWatchLabel => 'watch';
+
+  @override
+  String get listenManualIdle => 'Live value. Empty now.';
+
+  @override
+  String get listenManualStored => 'Live value. Filled — survives Back.';
+
+  @override
+  String get listenManualStoreError => 'Store an error';
+
+  @override
+  String get listenManualClearError => 'Clear error';
+
+  @override
+  String get listenManualFetchFailed =>
+      'Could not load. This stays until you tap Clear error.';
+
+  @override
+  String get listenManualManualLabel => 'listenManual';
+
+  @override
+  String get listenManualManualIdle => 'No stored error on open.';
+
+  @override
+  String get listenManualManualFired =>
+      'Ran on open — error was already stored.';
+
+  @override
+  String get listenManualListenLabel => 'listen';
+
+  @override
+  String get listenManualListenIdle => 'No change this visit.';
+
+  @override
+  String get listenManualListenFired => 'Saw a change this visit.';
+
+  @override
+  String get listenManualListenSnackBar => 'listen: the value changed.';
+
+  @override
+  String get listenManualReadLabel => 'read';
+
+  @override
+  String get listenManualReadIdle =>
+      'Snapshot at open: null. Store will not change this.';
+
+  @override
+  String get listenManualReadFired =>
+      'Snapshot at open: stored error. initState ran again.';
 }

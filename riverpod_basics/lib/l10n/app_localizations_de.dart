@@ -123,4 +123,65 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get errorTitle => 'Fehler';
+
+  @override
+  String get listenManual => 'Listen Manual';
+
+  @override
+  String get listenManualBody =>
+      'Derselbe gespeicherte Fehler, vier Farben. Lila watch ist immer der Live-Wert — nach Zurück gefüllt. Grau read ist beim Öffnen eingefroren. Rot listenManual ist der Dialog (auch beim Wiederöffnen). Türkisgrün listen ist die SnackBar und bleibt beim zweiten Besuch leer.';
+
+  @override
+  String get listenManualWatchLabel => 'watch';
+
+  @override
+  String get listenManualIdle => 'Live-Wert. Jetzt leer.';
+
+  @override
+  String get listenManualStored => 'Live-Wert. Gefüllt — bleibt nach Zurück.';
+
+  @override
+  String get listenManualStoreError => 'Fehler speichern';
+
+  @override
+  String get listenManualClearError => 'Fehler löschen';
+
+  @override
+  String get listenManualFetchFailed =>
+      'Konnte nicht geladen werden. Bleibt, bis du Fehler löschen tippst.';
+
+  @override
+  String get listenManualManualLabel => 'listenManual';
+
+  @override
+  String get listenManualManualIdle => 'Beim Öffnen kein gespeicherter Fehler.';
+
+  @override
+  String get listenManualManualFired =>
+      'Beim Öffnen gelaufen — Fehler war schon da.';
+
+  @override
+  String get listenManualListenLabel => 'listen';
+
+  @override
+  String get listenManualListenIdle => 'Keine Änderung in diesem Besuch.';
+
+  @override
+  String get listenManualListenFired =>
+      'Hat eine Änderung in diesem Besuch gesehen.';
+
+  @override
+  String get listenManualListenSnackBar =>
+      'listen: der Wert hat sich geändert.';
+
+  @override
+  String get listenManualReadLabel => 'read';
+
+  @override
+  String get listenManualReadIdle =>
+      'Snapshot beim Öffnen: null. Store ändert das nicht.';
+
+  @override
+  String get listenManualReadFired =>
+      'Snapshot beim Öffnen: gespeicherter Fehler. initState ist neu gelaufen.';
 }

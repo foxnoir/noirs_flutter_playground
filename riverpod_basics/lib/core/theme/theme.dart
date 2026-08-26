@@ -45,5 +45,14 @@ ColorScheme _getColorScheme() {
     secondary: AppColor.secondary,
     secondaryContainer: AppColor.secondaryContainer,
     tertiary: AppColor.tertiary,
-  ).copyWith(tertiary: AppColor.tertiary, onTertiary: AppColor.teal);
+  ).copyWith(
+    tertiary: AppColor.tertiary,
+    onTertiary: AppColor.teal,
+    tertiaryContainer: AppColor.teal,
+    onTertiaryContainer: AppColor.tertiary,
+    error: AppColor.error,
+    onError: AppColor.onError,
+    errorContainer: AppColor.errorContainer,
+    onErrorContainer: AppColor.onErrorContainer,
+  );
 }

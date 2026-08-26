@@ -46,7 +46,7 @@ void main() {
   });
 
   testWidgets(
-    'Labs dropdown lists lifetimes, add user, user list, and placeholder rows',
+    'Labs dropdown lists lifetimes, add user, user list, listen manual, and a placeholder',
     (tester) async {
       await tester.pumpWidget(app());
       await expand(tester, 'Labs');
@@ -54,7 +54,7 @@ void main() {
       expect(find.text('AutoDispose Provider Lifetimes'), findsOneWidget);
       expect(find.text('Add User'), findsOneWidget);
       expect(find.text('User List'), findsOneWidget);
-      expect(find.text('Lab 2'), findsOneWidget);
+      expect(find.text('Listen Manual'), findsOneWidget);
       expect(find.text('Lab 3'), findsOneWidget);
       expect(find.byIcon(Icons.chevron_right), findsNWidgets(5));
     },
@@ -70,6 +70,7 @@ void main() {
     expect(find.text('AutoDispose Provider Lifetimes'), findsOneWidget);
     expect(find.text('Benutzer hinzufügen'), findsOneWidget);
     expect(find.text('Benutzerliste'), findsOneWidget);
-    expect(find.text('Lab 2'), findsOneWidget);
+    expect(find.text('Listen Manual'), findsOneWidget);
+    expect(find.text('Lab 3'), findsOneWidget);
   });
 }

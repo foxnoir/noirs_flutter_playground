@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
+import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_manual_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
@@ -111,5 +112,19 @@ void main() {
     expect(find.byType(UserListScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'User List'), findsOneWidget);
     expect(find.text('Grace'), findsOneWidget);
+  });
+
+  testWidgets('Landing navigates to Listen Manual lab', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Listen Manual'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ListenManualScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Listen Manual'), findsOneWidget);
+    expect(find.text('Live value. Empty now.'), findsOneWidget);
   });
 }
