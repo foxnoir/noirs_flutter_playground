@@ -3,8 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/app_router_names.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
+import 'package:riverpod_basics/features/labs/consumer_widget/presentation/consumer_widget_screen.dart';
 import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_manual_screen.dart';
-import 'package:riverpod_basics/features/labs/placeholder/presentation/lab_placeholder_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
@@ -72,9 +72,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const ListenManualScreen(),
           ),
           GoRoute(
-            path: AppRoutePaths.lab3,
-            name: AppRouteNames.lab3,
-            builder: (context, state) => const LabPlaceholderScreen(number: 3),
+            path: AppRoutePaths.consumerWidget,
+            name: AppRouteNames.consumerWidget,
+            builder: (context, state) => const ConsumerWidgetScreen(),
           ),
         ],
       ),

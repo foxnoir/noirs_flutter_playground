@@ -70,8 +70,8 @@ class LandingPage extends StatelessWidget {
                 routeName: AppRouteNames.listenManual,
               ),
               destination(
-                label: l10n.labNumber(3),
-                routeName: AppRouteNames.lab3,
+                label: l10n.consumerWidget,
+                routeName: AppRouteNames.consumerWidget,
               ),
             ],
           ),
