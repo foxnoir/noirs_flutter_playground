@@ -66,6 +66,10 @@ class LandingPage extends StatelessWidget {
                 routeName: AppRouteNames.userList,
               ),
               destination(
+                label: l10n.userSearch,
+                routeName: AppRouteNames.userSearch,
+              ),
+              destination(
                 label: l10n.listenManual,
                 routeName: AppRouteNames.listenManual,
               ),

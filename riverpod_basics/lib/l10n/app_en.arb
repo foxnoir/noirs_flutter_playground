@@ -47,6 +47,13 @@
   "providerLifetimes": "AutoDispose Provider Lifetimes",
   "addUser": "Add User",
   "userList": "User List",
+  "userSearch": "User Search",
+  "userSearchHint": "Name or id",
+  "userSearchAction": "Search",
+  "userSearchNotFound": "No user matched that search.",
+  "userSearchNotifierLabel": "Notifier",
+  "userSearchFamilyLabel": "Family",
+  "userSearchBody": "**Notifier** is one mailbox: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider('Grace')** and **('10')** are two caches. Family state is **AsyncValue**, not UserSearchState.",
   "userValue": "User: {name}",
   "@userValue": {
     "placeholders": {

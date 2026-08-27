@@ -93,6 +93,28 @@ class AppLocalizationsEn extends AppLocalizations {
   String get userList => 'User List';
 
   @override
+  String get userSearch => 'User Search';
+
+  @override
+  String get userSearchHint => 'Name or id';
+
+  @override
+  String get userSearchAction => 'Search';
+
+  @override
+  String get userSearchNotFound => 'No user matched that search.';
+
+  @override
+  String get userSearchNotifierLabel => 'Notifier';
+
+  @override
+  String get userSearchFamilyLabel => 'Family';
+
+  @override
+  String get userSearchBody =>
+      '**Notifier** is one mailbox: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider(\'Grace\')** and **(\'10\')** are two caches. Family state is **AsyncValue**, not UserSearchState.';
+
+  @override
   String userValue(String name) {
     return 'User: $name';
   }

@@ -248,6 +248,48 @@ abstract class AppLocalizations {
   /// **'User List'**
   String get userList;
 
+  /// No description provided for @userSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'User Search'**
+  String get userSearch;
+
+  /// No description provided for @userSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Name or id'**
+  String get userSearchHint;
+
+  /// No description provided for @userSearchAction.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get userSearchAction;
+
+  /// No description provided for @userSearchNotFound.
+  ///
+  /// In en, this message translates to:
+  /// **'No user matched that search.'**
+  String get userSearchNotFound;
+
+  /// No description provided for @userSearchNotifierLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifier'**
+  String get userSearchNotifierLabel;
+
+  /// No description provided for @userSearchFamilyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Family'**
+  String get userSearchFamilyLabel;
+
+  /// No description provided for @userSearchBody.
+  ///
+  /// In en, this message translates to:
+  /// **'**Notifier** is one mailbox: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider(\'Grace\')** and **(\'10\')** are two caches. Family state is **AsyncValue**, not UserSearchState.'**
+  String get userSearchBody;
+
   /// No description provided for @userValue.
   ///
   /// In en, this message translates to:

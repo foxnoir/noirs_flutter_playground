@@ -93,6 +93,28 @@ class AppLocalizationsDe extends AppLocalizations {
   String get userList => 'Benutzerliste';
 
   @override
+  String get userSearch => 'Benutzersuche';
+
+  @override
+  String get userSearchHint => 'Name oder Id';
+
+  @override
+  String get userSearchAction => 'Suchen';
+
+  @override
+  String get userSearchNotFound => 'Kein Benutzer gefunden.';
+
+  @override
+  String get userSearchNotifierLabel => 'Notifier';
+
+  @override
+  String get userSearchFamilyLabel => 'Family';
+
+  @override
+  String get userSearchBody =>
+      '**Notifier** ist ein Postfach: **search()** überschreibt es, wie User List **fetchUsers**. **Family** steckt die Query in den Schlüssel — **userSearchFamilyProvider(\'Grace\')** und **(\'10\')** sind zwei Caches. Family-State ist **AsyncValue**, nicht UserSearchState.';
+
+  @override
   String userValue(String name) {
     return 'Benutzer: $name';
   }
