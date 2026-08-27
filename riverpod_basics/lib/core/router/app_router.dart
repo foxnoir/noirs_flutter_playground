@@ -6,6 +6,7 @@ import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_scr
 import 'package:riverpod_basics/features/labs/consumer_widget/presentation/consumer_widget_screen.dart';
 import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_manual_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
+import 'package:riverpod_basics/features/labs/quote/presentation/quote_screen.dart';
 import 'package:riverpod_basics/features/labs/refresh/presentation/refresh_screen.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/labs/user_search/presentation/user_search_screen.dart';
@@ -82,6 +83,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutePaths.consumerWidget,
             name: AppRouteNames.consumerWidget,
             builder: (context, state) => const ConsumerWidgetScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.quote,
+            name: AppRouteNames.quote,
+            builder: (context, state) => const QuoteScreen(),
           ),
           GoRoute(
             path: AppRoutePaths.refresh,

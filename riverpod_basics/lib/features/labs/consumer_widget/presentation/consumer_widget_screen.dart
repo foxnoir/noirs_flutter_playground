@@ -4,7 +4,7 @@ import 'package:riverpod_basics/features/labs/consumer_widget/presentation/widge
 import 'package:riverpod_basics/features/labs/consumer_widget/presentation/widgets/consumer_wrap_panel.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/providers/user_list_provider.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
-import 'package:riverpod_basics/shared_widgets/lab_intro_copy.dart';
+import 'package:riverpod_basics/shared_widgets/lab_info_text.dart';
 
 /// Same list, two widget types. The UI matches because both `watch` the
 /// same provider. The difference is only how they get `ref`.
@@ -41,7 +41,7 @@ class _ConsumerWidgetScreenState extends ConsumerState<ConsumerWidgetScreen> {
           return ListView(
             padding: const EdgeInsets.all(16),
             children: [
-              LabIntroCopy(l10n.consumerWidgetBody),
+              LabInfoText(l10n.consumerWidgetBody),
               const SizedBox(height: 16),
               SizedBox(height: panelHeight, child: const ConsumerWrapPanel()),
               const SizedBox(height: 12),

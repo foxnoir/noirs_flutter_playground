@@ -112,7 +112,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get userSearchBody =>
-      '**Notifier** ist ein Postfach: **search()** überschreibt es, wie User List **fetchUsers**. **Family** steckt die Query in den Schlüssel — **userSearchFamilyProvider(\'Grace\')** und **(\'10\')** sind zwei Caches. Family-State ist **AsyncValue**, nicht UserSearchState.';
+      '**Notifier** hält einen Cache: **search()** überschreibt ihn, wie User List **fetchUsers**. **Family** steckt die Query in den Schlüssel — **userSearchFamilyProvider(\'Grace\')** und **(\'10\')** sind zwei Caches. Family-State ist **AsyncValue**, nicht UserSearchState.';
 
   @override
   String userValue(String name) {
@@ -226,6 +226,28 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get addDemoUser => 'Demo-Benutzer hinzufügen';
+
+  @override
+  String get quote => 'Quote';
+
+  @override
+  String get quoteBody =>
+      'Der Screen **watch**t beide **FutureProvider** — eine Karte je Provider. Beide bauen über **AsyncValue** neu: loading, data, error. Jeder GET nimmt eine zufällige Quote.\n\n**FutureProvider** hat kein Extra-Input. **Invalidate** markiert ihn als veraltet, damit der GET erneut läuft. **Fail call** setzt ein Flag in der Data Source und **invalidate**t diesen Provider. Ein Feld an einem Objekt ist kein Provider-State.\n\n**FutureProvider + input** — nicht der Screen — **watch**t die Quote-Nummer. **Increment number** zählt um eins hoch. Riverpod startet diesen GET ohne **invalidate**. Die andere Karte bleibt. Das ist das Future-Gegenstück zu **search()**, das **state** setzt.\n\nDer fehlgeschlagene GET wirft **NetworkException**. Das Repository mappt auf **NetworkFailure**.';
+
+  @override
+  String get quoteWatchLabel => 'FutureProvider';
+
+  @override
+  String get quoteFromInputLabel => 'FutureProvider + input';
+
+  @override
+  String get quoteReload => 'Invalidate';
+
+  @override
+  String get quoteIncrementNumber => 'Increment number';
+
+  @override
+  String get quoteFailCall => 'Fail call';
 
   @override
   String get refreshLab => 'Refresh';

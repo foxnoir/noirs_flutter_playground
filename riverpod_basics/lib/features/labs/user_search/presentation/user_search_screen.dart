@@ -12,7 +12,7 @@ import 'package:riverpod_basics/features/labs/user_search/presentation/widgets/u
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/error_widget.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
-import 'package:riverpod_basics/shared_widgets/lab_intro_copy.dart';
+import 'package:riverpod_basics/shared_widgets/lab_info_text.dart';
 
 class UserSearchScreen extends ConsumerStatefulWidget {
   const UserSearchScreen({super.key});
@@ -82,7 +82,7 @@ class _UserSearchScreenState extends ConsumerState<UserSearchScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            LabIntroCopy(l10n.userSearchBody, textAlign: TextAlign.start),
+            LabInfoText(l10n.userSearchBody, textAlign: TextAlign.start),
             const SizedBox(height: 16),
             TextField(
               controller: _queryController,

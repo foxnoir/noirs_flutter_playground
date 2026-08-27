@@ -287,7 +287,7 @@ abstract class AppLocalizations {
   /// No description provided for @userSearchBody.
   ///
   /// In en, this message translates to:
-  /// **'**Notifier** is one mailbox: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider(\'Grace\')** and **(\'10\')** are two caches. Family state is **AsyncValue**, not UserSearchState.'**
+  /// **'**Notifier** holds one cache: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider(\'Grace\')** and **(\'10\')** are two caches. Family state is **AsyncValue**, not UserSearchState.'**
   String get userSearchBody;
 
   /// No description provided for @userValue.
@@ -493,6 +493,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add demo user'**
   String get addDemoUser;
+
+  /// No description provided for @quote.
+  ///
+  /// In en, this message translates to:
+  /// **'Quote'**
+  String get quote;
+
+  /// No description provided for @quoteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Invalidate** marks it stale so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.'**
+  String get quoteBody;
+
+  /// No description provided for @quoteWatchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FutureProvider'**
+  String get quoteWatchLabel;
+
+  /// No description provided for @quoteFromInputLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'FutureProvider + input'**
+  String get quoteFromInputLabel;
+
+  /// No description provided for @quoteReload.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalidate'**
+  String get quoteReload;
+
+  /// No description provided for @quoteIncrementNumber.
+  ///
+  /// In en, this message translates to:
+  /// **'Increment number'**
+  String get quoteIncrementNumber;
+
+  /// No description provided for @quoteFailCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Fail call'**
+  String get quoteFailCall;
 
   /// No description provided for @refreshLab.
   ///

@@ -8,7 +8,7 @@ import 'package:riverpod_basics/features/labs/user_search/presentation/providers
 import 'package:riverpod_basics/features/labs/user_search/presentation/user_search_screen.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/error_widget.dart';
-import 'package:riverpod_basics/shared_widgets/lab_intro_copy.dart';
+import 'package:riverpod_basics/shared_widgets/lab_info_text.dart';
 
 import '../../user_list/fake_user_repository.dart';
 
@@ -67,7 +67,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.widgetWithText(AppBar, 'User Search'), findsOneWidget);
-    expect(find.byType(LabIntroCopy), findsOneWidget);
+    expect(find.byType(LabInfoText), findsOneWidget);
     expect(find.widgetWithText(ElevatedButton, 'Search'), findsOneWidget);
     expect(find.text('Notifier'), findsOneWidget);
     expect(find.text('Family'), findsOneWidget);
@@ -132,7 +132,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(CircularProgressIndicator), findsNothing);
-    expect(find.byType(LabIntroCopy), findsOneWidget);
+    expect(find.byType(LabInfoText), findsOneWidget);
     expect(find.text('No user matched that search.'), findsOneWidget);
     expect(notFoundDragon(), findsOneWidget);
     expect(find.text('Notifier'), findsNothing);

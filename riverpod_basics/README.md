@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, refresh / invalidate, User List, User Search), Freezed, and sealed errors.
+     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, Quote, refresh / invalidate, User List, User Search), Freezed, and sealed errors.
   </p>
 </div>
 
@@ -62,6 +62,7 @@
       <ul>
         <li><a href="#no-provider">No provider</a></li>
         <li><a href="#notifierprovider">NotifierProvider</a></li>
+        <li><a href="#futureprovider">FutureProvider</a></li>
         <li><a href="#asyncnotifier-persistent-state">AsyncNotifier Persistent State</a></li>
         <li><a href="#asyncnotifier-non-persistent-state">AsyncNotifier Non-Persistent State</a></li>
         <li><a href="#stateprovider">StateProvider</a></li>
@@ -108,7 +109,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, `UserModel`, the data source, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **User Search** is one field, two providers: a **Notifier** `search()` command and a codegen **Family** `userSearchFamilyProvider(query)`. The handwritten `.family` twin is `user_search_family_provider_manual.dart` (not imported). The caption is left-aligned with **bold** terms (not justified block copy). A miss shows a spinner in both panels, then one `not_found_dragon.png` (empty filter, not `NotFoundFailure`). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state. See [Errors](#errors) for sealed exceptions, failures, and l10n mapping.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, `UserModel`, the data source, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **User Search** is one field, two providers: a **Notifier** `search()` command and a codegen **Family** `userSearchFamilyProvider(query)`. The handwritten `.family` twin is `user_search_family_provider_manual.dart` (not imported). **LabInfoText** renders lab info (`**bold**`, paragraphs); User Search is left-aligned so it does not read as a justified block. A miss shows a spinner in both panels, then one `not_found_dragon.png` (empty filter, not `NotFoundFailure`). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Quote** compares two handwritten fake GETs /quote: **FutureProvider** (reload is `invalidate`, **Fail call** sets a data-source flag then `invalidate`s) and **FutureProvider + input** (**Increment number** re-runs because a watched quote number changed; the other cache stays). **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state. See [Errors](#errors) for sealed exceptions, failures, and l10n mapping.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -279,7 +280,19 @@ This is the type everything else is built on. A `StateProvider` is a notifier wh
 
 **Use it when** the value leaves the widget: plus and minus must not go below zero, a form field needs validation, a list can add and remove items, or two screens share the same actions. Use it as soon as you would write a test for the change.
 
-**Do not use it when** the value never changes (that is a read-only `Provider`) or the widget is the only thing that ever sees a one-off toggle. Do not reach for a notifier to store a theme color constant. Do not use it when the first value is a `Future` — that is `AsyncNotifierProvider`.
+**Do not use it when** the value never changes (that is a read-only `Provider`) or the widget is the only thing that ever sees a one-off toggle. Do not reach for a notifier to store a theme color constant. Do not use it when the first value is a `Future` — that is `FutureProvider` if you have no methods, or `AsyncNotifierProvider` if you do.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### FutureProvider
+
+`FutureProvider` is an **async read with no public methods**. The function runs; Riverpod stores **`AsyncValue`**: loading, error, data. You `watch`. To run the GET again, `invalidate` (or `refresh` — that is the Refresh lab), or change a provider this Future **watch**es.
+
+The **Quote** lab is two handwritten `FutureProvider<Quote>`s so the type is on the page. Fake GET /quote: delay on `quoteDelayProvider`, data source picks one of three Lewis Carroll quotes (not the last one) or throws `NetworkException`, repository maps to `NetworkFailure`. **FutureProvider** has no extra input — **Invalidate** / **Fail call**. **FutureProvider + input** watches `quoteNumberProvider`; **Increment number** calls `incrementQuoteNumber` and Riverpod re-runs that GET with no `invalidate`. That is the Future equivalent of `search()` assigning `state`. **Fail call** is a flag on the data source — `watch` does not rerun until `invalidate`. `retry: (_, _) => null` — codegen labs already pass that; without it Riverpod 3 retries a failed GET after 200ms and **Fail call** never stays on screen. Tests `overrideWith` a **repository fake** and set the delay to `Duration.zero`.
+
+**Use it when** you only need to load one value (a GET) and display loading / data / error.
+
+**Do not use it when** the UI must call `search()`, `increment()`, or `addUser()`. That is a Notifier or AsyncNotifier.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -555,7 +568,7 @@ Two shapes:
 
 Lifetime tests (AutoDispose Provider Lifetimes) still use a `ProviderContainer`. Close the last listener and the autoDispose provider is gone. A persistent one is still there. Keep Alive uses `fakeAsync` so 5 seconds pass without a real wait.
 
-User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **repository fake** throws `NetworkFailure` (already mapped); a **data-source fake** throws `NetworkException` and the real repository maps it. The widget test checks the dialog shows `errorNetwork`, not `toString()`. Mapper tests live in `test/core/errors/`. Add User provider tests cover writing through that list and a duplicate id. User Search tests cover match-by-name, match-by-id, and a spinner then one shared not-found illustration (not in both panels). Family provider tests check two queries are two mailboxes. Widget tests fake the repository with `overrideWith` so nothing hits a delay or seed data. They override `userSearchDelayProvider` to `Duration.zero` except the spinner test. The Listen Manual widget test seeds the stored error with `overrideWith` so `fireImmediately` can show the dialog without a tap.
+User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **repository fake** throws `NetworkFailure` (already mapped); a **data-source fake** throws `NetworkException` and the real repository maps it. The widget test checks the dialog shows `errorNetwork`, not `toString()`. Mapper tests live in `test/core/errors/`. Add User provider tests cover writing through that list and a duplicate id. User Search tests cover match-by-name, match-by-id, and a spinner then one shared not-found illustration (not in both panels). Family provider tests check two queries are two mailboxes. **Quote** tests cover the quote GET, a repository fake that throws `NetworkFailure`, a data-source fake that throws `NetworkException` (real repository maps it), two spinners then two quotes, **Increment number** re-running only the input Future, and **Fail call** on the no-input Future through the real data source. Widget tests fake the repository with `overrideWith` so nothing hits a delay or the in-memory quotes. They override `userSearchDelayProvider` / `quoteDelayProvider` to `Duration.zero` except the spinner tests. The Listen Manual widget test seeds the stored error with `overrideWith` so `fireImmediately` can show the dialog without a tap.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
 
@@ -566,7 +579,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**87.5%** line coverage (1357 of 1550 lines).
+**88.0%** line coverage (1483 of 1685 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

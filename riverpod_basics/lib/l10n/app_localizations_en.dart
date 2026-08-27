@@ -112,7 +112,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get userSearchBody =>
-      '**Notifier** is one mailbox: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider(\'Grace\')** and **(\'10\')** are two caches. Family state is **AsyncValue**, not UserSearchState.';
+      '**Notifier** holds one cache: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider(\'Grace\')** and **(\'10\')** are two caches. Family state is **AsyncValue**, not UserSearchState.';
 
   @override
   String userValue(String name) {
@@ -223,6 +223,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get addDemoUser => 'Add demo user';
+
+  @override
+  String get quote => 'Quote';
+
+  @override
+  String get quoteBody =>
+      'The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Invalidate** marks it stale so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.';
+
+  @override
+  String get quoteWatchLabel => 'FutureProvider';
+
+  @override
+  String get quoteFromInputLabel => 'FutureProvider + input';
+
+  @override
+  String get quoteReload => 'Invalidate';
+
+  @override
+  String get quoteIncrementNumber => 'Increment number';
+
+  @override
+  String get quoteFailCall => 'Fail call';
 
   @override
   String get refreshLab => 'Refresh';

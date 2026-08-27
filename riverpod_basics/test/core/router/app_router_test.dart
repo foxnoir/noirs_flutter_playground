@@ -7,6 +7,7 @@ import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_scr
 import 'package:riverpod_basics/features/labs/consumer_widget/presentation/consumer_widget_screen.dart';
 import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_manual_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
+import 'package:riverpod_basics/features/labs/quote/presentation/quote_screen.dart';
 import 'package:riverpod_basics/features/labs/refresh/presentation/refresh_screen.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/labs/user_search/presentation/user_search_screen.dart';
@@ -159,6 +160,32 @@ void main() {
     expect(find.widgetWithText(AppBar, 'Consumer Widget'), findsOneWidget);
     expect(find.text('StatelessWidget + Consumer'), findsOneWidget);
     expect(find.text('ConsumerWidget'), findsOneWidget);
+  });
+
+  testWidgets('Landing navigates to Quote lab', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Quote'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(QuoteScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Quote'), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Invalidate'), findsOneWidget);
+    expect(
+      find.widgetWithText(ElevatedButton, 'Fail call', skipOffstage: false),
+      findsOneWidget,
+    );
+    expect(
+      find.widgetWithText(
+        ElevatedButton,
+        'Increment number',
+        skipOffstage: false,
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('Landing navigates to Refresh lab', (tester) async {

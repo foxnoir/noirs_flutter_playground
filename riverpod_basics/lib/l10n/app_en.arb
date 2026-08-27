@@ -53,7 +53,7 @@
   "userSearchNotFound": "No user matched that search.",
   "userSearchNotifierLabel": "Notifier",
   "userSearchFamilyLabel": "Family",
-  "userSearchBody": "**Notifier** is one mailbox: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider('Grace')** and **('10')** are two caches. Family state is **AsyncValue**, not UserSearchState.",
+  "userSearchBody": "**Notifier** holds one cache: **search()** overwrites it, like User List **fetchUsers**. **Family** puts the query on the key — **userSearchFamilyProvider('Grace')** and **('10')** are two caches. Family state is **AsyncValue**, not UserSearchState.",
   "userValue": "User: {name}",
   "@userValue": {
     "placeholders": {
@@ -95,6 +95,13 @@
   "consumerWrapLabel": "StatelessWidget + Consumer",
   "consumerWidgetLabel": "ConsumerWidget",
   "addDemoUser": "Add demo user",
+  "quote": "Quote",
+  "quoteBody": "The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Invalidate** marks it stale so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.",
+  "quoteWatchLabel": "FutureProvider",
+  "quoteFromInputLabel": "FutureProvider + input",
+  "quoteReload": "Invalidate",
+  "quoteIncrementNumber": "Increment number",
+  "quoteFailCall": "Fail call",
   "refreshLab": "Refresh",
   "refreshLabBody": "**refresh** is always **invalidate** plus an immediate **read**. That is why refresh returns a Future. Use **refresh** when this callback must wait. **Pull-to-refresh** is the usual case.\n\nUse **invalidate** when you do not need to wait. It marks the provider stale. Whoever **watch**es it reloads. That is the usual choice after a mutation: save, delete, logout, or any time the cache is old.\n\n**Refresh** and **Refresh 3x** disable while they wait so you cannot stack taps. **Invalidate** stays tappable.\n\n**Invalidate 3x** starts one GET. **Refresh 3x** starts three. The **Refresh** button blinks once. **Refresh 3x** blinks three times.",
   "refreshLabWatchLabel": "watch",
