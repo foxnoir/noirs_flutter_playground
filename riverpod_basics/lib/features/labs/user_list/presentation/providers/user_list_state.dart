@@ -4,7 +4,8 @@ import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dar
 
 part 'user_list_state.freezed.dart';
 
-// The user list snapshot. Add User writes here; both screens read it.
+// The user list snapshot. Add User writes here; User List and User Search
+// read it. `error` is AppFailure?, not a raw string — UI maps via l10n.
 // `error` is AppFailure?, not a raw string — UI maps via l10n.
 @freezed
 abstract class UserListState with _$UserListState {

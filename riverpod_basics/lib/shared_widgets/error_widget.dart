@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart' hide ErrorWidget;
 
-/// Illustration plus a localized message for async error UI.
+/// Illustration plus a localized message.
+///
+/// Async errors use [defaultImageAsset]. User Search uses
+/// [notFoundImageAsset] when the filter matches nobody.
 ///
 /// Import material with `hide ErrorWidget` so this name does not clash
 /// with Flutter's build-failure fallback.
@@ -12,6 +15,7 @@ class ErrorWidget extends StatelessWidget {
   });
 
   static const defaultImageAsset = 'assets/img/error_dragon.png';
+  static const notFoundImageAsset = 'assets/img/not_found_dragon.png';
 
   final String message;
   final String imageAsset;

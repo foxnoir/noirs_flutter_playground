@@ -33,11 +33,19 @@ List<(String text, bool bold)> labIntroPieces(String paragraph) {
   }
 }
 
-/// Justified lab intro with paragraphs and `**bold**` terms.
+/// Lab intro with paragraphs and `**bold**` terms.
+///
+/// Default is justified (Refresh, Consumer Widget). User Search passes
+/// [TextAlign.start] so the caption does not read as a block of prose.
 class LabIntroCopy extends StatelessWidget {
-  const LabIntroCopy(this.body, {super.key});
+  const LabIntroCopy(
+    this.body, {
+    super.key,
+    this.textAlign = TextAlign.justify,
+  });
 
   final String body;
+  final TextAlign textAlign;
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +65,7 @@ class LabIntroCopy extends StatelessWidget {
                   TextSpan(text: piece.$1, style: piece.$2 ? bold : style),
               ],
             ),
-            textAlign: TextAlign.justify,
+            textAlign: textAlign,
           ),
         ],
       ],

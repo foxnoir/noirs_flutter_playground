@@ -9,6 +9,7 @@ import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
 import 'package:riverpod_basics/features/labs/refresh/presentation/refresh_screen.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
+import 'package:riverpod_basics/features/labs/user_search/presentation/user_search_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
 import 'package:riverpod_basics/features/providers/no_provider/presentation/no_provider_screen.dart';
 import 'package:riverpod_basics/features/providers/state_provider/presentation/state_provider_screen.dart';
@@ -114,6 +115,21 @@ void main() {
     expect(find.byType(UserListScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'User List'), findsOneWidget);
     expect(find.text('Grace'), findsOneWidget);
+  });
+
+  testWidgets('Landing navigates to User Search lab', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('User Search'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(UserSearchScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'User Search'), findsOneWidget);
+    expect(find.byType(TextField), findsOneWidget);
+    expect(find.widgetWithText(ElevatedButton, 'Search'), findsOneWidget);
   });
 
   testWidgets('Landing navigates to Listen Manual lab', (tester) async {
