@@ -5,8 +5,6 @@ import 'package:riverpod_basics/core/theme/theme.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/widgets/keep_alive_snack_bar_listener.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
-// hier könnte ihre Werbung stehen
-
 void main() {
   runApp(const ProviderScope(child: RiverpodBasicsApp()));
 }

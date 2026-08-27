@@ -8,7 +8,7 @@ import 'package:riverpod_basics/features/labs/refresh/presentation/widgets/refre
 import 'package:riverpod_basics/features/labs/refresh/presentation/widgets/refresh_info_card.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
-import 'package:riverpod_basics/shared_widgets/lab_intro_copy.dart';
+import 'package:riverpod_basics/shared_widgets/lab_info_text.dart';
 
 String _clock(DateTime fetchedAt) {
   final hour = fetchedAt.hour.toString().padLeft(2, '0');
@@ -78,7 +78,7 @@ class _RefreshScreenState extends ConsumerState<RefreshScreen> {
           physics: const AlwaysScrollableScrollPhysics(),
           padding: const EdgeInsets.all(16),
           children: [
-            LabIntroCopy(l10n.refreshLabBody),
+            LabInfoText(l10n.refreshLabBody),
             const SizedBox(height: 16),
             RefreshInfoCard(
               label: l10n.refreshLabWatchLabel,
