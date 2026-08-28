@@ -7,18 +7,15 @@ cd "$repo_root" || exit 1
 export PATH="${HOME}/.pub-cache/bin:${PATH}"
 
 apps_file="${repo_root}/coverage_pipeline/playground_apps"
+runner="${repo_root}/coverage_pipeline/run_flutter_tests.sh"
 if [ ! -f "$apps_file" ]; then
   echo "pre-push: missing ${apps_file}." >&2
   exit 1
 fi
-
-fail_push() {
-  app=$1
-  msg="Tests failed in ${app}. Fix the tests, then push again."
-  echo "$msg"
-  echo "$msg" >&2
+if [ ! -x "$runner" ]; then
+  echo "pre-push: missing ${runner}." >&2
   exit 1
-}
+fi
 
 echo "Running tests before push…"
 
@@ -26,15 +23,8 @@ while IFS= read -r app || [ -n "${app:-}" ]; do
   case "$app" in
     '' | \#*) continue ;;
   esac
-  app_root="${repo_root}/${app}"
-  if [ -f "${app_root}/.fvmrc" ] && command -v fvm >/dev/null 2>&1; then
-    if ! (cd "$app_root" && fvm flutter test --reporter compact); then
-      fail_push "$app"
-    fi
-  else
-    if ! (cd "$app_root" && flutter test --reporter compact); then
-      fail_push "$app"
-    fi
+  if ! "$runner" "${repo_root}/${app}" "$app"; then
+    exit 1
   fi
 done <"$apps_file"
 

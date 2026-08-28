@@ -7,18 +7,16 @@ cd "$repo_root" || exit 1
 
 export PATH="${HOME}/.pub-cache/bin:${PATH}"
 
+runner="${repo_root}/coverage_pipeline/run_flutter_tests.sh"
+if [ ! -x "$runner" ]; then
+  echo "pre-push: missing ${runner}." >&2
+  exit 1
+fi
+
 echo "pre-push: running tests…"
 
-if [ -f .fvmrc ] && command -v fvm >/dev/null 2>&1; then
-  if ! fvm flutter test; then
-    echo "pre-push: tests failed. Push blocked." >&2
-    exit 1
-  fi
-else
-  if ! flutter test; then
-    echo "pre-push: tests failed. Push blocked." >&2
-    exit 1
-  fi
+if ! "$runner" "$repo_root" "."; then
+  exit 1
 fi
 
 echo "pre-push: all tests passed."
