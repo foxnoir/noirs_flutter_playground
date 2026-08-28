@@ -18,4 +18,7 @@ class FakeQuoteRepository implements QuoteRepository {
     }
     return quote ?? const Quote(text: 'Fake quote', author: 'Test');
   }
+
+  @override
+  void failCall() {}
 }

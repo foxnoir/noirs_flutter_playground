@@ -96,12 +96,37 @@
   "consumerWidgetLabel": "ConsumerWidget",
   "addDemoUser": "Add demo user",
   "quote": "Quote",
-  "quoteBody": "The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Invalidate** marks it stale so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.",
+  "quoteBody": "The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Get new quote** **invalidate**s that cache so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.\n\n`retry` is null so Riverpod 3 does not retry that error off the screen (~200ms). Without it **Fail call** never stays.\n\nA **SnackBar** is a debug print of the Riverpod calls, not the button. **Get new quote** → **invalidate() → watch()**. **Fail call** → **read() + invalidate() → watch()** (notifier). **Increment number** → **read() → watch()** — the Future **watch**es the number, no **invalidate**.",
   "quoteWatchLabel": "FutureProvider",
   "quoteFromInputLabel": "FutureProvider + input",
-  "quoteReload": "Invalidate",
+  "quoteReload": "Get new quote",
   "quoteIncrementNumber": "Increment number",
   "quoteFailCall": "Fail call",
+  "labSnackBarRead": "read()",
+  "labSnackBarReadWatch": "read() → watch()",
+  "labSnackBarReadUnwatch": "read() → unwatch",
+  "labSnackBarInvalidate": "invalidate()",
+  "labSnackBarInvalidateWatch": "invalidate() → watch()",
+  "labSnackBarReadAndInvalidate": "read() + invalidate() → watch()",
+  "tick": "Tick",
+  "tickBody": "The screen **watch**es one handwritten **StreamProvider** while **Start** is on. **AsyncValue** is loading, then a new **data** on every tick, or **error**.\n\nA **FutureProvider** (Quote) runs once. A **StreamProvider** keeps listening. **watch** rebuilds on each event.\n\n**Stop** drops the **watch**. `autoDispose` cancels the fake **/tick** stream and the timer. **Start** watches again — a new stream at tick 1.\n\n**Invalidate** is a new listen on the same provider, still at tick 1, without Stop. Like a new GET on Quote.\n\n**Fail call** sets a flag on the data source. The next tick throws **NetworkException**. The repository maps it to **NetworkFailure**. **AsyncValue** is **error**. **watch** stays. No **invalidate** on that tap — the error is the next event. **Start** after that starts a new stream (**invalidate** while still **watch**ing).\n\n`retry` is null so Riverpod 3 does not retry that error off the screen (~200ms). Without it **Fail call** never stays.\n\nA **SnackBar** is a debug print of the Riverpod calls, not the button. **Start** from stopped → **read() → watch()**. **Start** after **Fail call** → **invalidate() → watch()** (new stream). **Stop** → **read() → unwatch**. **Invalidate** → **invalidate() → watch()**. **Fail call** → **read()**.",
+  "tickWatchLabel": "StreamProvider",
+  "tickStart": "Start",
+  "tickStop": "Stop",
+  "tickStopped": "Stopped.",
+  "tickReload": "Invalidate",
+  "tickFailCall": "Fail call",
+  "tickBeat": "Tick {n} · {time}",
+  "@tickBeat": {
+    "placeholders": {
+      "n": {
+        "type": "int"
+      },
+      "time": {
+        "type": "String"
+      }
+    }
+  },
   "refreshLab": "Refresh",
   "refreshLabBody": "**refresh** is always **invalidate** plus an immediate **read**. That is why refresh returns a Future. Use **refresh** when this callback must wait. **Pull-to-refresh** is the usual case.\n\nUse **invalidate** when you do not need to wait. It marks the provider stale. Whoever **watch**es it reloads. That is the usual choice after a mutation: save, delete, logout, or any time the cache is old.\n\n**Refresh** and **Refresh 3x** disable while they wait so you cannot stack taps. **Invalidate** stays tappable.\n\n**Invalidate 3x** starts one GET. **Refresh 3x** starts three. The **Refresh** button blinks once. **Refresh 3x** blinks three times.",
   "refreshLabWatchLabel": "watch",

@@ -1,7 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/errors/app_failure.dart';
-import 'package:riverpod_basics/features/labs/quote/data/data_sources/in_memory_quote_data_source.dart';
 import 'package:riverpod_basics/features/labs/quote/data/repositories/in_memory_quote_repository.dart';
 import 'package:riverpod_basics/features/labs/quote/domain/entities/quote.dart';
 import 'package:riverpod_basics/features/labs/quote/domain/repositories/quote_repository.dart';
@@ -59,10 +58,10 @@ void main() {
 
       await container.read(quoteProvider.future);
 
-      container.read(quoteDataSourceProvider).failCall();
+      container.read(quoteFailCallProvider.notifier).failCall();
 
       await expectLater(
-        container.refresh(quoteProvider.future),
+        container.read(quoteProvider.future),
         throwsA(isA<NetworkFailure>()),
       );
 
@@ -95,4 +94,7 @@ class _CountingQuoteRepository implements QuoteRepository {
     calls++;
     return const Quote(text: 'Hello', author: 'Ada');
   }
+
+  @override
+  void failCall() {}
 }

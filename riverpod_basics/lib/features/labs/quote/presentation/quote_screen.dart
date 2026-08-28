@@ -1,11 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod_basics/features/labs/quote/data/data_sources/in_memory_quote_data_source.dart';
 import 'package:riverpod_basics/features/labs/quote/presentation/providers/quote_provider.dart';
 import 'package:riverpod_basics/features/labs/quote/presentation/widgets/quote_async_card.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 import 'package:riverpod_basics/shared_widgets/lab_info_text.dart';
+
+void _showQuoteSnackBar(BuildContext context, String message) {
+  ScaffoldMessenger.of(context)
+    ..hideCurrentSnackBar()
+    ..showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: const Duration(milliseconds: 1500),
+      ),
+    );
+}
 
 class QuoteScreen extends ConsumerWidget {
   const QuoteScreen({super.key});
@@ -36,7 +46,13 @@ class QuoteScreen extends ConsumerWidget {
             label: l10n.quoteReload,
             onPressed: quote.isLoading
                 ? null
-                : () => ref.invalidate(quoteProvider),
+                : () {
+                    ref.invalidate(quoteProvider);
+                    _showQuoteSnackBar(
+                      context,
+                      l10n.labSnackBarInvalidateWatch,
+                    );
+                  },
           ),
           const SizedBox(height: 12),
           FullWidthElevatedButton(
@@ -44,8 +60,11 @@ class QuoteScreen extends ConsumerWidget {
             onPressed: quote.isLoading
                 ? null
                 : () {
-                    ref.read(quoteDataSourceProvider).failCall();
-                    ref.invalidate(quoteProvider);
+                    ref.read(quoteFailCallProvider.notifier).failCall();
+                    _showQuoteSnackBar(
+                      context,
+                      l10n.labSnackBarReadAndInvalidate,
+                    );
                   },
           ),
           const SizedBox(height: 16),
@@ -61,9 +80,12 @@ class QuoteScreen extends ConsumerWidget {
             label: l10n.quoteIncrementNumber,
             onPressed: fromInput.isLoading
                 ? null
-                : () => ref
-                      .read(quoteNumberProvider.notifier)
-                      .incrementQuoteNumber(),
+                : () {
+                    ref
+                        .read(quoteNumberProvider.notifier)
+                        .incrementQuoteNumber();
+                    _showQuoteSnackBar(context, l10n.labSnackBarReadWatch);
+                  },
           ),
         ],
       ),

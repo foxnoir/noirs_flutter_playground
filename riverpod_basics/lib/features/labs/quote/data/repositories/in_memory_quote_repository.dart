@@ -24,4 +24,7 @@ class InMemoryQuoteRepository implements QuoteRepository {
       throw AppFailure.fromException(e);
     }
   }
+
+  @override
+  void failCall() => _dataSource.failCall();
 }

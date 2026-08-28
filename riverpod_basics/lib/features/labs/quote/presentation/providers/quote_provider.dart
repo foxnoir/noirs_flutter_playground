@@ -39,3 +39,19 @@ final quoteFromInputProvider = FutureProvider<Quote>((ref) {
   ref.watch(quoteNumberProvider);
   return _fetchQuote(ref);
 }, retry: (_, _) => null);
+
+/// [quoteProvider] has no methods. The screen calls [QuoteFailCallNotifier.failCall];
+/// this notifier talks to the repository and invalidates the GET.
+final quoteFailCallProvider = NotifierProvider<QuoteFailCallNotifier, bool>(
+  QuoteFailCallNotifier.new,
+);
+
+class QuoteFailCallNotifier extends Notifier<bool> {
+  @override
+  bool build() => false;
+
+  void failCall() {
+    ref.read(quoteRepositoryProvider).failCall();
+    ref.invalidate(quoteProvider);
+  }
+}

@@ -54,7 +54,7 @@ Copy a starter folder when you begin a new Flutter app.
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-There is no Android project.
+There is no Android project. The iOS Simulator is **iPhone 17 Pro** (iOS 26.5).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

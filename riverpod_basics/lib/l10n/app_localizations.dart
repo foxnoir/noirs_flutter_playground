@@ -503,7 +503,7 @@ abstract class AppLocalizations {
   /// No description provided for @quoteBody.
   ///
   /// In en, this message translates to:
-  /// **'The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Invalidate** marks it stale so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.'**
+  /// **'The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Get new quote** **invalidate**s that cache so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.\n\n`retry` is null so Riverpod 3 does not retry that error off the screen (~200ms). Without it **Fail call** never stays.\n\nA **SnackBar** is a debug print of the Riverpod calls, not the button. **Get new quote** → **invalidate() → watch()**. **Fail call** → **read() + invalidate() → watch()** (notifier). **Increment number** → **read() → watch()** — the Future **watch**es the number, no **invalidate**.'**
   String get quoteBody;
 
   /// No description provided for @quoteWatchLabel.
@@ -521,7 +521,7 @@ abstract class AppLocalizations {
   /// No description provided for @quoteReload.
   ///
   /// In en, this message translates to:
-  /// **'Invalidate'**
+  /// **'Get new quote'**
   String get quoteReload;
 
   /// No description provided for @quoteIncrementNumber.
@@ -535,6 +535,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Fail call'**
   String get quoteFailCall;
+
+  /// No description provided for @labSnackBarRead.
+  ///
+  /// In en, this message translates to:
+  /// **'read()'**
+  String get labSnackBarRead;
+
+  /// No description provided for @labSnackBarReadWatch.
+  ///
+  /// In en, this message translates to:
+  /// **'read() → watch()'**
+  String get labSnackBarReadWatch;
+
+  /// No description provided for @labSnackBarReadUnwatch.
+  ///
+  /// In en, this message translates to:
+  /// **'read() → unwatch'**
+  String get labSnackBarReadUnwatch;
+
+  /// No description provided for @labSnackBarInvalidate.
+  ///
+  /// In en, this message translates to:
+  /// **'invalidate()'**
+  String get labSnackBarInvalidate;
+
+  /// No description provided for @labSnackBarInvalidateWatch.
+  ///
+  /// In en, this message translates to:
+  /// **'invalidate() → watch()'**
+  String get labSnackBarInvalidateWatch;
+
+  /// No description provided for @labSnackBarReadAndInvalidate.
+  ///
+  /// In en, this message translates to:
+  /// **'read() + invalidate() → watch()'**
+  String get labSnackBarReadAndInvalidate;
+
+  /// No description provided for @tick.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick'**
+  String get tick;
+
+  /// No description provided for @tickBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The screen **watch**es one handwritten **StreamProvider** while **Start** is on. **AsyncValue** is loading, then a new **data** on every tick, or **error**.\n\nA **FutureProvider** (Quote) runs once. A **StreamProvider** keeps listening. **watch** rebuilds on each event.\n\n**Stop** drops the **watch**. `autoDispose` cancels the fake **/tick** stream and the timer. **Start** watches again — a new stream at tick 1.\n\n**Invalidate** is a new listen on the same provider, still at tick 1, without Stop. Like a new GET on Quote.\n\n**Fail call** sets a flag on the data source. The next tick throws **NetworkException**. The repository maps it to **NetworkFailure**. **AsyncValue** is **error**. **watch** stays. No **invalidate** on that tap — the error is the next event. **Start** after that starts a new stream (**invalidate** while still **watch**ing).\n\n`retry` is null so Riverpod 3 does not retry that error off the screen (~200ms). Without it **Fail call** never stays.\n\nA **SnackBar** is a debug print of the Riverpod calls, not the button. **Start** from stopped → **read() → watch()**. **Start** after **Fail call** → **invalidate() → watch()** (new stream). **Stop** → **read() → unwatch**. **Invalidate** → **invalidate() → watch()**. **Fail call** → **read()**.'**
+  String get tickBody;
+
+  /// No description provided for @tickWatchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'StreamProvider'**
+  String get tickWatchLabel;
+
+  /// No description provided for @tickStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get tickStart;
+
+  /// No description provided for @tickStop.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get tickStop;
+
+  /// No description provided for @tickStopped.
+  ///
+  /// In en, this message translates to:
+  /// **'Stopped.'**
+  String get tickStopped;
+
+  /// No description provided for @tickReload.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalidate'**
+  String get tickReload;
+
+  /// No description provided for @tickFailCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Fail call'**
+  String get tickFailCall;
+
+  /// No description provided for @tickBeat.
+  ///
+  /// In en, this message translates to:
+  /// **'Tick {n} · {time}'**
+  String tickBeat(int n, String time);
 
   /// No description provided for @refreshLab.
   ///
