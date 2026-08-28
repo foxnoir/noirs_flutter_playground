@@ -4,9 +4,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_basics/core/errors/app_exception.dart';
 import 'package:riverpod_basics/features/labs/quote/data/models/quote_model.dart';
 
-// ignore: one_member_abstracts -- contract; fail call is on the impl
 abstract interface class QuoteDataSource {
   Future<QuoteModel> fetchQuote();
+
+  void failCall();
 }
 
 final quoteDataSourceProvider = Provider<InMemoryQuoteDataSource>((ref) {
@@ -34,6 +35,7 @@ class InMemoryQuoteDataSource implements QuoteDataSource {
   ];
 
   /// Next [fetchQuote] throws [NetworkException], then clears.
+  @override
   void failCall() => _failCall = true;
 
   QuoteModel _nextQuote() {

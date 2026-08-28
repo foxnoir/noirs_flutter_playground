@@ -16,4 +16,7 @@ class FakeQuoteDataSource implements QuoteDataSource {
     }
     return model ?? const QuoteModel(text: 'From source', author: 'Fake');
   }
+
+  @override
+  void failCall() {}
 }

@@ -63,7 +63,7 @@ This is a **Riverpod** starter in [Noir's Flutter Playground](../../README.md). 
 [![iOS](../../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-There is no Android project. Run on the iOS Simulator or Chrome.
+There is no Android project. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26.5) or Chrome.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -105,7 +105,7 @@ fvm flutter pub get
 fvm flutter run
 ```
 
-`fvm flutter run` uses the **iOS Simulator**. For web, use `fvm flutter run -d chrome`. There is no Android project.
+`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5). For web, use `fvm flutter run -d chrome`. There is no Android project.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 

@@ -59,10 +59,15 @@ void main() {
 
     expect(
       find.byType(CircularProgressIndicator, skipOffstage: false),
-      findsNWidgets(2),
+      findsAtLeastNWidgets(1),
     );
 
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('quoteFromInputCard')),
+      80,
+    );
+    await tester.pump();
 
     expect(find.text(quote.text, skipOffstage: false), findsNWidgets(2));
     expect(find.text(quote.author, skipOffstage: false), findsNWidgets(2));
@@ -73,6 +78,11 @@ void main() {
       app(repository: const FakeQuoteRepository(error: NetworkFailure())),
     );
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('quoteFromInputCard')),
+      80,
+    );
+    await tester.pump();
 
     expect(
       find.text(
@@ -99,10 +109,19 @@ void main() {
       ),
     );
     await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.byKey(const Key('quoteFromInputCard')),
+      80,
+    );
+    await tester.pump();
 
     expect(find.text('Lewis Carroll', skipOffstage: false), findsNWidgets(2));
 
     await tapLabButton(tester, 'Fail call');
+    await tester.pump();
+    expect(find.byType(SnackBar), findsOneWidget);
+    expect(find.text('read() + invalidate() → watch()'), findsOneWidget);
+
     await tester.pumpAndSettle();
 
     expect(
@@ -155,12 +174,21 @@ void main() {
     const noInput = Key('quoteNoInputCard');
     const fromInput = Key('quoteFromInputCard');
     final noInputBefore = quoteOn(noInput);
+    await tester.scrollUntilVisible(find.byKey(fromInput), 80);
+    await tester.pump();
     final fromInputBefore = quoteOn(fromInput);
 
     await tapLabButton(tester, 'Increment number');
+    await tester.pump();
+    expect(find.text('read() → watch()'), findsOneWidget);
     await tester.pumpAndSettle();
 
+    await tester.scrollUntilVisible(find.byKey(noInput), 80);
+    await tester.pump();
     expect(quoteOn(noInput), noInputBefore);
+
+    await tester.scrollUntilVisible(find.byKey(fromInput), 80);
+    await tester.pump();
     expect(quoteOn(fromInput), isNot(fromInputBefore));
     expect(find.text('Lewis Carroll', skipOffstage: false), findsNWidgets(2));
   });

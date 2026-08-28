@@ -70,7 +70,7 @@ Each folder is a standalone Flutter app. Topics include **Riverpod**, architectu
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-There is no Android project.
+There is no Android project. The iOS Simulator is **iPhone 17 Pro** (iOS 26.5).
 
 Copyable starters live in [app_starters](app_starters/).
 
@@ -84,7 +84,7 @@ The root README stays short: a link and a rough summary per project. Getting sta
 
 This is the approach every app in this playground follows. A small practice project may only fill `core/`, `features/`, and `l10n/`. A fuller app adds the extra `core/` and feature folders below. Not every folder has to exist from day one.
 
-Platforms are **iOS** and **Web**. There is no Android project.
+Platforms are **iOS** and **Web**. There is no Android project. The iOS Simulator is **iPhone 17 Pro** (iOS 26.5).
 
 ```
 app/
@@ -185,7 +185,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **Riverpod**: providers, labs (listen, ConsumerWidget, Quote, refresh / invalidate, User List with data source + repository, User Search), Freezed, and sealed error mapping.
+Practice app for **Riverpod**: providers, labs (listen, ConsumerWidget, Quote, Tick, refresh / invalidate, User List with data source + repository, User Search), Freezed, and sealed error mapping.
 
 [README »](riverpod_basics/README.md)
 

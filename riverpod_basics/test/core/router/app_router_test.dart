@@ -9,6 +9,7 @@ import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
 import 'package:riverpod_basics/features/labs/quote/presentation/quote_screen.dart';
 import 'package:riverpod_basics/features/labs/refresh/presentation/refresh_screen.dart';
+import 'package:riverpod_basics/features/labs/tick/presentation/tick_screen.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/features/labs/user_search/presentation/user_search_screen.dart';
 import 'package:riverpod_basics/features/landing_page/presentation/landing_page.dart';
@@ -173,17 +174,50 @@ void main() {
 
     expect(find.byType(QuoteScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Quote'), findsOneWidget);
-    expect(find.widgetWithText(ElevatedButton, 'Invalidate'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.widgetWithText(ElevatedButton, 'Get new quote'),
+      80,
+    );
+    expect(find.widgetWithText(ElevatedButton, 'Get new quote'), findsOneWidget);
     expect(
       find.widgetWithText(ElevatedButton, 'Fail call', skipOffstage: false),
       findsOneWidget,
     );
+    await tester.scrollUntilVisible(
+      find.widgetWithText(ElevatedButton, 'Increment number'),
+      80,
+    );
     expect(
-      find.widgetWithText(
-        ElevatedButton,
-        'Increment number',
-        skipOffstage: false,
-      ),
+      find.widgetWithText(ElevatedButton, 'Increment number'),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('Landing navigates to Tick lab', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Tick'), 80);
+    await tester.pump();
+    await tester.tap(find.text('Tick'));
+    // Live /tick never goes idle — do not pumpAndSettle after the screen is up.
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 400));
+
+    expect(find.byType(TickScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Tick'), findsOneWidget);
+    expect(
+      find.widgetWithText(ElevatedButton, 'Start', skipOffstage: false),
+      findsOneWidget,
+    );
+    expect(
+      find.widgetWithText(ElevatedButton, 'Stop', skipOffstage: false),
+      findsOneWidget,
+    );
+    expect(
+      find.widgetWithText(ElevatedButton, 'Invalidate', skipOffstage: false),
       findsOneWidget,
     );
   });
@@ -193,6 +227,8 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Refresh'), 80);
     await tester.pumpAndSettle();
     await tester.tap(find.text('Refresh'));
     await tester.pumpAndSettle();

@@ -13,6 +13,7 @@ abstract final class AppRouteNames {
   static const listenManual = 'listenManual';
   static const consumerWidget = 'consumerWidget';
   static const quote = 'quote';
+  static const tick = 'tick';
   static const refresh = 'refresh';
 }
 
@@ -32,5 +33,6 @@ abstract final class AppRoutePaths {
   static const listenManual = 'listen-manual';
   static const consumerWidget = 'consumer-widget';
   static const quote = 'quote';
+  static const tick = 'tick';
   static const refresh = 'refresh';
 }

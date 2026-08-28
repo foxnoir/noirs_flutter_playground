@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, Quote, refresh / invalidate, User List, User Search), Freezed, and sealed errors.
+     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, Quote, Tick, refresh / invalidate, User List, User Search), Freezed, and sealed errors.
   </p>
 </div>
 
@@ -54,6 +54,7 @@
         <li><a href="#why-riverpod">Why Riverpod</a></li>
         <li><a href="#watch-read-listen">watch, read, listen</a></li>
         <li><a href="#refresh-invalidate">refresh, invalidate</a></li>
+        <li><a href="#retry">retry</a></li>
         <li><a href="#three-switches">Three switches</a></li>
       </ul>
     </li>
@@ -63,10 +64,13 @@
         <li><a href="#no-provider">No provider</a></li>
         <li><a href="#notifierprovider">NotifierProvider</a></li>
         <li><a href="#futureprovider">FutureProvider</a></li>
+        <li><a href="#streamprovider">StreamProvider</a></li>
         <li><a href="#asyncnotifier-persistent-state">AsyncNotifier Persistent State</a></li>
         <li><a href="#asyncnotifier-non-persistent-state">AsyncNotifier Non-Persistent State</a></li>
         <li><a href="#stateprovider">StateProvider</a></li>
         <li><a href="#how-they-connect">How they connect</a></li>
+        <li><a href="#which-provider">Which provider</a></li>
+        <li><a href="#riverpod-apis">Riverpod APIs</a></li>
       </ul>
     </li>
     <li>
@@ -91,6 +95,7 @@
       <ul>
         <li><a href="#testing-in-flutter">Testing in Flutter</a></li>
         <li><a href="#testing-riverpod">Testing Riverpod</a></li>
+        <li><a href="#what-to-test">What to test</a></li>
         <li><a href="#test-coverage">Test coverage</a></li>
       </ul>
     </li>
@@ -109,11 +114,11 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, `UserModel`, the data source, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **User Search** is one field, two providers: a **Notifier** `search()` command and a codegen **Family** `userSearchFamilyProvider(query)`. The handwritten `.family` twin is `user_search_family_provider_manual.dart` (not imported). **LabInfoText** renders lab info (`**bold**`, paragraphs); User Search is left-aligned so it does not read as a justified block. A miss shows a spinner in both panels, then one `not_found_dragon.png` (empty filter, not `NotFoundFailure`). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Quote** compares two handwritten fake GETs /quote: **FutureProvider** (reload is `invalidate`, **Fail call** sets a data-source flag then `invalidate`s) and **FutureProvider + input** (**Increment number** re-runs because a watched quote number changed; the other cache stays). **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state. See [Errors](#errors) for sealed exceptions, failures, and l10n mapping.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, `UserModel`, the data source, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **User Search** is one field, two providers: a **Notifier** `search()` command and a codegen **Family** `userSearchFamilyProvider(query)`. The handwritten `.family` twin is `user_search_family_provider_manual.dart` (not imported). **LabInfoText** renders lab info (`**bold**`, paragraphs); User Search is left-aligned so it does not read as a justified block. A miss shows a spinner in both panels, then one `not_found_dragon.png` (empty filter, not `NotFoundFailure`). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Quote** compares two handwritten fake GETs /quote: **FutureProvider** (reload is `invalidate`, **Fail call** sets a data-source flag then `invalidate`s) and **FutureProvider + input** (**Increment number** re-runs because a watched quote number changed; the other cache stays). **Tick** is a handwritten `StreamProvider<Tick>`: fake stream /tick with `Timer.periodic`, **Fail call** errors the next event with no `invalidate`, **Invalidate** starts a new stream at tick 1. **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state. See [Errors](#errors) for sealed exceptions, failures, and l10n mapping.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
-There is no Android project or Chrome. Run on the iOS Simulator.
+There is no Android project or Chrome. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26.5).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -236,6 +241,29 @@ This is not User List. `userListProvider.build()` returns empty state; the GET i
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
+### retry
+
+Riverpod 3 **retries a failed async provider by itself** (~200ms, then again). That is not `ref.refresh`. Nobody tapped anything. The GET / stream runs again on its own.
+
+**Quote** and **Tick** must keep **Fail call** on screen. Without `retry: (_, _) => null`, the error flashes and the next attempt overwrites it. `@riverpod` codegen already emits `retry: null` in the `.g.dart`. Handwritten `FutureProvider` / `StreamProvider` must pass it:
+
+```
+final quoteProvider = FutureProvider<Quote>(
+  _fetchQuote,
+  retry: (_, _) => null,
+);
+```
+
+`retry` is `(error, retryCount) => Duration?`. Return a delay to wait, then try again. Return `null` to stop. `(_, _) => null` means never retry.
+
+This is not User List. That lab stores `AppFailure` on a custom state class, not `AsyncError` on a `FutureProvider`, so Riverpod has nothing to retry.
+
+**Use the default when** a flaky GET should back off without a tap.
+
+**Do not use the default when** `AsyncError` must stay until the user retries (this playground: **Fail call**).
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 ### Three switches
 
 Three independent knobs. Mixing them is why `listenManual` feels like `autoDispose`.
@@ -288,11 +316,25 @@ This is the type everything else is built on. A `StateProvider` is a notifier wh
 
 `FutureProvider` is an **async read with no public methods**. The function runs; Riverpod stores **`AsyncValue`**: loading, error, data. You `watch`. To run the GET again, `invalidate` (or `refresh` — that is the Refresh lab), or change a provider this Future **watch**es.
 
-The **Quote** lab is two handwritten `FutureProvider<Quote>`s so the type is on the page. Fake GET /quote: delay on `quoteDelayProvider`, data source picks one of three Lewis Carroll quotes (not the last one) or throws `NetworkException`, repository maps to `NetworkFailure`. **FutureProvider** has no extra input — **Invalidate** / **Fail call**. **FutureProvider + input** watches `quoteNumberProvider`; **Increment number** calls `incrementQuoteNumber` and Riverpod re-runs that GET with no `invalidate`. That is the Future equivalent of `search()` assigning `state`. **Fail call** is a flag on the data source — `watch` does not rerun until `invalidate`. `retry: (_, _) => null` — codegen labs already pass that; without it Riverpod 3 retries a failed GET after 200ms and **Fail call** never stays on screen. Tests `overrideWith` a **repository fake** and set the delay to `Duration.zero`.
+The **Quote** lab is two handwritten `FutureProvider<Quote>`s so the type is on the page. Fake GET /quote: delay on `quoteDelayProvider`, data source picks one of three Lewis Carroll quotes (not the last one) or throws `NetworkException`, repository maps to `NetworkFailure`. **FutureProvider** has no extra input — **Get new quote** (`invalidate` on the screen) / **Fail call** (`read` on a notifier that then `invalidate`s). **FutureProvider + input** watches `quoteNumberProvider`; **Increment number** calls `incrementQuoteNumber` and Riverpod re-runs that GET with no `invalidate`. That is the Future equivalent of `search()` assigning `state`. **Fail call** is a flag on the data source. The screen calls `failCall()` on a **notifier**; that notifier calls the **repository**, then `invalidate`s. `watch` does not rerun until `invalidate`. Handwritten providers must pass `retry: (_, _) => null` or Riverpod 3 retries the failed GET and **Fail call** never stays — see [retry](#retry). A **SnackBar** is a debug print of the Riverpod calls, not the button: `invalidate() → watch()`, `read() + invalidate() → watch()`, or `read() → watch()`. Tests `overrideWith` a **repository fake** and set the delay to `Duration.zero`.
 
 **Use it when** you only need to load one value (a GET) and display loading / data / error.
 
 **Do not use it when** the UI must call `search()`, `increment()`, or `addUser()`. That is a Notifier or AsyncNotifier.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### StreamProvider
+
+`StreamProvider` is the same **`AsyncValue`** as `FutureProvider`, but the function returns a **`Stream`**. `watch` rebuilds on every event: loading, then data, then another data, or error.
+
+The **Tick** lab is a handwritten `StreamProvider.autoDispose<Tick>` so the type is on the page. Fake stream /tick: interval on `tickIntervalProvider` (800ms), data source uses `Timer.periodic` and cancels it in `StreamController.onCancel`, repository maps `NetworkException` to `NetworkFailure`. **Start** turns **watch** on (new stream at tick 1). After **Fail call** **AsyncValue** is **error** and **watch** stays; **Start** then `invalidate`s so a new stream runs. **Stop** drops the watch; `autoDispose` kills the timer. **Invalidate** is a new listen without Stop. **Fail call** sets a flag on the data source via a notifier → repository. The next tick throws. Same [retry](#retry) as Quote: without `retry: (_, _) => null`, Riverpod 3 retries the failed stream and **Fail call** never stays. A **SnackBar** is a debug print of the Riverpod calls (`read() → watch()`, `invalidate() → watch()`, `read() → unwatch`), not the button label. Leaving the page also drops the last watcher, so the timer does not leak.
+
+Do not override the interval to `Duration.zero` (that would spin). Tests that need a finite stream `overrideWith` a **repository fake**.
+
+**Use it when** values keep arriving: ticks, sockets, snapshots.
+
+**Do not use it when** you only need to load one value. That is `FutureProvider`. Do not use it when the UI must call `search()` or `addUser()`. That is a Notifier or AsyncNotifier.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -367,6 +409,53 @@ The app screens still go `setState` → `StateProvider` → `NotifierProvider` �
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
+### Which provider
+
+| Type | Use when | Here |
+| --- | --- | --- |
+| **No provider** | Only this widget cares | No Provider counter |
+| **`Provider`** | Read-only dep: repository, delay, data source | `tickRepositoryProvider`, `quoteDelayProvider` |
+| **`StateProvider`** | Legacy one-value write. Not for new features | StateProvider counter |
+| **`NotifierProvider`** | Mutable state + named methods | User List, Add User, Tick Start/Stop |
+| **`FutureProvider`** | One GET, no methods, display `AsyncValue` | Quote, Refresh ping, User Search Family |
+| **`StreamProvider`** | Values keep arriving | Tick |
+| **`AsyncNotifierProvider`** | First value is a `Future`, UI still calls methods | Persistent / Non-Persistent async counters |
+| **`.family`** | Same shape, different keys (id, query) | User Search Family |
+| **`.autoDispose`** | Drop state when the last watcher is gone | Tick, Non-Persistent Async |
+| **`keepAlive`** | Pause autoDispose for a few seconds | Lifetimes lab |
+
+A data source that **returns** a `Stream` is still a plain `Provider` of that object. The box that holds the `AsyncValue` is `StreamProvider`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Riverpod APIs
+
+These are Riverpod. `Stream.map` / `Stream.handleError` are Dart — see the last rows.
+
+| API | On | What |
+| --- | --- | --- |
+| **`watch`** | `ref` | Subscribe. Rebuild when it changes. `build` only |
+| **`read`** | `ref` | One-shot. No rebuild. Callbacks and tests |
+| **`listen`** | `ref` | Side effect on **change**. `build` only. SnackBar, dialog |
+| **`listenManual`** | `ref` | Same, started in `initState`. `fireImmediately` sees the current value |
+| **`.select`** | `watch` / `listen` | One field, so a list update does not fire the error dialog |
+| **`invalidate`** | `ref` | Mark stale. Watchers reload. `void` |
+| **`refresh`** | `ref` | `invalidate` + `read`. Returns a value / `Future` |
+| **`.notifier`** | `read` | Call methods (`failCall()`, `increment()`) |
+| **`.future`** | async provider | Unwrap `AsyncValue` to `T` once it is not loading |
+| **`onDispose`** | `ref` | Cancel a timer, close a source |
+| **`keepAlive()`** | `ref` | Link that delays autoDispose until `close()` |
+| **`retry`** | `FutureProvider` / `StreamProvider` | Riverpod 3 retries failed async (~200ms). This app sets `(_, _) => null`. See [retry](#retry) |
+| **`when`** | `AsyncValue` | Map loading / error / data to widgets. Skip a branch and that state has no UI |
+| **`guard`** | `AsyncValue` | `Future` → `AsyncData` or `AsyncError`. Does **not** set loading |
+| **`skipLoadingOnRefresh` / `skipLoadingOnReload`** | `when` | Default `true` keeps old data while reloading. Labs set `false` so the spinner shows |
+| **`isLoading` / `value` / `error`** | `AsyncValue` | Inspect in tests. Do not `.value!` in `build` |
+| **`AsyncLoading` / `AsyncData` / `AsyncError`** | `AsyncValue` | The three states. Assign `state = const AsyncLoading()` before `guard` if you want a spinner |
+| **`Stream.map`** | Dart `Stream` | `TickModel` → `Tick`. Repository, not Riverpod |
+| **`Stream.handleError`** | Dart `Stream` | `AppException` → `AppFailure` on the stream. Same mapping a Future repo does with `on AppException catch` |
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 ---
 
 ## [Freezed](https://pub.dev/packages/freezed)
@@ -432,7 +521,7 @@ Three generators share **build_runner**. They write files you never edit:
 
 `json_annotation` and `riverpod_annotation` are the runtime annotations, same split as `freezed_annotation` vs `freezed`.
 
-A tiny `Provider` / `FutureProvider` is almost the same length with or without codegen — you still write what goes in the mailbox. The win is **family + autoDispose + AsyncNotifier**. By hand you type `AsyncNotifierProvider.autoDispose.family<UserByIdNotifier, User, int>(UserByIdNotifier.new)`, a constructor that stores `id`, and `extends AsyncNotifier<User>` with `build()` taking no argument. With `@riverpod` that is `class UserById extends _$UserById` and `build(int id)` — the generator keeps `id` for you. No screen; compare `lib/features/labs/codegen/presentation/providers/user_by_id_provider.dart` with `user_by_id_provider_manual.dart`. **User Search** uses codegen (`userSearchFamily(Ref ref, String query)`); the `.family` line is in `user_search_family_provider_manual.dart`. The Refresh lab's ping uses codegen too; that one is the small-savings case.
+A tiny `Provider` / `FutureProvider` is almost the same length with or without codegen — you still write what goes in the mailbox. The win is **family + autoDispose + AsyncNotifier**. By hand you type `AsyncNotifierProvider.autoDispose.family<UserByIdNotifier, User, int>(UserByIdNotifier.new)`, a constructor that stores `id`, and `extends AsyncNotifier<User>` with `build()` taking no argument. With `@riverpod` that is `class UserById extends _$UserById` and `build(int id)` — the generator keeps `id` for you. The `.g.dart` also sets `retry: null`. Handwritten Quote / Tick must pass that themselves — see [retry](#retry). No screen; compare `lib/features/labs/codegen/presentation/providers/user_by_id_provider.dart` with `user_by_id_provider_manual.dart`. **User Search** uses codegen (`userSearchFamily(Ref ref, String query)`); the `.family` line is in `user_search_family_provider_manual.dart`. The Refresh lab's ping uses codegen too; that one is the small-savings case.
 
 `part 'user.freezed.dart';` and `part 'user.g.dart';` glue those files to your source. Change the source, then run:
 
@@ -515,7 +604,7 @@ fvm dart run build_runner build --force-jit
 fvm flutter run
 ```
 
-`fvm flutter run` uses the **iOS Simulator**. There is no Android project or Chrome.
+`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5). There is no Android project or Chrome.
 
 After you add or change a `@freezed` / `@riverpod` type, run `build_runner` again. See [Codegen](#codegen).
 
@@ -547,7 +636,7 @@ Keep tests deterministic. One test, one claim. Do not depend on the order of oth
 - **`find.text` / `find.byIcon`** — locate widgets.
 - **`tester.tap`** — a user gesture.
 - **`pump`** — one frame. Use it after `setState` or a provider notify.
-- **`pumpAndSettle`** — wait until animations and `go_router` finish.
+- **`pumpAndSettle`** — wait until animations and `go_router` finish. Do not use it on **Tick** while the live stream is subscribed — periodic ticks never go idle.
 - **`addTearDown`** — cleanup after **this** test, pass or fail. Do not put `dispose()` only at the bottom of the happy path: a failing `expect` would skip it.
 
 `test/` mirrors `lib/`. Each source file has a matching `*_test.dart` in the same folders (`features/providers/`, `presentation/`, `core/router/`, `shared_widgets/`).
@@ -568,13 +657,30 @@ Two shapes:
 
 Lifetime tests (AutoDispose Provider Lifetimes) still use a `ProviderContainer`. Close the last listener and the autoDispose provider is gone. A persistent one is still there. Keep Alive uses `fakeAsync` so 5 seconds pass without a real wait.
 
-User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **repository fake** throws `NetworkFailure` (already mapped); a **data-source fake** throws `NetworkException` and the real repository maps it. The widget test checks the dialog shows `errorNetwork`, not `toString()`. Mapper tests live in `test/core/errors/`. Add User provider tests cover writing through that list and a duplicate id. User Search tests cover match-by-name, match-by-id, and a spinner then one shared not-found illustration (not in both panels). Family provider tests check two queries are two mailboxes. **Quote** tests cover the quote GET, a repository fake that throws `NetworkFailure`, a data-source fake that throws `NetworkException` (real repository maps it), two spinners then two quotes, **Increment number** re-running only the input Future, and **Fail call** on the no-input Future through the real data source. Widget tests fake the repository with `overrideWith` so nothing hits a delay or the in-memory quotes. They override `userSearchDelayProvider` / `quoteDelayProvider` to `Duration.zero` except the spinner tests. The Listen Manual widget test seeds the stored error with `overrideWith` so `fireImmediately` can show the dialog without a tap.
+User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **repository fake** throws `NetworkFailure` (already mapped); a **data-source fake** throws `NetworkException` and the real repository maps it. The widget test checks the dialog shows `errorNetwork`, not `toString()`. Mapper tests live in `test/core/errors/`. Add User provider tests cover writing through that list and a duplicate id. User Search tests cover match-by-name, match-by-id, and a spinner then one shared not-found illustration (not in both panels). Family provider tests check two queries are two mailboxes. **Quote** tests cover the quote GET, a repository fake that throws `NetworkFailure`, a data-source fake that throws `NetworkException` (real repository maps it), two spinners then two quotes, **Increment number** re-running only the input Future, and **Fail call** on the no-input Future through the real data source. Widget tests fake the repository with `overrideWith` so nothing hits a delay or the in-memory quotes. They override `userSearchDelayProvider` / `quoteDelayProvider` to `Duration.zero` except the spinner tests. **Tick** tests cover incrementing ticks, a repository fake that throws `NetworkFailure`, a data-source fake that throws `NetworkException` (real repository maps it), a spinner then Tick 1 then Tick 2, **Stop** dropping the watch and **Start** opening a new stream, **Fail call** erroring the next event without `invalidate`, and **Invalidate** starting a new stream. Do not `pumpAndSettle` while the live /tick stream is subscribed — it never goes idle. Use `pump()` / `pump(duration)` or a finite `StreamController` / `Stream.fromIterable` fake. The Listen Manual widget test seeds the stored error with `overrideWith` so `fireImmediately` can show the dialog without a tap.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
 
 - **`ProviderScope`** — widget that creates the container for the real app and for widget tests.
 - **`ProviderContainer`** — the same world without widgets. Use it in provider tests.
 - **`overrideWith`** — replace a provider in this scope/container so tests never hit a real API.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### What to test
+
+| Kind | Use when |
+| --- | --- |
+| **`test` + `ProviderContainer`** | Notifier methods, GET / stream mapping, `invalidate` vs `refresh` |
+| **`testWidgets`** | Buttons, l10n copy, spinner, dialog, SnackBar |
+| **Repository fake** (`AppFailure`) | Screen / provider test. Already past the data-source boundary |
+| **Data-source fake** (`AppException`) | Repository test. Real repo must map to `AppFailure` |
+| **`overrideWith` delay `Duration.zero`** | Skip the fake GET wait. Keep a real delay only for spinner tests |
+| **`pump` / `pump(duration)`** | Tick while subscribed. Finite `StreamController` / `Stream.fromIterable` otherwise |
+| **`pumpAndSettle`** | `go_router`, animations. Never while live `/tick` is watched |
+| **`addTearDown(container.dispose)`** | Always. A failing `expect` must still dispose |
+
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 

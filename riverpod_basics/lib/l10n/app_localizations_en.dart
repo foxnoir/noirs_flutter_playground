@@ -229,7 +229,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get quoteBody =>
-      'The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Invalidate** marks it stale so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.';
+      'The screen **watch**es both **FutureProvider**s — one per card. Both rebuild on **AsyncValue**: loading, data, error. Each GET picks a random quote.\n\n**FutureProvider** has no extra input. **Get new quote** **invalidate**s that cache so the GET runs again. **Fail call** sets a flag on the data source, then **invalidate**s that provider. A field on an object is not provider state.\n\n**FutureProvider + input** — not the screen — **watch**es the quote number. **Increment number** adds one. Riverpod re-runs this GET with no **invalidate**. The other card stays put. That is the Future equivalent of **search()** assigning **state**.\n\nThe failed GET throws **NetworkException**. The repository maps it to **NetworkFailure**.\n\n`retry` is null so Riverpod 3 does not retry that error off the screen (~200ms). Without it **Fail call** never stays.\n\nA **SnackBar** is a debug print of the Riverpod calls, not the button. **Get new quote** → **invalidate() → watch()**. **Fail call** → **read() + invalidate() → watch()** (notifier). **Increment number** → **read() → watch()** — the Future **watch**es the number, no **invalidate**.';
 
   @override
   String get quoteWatchLabel => 'FutureProvider';
@@ -238,13 +238,61 @@ class AppLocalizationsEn extends AppLocalizations {
   String get quoteFromInputLabel => 'FutureProvider + input';
 
   @override
-  String get quoteReload => 'Invalidate';
+  String get quoteReload => 'Get new quote';
 
   @override
   String get quoteIncrementNumber => 'Increment number';
 
   @override
   String get quoteFailCall => 'Fail call';
+
+  @override
+  String get labSnackBarRead => 'read()';
+
+  @override
+  String get labSnackBarReadWatch => 'read() → watch()';
+
+  @override
+  String get labSnackBarReadUnwatch => 'read() → unwatch';
+
+  @override
+  String get labSnackBarInvalidate => 'invalidate()';
+
+  @override
+  String get labSnackBarInvalidateWatch => 'invalidate() → watch()';
+
+  @override
+  String get labSnackBarReadAndInvalidate => 'read() + invalidate() → watch()';
+
+  @override
+  String get tick => 'Tick';
+
+  @override
+  String get tickBody =>
+      'The screen **watch**es one handwritten **StreamProvider** while **Start** is on. **AsyncValue** is loading, then a new **data** on every tick, or **error**.\n\nA **FutureProvider** (Quote) runs once. A **StreamProvider** keeps listening. **watch** rebuilds on each event.\n\n**Stop** drops the **watch**. `autoDispose` cancels the fake **/tick** stream and the timer. **Start** watches again — a new stream at tick 1.\n\n**Invalidate** is a new listen on the same provider, still at tick 1, without Stop. Like a new GET on Quote.\n\n**Fail call** sets a flag on the data source. The next tick throws **NetworkException**. The repository maps it to **NetworkFailure**. **AsyncValue** is **error**. **watch** stays. No **invalidate** on that tap — the error is the next event. **Start** after that starts a new stream (**invalidate** while still **watch**ing).\n\n`retry` is null so Riverpod 3 does not retry that error off the screen (~200ms). Without it **Fail call** never stays.\n\nA **SnackBar** is a debug print of the Riverpod calls, not the button. **Start** from stopped → **read() → watch()**. **Start** after **Fail call** → **invalidate() → watch()** (new stream). **Stop** → **read() → unwatch**. **Invalidate** → **invalidate() → watch()**. **Fail call** → **read()**.';
+
+  @override
+  String get tickWatchLabel => 'StreamProvider';
+
+  @override
+  String get tickStart => 'Start';
+
+  @override
+  String get tickStop => 'Stop';
+
+  @override
+  String get tickStopped => 'Stopped.';
+
+  @override
+  String get tickReload => 'Invalidate';
+
+  @override
+  String get tickFailCall => 'Fail call';
+
+  @override
+  String tickBeat(int n, String time) {
+    return 'Tick $n · $time';
+  }
 
   @override
   String get refreshLab => 'Refresh';
