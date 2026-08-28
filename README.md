@@ -251,7 +251,7 @@ Badge color uses the same mid tones as the tech badges: **pink** (Very Good Anal
 
 ### What it does
 
-This playground is one git repo. On **commit**, the playground hook runs tests and refreshes coverage for every app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps), then stages the SVGs in that same commit. If tests fail, the commit still goes through and badges stay as they were — fix tests before **push**. **Push** runs `flutter test` again and **blocks** if anything fails (`pre-push`). GitHub Actions (`.github/workflows/coverage.yml`) runs tests on Linux. CI **does not** commit or push badges.
+This playground is one git repo. On **commit**, the playground hook runs tests and refreshes coverage for every app in [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps), then stages the SVGs in that same commit. If tests fail, the commit still goes through and badges stay as they were — fix tests before **push**. **Push** runs `flutter test` again and **blocks** if anything fails (`pre-push`). A failed push prints the test name, a re-run command, and writes `.git/pre-push-test.log` — GitLens often hides the compact test output, so that summary is the thing to read. GitHub Actions (`.github/workflows/coverage.yml`) runs tests on Linux. CI **does not** commit or push badges.
 
 On commit (when tests pass):
 
@@ -260,7 +260,7 @@ On commit (when tests pass):
 3. Turns `lcov.info` into two images: `assets/coverage/badge.svg` (header) and `assets/coverage/card.svg` (README card).
 4. Writes the percent into that app's README.
 5. Stages those files so they land in the **same** commit (`pre-commit`).
-6. On **push**, runs the tests again and blocks a failing push (`pre-push`).
+6. On **push**, runs the tests again and blocks a failing push (`pre-push`). The hook prints which test failed.
 7. GitHub Actions runs the same tests on Linux. It does **not** commit the result.
 
 `.git/hooks/` is **not** committed. After a fresh clone, install the links again.
@@ -275,7 +275,8 @@ On commit (when tests pass):
 | [`coverage_pipeline/coverage_badge.py`](coverage_pipeline/coverage_badge.py) | Builds `badge.svg` / `card.svg` and replaces the README percent markers. |
 | [`coverage_pipeline/install-git-hooks.sh`](coverage_pipeline/install-git-hooks.sh) | Symlinks scripts into `.git/hooks/pre-commit` and `pre-push`. |
 | [`coverage_pipeline/git-hooks/playground-pre-commit`](coverage_pipeline/git-hooks/playground-pre-commit) | Playground commit hook: refresh every listed app; **does not** block the commit if tests fail. |
-| [`coverage_pipeline/git-hooks/playground-pre-push`](coverage_pipeline/git-hooks/playground-pre-push) | Playground push hook: `flutter test` in every listed app; **blocks** the push if anything fails. |
+| [`coverage_pipeline/run_flutter_tests.sh`](coverage_pipeline/run_flutter_tests.sh) | Runs `flutter test` for one app. On failure prints the test name, a re-run command, and `.git/pre-push-test.log`. |
+| [`coverage_pipeline/git-hooks/playground-pre-push`](coverage_pipeline/git-hooks/playground-pre-push) | Playground push hook: tests every listed app; **blocks** the push if anything fails. |
 | [`coverage_pipeline/git-hooks/pre-commit`](coverage_pipeline/git-hooks/pre-commit) | Single-app repo commit hook (copied-out app). **Blocks** the commit if tests fail. |
 | [`coverage_pipeline/git-hooks/pre-push`](coverage_pipeline/git-hooks/pre-push) | Single-app repo push hook: blocks the push if tests fail. |
 | [`coverage_pipeline/cursor-git`](coverage_pipeline/cursor-git) | Git wrapper so Cursor Source Control actually runs hooks (see below). |
@@ -323,7 +324,7 @@ Set **User** Settings:
 "git.path": "/absolute/path/to/noirs_flutter_playground/coverage_pipeline/cursor-git"
 ```
 
-Then **Developer: Reload Window**. A terminal `git commit` / `git push` always runs the hooks. The wrapper strips Cursor’s override and, on `git push`, runs `pre-push` itself so a test failure shows `Tests failed…` instead of Cursor’s “Try running Pull first”.
+Then **Developer: Reload Window**. A terminal `git commit` / `git push` always runs the hooks. The wrapper strips Cursor’s override and, on `git push`, runs `pre-push` itself so a test failure shows `pre-push blocked — tests failed in …` instead of Cursor’s “Try running Pull first”. GitLens still may open a retry terminal with only `git push`; the failing test is in that hook output and in `.git/pre-push-test.log`.
 
 ### Wire an app
 

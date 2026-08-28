@@ -194,6 +194,11 @@ void main() {
   });
 
   testWidgets('Landing navigates to Tick lab', (tester) async {
+    tester.view.physicalSize = const Size(800, 4000);
+    tester.view.devicePixelRatio = 1.0;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
     await tester.pumpAndSettle();
 
@@ -208,18 +213,9 @@ void main() {
 
     expect(find.byType(TickScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Tick'), findsOneWidget);
-    expect(
-      find.widgetWithText(ElevatedButton, 'Start', skipOffstage: false),
-      findsOneWidget,
-    );
-    expect(
-      find.widgetWithText(ElevatedButton, 'Stop', skipOffstage: false),
-      findsOneWidget,
-    );
-    expect(
-      find.widgetWithText(ElevatedButton, 'Invalidate', skipOffstage: false),
-      findsOneWidget,
-    );
+    expect(find.byKey(const Key('tickStart')), findsOneWidget);
+    expect(find.byKey(const Key('tickStop')), findsOneWidget);
+    expect(find.byKey(const Key('tickReload')), findsOneWidget);
   });
 
   testWidgets('Landing navigates to Refresh lab', (tester) async {
