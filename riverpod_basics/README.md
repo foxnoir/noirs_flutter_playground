@@ -636,7 +636,7 @@ After you add or change a `@freezed` / `@riverpod` type, run `build_runner` agai
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `freezed_annotation`, `json_annotation`, `riverpod_annotation`, `intl`, `cupertino_icons`. Dev: `freezed`, `json_serializable`, `riverpod_generator`, `build_runner`, `very_good_analysis`.
+Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `freezed_annotation`, `json_annotation`, `riverpod_annotation`, `intl`, `cupertino_icons`. Dev: `freezed`, `json_serializable`, `riverpod_generator`, `riverpod_lint`, `build_runner`, `very_good_analysis`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -746,6 +746,7 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 - [freezed](https://pub.dev/packages/freezed)
 - [json_serializable](https://pub.dev/packages/json_serializable)
 - [riverpod_generator](https://pub.dev/packages/riverpod_generator)
+- [riverpod_lint](https://pub.dev/packages/riverpod_lint)
 - [build_runner](https://pub.dev/packages/build_runner)
 - [very_good_analysis](https://pub.dev/packages/very_good_analysis)
 - [Flutter Riverpod For Complete Beginner](https://www.udemy.com/course/flutter-riverpod-for-complete-beginner/) — [Richard Dewan](https://github.com/rddewan)
