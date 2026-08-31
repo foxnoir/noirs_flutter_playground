@@ -147,5 +147,18 @@
   "refreshLabWaitingOnThreeFutures": "Waiting on 3 Futures…",
   "refreshLabInvalidate": "Invalidate",
   "refreshLabRefreshThree": "Refresh 3x",
-  "refreshLabInvalidateThree": "Invalidate 3x"
+  "refreshLabInvalidateThree": "Invalidate 3x",
+  "auth": "Auth",
+  "authWatchLabel": "GoRouter + Notifier",
+  "authBody": "Auth is a **Notifier** (`login()` / `logout()`). **goRouterProvider** is a read-only **Provider** that holds one **GoRouter**. It must not **watch** `authProvider`: that would build a new **GoRouter** and drop the stack. **listen** + **refreshListenable** instead.\n\n**Next Screen** always **goNamed**s **/auth/next**. Logged out, **redirect** sends you to **/auth/login?from=/auth/next**. Submit writes the Notifier. **redirect** then uses **from** — Next Screen — or the hub if you opened **Log in** yourself.\n\nA **SnackBar** is a debug print of the GoRouter calls, not the button. **Log in** / **Next Screen** while allowed → **goNamed()**. Logged-out **Next Screen** → **goNamed() → redirect()**. Submit → **redirect()**. This lab does not use **pushNamed**.",
+  "authLogin": "Log in",
+  "authLogout": "Log out",
+  "authNextScreen": "Next Screen",
+  "authUnauthorized": "Not authorized. Please log in.",
+  "authUsername": "Username",
+  "authPassword": "Password",
+  "authSubmit": "Log in",
+  "authSnackGoNamed": "goNamed()",
+  "authSnackGoNamedThenRedirect": "goNamed() → redirect()",
+  "authSnackRedirect": "redirect()"
 }

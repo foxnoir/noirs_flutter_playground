@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, Quote, Tick, refresh / invalidate, User List, User Search), Freezed, and sealed errors.
+     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, Quote, Tick, Auth, refresh / invalidate, User List, User Search), Freezed, and sealed errors.
   </p>
 </div>
 
@@ -62,6 +62,7 @@
       <a href="#providers">Providers</a>
       <ul>
         <li><a href="#no-provider">No provider</a></li>
+        <li><a href="#provider">Provider</a></li>
         <li><a href="#notifierprovider">NotifierProvider</a></li>
         <li><a href="#futureprovider">FutureProvider</a></li>
         <li><a href="#streamprovider">StreamProvider</a></li>
@@ -70,6 +71,7 @@
         <li><a href="#stateprovider">StateProvider</a></li>
         <li><a href="#how-they-connect">How they connect</a></li>
         <li><a href="#which-provider">Which provider</a></li>
+        <li><a href="#auth">Auth</a></li>
         <li><a href="#riverpod-apis">Riverpod APIs</a></li>
       </ul>
     </li>
@@ -114,7 +116,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 **Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, `UserModel`, the data source, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **User Search** is one field, two providers: a **Notifier** `search()` command and a codegen **Family** `userSearchFamilyProvider(query)`. The handwritten `.family` twin is `user_search_family_provider_manual.dart` (not imported). **LabInfoText** renders lab info (`**bold**`, paragraphs); User Search is left-aligned so it does not read as a justified block. A miss shows a spinner in both panels, then one `not_found_dragon.png` (empty filter, not `NotFoundFailure`). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Quote** compares two handwritten fake GETs /quote: **FutureProvider** (reload is `invalidate`, **Fail call** sets a data-source flag then `invalidate`s) and **FutureProvider + input** (**Increment number** re-runs because a watched quote number changed; the other cache stays). **Tick** is a handwritten `StreamProvider<Tick>`: fake stream /tick with `Timer.periodic`, **Fail call** errors the next event with no `invalidate`, **Invalidate** starts a new stream at tick 1. **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state. See [Errors](#errors) for sealed exceptions, failures, and l10n mapping.
+**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, `UserModel`, the data source, the repository, and `UserListState`. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **User Search** is one field, two providers: a **Notifier** `search()` command and a codegen **Family** `userSearchFamilyProvider(query)`. The handwritten `.family` twin is `user_search_family_provider_manual.dart` (not imported). **LabInfoText** renders lab info (`**bold**`, paragraphs); User Search is left-aligned so it does not read as a justified block. A miss shows a spinner in both panels, then one `not_found_dragon.png` (empty filter, not `NotFoundFailure`). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Quote** compares two handwritten fake GETs /quote: **FutureProvider** (reload is `invalidate`, **Fail call** sets a data-source flag then `invalidate`s) and **FutureProvider + input** (**Increment number** re-runs because a watched quote number changed; the other cache stays). **Tick** is a handwritten `StreamProvider<Tick>`: fake stream /tick with `Timer.periodic`, **Fail call** errors the next event with no `invalidate`, **Invalidate** starts a new stream at tick 1. **Auth** is a **Notifier** session plus a read-only **`Provider<GoRouter>`**: `login()` / `logout()` do not call `go()`; `redirect` + `refreshListenable` move you. The hub is public so other labs are not behind a wall. **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state. See [Errors](#errors) for sealed exceptions, failures, and l10n mapping.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -298,11 +300,23 @@ No provider means the count lives in the widget with `setState`. Nothing outside
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
+### Provider
+
+`Provider` is a **read-only mailbox**. The function runs once (until `invalidate`). Widgets `watch` / `read` the value. They have **no** `.notifier` and cannot assign `state`.
+
+Riverpod's own split is **unmodifiable** (`Provider` / `FutureProvider` / `StreamProvider`) vs **modifiable** (`Notifier` / `AsyncNotifier` / `StreamNotifier`). A `Provider` is the unmodifiable box. A `NotifierProvider` is the box **plus** a class that is allowed to write.
+
+**Use it when** the value is a dependency or a derived read: repository, data source, delay, `GoRouter`. **goRouterProvider** is this. **Auth** keeps it that way: the router **read**s `authProvider`; it does not own `login()`.
+
+**Do not use it when** the UI must call `login()`, `increment()`, or `addUser()`. That is a Notifier. Do not `ref.watch` `authProvider` *inside* `goRouterProvider` — that rebuilds a new `GoRouter` and drops the stack. **listen** + `refreshListenable` instead. See [Auth](#auth).
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 ### NotifierProvider
 
 `NotifierProvider` is the default way to hold **mutable state outside the widget**. Updates go through a **class with methods**. The widget calls `increment()` or `applyFilter()`. The notifier owns the rules.
 
-This is the type everything else is built on. A `StateProvider` is a notifier whose public API is only `state`. **AutoDispose Provider Lifetimes** puts three lifetimes on one screen: plain `NotifierProvider` (Persistent), `NotifierProvider.autoDispose` (Non-Persistent), and autoDispose plus `keepAlive` for 5 seconds after Back. **User List**, **Add User**, and the User Search **Notifier** each put a custom state class on a notifier, not `List<User>` and not a read-only `Provider`. User Search Family is a codegen `FutureProvider`, not a notifier — there is no `search()` method; `watch(userSearchFamilyProvider(query))` runs the function. See [Custom State Classes](#custom-state-classes).
+This is the type everything else in **this app's counter ladder** is built on. A `StateProvider` is a notifier whose public API is only `state`. **AutoDispose Provider Lifetimes** puts three lifetimes on one screen: plain `NotifierProvider` (Persistent), `NotifierProvider.autoDispose` (Non-Persistent), and autoDispose plus `keepAlive` for 5 seconds after Back. **User List**, **Add User**, and the User Search **Notifier** each put a custom state class on a notifier, not `List<User>` and not a read-only `Provider`. User Search Family is a codegen `FutureProvider`, not a notifier — there is no `search()` method; `watch(userSearchFamilyProvider(query))` runs the function. See [Custom State Classes](#custom-state-classes).
 
 **Rule of thumb:** many same-shaped mailboxes, distinguished only by id or query → **Family**. One current result that a button overwrites → **Notifier**.
 
@@ -414,9 +428,9 @@ The app screens still go `setState` → `StateProvider` → `NotifierProvider` �
 | Type | Use when | Here |
 | --- | --- | --- |
 | **No provider** | Only this widget cares | No Provider counter |
-| **`Provider`** | Read-only dep: repository, delay, data source | `tickRepositoryProvider`, `quoteDelayProvider` |
+| **`Provider`** | Read-only dep: repository, delay, data source, `GoRouter` | `tickRepositoryProvider`, `quoteDelayProvider`, `goRouterProvider` |
 | **`StateProvider`** | Legacy one-value write. Not for new features | StateProvider counter |
-| **`NotifierProvider`** | Mutable state + named methods | User List, Add User, Tick Start/Stop |
+| **`NotifierProvider`** | Mutable state + named methods | User List, Add User, Tick Start/Stop, Auth `authProvider` |
 | **`FutureProvider`** | One GET, no methods, display `AsyncValue` | Quote, Refresh ping, User Search Family |
 | **`StreamProvider`** | Values keep arriving | Tick |
 | **`AsyncNotifierProvider`** | First value is a `Future`, UI still calls methods | Persistent / Non-Persistent async counters |
@@ -425,6 +439,18 @@ The app screens still go `setState` → `StateProvider` → `NotifierProvider` �
 | **`keepAlive`** | Pause autoDispose for a few seconds | Lifetimes lab |
 
 A data source that **returns** a `Stream` is still a plain `Provider` of that object. The box that holds the `AsyncValue` is `StreamProvider`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Auth
+
+`authProvider` is a **Notifier** (`login()` / `logout()`). **goRouterProvider** stays a read-only **Provider** that holds one `GoRouter`. [go_router 17](https://pub.dev/documentation/go_router/latest/go_router/GoRouter-class.html) re-runs `redirect` when `refreshListenable` notifies (and this app also calls `GoRouter.refresh()`). The router **listen**s to `authProvider`. It must not **watch** it — that builds a new `GoRouter` and drops the stack. `redirect` uses `ref.read`. **Log in** does not call `go()`.
+
+**Log in** opens `/auth/login`. Submit writes the Notifier. **Next Screen** always `goNamed`s `/auth/next`. Logged out, **redirect** sends you to `/auth/login?from=/auth/next`. After login, **redirect** uses `from` (Next Screen) or `/auth` if you opened Log in yourself. `from` is only accepted when it is `/auth/next`. A **SnackBar** is a debug print of the GoRouter calls: `goNamed()`, `goNamed() → redirect()`, or `redirect()`. Not `pushNamed`.
+
+**Use it when** navigation must follow session state.
+
+**Do not use it when** every route in a playground should sit behind login.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -685,7 +711,7 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**87.9%** line coverage (1670 of 1900 lines).
+**88.2%** line coverage (1819 of 2062 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

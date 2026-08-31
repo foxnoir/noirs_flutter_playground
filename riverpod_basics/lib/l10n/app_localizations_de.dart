@@ -332,4 +332,44 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get refreshLabInvalidateThree => 'Invalidate 3x';
+
+  @override
+  String get auth => 'Auth';
+
+  @override
+  String get authWatchLabel => 'GoRouter + Notifier';
+
+  @override
+  String get authBody =>
+      'Auth ist ein **Notifier** (`login()` / `logout()`). **goRouterProvider** ist ein read-only **Provider**, der einen **GoRouter** hält. Er darf `authProvider` nicht **watch**en: sonst entsteht ein neuer **GoRouter** und der Stack ist weg. Stattdessen **listen** + **refreshListenable**.\n\n**Next Screen** macht immer **goNamed** nach **/auth/next**. Ausgeloggt **redirect** nach **/auth/login?from=/auth/next**. Submit schreibt den Notifier. **redirect** nutzt **from** — Next Screen — oder den Hub, wenn du **Log in** selbst geöffnet hast.\n\nEine **SnackBar** ist ein Debug-Print der GoRouter-Calls, nicht der Button. **Log in** / **Next Screen** wenn erlaubt → **goNamed()**. **Next Screen** ausgeloggt → **goNamed() → redirect()**. Submit → **redirect()**. Dieses Lab nutzt kein **pushNamed**.';
+
+  @override
+  String get authLogin => 'Log in';
+
+  @override
+  String get authLogout => 'Log out';
+
+  @override
+  String get authNextScreen => 'Next Screen';
+
+  @override
+  String get authUnauthorized => 'Nicht autorisiert. Bitte einloggen.';
+
+  @override
+  String get authUsername => 'Username';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authSubmit => 'Log in';
+
+  @override
+  String get authSnackGoNamed => 'goNamed()';
+
+  @override
+  String get authSnackGoNamedThenRedirect => 'goNamed() → redirect()';
+
+  @override
+  String get authSnackRedirect => 'redirect()';
 }
