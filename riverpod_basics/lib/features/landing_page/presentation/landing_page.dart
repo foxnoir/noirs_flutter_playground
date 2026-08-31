@@ -93,6 +93,11 @@ class LandingPage extends StatelessWidget {
                 label: l10n.refreshLab,
                 routeName: AppRouteNames.refresh,
               ),
+              destination(
+                label: l10n.auth,
+                caption: l10n.authWatchLabel,
+                routeName: AppRouteNames.auth,
+              ),
             ],
           ),
         ],

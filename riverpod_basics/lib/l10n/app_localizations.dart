@@ -691,6 +691,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Invalidate 3x'**
   String get refreshLabInvalidateThree;
+
+  /// No description provided for @auth.
+  ///
+  /// In en, this message translates to:
+  /// **'Auth'**
+  String get auth;
+
+  /// No description provided for @authWatchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'GoRouter + Notifier'**
+  String get authWatchLabel;
+
+  /// No description provided for @authBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Auth is a **Notifier** (`login()` / `logout()`). **goRouterProvider** is a read-only **Provider** that holds one **GoRouter**. It must not **watch** `authProvider`: that would build a new **GoRouter** and drop the stack. **listen** + **refreshListenable** instead.\n\n**Next Screen** always **goNamed**s **/auth/next**. Logged out, **redirect** sends you to **/auth/login?from=/auth/next**. Submit writes the Notifier. **redirect** then uses **from** — Next Screen — or the hub if you opened **Log in** yourself.\n\nA **SnackBar** is a debug print of the GoRouter calls, not the button. **Log in** / **Next Screen** while allowed → **goNamed()**. Logged-out **Next Screen** → **goNamed() → redirect()**. Submit → **redirect()**. This lab does not use **pushNamed**.'**
+  String get authBody;
+
+  /// No description provided for @authLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get authLogin;
+
+  /// No description provided for @authLogout.
+  ///
+  /// In en, this message translates to:
+  /// **'Log out'**
+  String get authLogout;
+
+  /// No description provided for @authNextScreen.
+  ///
+  /// In en, this message translates to:
+  /// **'Next Screen'**
+  String get authNextScreen;
+
+  /// No description provided for @authUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'Not authorized. Please log in.'**
+  String get authUnauthorized;
+
+  /// No description provided for @authUsername.
+  ///
+  /// In en, this message translates to:
+  /// **'Username'**
+  String get authUsername;
+
+  /// No description provided for @authPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// No description provided for @authSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Log in'**
+  String get authSubmit;
+
+  /// No description provided for @authSnackGoNamed.
+  ///
+  /// In en, this message translates to:
+  /// **'goNamed()'**
+  String get authSnackGoNamed;
+
+  /// No description provided for @authSnackGoNamedThenRedirect.
+  ///
+  /// In en, this message translates to:
+  /// **'goNamed() → redirect()'**
+  String get authSnackGoNamedThenRedirect;
+
+  /// No description provided for @authSnackRedirect.
+  ///
+  /// In en, this message translates to:
+  /// **'redirect()'**
+  String get authSnackRedirect;
 }
 
 class _AppLocalizationsDelegate

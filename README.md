@@ -185,7 +185,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **Riverpod**: providers, labs (listen, ConsumerWidget, Quote, Tick, refresh / invalidate, User List with data source + repository, User Search), Freezed, and sealed error mapping.
+Practice app for **Riverpod**: providers, labs (listen, ConsumerWidget, Quote, Tick, Auth, refresh / invalidate, User List with data source + repository, User Search), Freezed, and sealed error mapping.
 
 [README »](riverpod_basics/README.md)
 

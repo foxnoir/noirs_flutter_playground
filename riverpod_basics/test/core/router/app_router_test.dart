@@ -4,6 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
+import 'package:riverpod_basics/features/labs/auth/presentation/auth_screen.dart';
 import 'package:riverpod_basics/features/labs/consumer_widget/presentation/consumer_widget_screen.dart';
 import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_manual_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
@@ -178,7 +179,10 @@ void main() {
       find.widgetWithText(ElevatedButton, 'Get new quote'),
       80,
     );
-    expect(find.widgetWithText(ElevatedButton, 'Get new quote'), findsOneWidget);
+    expect(
+      find.widgetWithText(ElevatedButton, 'Get new quote'),
+      findsOneWidget,
+    );
     expect(
       find.widgetWithText(ElevatedButton, 'Fail call', skipOffstage: false),
       findsOneWidget,
@@ -232,5 +236,20 @@ void main() {
     expect(find.byType(RefreshScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Refresh'), findsOneWidget);
     expect(find.textContaining('Fetch 1 ·'), findsOneWidget);
+  });
+
+  testWidgets('Landing navigates to Auth lab', (tester) async {
+    await tester.pumpWidget(const ProviderScope(child: RiverpodBasicsApp()));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.text('Labs'));
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(find.text('Auth'), 80);
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Auth'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(AuthScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Auth'), findsOneWidget);
   });
 }

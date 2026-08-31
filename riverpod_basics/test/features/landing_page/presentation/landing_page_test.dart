@@ -46,7 +46,7 @@ void main() {
   });
 
   testWidgets(
-    'Labs dropdown lists lifetimes, add user, user list, user search, listen manual, consumer widget, quote, tick, and refresh',
+    'Labs dropdown lists lifetimes, add user, user list, user search, listen manual, consumer widget, quote, tick, refresh, and auth',
     (tester) async {
       await tester.pumpWidget(app());
       await expand(tester, 'Labs');
@@ -62,8 +62,10 @@ void main() {
       expect(find.text('Tick'), findsOneWidget);
       expect(find.text(' (StreamProvider)'), findsOneWidget);
       expect(find.text('Refresh'), findsOneWidget);
+      expect(find.text('Auth'), findsOneWidget);
+      expect(find.text(' (GoRouter + Notifier)'), findsOneWidget);
       expect(find.text('Lab 3'), findsNothing);
-      expect(find.byIcon(Icons.chevron_right), findsNWidgets(9));
+      expect(find.byIcon(Icons.chevron_right), findsNWidgets(10));
     },
   );
 
@@ -85,6 +87,7 @@ void main() {
     expect(find.text('Tick'), findsOneWidget);
     expect(find.text(' (StreamProvider)'), findsOneWidget);
     expect(find.text('Refresh'), findsOneWidget);
+    expect(find.text('Auth'), findsOneWidget);
     expect(find.text('Lab 3'), findsNothing);
   });
 }
