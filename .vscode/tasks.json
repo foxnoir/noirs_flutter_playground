@@ -96,11 +96,28 @@
       "problemMatcher": []
     },
     {
-      "label": "Flutter Run",
+      "label": "Flutter Run Riverpod Basics",
       "type": "shell",
       "command": "fvm flutter run",
       "options": {
         "cwd": "${workspaceFolder}/riverpod_basics",
+        "env": {
+          "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
+        }
+      },
+      "isBackground": true,
+      "presentation": {
+        "reveal": "always",
+        "panel": "dedicated"
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "Flutter Run Advanced Concepts",
+      "type": "shell",
+      "command": "fvm flutter run",
+      "options": {
+        "cwd": "${workspaceFolder}/advanced_concepts",
         "env": {
           "PATH": "${env:HOME}/.pub-cache/bin:${env:PATH}"
         }

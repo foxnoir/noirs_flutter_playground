@@ -3,19 +3,19 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/theme/theme.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
-import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_list_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 
-import '../../user_list/fake_user_repository.dart';
+import '../../user_list/fake_user_list_repository.dart';
 
 void main() {
   Widget addUserApp({
-    FakeUserRepository repository = const FakeUserRepository(),
+    FakeUserListRepository repository = const FakeUserListRepository(),
   }) {
     return ProviderScope(
-      overrides: [userRepositoryProvider.overrideWithValue(repository)],
+      overrides: [userListRepositoryProvider.overrideWithValue(repository)],
       child: MaterialApp(
         locale: const Locale('en'),
         theme: getLightTheme(),
@@ -44,7 +44,7 @@ void main() {
   testWidgets('AddUserScreen shows users from the user list', (tester) async {
     await tester.pumpWidget(
       addUserApp(
-        repository: const FakeUserRepository(
+        repository: const FakeUserListRepository(
           users: [
             User(
               id: 10,

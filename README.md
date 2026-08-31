@@ -24,6 +24,7 @@
 [![Flutter](assets/badges/flutter.svg)](https://flutter.dev/)
 [![Dart](assets/badges/dart.svg)](https://dart.dev/)
 [![Riverpod](assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![Riverpod Lint](assets/badges/riverpod_lint.svg)](https://pub.dev/packages/riverpod_lint)
 [![Freezed](assets/badges/freezed.svg)](https://pub.dev/packages/freezed)
 [![GoRouter](assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
 [![Flutter Localizations](assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
@@ -117,7 +118,7 @@ app/
 │   │       └── presentation/
 │   │           ├── providers/
 │   │           ├── widgets/
-│   │           └── feature_page.dart
+│   │           └── feature_screen.dart
 │   ├── shared_widgets/
 │   ├── l10n/
 │   └── main.dart
@@ -145,11 +146,13 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 
 #### Presentation
 
-- **controllers/** — Riverpod notifiers and providers. Not Bloc.
+- **providers/** — Riverpod notifiers and providers. Not Bloc.
 - **widgets/** — feature-local UI.
-- **feature_page.dart** — the screen for that feature.
+- **feature_screen.dart** — the screen for that feature (`*Screen`). Riverpod Basics landing is still `LandingPage`.
 
-`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `core/` holds app-wide routing, theme, and similar infrastructure. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
+`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both apps). Advanced Concepts also has `CodeSnippet` (monospace Dart) and `NavStackPreview` (stack diagram on User List / User Details). `core/` holds app-wide routing, theme, and similar infrastructure. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
+
+Data sources and repositories are named after the feature: `InMemoryUserListDataSource`, `InMemoryUserListRepository` (not a generic `UserRepository`).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -202,7 +205,7 @@ Practice app for **Riverpod**: providers, labs (listen, ConsumerWidget, Quote, T
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **advanced Flutter** topics. A shell for now (playground theme, home screen). Labs land as the course starts.
+Practice app for **GoRouter**: Navigation lab (`go` / `push` / `pop` / `replace`, named routes), User List / User Details, screens not pages.
 
 [README »](advanced_concepts/README.md)
 
@@ -244,6 +247,7 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 | `flutter.svg` | `#012F55` → `#02569B` → `#7BA7CB` | official Flutter |
 | `dart.svg` | `#01406B` → `#0175C2` → `#7BB7DF` | official Dart |
 | `riverpod.svg` | `#4C3469` → `#8B5FBF` → `#C3ACDE` | app purple |
+| `riverpod_lint.svg` | `#343A5C` → `#5E6AA8` → `#ABB2D2` | blue-violet |
 | `freezed.svg` | `#294D3D` → `#4A8C6F` → `#A1C3B4` | green |
 | `gorouter.svg` | `#194C4A` → `#2D8A86` → `#92C2C0` | teal |
 | `flutter_localizations.svg` | `#012F55` → `#02569B` → `#7BA7CB` | official Flutter |

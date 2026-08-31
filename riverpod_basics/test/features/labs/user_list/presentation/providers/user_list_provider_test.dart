@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/errors/app_failure.dart';
-import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_list_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/providers/user_list_provider.dart';
 
-import '../../fake_user_repository.dart';
+import '../../fake_user_list_repository.dart';
 
 void main() {
   const ada = User(id: 1, username: 'Ada', age: 36, email: 'ada@example.com');
@@ -16,16 +16,18 @@ void main() {
     email: 'grace@example.com',
   );
 
-  ProviderContainer containerWith(FakeUserRepository repository) {
+  ProviderContainer containerWith(FakeUserListRepository repository) {
     final container = ProviderContainer.test(
-      overrides: [userRepositoryProvider.overrideWithValue(repository)],
+      overrides: [userListRepositoryProvider.overrideWithValue(repository)],
     );
     addTearDown(container.dispose);
     return container;
   }
 
   test('fetchUsers loads entities from the repository', () async {
-    final container = containerWith(const FakeUserRepository(users: [grace]));
+    final container = containerWith(
+      const FakeUserListRepository(users: [grace]),
+    );
 
     await container.read(userListProvider.notifier).fetchUsers();
 
@@ -37,7 +39,7 @@ void main() {
 
   test('fetchUsers sets error when the repository throws', () async {
     final container = containerWith(
-      const FakeUserRepository(error: NetworkFailure()),
+      const FakeUserListRepository(error: NetworkFailure()),
     );
 
     await container.read(userListProvider.notifier).fetchUsers();
@@ -52,8 +54,11 @@ void main() {
     var fetchCount = 0;
     final container = ProviderContainer.test(
       overrides: [
-        userRepositoryProvider.overrideWithValue(
-          _CountingUserRepository(users: [grace], onFetch: () => fetchCount++),
+        userListRepositoryProvider.overrideWithValue(
+          _CountingUserListRepository(
+            users: [grace],
+            onFetch: () => fetchCount++,
+          ),
         ),
       ],
     );
@@ -67,7 +72,7 @@ void main() {
   });
 
   test('addUser appends a user', () {
-    final container = containerWith(const FakeUserRepository());
+    final container = containerWith(const FakeUserListRepository());
 
     expect(
       container.read(userListProvider.notifier).addUser(ada),
@@ -77,7 +82,7 @@ void main() {
   });
 
   test('addUser with a duplicate id returns duplicateId', () {
-    final container = containerWith(const FakeUserRepository());
+    final container = containerWith(const FakeUserListRepository());
 
     container.read(userListProvider.notifier).addUser(ada);
 
@@ -91,7 +96,7 @@ void main() {
   });
 
   test('addUser with a duplicate email returns duplicateEmail', () {
-    final container = containerWith(const FakeUserRepository());
+    final container = containerWith(const FakeUserListRepository());
 
     container.read(userListProvider.notifier).addUser(ada);
 
@@ -105,8 +110,8 @@ void main() {
   });
 }
 
-class _CountingUserRepository extends FakeUserRepository {
-  _CountingUserRepository({required super.users, required this.onFetch});
+class _CountingUserListRepository extends FakeUserListRepository {
+  _CountingUserListRepository({required super.users, required this.onFetch});
 
   final void Function() onFetch;
 

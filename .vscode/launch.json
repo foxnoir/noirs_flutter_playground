@@ -2,11 +2,39 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "riverpod_basics",
+      "name": "Flutter",
+      "request": "launch",
+      "type": "dart",
+      "emulatorId": "apple_ios_simulator",
+      "preLaunchTask": "Boot iPhone 17 Pro Simulator"
+    },
+    {
+      "name": "Riverpod Basics",
       "request": "launch",
       "type": "dart",
       "cwd": "${workspaceFolder}/riverpod_basics",
       "program": "lib/main.dart",
+      "templateFor": "riverpod_basics",
+      "codeLens": {
+        "for": ["run-file", "debug-file"],
+        "path": "riverpod_basics",
+        "title": "${debugType} Riverpod Basics"
+      },
+      "emulatorId": "apple_ios_simulator",
+      "preLaunchTask": "Boot iPhone 17 Pro Simulator"
+    },
+    {
+      "name": "Advanced Concepts",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}/advanced_concepts",
+      "program": "lib/main.dart",
+      "templateFor": "advanced_concepts",
+      "codeLens": {
+        "for": ["run-file", "debug-file"],
+        "path": "advanced_concepts",
+        "title": "${debugType} Advanced Concepts"
+      },
       "emulatorId": "apple_ios_simulator",
       "preLaunchTask": "Boot iPhone 17 Pro Simulator"
     }

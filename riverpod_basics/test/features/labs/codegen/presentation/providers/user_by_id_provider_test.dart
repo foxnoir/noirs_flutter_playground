@@ -2,16 +2,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/errors/app_failure.dart';
 import 'package:riverpod_basics/features/labs/codegen/presentation/providers/user_by_id_provider.dart';
-import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_list_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 
-import '../../../user_list/fake_user_repository.dart';
+import '../../../user_list/fake_user_list_repository.dart';
 
 ProviderContainer testContainer() {
   final container = ProviderContainer.test(
     overrides: [
-      userRepositoryProvider.overrideWithValue(
-        const FakeUserRepository(
+      userListRepositoryProvider.overrideWithValue(
+        const FakeUserListRepository(
           users: [
             User(
               id: 10,

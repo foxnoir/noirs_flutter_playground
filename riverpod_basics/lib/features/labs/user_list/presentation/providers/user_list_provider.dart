@@ -1,6 +1,6 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_basics/core/errors/app_failure.dart';
-import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_list_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/providers/user_list_state.dart';
 
@@ -22,7 +22,7 @@ class UserListNotifier extends Notifier<UserListState> {
   Future<void> fetchUsers() async {
     state = state.copyWith(isLoading: true, error: null);
     try {
-      final users = await ref.read(userRepositoryProvider).fetchUsers();
+      final users = await ref.read(userListRepositoryProvider).fetchUsers();
       state = state.copyWith(isLoading: false, users: users);
     } on AppFailure catch (failure) {
       state = state.copyWith(isLoading: false, error: failure);
