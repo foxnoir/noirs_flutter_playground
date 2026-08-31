@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-class RoutingNavTile extends StatelessWidget {
-  const RoutingNavTile({
+class RoutingLabNavTile extends StatelessWidget {
+  const RoutingLabNavTile({
     required this.call,
     required this.caption,
     required this.onTap,
