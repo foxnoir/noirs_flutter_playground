@@ -170,6 +170,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
 | [freezed](https://pub.dev/packages/freezed) | Codegen for immutable models and unions (`dev`). |
 | [json_serializable](https://pub.dev/packages/json_serializable) | JSON codegen used with Freezed (`dev`). |
 | [riverpod_generator](https://pub.dev/packages/riverpod_generator) | Generates providers from `@riverpod` (`dev`). |
+| [riverpod_lint](https://pub.dev/packages/riverpod_lint) | Riverpod analyzer plugin (`dev`). |
 | [build_runner](https://pub.dev/packages/build_runner) | Runs the code generators (`dev`). |
 | [very_good_analysis](https://pub.dev/packages/very_good_analysis) | Shared lint rules. |
 | [FVM](https://fvm.app) | Pins the Flutter SDK per app (`.fvmrc`). |
