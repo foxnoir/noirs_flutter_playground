@@ -84,6 +84,5 @@ class LifetimesKeepAliveNotifier extends Notifier<String> {
     return '-';
   }
 
-  String get user => state;
-  set user(String user) => state = user;
+  void setUser(String user) => state = user.trim();
 }

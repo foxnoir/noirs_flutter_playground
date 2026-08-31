@@ -9,15 +9,22 @@ import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/full_width_elevated_button.dart';
 
 void main() {
-  Widget refreshApp({Duration delay = Duration.zero}) {
-    return ProviderScope(
-      overrides: [refreshPingDelayProvider.overrideWith((_) => delay)],
-      child: MaterialApp(
-        locale: const Locale('en'),
-        theme: getLightTheme(),
-        localizationsDelegates: AppLocalizations.localizationsDelegates,
-        supportedLocales: AppLocalizations.supportedLocales,
-        home: const RefreshScreen(),
+  /// [ProviderScope] must be the direct `pumpWidget` argument. Otherwise
+  /// riverpod_lint treats the override as a nested scope.
+  Future<void> pumpRefreshApp(
+    WidgetTester tester, {
+    Duration delay = Duration.zero,
+  }) {
+    return tester.pumpWidget(
+      ProviderScope(
+        overrides: [refreshPingDelayProvider.overrideWithValue(delay)],
+        child: MaterialApp(
+          locale: const Locale('en'),
+          theme: getLightTheme(),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: const RefreshScreen(),
+        ),
       ),
     );
   }
@@ -37,7 +44,7 @@ void main() {
   }
 
   testWidgets('shows fetch 1 after the first GET', (tester) async {
-    await tester.pumpWidget(refreshApp());
+    await pumpRefreshApp(tester);
     await tester.pumpAndSettle();
 
     expect(find.text('watch'), findsOneWidget);
@@ -45,9 +52,7 @@ void main() {
   });
 
   testWidgets('Refresh button waits on the Future', (tester) async {
-    await tester.pumpWidget(
-      refreshApp(delay: const Duration(milliseconds: 50)),
-    );
+    await pumpRefreshApp(tester, delay: const Duration(milliseconds: 50));
     await tester.pumpAndSettle();
 
     await tapLabButton(tester, 'Refresh');
@@ -63,9 +68,7 @@ void main() {
   });
 
   testWidgets('Invalidate does not wait on the button', (tester) async {
-    await tester.pumpWidget(
-      refreshApp(delay: const Duration(milliseconds: 50)),
-    );
+    await pumpRefreshApp(tester, delay: const Duration(milliseconds: 50));
     await tester.pumpAndSettle();
 
     await tapLabButton(tester, 'Invalidate');
@@ -84,7 +87,7 @@ void main() {
   });
 
   testWidgets('Invalidate 3x starts one GET', (tester) async {
-    await tester.pumpWidget(refreshApp());
+    await pumpRefreshApp(tester);
     await tester.pumpAndSettle();
 
     await tapLabButton(tester, 'Invalidate 3x');
@@ -96,9 +99,7 @@ void main() {
   testWidgets('Refresh 3x waits on 3 Futures and starts three GETs', (
     tester,
   ) async {
-    await tester.pumpWidget(
-      refreshApp(delay: const Duration(milliseconds: 50)),
-    );
+    await pumpRefreshApp(tester, delay: const Duration(milliseconds: 50));
     await tester.pumpAndSettle();
 
     await tapLabButton(tester, 'Refresh 3x');
@@ -113,9 +114,7 @@ void main() {
   });
 
   testWidgets('Refresh button blinks once', (tester) async {
-    await tester.pumpWidget(
-      refreshApp(delay: const Duration(milliseconds: 400)),
-    );
+    await pumpRefreshApp(tester, delay: const Duration(milliseconds: 400));
     await tester.pumpAndSettle();
 
     await tapLabButton(tester, 'Refresh');
@@ -129,9 +128,7 @@ void main() {
   });
 
   testWidgets('Refresh 3x blinks the button three times', (tester) async {
-    await tester.pumpWidget(
-      refreshApp(delay: const Duration(milliseconds: 400)),
-    );
+    await pumpRefreshApp(tester, delay: const Duration(milliseconds: 400));
     await tester.pumpAndSettle();
 
     await tapLabButton(tester, 'Refresh 3x');

@@ -11,6 +11,5 @@ class LifetimesPersistentNotifier extends Notifier<String> {
   @override
   String build() => '-';
 
-  String get user => state;
-  set user(String user) => state = user;
+  void setUser(String user) => state = user.trim();
 }

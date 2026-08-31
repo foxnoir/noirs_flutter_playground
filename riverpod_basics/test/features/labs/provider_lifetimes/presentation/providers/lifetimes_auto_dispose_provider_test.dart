@@ -10,7 +10,7 @@ void main() {
     final sub = container.listen(lifetimesAutoDisposeProvider, (_, _) {});
 
     expect(container.read(lifetimesAutoDisposeProvider), '-');
-    container.read(lifetimesAutoDisposeProvider.notifier).user = 'Ada';
+    container.read(lifetimesAutoDisposeProvider.notifier).setUser('Ada');
     expect(container.read(lifetimesAutoDisposeProvider), 'Ada');
 
     sub.close();

@@ -4,7 +4,7 @@ import 'package:riverpod_basics/features/labs/refresh/presentation/providers/ref
 
 ProviderContainer testContainer() {
   final container = ProviderContainer.test(
-    overrides: [refreshPingDelayProvider.overrideWith((_) => Duration.zero)],
+    overrides: [refreshPingDelayProvider.overrideWithValue(Duration.zero)],
   );
   addTearDown(container.dispose);
   return container;
