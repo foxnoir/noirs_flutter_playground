@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/errors/app_failure.dart';
-import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_list_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/user_list_screen.dart';
 import 'package:riverpod_basics/l10n/app_localizations.dart';
 
-import '../fake_user_repository.dart';
+import '../fake_user_list_repository.dart';
 
 void main() {
   const grace = User(
@@ -29,8 +29,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          userRepositoryProvider.overrideWithValue(
-            const FakeUserRepository(users: [grace, alan]),
+          userListRepositoryProvider.overrideWithValue(
+            const FakeUserListRepository(users: [grace, alan]),
           ),
         ],
         child: const MaterialApp(
@@ -56,8 +56,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          userRepositoryProvider.overrideWithValue(
-            const FakeUserRepository(error: NetworkFailure()),
+          userListRepositoryProvider.overrideWithValue(
+            const FakeUserListRepository(error: NetworkFailure()),
           ),
         ],
         child: const MaterialApp(

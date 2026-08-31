@@ -26,6 +26,7 @@
 [![Flutter](../assets/badges/flutter.svg)](https://flutter.dev/)
 [![Dart](../assets/badges/dart.svg)](https://dart.dev/)
 [![Riverpod](../assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![Riverpod Lint](../assets/badges/riverpod_lint.svg)](https://pub.dev/packages/riverpod_lint)
 [![Freezed](../assets/badges/freezed.svg)](https://pub.dev/packages/freezed)
 [![GoRouter](../assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
 [![Flutter Localizations](../assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
@@ -128,13 +129,11 @@ There is no Android project or Chrome. Run on the iOS Simulator (**iPhone 17 Pro
 
 ## Style Guide
 
-Coming soon.
-
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Color Palette
 
-<img src="assets/color_palette.png" alt="Color palette">
+<img src="assets/colorPalette.png" alt="Color palette">
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -142,7 +141,7 @@ Coming soon.
 
 ## Example Screens
 
-Coming soon.
+<img src="assets/finalLayout.png" alt="icons" width="65%" height="100%">
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -563,7 +562,7 @@ Or the Cursor / VS Code task **Build Runner** (Command Palette → **Tasks: Run 
 
 Do not edit `*.freezed.dart` or `*.g.dart`. `analysis_options.yaml` excludes them. `invalid_annotation_target` is ignored so `@JsonKey` on Freezed fields does not warn.
 
-The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. **`InMemoryUserDataSource`** returns models and throws `AppException`. **`InMemoryUserRepository`** maps models → entities and exceptions → `AppFailure`. **`UserListState`** is the list snapshot: `users`, `isLoading`, and `error` (`AppFailure?`, not a raw string). **`UserState`** on Add User is only `isAdded` and `error`. **`UserSearchState`** is the Notifier search snapshot; Family search uses `AsyncValue`. Screens hold `User` entities, not `UserModel`. Add User and User Search import User List; there is no shared users folder.
+The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. **`InMemoryUserListDataSource`** returns models and throws `AppException`. **`InMemoryUserListRepository`** maps models → entities and exceptions → `AppFailure`. **`UserListState`** is the list snapshot: `users`, `isLoading`, and `error` (`AppFailure?`, not a raw string). **`UserState`** on Add User is only `isAdded` and `error`. **`UserSearchState`** is the Notifier search snapshot; Family search uses `AsyncValue`. Screens hold `User` entities, not `UserModel`. Add User and User Search import User List; there is no shared users folder.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -594,7 +593,7 @@ Thrown objects and UI copy are different types. There is no extra package: Dart 
 
 Never show `error.toString()`. Never store a magic string like `'fetchUsers'` on state.
 
-User List has that split: `InMemoryUserDataSource` throws `AppException`; `InMemoryUserRepository` maps. A **repository fake** in tests throws `AppFailure` already — it stands in for the repository, not the data source.
+User List has that split: `InMemoryUserListDataSource` throws `AppException`; `InMemoryUserListRepository` maps. A **repository fake** in tests throws `AppFailure` already — it stands in for the repository, not the data source.
 
 `AsyncNotifier` / `FutureProvider` put the thrown object on `AsyncError`. If the repository did its job, that object is already `AppFailure`. **`localizedError`** still runs the mapper so demo notifiers without a repository stay safe.
 

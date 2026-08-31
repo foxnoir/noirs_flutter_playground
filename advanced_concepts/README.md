@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Advanced Concepts</h1>
   <p>
-     Practice project for advanced Flutter topics. Labs land here as the course starts.
+     Practice project for GoRouter: go, push, pop, replace, and a User List / User Details stack.
   </p>
 </div>
 
@@ -25,6 +25,11 @@
 
 [![Flutter](../assets/badges/flutter.svg)](https://flutter.dev/)
 [![Dart](../assets/badges/dart.svg)](https://dart.dev/)
+[![Riverpod](../assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![Riverpod Lint](../assets/badges/riverpod_lint.svg)](https://pub.dev/packages/riverpod_lint)
+[![GoRouter](../assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
+[![Flutter Localizations](../assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
+[![Intl](../assets/badges/intl.svg)](https://pub.dev/packages/intl)
 [![Very Good Analysis](../assets/badges/very_good.svg)](https://pub.dev/packages/very_good_analysis)
 [![FVM](../assets/badges/fvm.svg)](https://fvm.app)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
@@ -35,6 +40,15 @@
   <summary>Table of Contents</summary>
   <ol>
     <li><a href="#about">About</a></li>
+    <li>
+      <a href="#gorouter">GoRouter</a>
+      <ul>
+        <li><a href="#go-vs-push">go vs push</a></li>
+        <li><a href="#pop-vs-replace">pop vs replace</a></li>
+        <li><a href="#named-vs-path">Named vs path</a></li>
+        <li><a href="#buildcontext">BuildContext</a></li>
+      </ul>
+    </li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li>
       <a href="#testing">Testing</a>
@@ -43,6 +57,7 @@
       </ul>
     </li>
     <li><a href="#changelog">Changelog</a></li>
+    <li><a href="#sources">Sources</a></li>
   </ol>
 </details>
 
@@ -52,11 +67,98 @@
 
 This app is the **advanced Flutter** practice project in [Noir's Flutter Playground](../README.md).
 
-It is a shell so far: playground theme, a home screen, and iOS. Feature labs will follow the [playground architecture](../README.md#app-architecture-and-folder-structure) as the course starts.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). The lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+
+Screens are `LandingScreen`, `RoutingLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
 There is no Android project or Chrome. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26.5).
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## GoRouter
+
+**GoRouter** is Navigator 2.0: URLs, route names, one `GoRouter` in a Riverpod `Provider` (`lib/core/router/app_router.dart`). The tiles call those APIs so the stack is visible.
+
+| | Path `'/user-list'` | Name `'userList'` |
+| --- | --- | --- |
+| Wipe the stack | `go` | `goNamed` |
+| Stack on top | `push` | `pushNamed` |
+| Swap this screen | `replace` | `replaceNamed` |
+| Back one screen | `pop` | `pop` |
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### go vs push
+
+Need **Back**? Use **push** (prefer **pushNamed** in app code). Switching the whole screen with no return? Use **go**.
+
+| Call | Stack | Back on User List |
+| --- | --- | --- |
+| `context.go('/user-list')` | Replaces the location. Routing Lab is gone. | `canPop()` is false. AppBar Back does nothing. **Go to Landing Screen** still `goNamed('landing')`. |
+| `context.push('/user-list')` | User List on top of Routing Lab. | `canPop()` is true. AppBar Back pops to Routing Lab. |
+
+User List and User Details draw the stack under the AppBar.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### pop vs replace
+
+**pop** is Back. It only works when `canPop()` is true — something was **push**ed, or **replace**d so a screen is still on the stack below. After **go**, the stack is empty: `pop` does nothing (`canPop() is false`). Same as tapping AppBar Back.
+
+**replace** / **replaceNamed** swaps the current screen. You do not see what was below, but it is still on the stack. From Routing Lab, `replaceNamed('userList')` drops Routing Lab; Landing Screen is underneath — Back from User List goes to Landing Screen, not Routing Lab.
+
+Use **replace** when this screen should not come back: login → home, wizard step. Wrong for List → Details — that needs **push** so Back returns to the list.
+
+| Call | Stack | Back on User List |
+| --- | --- | --- |
+| `context.pop()` after **push** | Drops User List. Routing Lab is visible again. | — |
+| `context.pop()` after **go** | Nothing happens. Banner: `canPop() is false`. | AppBar Back does nothing. |
+| `context.replaceNamed('userList')` | Routing Lab is gone from the screen. Landing Screen is still on the stack. | `canPop()` is true — Back goes to Landing Screen. |
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Named vs path
+
+**Named** finds the route by name. **go** / **push** use the path.
+
+| Call | You pass | Why |
+| --- | --- | --- |
+| `goNamed('userList')` / `pushNamed('userList')` | [AppRouteNames](lib/core/router/app_router_names.dart) | Prefer this in app code. Renaming a path does not break callers. |
+| `go('/user-list')` / `push('/user-list')` | The URL | What the browser / deep link uses. |
+
+User Details is `/user-list/:userId` (child of User List). The list always `pushNamed`s so Back returns to the list.
+
+User List is a **sibling** of Landing Screen, not a nested child of Routing Lab. Nested under `/routing`, `go('/user-list')` would keep Routing Lab as a parent and the go vs push demo would vanish.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### BuildContext
+
+**context.go** is **GoRouter.of(context).go** — same router, via **BuildContext**. Same for `goNamed`, `push`, `pushNamed`.
+
+A **Notifier** has no context. Read **goRouterProvider** instead:
+
+```dart
+ref.read(goRouterProvider).go('/user-list');
+ref.read(goRouterProvider).pushNamed('userList');
+```
+
+| On a widget | On the router |
+| --- | --- |
+| `context.go(path)` | `router.go(path)` |
+| `context.goNamed(name)` | `router.goNamed(name)` |
+| `context.push(path)` | `router.push(path)` |
+| `context.pushNamed(name)` | `router.pushNamed(name)` |
+
+`router` is `GoRouter.of(context)` or `ref.read(goRouterProvider)`. **`.go` still replaces**, **`.pushNamed` still pushes**.
+
+Do not pass `BuildContext` into a notifier or repository.
+
+The lab shows **go**, **push**, **pop**, and **replace** on `context`, plus **go** and **pushNamed** on the provider.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -85,7 +187,7 @@ fvm flutter run
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `cupertino_icons`. Dev: `very_good_analysis`.
+Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `intl`, `cupertino_icons`. Dev: `riverpod_lint`, `very_good_analysis`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -93,14 +195,14 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/` as labs appear. Right now there is a smoke test that the app opens on the home screen.
+`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**90%** line coverage (18 of 20 lines).
+**84.8%** line coverage (585 of 690 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -123,5 +225,16 @@ How the badges are produced: playground [coverage pipeline](../README.md#coverag
 ## Changelog
 
 Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoir/noirs_flutter_playground).
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Sources
+
+- [go_router](https://pub.dev/packages/go_router)
+- [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
+- [riverpod_lint](https://pub.dev/packages/riverpod_lint)
+- [very_good_analysis](https://pub.dev/packages/very_good_analysis)
 
 <p align="right"><a href="#readme-top">back to top</a></p>

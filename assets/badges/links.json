@@ -66,6 +66,12 @@
     "href": "https://pub.dev/packages/flutter_riverpod"
   },
   {
+    "image": "riverpod-lint",
+    "file": "riverpod_lint.svg",
+    "url": "riverpod-lint-url",
+    "href": "https://pub.dev/packages/riverpod_lint"
+  },
+  {
     "image": "very-good",
     "file": "very_good.svg",
     "url": "very-good-url",

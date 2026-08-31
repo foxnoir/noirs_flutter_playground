@@ -26,6 +26,7 @@
 [![Flutter](../../assets/badges/flutter.svg)](https://flutter.dev/)
 [![Dart](../../assets/badges/dart.svg)](https://dart.dev/)
 [![Riverpod](../../assets/badges/riverpod.svg)](https://pub.dev/packages/flutter_riverpod)
+[![Riverpod Lint](../../assets/badges/riverpod_lint.svg)](https://pub.dev/packages/riverpod_lint)
 [![GoRouter](../../assets/badges/gorouter.svg)](https://pub.dev/packages/go_router)
 [![Flutter Localizations](../../assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
 [![Intl](../../assets/badges/intl.svg)](https://pub.dev/packages/intl)

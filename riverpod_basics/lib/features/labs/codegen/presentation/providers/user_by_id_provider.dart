@@ -1,7 +1,7 @@
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 import 'package:riverpod_basics/core/errors/app_exception.dart';
 import 'package:riverpod_basics/core/errors/app_failure.dart';
-import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_list_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 
 part 'user_by_id_provider.g.dart';
@@ -17,7 +17,7 @@ part 'user_by_id_provider.g.dart';
 class UserById extends _$UserById {
   @override
   Future<User> build(int id) async {
-    final users = await ref.watch(userRepositoryProvider).fetchUsers();
+    final users = await ref.watch(userListRepositoryProvider).fetchUsers();
     return _userWithId(users, id);
   }
 
@@ -25,7 +25,7 @@ class UserById extends _$UserById {
     // guard: Future ok → AsyncData, throw → AsyncError. Not loading.
     state = const AsyncLoading();
     state = await AsyncValue.guard(() async {
-      final users = await ref.read(userRepositoryProvider).fetchUsers();
+      final users = await ref.read(userListRepositoryProvider).fetchUsers();
       return _userWithId(users, id);
     });
   }

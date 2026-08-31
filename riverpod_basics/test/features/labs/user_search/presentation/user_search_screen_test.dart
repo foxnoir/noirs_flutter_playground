@@ -2,7 +2,7 @@ import 'package:flutter/material.dart' hide ErrorWidget;
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:riverpod_basics/core/errors/app_failure.dart';
-import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_list_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/user_search/presentation/providers/user_search_provider.dart';
 import 'package:riverpod_basics/features/labs/user_search/presentation/user_search_screen.dart';
@@ -10,7 +10,7 @@ import 'package:riverpod_basics/l10n/app_localizations.dart';
 import 'package:riverpod_basics/shared_widgets/error_widget.dart';
 import 'package:riverpod_basics/shared_widgets/lab_info_text.dart';
 
-import '../../user_list/fake_user_repository.dart';
+import '../../user_list/fake_user_list_repository.dart';
 
 void main() {
   const grace = User(
@@ -27,12 +27,12 @@ void main() {
   );
 
   Widget app({
-    required FakeUserRepository repository,
+    required FakeUserListRepository repository,
     Duration searchDelay = Duration.zero,
   }) {
     return ProviderScope(
       overrides: [
-        userRepositoryProvider.overrideWithValue(repository),
+        userListRepositoryProvider.overrideWithValue(repository),
         userSearchDelayProvider.overrideWithValue(searchDelay),
       ],
       child: const MaterialApp(
@@ -62,7 +62,7 @@ void main() {
     tester,
   ) async {
     await tester.pumpWidget(
-      app(repository: const FakeUserRepository(users: [grace, alan])),
+      app(repository: const FakeUserListRepository(users: [grace, alan])),
     );
     await tester.pumpAndSettle();
 
@@ -86,7 +86,7 @@ void main() {
 
   testWidgets('search by name shows the matching user', (tester) async {
     await tester.pumpWidget(
-      app(repository: const FakeUserRepository(users: [grace, alan])),
+      app(repository: const FakeUserListRepository(users: [grace, alan])),
     );
     await tester.pumpAndSettle();
 
@@ -101,7 +101,7 @@ void main() {
 
   testWidgets('search by id shows the matching user', (tester) async {
     await tester.pumpWidget(
-      app(repository: const FakeUserRepository(users: [grace, alan])),
+      app(repository: const FakeUserListRepository(users: [grace, alan])),
     );
     await tester.pumpAndSettle();
 
@@ -117,7 +117,7 @@ void main() {
   ) async {
     await tester.pumpWidget(
       app(
-        repository: const FakeUserRepository(users: [grace, alan]),
+        repository: const FakeUserListRepository(users: [grace, alan]),
         searchDelay: const Duration(milliseconds: 50),
       ),
     );
@@ -142,7 +142,7 @@ void main() {
 
   testWidgets('maps a fetch failure to l10n copy', (tester) async {
     await tester.pumpWidget(
-      app(repository: const FakeUserRepository(error: NetworkFailure())),
+      app(repository: const FakeUserListRepository(error: NetworkFailure())),
     );
     await tester.pumpAndSettle();
 

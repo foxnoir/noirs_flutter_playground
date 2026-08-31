@@ -1,11 +1,11 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_repository.dart';
+import 'package:riverpod_basics/features/labs/user_list/data/repositories/in_memory_user_list_repository.dart';
 import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dart';
 import 'package:riverpod_basics/features/labs/user_list/presentation/providers/user_list_provider.dart';
 import 'package:riverpod_basics/features/labs/user_search/presentation/providers/user_search_provider.dart';
 
-import '../../../user_list/fake_user_repository.dart';
+import '../../../user_list/fake_user_list_repository.dart';
 
 void main() {
   const grace = User(
@@ -46,12 +46,12 @@ void main() {
   });
 
   ProviderContainer containerWith({
-    required FakeUserRepository repository,
+    required FakeUserListRepository repository,
     Duration delay = Duration.zero,
   }) {
     final container = ProviderContainer.test(
       overrides: [
-        userRepositoryProvider.overrideWithValue(repository),
+        userListRepositoryProvider.overrideWithValue(repository),
         userSearchDelayProvider.overrideWithValue(delay),
       ],
     );
@@ -62,7 +62,7 @@ void main() {
 
   test('search returns matches after the fake delay', () async {
     final container = containerWith(
-      repository: const FakeUserRepository(users: users),
+      repository: const FakeUserListRepository(users: users),
     );
 
     await container.read(userListProvider.notifier).fetchUsers();
@@ -76,7 +76,7 @@ void main() {
 
   test('empty search resets to idle', () async {
     final container = containerWith(
-      repository: const FakeUserRepository(users: users),
+      repository: const FakeUserListRepository(users: users),
     );
 
     await container.read(userListProvider.notifier).fetchUsers();

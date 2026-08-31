@@ -1,21 +1,34 @@
+import 'package:advanced_concepts/core/router/app_router.dart';
 import 'package:advanced_concepts/core/theme/theme.dart';
-import 'package:advanced_concepts/features/home/presentation/home_screen.dart';
+import 'package:advanced_concepts/features/routing_lab/presentation/widgets/routing_lab_snack_bar_listener.dart';
+import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() {
-  runApp(const AdvancedConceptsApp());
+  runApp(const ProviderScope(child: AdvancedConceptsApp()));
 }
 
-class AdvancedConceptsApp extends StatelessWidget {
+class AdvancedConceptsApp extends ConsumerWidget {
   const AdvancedConceptsApp({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final router = ref.watch(goRouterProvider);
+
+    return MaterialApp.router(
       debugShowCheckedModeBanner: false,
-      title: 'Advanced Concepts',
+      onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
       theme: getLightTheme(),
-      home: const HomeScreen(),
+      locale: const Locale('en'),
+      localizationsDelegates: AppLocalizations.localizationsDelegates,
+      supportedLocales: AppLocalizations.supportedLocales,
+      routerConfig: router,
+      builder: (context, child) {
+        return RoutingLabSnackBarListener(
+          child: child ?? const SizedBox.shrink(),
+        );
+      },
     );
   }
 }
