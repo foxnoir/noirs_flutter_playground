@@ -42,6 +42,7 @@
     <li><a href="#app-architecture-and-folder-structure">App architecture and folder structure</a></li>
     <li><a href="#packages">Packages</a></li>
     <li><a href="#previous-projects">Previous Projects</a></li>
+    <li><a href="#advanced-concepts">Advanced Concepts</a></li>
     <li><a href="#starters">Starters</a></li>
     <li><a href="#badges">Badges</a></li>
     <li>
@@ -194,6 +195,21 @@ Practice app for **Riverpod**: providers, labs (listen, ConsumerWidget, Quote, T
 
 ---
 
+## Advanced Concepts
+
+<h3>
+  <a href="advanced_concepts/">Advanced Concepts »</a>
+  <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
+</h3>
+
+Practice app for **advanced Flutter** topics. A shell for now (playground theme, home screen). Labs land as the course starts.
+
+[README »](advanced_concepts/README.md)
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
 ## Starters
 
 <h3>
@@ -313,6 +329,7 @@ One app:
 ```
 ./coverage_pipeline/update_coverage.sh riverpod_basics
 ./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
+./coverage_pipeline/update_coverage.sh advanced_concepts
 ```
 
 ### Cursor Source Control

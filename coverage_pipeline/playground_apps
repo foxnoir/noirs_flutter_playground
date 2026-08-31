@@ -2,3 +2,4 @@
 # Paths are relative to the playground git root.
 riverpod_basics
 app_starters/riverpod_basic_starter
+advanced_concepts
