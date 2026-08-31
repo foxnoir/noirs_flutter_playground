@@ -56,8 +56,9 @@ class _ProviderLifetimesScreenState
                 user: persistentUser,
                 controller: _persistentController,
                 onAddPressed: () {
-                  ref.read(lifetimesPersistentProvider.notifier).user =
-                      _persistentController.text;
+                  ref
+                      .read(lifetimesPersistentProvider.notifier)
+                      .setUser(_persistentController.text);
                 },
               ),
             ),
@@ -69,8 +70,9 @@ class _ProviderLifetimesScreenState
                 user: nonPersistentUser,
                 controller: _nonPersistentController,
                 onAddPressed: () {
-                  ref.read(lifetimesAutoDisposeProvider.notifier).user =
-                      _nonPersistentController.text;
+                  ref
+                      .read(lifetimesAutoDisposeProvider.notifier)
+                      .setUser(_nonPersistentController.text);
                 },
               ),
             ),
@@ -82,8 +84,9 @@ class _ProviderLifetimesScreenState
                 user: keepAliveUser,
                 controller: _keepAliveController,
                 onAddPressed: () {
-                  ref.read(lifetimesKeepAliveProvider.notifier).user =
-                      _keepAliveController.text;
+                  ref
+                      .read(lifetimesKeepAliveProvider.notifier)
+                      .setUser(_keepAliveController.text);
                 },
               ),
             ),

@@ -17,7 +17,7 @@ void main() {
       final sub = container.listen(lifetimesKeepAliveProvider, (_, _) {});
 
       expect(container.read(lifetimesKeepAliveProvider), '-');
-      container.read(lifetimesKeepAliveProvider.notifier).user = 'Ada';
+      container.read(lifetimesKeepAliveProvider.notifier).setUser('Ada');
       expect(container.read(lifetimesKeepAliveProvider), 'Ada');
 
       sub.close();
@@ -46,7 +46,7 @@ void main() {
       addTearDown(container.dispose);
 
       var sub = container.listen(lifetimesKeepAliveProvider, (_, _) {});
-      container.read(lifetimesKeepAliveProvider.notifier).user = 'Ada';
+      container.read(lifetimesKeepAliveProvider.notifier).setUser('Ada');
       sub.close();
       pumpDispose(async, container);
 
@@ -84,7 +84,7 @@ void main() {
       });
 
       final sub = container.listen(lifetimesKeepAliveProvider, (_, _) {});
-      container.read(lifetimesKeepAliveProvider.notifier).user = 'Ada';
+      container.read(lifetimesKeepAliveProvider.notifier).setUser('Ada');
       sub.close();
       pumpDispose(async, container);
       expect(notices, isEmpty);
