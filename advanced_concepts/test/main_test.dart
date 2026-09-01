@@ -1,5 +1,7 @@
 import 'package:advanced_concepts/core/router/nav_calls.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
+import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
+import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/routing_lab_screen.dart';
 import 'package:advanced_concepts/features/user_details/presentation/user_details_screen.dart';
 import 'package:advanced_concepts/features/user_list/data/data_sources/in_memory_user_list_data_source.dart';
@@ -48,6 +50,8 @@ void main() {
     expect(find.byType(LandingScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Advanced Concepts'), findsOneWidget);
     expect(find.text('Navigation'), findsOneWidget);
+    expect(find.text('Layout'), findsOneWidget);
+    expect(find.text('Lists'), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Navigation'), findsNothing);
 
     await _openRoutingLab(tester);
@@ -234,5 +238,27 @@ void main() {
 
     expect(find.text('Missing'), findsOneWidget);
     expect(find.text('Go to Landing Screen'), findsOneWidget);
+  });
+
+  testWidgets('Landing Layout tile opens Layout Lab', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('Layout'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(LayoutLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Layout'), findsOneWidget);
+  });
+
+  testWidgets('Landing Lists tile opens Lists Lab', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('Lists'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ListsLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Lists'), findsOneWidget);
   });
 }

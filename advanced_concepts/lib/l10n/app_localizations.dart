@@ -403,6 +403,486 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'canPop() is false. pop will not work.'**
   String get userListCanPopFalse;
+
+  /// No description provided for @lists.
+  ///
+  /// In en, this message translates to:
+  /// **'Lists'**
+  String get lists;
+
+  /// No description provided for @listsOneAxis.
+  ///
+  /// In en, this message translates to:
+  /// **'One column'**
+  String get listsOneAxis;
+
+  /// No description provided for @listsOneAxisCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'ListView.builder'**
+  String get listsOneAxisCalls;
+
+  /// No description provided for @listsOneAxisHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Lazy. Long vertical lists.'**
+  String get listsOneAxisHint;
+
+  /// No description provided for @listsRow.
+  ///
+  /// In en, this message translates to:
+  /// **'One row'**
+  String get listsRow;
+
+  /// No description provided for @listsRowCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'Axis.horizontal'**
+  String get listsRowCalls;
+
+  /// No description provided for @listsRowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Same lazy ListView. Cross axis is height. Needs a max width — not a Row without Expanded.'**
+  String get listsRowHint;
+
+  /// No description provided for @listsGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'Same-size tiles'**
+  String get listsGrid;
+
+  /// No description provided for @listsGridCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'GridView.builder'**
+  String get listsGridCalls;
+
+  /// No description provided for @listsGridHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Lazy. A grid, not a table with mixed spans.'**
+  String get listsGridHint;
+
+  /// No description provided for @listsSliver.
+  ///
+  /// In en, this message translates to:
+  /// **'One scroll, mixed pieces'**
+  String get listsSliver;
+
+  /// No description provided for @listsSliverCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'CustomScrollView + slivers'**
+  String get listsSliverCalls;
+
+  /// No description provided for @listsSliverHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Header + grid + list share one scrollbar.'**
+  String get listsSliverHint;
+
+  /// No description provided for @listsEagerWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Few, known children'**
+  String get listsEagerWhen;
+
+  /// No description provided for @listsEagerCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'ListView(children:)'**
+  String get listsEagerCalls;
+
+  /// No description provided for @listsEagerHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Builds every child now. Fine for ~10. Wrong for hundreds.'**
+  String get listsEagerHint;
+
+  /// No description provided for @listsContext.
+  ///
+  /// In en, this message translates to:
+  /// **'**ListView** and **GridView** are boxes with their own scroll. A **sliver** is a slice inside **CustomScrollView**. Prefer **.builder**. Do not put a vertical ListView in a Column without **Expanded** or a height. Same trap sideways: horizontal ListView in a Row.'**
+  String get listsContext;
+
+  /// No description provided for @listsKindList.
+  ///
+  /// In en, this message translates to:
+  /// **'ListView'**
+  String get listsKindList;
+
+  /// No description provided for @listsKindGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'GridView'**
+  String get listsKindGrid;
+
+  /// No description provided for @listsKindSliver.
+  ///
+  /// In en, this message translates to:
+  /// **'Sliver'**
+  String get listsKindSliver;
+
+  /// No description provided for @listsKindHorizontal.
+  ///
+  /// In en, this message translates to:
+  /// **'Horizontal'**
+  String get listsKindHorizontal;
+
+  /// No description provided for @listsCells.
+  ///
+  /// In en, this message translates to:
+  /// **'cells'**
+  String get listsCells;
+
+  /// No description provided for @listsBuilds.
+  ///
+  /// In en, this message translates to:
+  /// **'builds'**
+  String get listsBuilds;
+
+  /// No description provided for @listsDemoHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scroll the box. cells stay ≤ 48. Scroll away and back: off-screen children are disposed — builds go up, cells do not.'**
+  String get listsDemoHint;
+
+  /// No description provided for @listsCallList.
+  ///
+  /// In en, this message translates to:
+  /// **'ListView.builder(itemBuilder: …)'**
+  String get listsCallList;
+
+  /// No description provided for @listsCallGrid.
+  ///
+  /// In en, this message translates to:
+  /// **'GridView.builder(gridDelegate: …)'**
+  String get listsCallGrid;
+
+  /// No description provided for @listsCallSliver.
+  ///
+  /// In en, this message translates to:
+  /// **'CustomScrollView(slivers: [SliverGrid, SliverList])'**
+  String get listsCallSliver;
+
+  /// No description provided for @listsCallHorizontal.
+  ///
+  /// In en, this message translates to:
+  /// **'ListView.builder(scrollDirection: Axis.horizontal, …)'**
+  String get listsCallHorizontal;
+
+  /// No description provided for @listsSliverHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'SliverToBoxAdapter'**
+  String get listsSliverHeader;
+
+  /// No description provided for @listsProblemEagerTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Eager vs lazy'**
+  String get listsProblemEagerTitle;
+
+  /// No description provided for @listsProblemEagerCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'children: all cells now. .builder: viewport plus cache. Scroll back: cells stay, builds climb.'**
+  String get listsProblemEagerCaption;
+
+  /// No description provided for @listsProblemEagerLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ListView(children:)'**
+  String get listsProblemEagerLabel;
+
+  /// No description provided for @listsProblemLazyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'ListView.builder'**
+  String get listsProblemLazyLabel;
+
+  /// No description provided for @listsProblemUnboundedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unbounded height'**
+  String get listsProblemUnboundedTitle;
+
+  /// No description provided for @listsProblemUnboundedCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong looks like a crash. Works is a list you can scroll. Same header, different constraints.'**
+  String get listsProblemUnboundedCaption;
+
+  /// No description provided for @listsProblemUnboundedBadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  Column + ListView'**
+  String get listsProblemUnboundedBadTitle;
+
+  /// No description provided for @listsProblemUnboundedBadHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Column gives the ListView infinite max height. Debug shows this assertion. The lab paints the stripes so the rest of the page stays up.'**
+  String get listsProblemUnboundedBadHint;
+
+  /// No description provided for @listsProblemUnboundedGoodTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  Column + Expanded + ListView'**
+  String get listsProblemUnboundedGoodTitle;
+
+  /// No description provided for @listsProblemUnboundedGoodHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Expanded eats the leftover height. ListView gets a max. Scroll it.'**
+  String get listsProblemUnboundedGoodHint;
+
+  /// No description provided for @listsStripeUnbounded.
+  ///
+  /// In en, this message translates to:
+  /// **'Vertical viewport was given unbounded height.'**
+  String get listsStripeUnbounded;
+
+  /// No description provided for @listsLayerHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'header'**
+  String get listsLayerHeader;
+
+  /// No description provided for @listsProblemShrinkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'shrinkWrap + nested scroll'**
+  String get listsProblemShrinkTitle;
+
+  /// No description provided for @listsProblemShrinkBody.
+  ///
+  /// In en, this message translates to:
+  /// **'shrinkWrap: true sizes the list by laying out every child. Nested ListViews often need it — that is expensive. Prefer one CustomScrollView of slivers.'**
+  String get listsProblemShrinkBody;
+
+  /// No description provided for @layout.
+  ///
+  /// In en, this message translates to:
+  /// **'Layout'**
+  String get layout;
+
+  /// No description provided for @layoutMayShrink.
+  ///
+  /// In en, this message translates to:
+  /// **'Child may shrink'**
+  String get layoutMayShrink;
+
+  /// No description provided for @layoutMayShrinkCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible'**
+  String get layoutMayShrinkCalls;
+
+  /// No description provided for @layoutMayShrinkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Leftover space in a Row or Column. min = 0. Child can stay small.'**
+  String get layoutMayShrinkHint;
+
+  /// No description provided for @layoutMustFill.
+  ///
+  /// In en, this message translates to:
+  /// **'Child must fill'**
+  String get layoutMustFill;
+
+  /// No description provided for @layoutMustFillCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'Expanded'**
+  String get layoutMustFillCalls;
+
+  /// No description provided for @layoutMustFillHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Same leftover. min = max. Expanded is Flexible(fit: FlexFit.tight).'**
+  String get layoutMustFillHint;
+
+  /// No description provided for @layoutPreferredWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Scaffold slot height'**
+  String get layoutPreferredWhen;
+
+  /// No description provided for @layoutPreferredCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'PreferredSize / AppBar'**
+  String get layoutPreferredCalls;
+
+  /// No description provided for @layoutPreferredHint.
+  ///
+  /// In en, this message translates to:
+  /// **'appBar and bottomNavigationBar ask for PreferredSizeWidget. Not a Flex child.'**
+  String get layoutPreferredHint;
+
+  /// No description provided for @layoutContext.
+  ///
+  /// In en, this message translates to:
+  /// **'**Expanded** is **Flexible(fit: FlexFit.tight)**. **Flexible** is **loose** — leftover can stay empty. **PreferredSize** tells **Scaffold** how tall **appBar** wants to be. **Row overflow** is the yellow-black stripes; **Expanded** shares leftover width so children fit.'**
+  String get layoutContext;
+
+  /// No description provided for @layoutOverflowTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Row overflow'**
+  String get layoutOverflowTitle;
+
+  /// No description provided for @layoutOverflowWrongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  Row + long children'**
+  String get layoutOverflowWrongTitle;
+
+  /// No description provided for @layoutOverflowWrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The children want more width than the Row. Flutter paints yellow-black stripes on the overflowing edge.'**
+  String get layoutOverflowWrongHint;
+
+  /// No description provided for @layoutOverflowRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  Row + Expanded'**
+  String get layoutOverflowRightTitle;
+
+  /// No description provided for @layoutOverflowRightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Each Expanded gets a slice. Text ellipsizes. No stripes.'**
+  String get layoutOverflowRightHint;
+
+  /// No description provided for @layoutOverflowStripe.
+  ///
+  /// In en, this message translates to:
+  /// **'RIGHT OVERFLOWED BY 87 PIXELS'**
+  String get layoutOverflowStripe;
+
+  /// No description provided for @layoutOverflowCallWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'Row(children: [Text, Text, Text, …])'**
+  String get layoutOverflowCallWrong;
+
+  /// No description provided for @layoutOverflowCallRight.
+  ///
+  /// In en, this message translates to:
+  /// **'Row(children: [Expanded(child: Text(…, overflow: ellipsis))])'**
+  String get layoutOverflowCallRight;
+
+  /// No description provided for @layoutFlexTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible vs Expanded'**
+  String get layoutFlexTitle;
+
+  /// No description provided for @layoutFlexFlexibleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible'**
+  String get layoutFlexFlexibleLabel;
+
+  /// No description provided for @layoutFlexExpandedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Expanded'**
+  String get layoutFlexExpandedLabel;
+
+  /// No description provided for @layoutFlexChild.
+  ///
+  /// In en, this message translates to:
+  /// **'Hi'**
+  String get layoutFlexChild;
+
+  /// No description provided for @layoutFlexEnd.
+  ///
+  /// In en, this message translates to:
+  /// **'64'**
+  String get layoutFlexEnd;
+
+  /// No description provided for @layoutFlexLeftover.
+  ///
+  /// In en, this message translates to:
+  /// **'leftover'**
+  String get layoutFlexLeftover;
+
+  /// No description provided for @layoutFlexFlexibleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'leftover is empty. Hi stays as wide as the text.'**
+  String get layoutFlexFlexibleHint;
+
+  /// No description provided for @layoutFlexExpandedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No leftover. Hi is forced to fill.'**
+  String get layoutFlexExpandedHint;
+
+  /// No description provided for @layoutFlexCallFlexible.
+  ///
+  /// In en, this message translates to:
+  /// **'Flexible(child: …)  // FlexFit.loose'**
+  String get layoutFlexCallFlexible;
+
+  /// No description provided for @layoutFlexCallExpanded.
+  ///
+  /// In en, this message translates to:
+  /// **'Expanded(child: …)  // Flexible(fit: FlexFit.tight)'**
+  String get layoutFlexCallExpanded;
+
+  /// No description provided for @layoutPreferredTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'PreferredSize'**
+  String get layoutPreferredTitle;
+
+  /// No description provided for @layoutPreferredAppBar.
+  ///
+  /// In en, this message translates to:
+  /// **'AppBar'**
+  String get layoutPreferredAppBar;
+
+  /// No description provided for @layoutPreferredCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'PreferredSize 96'**
+  String get layoutPreferredCustom;
+
+  /// No description provided for @layoutPreferredBody.
+  ///
+  /// In en, this message translates to:
+  /// **'body'**
+  String get layoutPreferredBody;
+
+  /// No description provided for @layoutPreferredAppBarHint.
+  ///
+  /// In en, this message translates to:
+  /// **'AppBar implements PreferredSizeWidget. Height is the toolbar (56) when primary is false.'**
+  String get layoutPreferredAppBarHint;
+
+  /// No description provided for @layoutPreferredCustomHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Scaffold.appBar uses preferredSize.height. The child does not have to be an AppBar.'**
+  String get layoutPreferredCustomHint;
+
+  /// No description provided for @layoutPreferredCallAppBar.
+  ///
+  /// In en, this message translates to:
+  /// **'AppBar()  // PreferredSizeWidget'**
+  String get layoutPreferredCallAppBar;
+
+  /// No description provided for @layoutPreferredCallCustom.
+  ///
+  /// In en, this message translates to:
+  /// **'PreferredSize(preferredSize: Size.fromHeight(96), child: …)'**
+  String get layoutPreferredCallCustom;
 }
 
 class _AppLocalizationsDelegate

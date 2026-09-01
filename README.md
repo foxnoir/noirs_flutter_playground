@@ -13,7 +13,7 @@
   <img src="assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Noir's Flutter Playground</h1>
   <p>
-     Practice projects for Flutter — among other things Riverpod, architecture, and advanced topics.
+     Practice projects for Flutter — Riverpod, navigation, layout, lists, and architecture.
   </p>
 </div>
 
@@ -43,7 +43,6 @@
     <li><a href="#app-architecture-and-folder-structure">App architecture and folder structure</a></li>
     <li><a href="#packages">Packages</a></li>
     <li><a href="#previous-projects">Previous Projects</a></li>
-    <li><a href="#advanced-concepts">Advanced Concepts</a></li>
     <li><a href="#starters">Starters</a></li>
     <li><a href="#badges">Badges</a></li>
     <li>
@@ -67,7 +66,7 @@
 
 This repository is a playground for practicing Flutter.
 
-Each folder is a standalone Flutter app. Topics include **Riverpod**, architecture, and other advanced Flutter subjects — without mixing everything into one project.
+Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **lists**, and architecture — without mixing everything into one project.
 
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -150,7 +149,7 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 - **widgets/** — feature-local UI.
 - **feature_screen.dart** — the screen for that feature (`*Screen`). Riverpod Basics landing is still `LandingPage`.
 
-`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both apps). Advanced Concepts also has `CodeSnippet` (monospace Dart) and `NavStackPreview` (stack diagram on User List / User Details). `core/` holds app-wide routing, theme, and similar infrastructure. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
+`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both practice projects). Advanced Concepts also has `CodeSnippet` (monospace Dart), `NavStackPreview` (stack diagram on User List / User Details), `LabCompareFrame` (wrong vs works), and `LabErrorStripes` (Flutter-style overflow paint without crashing the page). `core/` holds app-wide routing, theme, and similar infrastructure. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
 
 Data sources and repositories are named after the feature: `InMemoryUserListDataSource`, `InMemoryUserListRepository` (not a generic `UserRepository`).
 
@@ -190,22 +189,16 @@ Packages currently used in the playground apps. Update this table when a `pubspe
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **Riverpod**: providers, labs (listen, ConsumerWidget, Quote, Tick, Auth, refresh / invalidate, User List with data source + repository, User Search), Freezed, and sealed error mapping.
+Practice project for **Riverpod**: provider types, labs (listen, ConsumerWidget, Quote, Tick, Auth, refresh / invalidate, AutoDispose lifetimes, User List with data source + repository, Add User, User Search), Freezed, and sealed error mapping.
 
 [README »](riverpod_basics/README.md)
-
-<p align="right"><a href="#readme-top">back to top</a></p>
-
----
-
-## Advanced Concepts
 
 <h3>
   <a href="advanced_concepts/">Advanced Concepts »</a>
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice app for **GoRouter**: Navigation lab (`go` / `push` / `pop` / `replace`, named routes), User List / User Details, screens not pages.
+Practice project for **navigation**, **layout**, and **lists**: go, push, pop, replace; Flexible vs Expanded, PreferredSize; ListView / GridView / slivers.
 
 [README »](advanced_concepts/README.md)
 

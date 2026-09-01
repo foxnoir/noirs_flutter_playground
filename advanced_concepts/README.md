@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Advanced Concepts</h1>
   <p>
-     Practice project for GoRouter: go, push, pop, replace, and a User List / User Details stack.
+     Practice project for navigation, layout, and lists: go, push, pop, replace; Flexible vs Expanded, PreferredSize; ListView / GridView / slivers.
   </p>
 </div>
 
@@ -49,6 +49,21 @@
         <li><a href="#buildcontext">BuildContext</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#layout">Layout</a>
+      <ul>
+        <li><a href="#flexible-vs-expanded">Flexible vs Expanded</a></li>
+        <li><a href="#preferredsize">PreferredSize</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#lists">Lists</a>
+      <ul>
+        <li><a href="#listview-vs-gridview-vs-slivers">ListView vs GridView vs slivers</a></li>
+        <li><a href="#when-to-use-which">When to use which</a></li>
+        <li><a href="#problems">Problems</a></li>
+      </ul>
+    </li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li>
       <a href="#testing">Testing</a>
@@ -65,11 +80,11 @@
 
 ## About
 
-This app is the **advanced Flutter** practice project in [Noir's Flutter Playground](../README.md).
+This project is the **navigation**, **layout**, and **lists** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). The lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, and **PreferredSize**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
 
-Screens are `LandingScreen`, `RoutingLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
+Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -164,6 +179,106 @@ The lab shows **go**, **push**, **pop**, and **replace** on `context`, plus **go
 
 ---
 
+## Layout
+
+**Flexible**, **Expanded**, and **PreferredSize** are about *constraints*, not scrolling. A `Row` / `Column` splits leftover space among flex children. `Scaffold.appBar` (and `bottomNavigationBar`) does not: it asks the widget for a **preferred** height, then lays out `body` in what is left.
+
+The Layout Lab (`lib/features/layout_lab/`) is a short rule list and three live pictures, in that order: **Flexible vs Expanded** (leftover labeled), **PreferredSize** (AppBar 56 vs custom 96 stacked), then **wrong vs works** Row overflow (yellow-black stripes vs `Expanded`). AppBar is **Layout**.
+
+### Flexible vs Expanded
+
+Both work only as a child of a `Flex` (`Row`, `Column`, `Flex`). Both take a `flex` factor (default `1`). They differ in **fit**:
+
+| | `fit` | Leftover space |
+| --- | --- | --- |
+| `Flexible` | `FlexFit.loose` | Child **may** be smaller. min constraint is `0`. Gray leftover in the lab. |
+| `Expanded` | `FlexFit.tight` | Child **must** fill. min = max = leftover. |
+
+`Expanded` is `Flexible(fit: FlexFit.tight)`. Same widget, tighter constraints.
+
+The lab puts a short **Hi** between two fixed `64` boxes. With `Flexible`, **leftover** stays empty. With `Expanded`, **Hi** fills.
+
+A child that *wants* to be as big as possible (`Center`, `Align`, `Container` with `alignment`) will fill leftover even inside `Flexible`. Use a child with an intrinsic size (`Text`, `ColoredBox` + `Text`) when you want the loose fit to show.
+
+A vertical `ListView` in a `Column` needs a **max** height. That is why Lists wraps it in `Expanded` (see [Problems](#problems)): `Expanded` gives the list a bounded leftover. `Flexible` would let the list stay as small as its children — and a `ListView` tries to be infinitely tall, so that still explodes.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### PreferredSize
+
+`Scaffold.appBar` and `bottomNavigationBar` take a `PreferredSizeWidget`. They read `preferredSize` and reserve that height. They do **not** pass flex constraints.
+
+`AppBar` already implements `PreferredSizeWidget`. Default toolbar height is `kToolbarHeight` (`56`). If `primary` is true (the normal full-screen AppBar), Scaffold also adds status-bar padding.
+
+Any widget can sit in that slot if you wrap it:
+
+```dart
+appBar: PreferredSize(
+  preferredSize: Size.fromHeight(96),
+  child: /* not necessarily an AppBar */,
+),
+```
+
+`preferredSize` is a **hint** to the parent. If the child is shorter, you get empty space in the bar. If the child is taller, it overflows. The lab’s nested Scaffold switches **AppBar** (`56` when `primary: false`) and **PreferredSize 96** so the body shrinks as the bar grows.
+
+Do not use `PreferredSize` as a `Row` / `Column` child to “give a size”. That is `SizedBox` / `Flexible` / `Expanded`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Lists
+
+**ListView**, **GridView**, and **slivers** all paint children in a scrollable. They differ in *shape*, *laziness*, and whether they *own* the scroll or *join* one.
+
+The Lists Lab (`lib/features/lists_lab/`) is a short rule list, a live preview (48 cells, **cells** vs **builds**), and three problem pictures. AppBar is **Lists**.
+
+### ListView vs GridView vs slivers
+
+| | Builds children | Scroll | Shape |
+| --- | --- | --- | --- |
+| `ListView(children: …)` | All, immediately | Own box | One column (or row if `scrollDirection: Axis.horizontal`) |
+| `ListView.builder` | Viewport + cache | Own box | Same |
+| `GridView.builder` | Viewport + cache | Own box | Fixed cross-axis count / extent |
+| `CustomScrollView` + **slivers** | Per sliver, lazy if you use a builder delegate | **One** scrollbar | Mix: header, grid, list, `SliverAppBar`, … |
+
+A **sliver** is not a widget you drop in a `Column`. It is a slice of a `CustomScrollView` (or another sliver viewport). `SliverList` / `SliverGrid` / `SliverToBoxAdapter` are the usual three. `ListView` is a box that *contains* a sliver list. `GridView` is a box that contains a sliver grid. Same engine, different API.
+
+`.builder` (and `SliverChildBuilderDelegate`) constructs a child when it is about to appear. `ListView(children: [ … ])` and `SliverChildListDelegate` construct the whole list in `build`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### When to use which
+
+| You need | Use |
+| --- | --- |
+| A long feed, chat, settings — one column | `ListView.builder` |
+| A carousel, chips, stories — one row | `ListView.builder(scrollDirection: Axis.horizontal)` |
+| A gallery of same-size tiles | `GridView.builder` (`SliverGridDelegateWithFixedCrossAxisCount` or `…MaxCrossAxisExtent`) |
+| A short, known set (~10 tiles, no jump-to-index) | `ListView(children: …)` is fine |
+| Header **and** grid **and** list, **one** finger-scroll | `CustomScrollView` with slivers — not a `Column` of three scrollables |
+| A bar that pins while the rest moves | `SliverAppBar` (pinned / floating) inside that `CustomScrollView` |
+
+Do not reach for slivers because they sound advanced. Reach for them when **one** scroll must stitch different layouts.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Problems
+
+**Eager `children:`** Every child runs `initState` before the first frame. Fine for a handful. On hundreds you pay layout, images, and memory up front. The lab’s left mini-list uses `ListView(children:)` and shows **cells 24 / 24**. The right mini-list is `.builder` and stays near the viewport plus cache.
+
+**Dispose on scroll.** `.builder` does not keep off-screen `State`. Scroll a cell away, then back: `initState` runs again. The lab splits **cells** (unique indices, never above 48) from **builds** (`initState` count). Scroll to the end and back: cells stay at 48, builds climb. That is not extra items — same tiles, new `State`. `AutomaticKeepAliveClientMixin` would keep them; the default does not.
+
+**Unbounded height.** A `ListView` in the *vertical* axis wants a **max** height. A `Column` gives children unbounded max height. `Column` → `ListView` throws *Vertical viewport was given unbounded height.* The lab does **not** crash the page: the **wrong** box paints Flutter’s yellow-black stripes and that assertion. The **works** box is a live `Column` + `Expanded` + `ListView` — scroll it. Same header, different constraints. Same trap sideways: a horizontal `ListView` in a `Row` without `Expanded` or a width. Same trap: `ListView` inside another vertical `ListView` without `shrinkWrap`.
+
+**`shrinkWrap: true`.** The list measures all children to pick its own height, then sits in a parent scroll. Nested scrollables often “need” this. It is the eager-layout tax again. Prefer one `CustomScrollView`.
+
+The lab draws the Column trap as **wrong** (stripes + assertion) vs **works** (a list you can scroll). It does not crash the screen on purpose.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
 ## Getting Started
 
 Clone the playground, then open this project folder:
@@ -195,14 +310,14 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub.
+`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded and PreferredSize. **Lists** opens the Lists Lab preview (ListView / GridView / Sliver).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**84.8%** line coverage (585 of 690 lines).
+**86.1%** line coverage (1155 of 1341 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -233,6 +348,12 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 ## Sources
 
 - [go_router](https://pub.dev/packages/go_router)
+- [Flexible](https://api.flutter.dev/flutter/widgets/Flexible-class.html)
+- [Expanded](https://api.flutter.dev/flutter/widgets/Expanded-class.html)
+- [PreferredSize](https://api.flutter.dev/flutter/widgets/PreferredSize-class.html)
+- [ListView](https://api.flutter.dev/flutter/widgets/ListView-class.html)
+- [GridView](https://api.flutter.dev/flutter/widgets/GridView-class.html)
+- [Sliver overview](https://docs.flutter.dev/ui/layout/scrolling/slivers)
 - [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
 - [riverpod_lint](https://pub.dev/packages/riverpod_lint)
 - [very_good_analysis](https://pub.dev/packages/very_good_analysis)

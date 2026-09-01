@@ -25,6 +25,15 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
       foregroundColor: colorScheme.onPrimaryContainer,
       elevation: 0,
     ),
+    segmentedButtonTheme: const SegmentedButtonThemeData(
+      style: ButtonStyle(
+        textStyle: WidgetStatePropertyAll(
+          TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+        ),
+        visualDensity: VisualDensity.compact,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+    ),
     snackBarTheme: const SnackBarThemeData(
       backgroundColor: AppColor.tertiary,
       contentTextStyle: TextStyle(

@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: providers, labs (listen, ConsumerWidget, Quote, Tick, Auth, refresh / invalidate, User List, User Search), Freezed, and sealed errors.
+     Practice project for Riverpod: provider types, labs (listen, ConsumerWidget, Quote, Tick, Auth, refresh / invalidate, AutoDispose lifetimes, User List, Add User, User Search), Freezed, and sealed errors.
   </p>
 </div>
 
@@ -111,7 +111,7 @@
 
 ## About
 
-This app is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
+This project is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
 The landing page has two sections: **Providers** and **Labs**.
 
