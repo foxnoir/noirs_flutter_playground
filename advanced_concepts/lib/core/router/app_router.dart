@@ -1,6 +1,8 @@
 import 'package:advanced_concepts/core/router/app_router_names.dart';
 import 'package:advanced_concepts/core/router/not_found_screen.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
+import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
+import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/routing_lab_screen.dart';
 import 'package:advanced_concepts/features/user_details/presentation/user_details_screen.dart';
 import 'package:advanced_concepts/features/user_list/presentation/user_list_screen.dart';
@@ -21,6 +23,16 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutePaths.routing,
             name: AppRouteNames.routing,
             builder: (context, state) => const RoutingLabScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.layout,
+            name: AppRouteNames.layout,
+            builder: (context, state) => const LayoutLabScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.lists,
+            name: AppRouteNames.lists,
+            builder: (context, state) => const ListsLabScreen(),
           ),
         ],
       ),

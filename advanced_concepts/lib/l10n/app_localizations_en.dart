@@ -171,4 +171,269 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get userListCanPopFalse => 'canPop() is false. pop will not work.';
+
+  @override
+  String get lists => 'Lists';
+
+  @override
+  String get listsOneAxis => 'One column';
+
+  @override
+  String get listsOneAxisCalls => 'ListView.builder';
+
+  @override
+  String get listsOneAxisHint => 'Lazy. Long vertical lists.';
+
+  @override
+  String get listsRow => 'One row';
+
+  @override
+  String get listsRowCalls => 'Axis.horizontal';
+
+  @override
+  String get listsRowHint =>
+      'Same lazy ListView. Cross axis is height. Needs a max width — not a Row without Expanded.';
+
+  @override
+  String get listsGrid => 'Same-size tiles';
+
+  @override
+  String get listsGridCalls => 'GridView.builder';
+
+  @override
+  String get listsGridHint => 'Lazy. A grid, not a table with mixed spans.';
+
+  @override
+  String get listsSliver => 'One scroll, mixed pieces';
+
+  @override
+  String get listsSliverCalls => 'CustomScrollView + slivers';
+
+  @override
+  String get listsSliverHint => 'Header + grid + list share one scrollbar.';
+
+  @override
+  String get listsEagerWhen => 'Few, known children';
+
+  @override
+  String get listsEagerCalls => 'ListView(children:)';
+
+  @override
+  String get listsEagerHint =>
+      'Builds every child now. Fine for ~10. Wrong for hundreds.';
+
+  @override
+  String get listsContext =>
+      '**ListView** and **GridView** are boxes with their own scroll. A **sliver** is a slice inside **CustomScrollView**. Prefer **.builder**. Do not put a vertical ListView in a Column without **Expanded** or a height. Same trap sideways: horizontal ListView in a Row.';
+
+  @override
+  String get listsKindList => 'ListView';
+
+  @override
+  String get listsKindGrid => 'GridView';
+
+  @override
+  String get listsKindSliver => 'Sliver';
+
+  @override
+  String get listsKindHorizontal => 'Horizontal';
+
+  @override
+  String get listsCells => 'cells';
+
+  @override
+  String get listsBuilds => 'builds';
+
+  @override
+  String get listsDemoHint =>
+      'Scroll the box. cells stay ≤ 48. Scroll away and back: off-screen children are disposed — builds go up, cells do not.';
+
+  @override
+  String get listsCallList => 'ListView.builder(itemBuilder: …)';
+
+  @override
+  String get listsCallGrid => 'GridView.builder(gridDelegate: …)';
+
+  @override
+  String get listsCallSliver =>
+      'CustomScrollView(slivers: [SliverGrid, SliverList])';
+
+  @override
+  String get listsCallHorizontal =>
+      'ListView.builder(scrollDirection: Axis.horizontal, …)';
+
+  @override
+  String get listsSliverHeader => 'SliverToBoxAdapter';
+
+  @override
+  String get listsProblemEagerTitle => 'Eager vs lazy';
+
+  @override
+  String get listsProblemEagerCaption =>
+      'children: all cells now. .builder: viewport plus cache. Scroll back: cells stay, builds climb.';
+
+  @override
+  String get listsProblemEagerLabel => 'ListView(children:)';
+
+  @override
+  String get listsProblemLazyLabel => 'ListView.builder';
+
+  @override
+  String get listsProblemUnboundedTitle => 'Unbounded height';
+
+  @override
+  String get listsProblemUnboundedCaption =>
+      'Wrong looks like a crash. Works is a list you can scroll. Same header, different constraints.';
+
+  @override
+  String get listsProblemUnboundedBadTitle => 'wrong  ·  Column + ListView';
+
+  @override
+  String get listsProblemUnboundedBadHint =>
+      'Column gives the ListView infinite max height. Debug shows this assertion. The lab paints the stripes so the rest of the page stays up.';
+
+  @override
+  String get listsProblemUnboundedGoodTitle =>
+      'works  ·  Column + Expanded + ListView';
+
+  @override
+  String get listsProblemUnboundedGoodHint =>
+      'Expanded eats the leftover height. ListView gets a max. Scroll it.';
+
+  @override
+  String get listsStripeUnbounded =>
+      'Vertical viewport was given unbounded height.';
+
+  @override
+  String get listsLayerHeader => 'header';
+
+  @override
+  String get listsProblemShrinkTitle => 'shrinkWrap + nested scroll';
+
+  @override
+  String get listsProblemShrinkBody =>
+      'shrinkWrap: true sizes the list by laying out every child. Nested ListViews often need it — that is expensive. Prefer one CustomScrollView of slivers.';
+
+  @override
+  String get layout => 'Layout';
+
+  @override
+  String get layoutMayShrink => 'Child may shrink';
+
+  @override
+  String get layoutMayShrinkCalls => 'Flexible';
+
+  @override
+  String get layoutMayShrinkHint =>
+      'Leftover space in a Row or Column. min = 0. Child can stay small.';
+
+  @override
+  String get layoutMustFill => 'Child must fill';
+
+  @override
+  String get layoutMustFillCalls => 'Expanded';
+
+  @override
+  String get layoutMustFillHint =>
+      'Same leftover. min = max. Expanded is Flexible(fit: FlexFit.tight).';
+
+  @override
+  String get layoutPreferredWhen => 'Scaffold slot height';
+
+  @override
+  String get layoutPreferredCalls => 'PreferredSize / AppBar';
+
+  @override
+  String get layoutPreferredHint =>
+      'appBar and bottomNavigationBar ask for PreferredSizeWidget. Not a Flex child.';
+
+  @override
+  String get layoutContext =>
+      '**Expanded** is **Flexible(fit: FlexFit.tight)**. **Flexible** is **loose** — leftover can stay empty. **PreferredSize** tells **Scaffold** how tall **appBar** wants to be. **Row overflow** is the yellow-black stripes; **Expanded** shares leftover width so children fit.';
+
+  @override
+  String get layoutOverflowTitle => 'Row overflow';
+
+  @override
+  String get layoutOverflowWrongTitle => 'wrong  ·  Row + long children';
+
+  @override
+  String get layoutOverflowWrongHint =>
+      'The children want more width than the Row. Flutter paints yellow-black stripes on the overflowing edge.';
+
+  @override
+  String get layoutOverflowRightTitle => 'works  ·  Row + Expanded';
+
+  @override
+  String get layoutOverflowRightHint =>
+      'Each Expanded gets a slice. Text ellipsizes. No stripes.';
+
+  @override
+  String get layoutOverflowStripe => 'RIGHT OVERFLOWED BY 87 PIXELS';
+
+  @override
+  String get layoutOverflowCallWrong => 'Row(children: [Text, Text, Text, …])';
+
+  @override
+  String get layoutOverflowCallRight =>
+      'Row(children: [Expanded(child: Text(…, overflow: ellipsis))])';
+
+  @override
+  String get layoutFlexTitle => 'Flexible vs Expanded';
+
+  @override
+  String get layoutFlexFlexibleLabel => 'Flexible';
+
+  @override
+  String get layoutFlexExpandedLabel => 'Expanded';
+
+  @override
+  String get layoutFlexChild => 'Hi';
+
+  @override
+  String get layoutFlexEnd => '64';
+
+  @override
+  String get layoutFlexLeftover => 'leftover';
+
+  @override
+  String get layoutFlexFlexibleHint =>
+      'leftover is empty. Hi stays as wide as the text.';
+
+  @override
+  String get layoutFlexExpandedHint => 'No leftover. Hi is forced to fill.';
+
+  @override
+  String get layoutFlexCallFlexible => 'Flexible(child: …)  // FlexFit.loose';
+
+  @override
+  String get layoutFlexCallExpanded =>
+      'Expanded(child: …)  // Flexible(fit: FlexFit.tight)';
+
+  @override
+  String get layoutPreferredTitle => 'PreferredSize';
+
+  @override
+  String get layoutPreferredAppBar => 'AppBar';
+
+  @override
+  String get layoutPreferredCustom => 'PreferredSize 96';
+
+  @override
+  String get layoutPreferredBody => 'body';
+
+  @override
+  String get layoutPreferredAppBarHint =>
+      'AppBar implements PreferredSizeWidget. Height is the toolbar (56) when primary is false.';
+
+  @override
+  String get layoutPreferredCustomHint =>
+      'Scaffold.appBar uses preferredSize.height. The child does not have to be an AppBar.';
+
+  @override
+  String get layoutPreferredCallAppBar => 'AppBar()  // PreferredSizeWidget';
+
+  @override
+  String get layoutPreferredCallCustom =>
+      'PreferredSize(preferredSize: Size.fromHeight(96), child: …)';
 }

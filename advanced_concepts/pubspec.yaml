@@ -1,5 +1,5 @@
 name: advanced_concepts
-description: Practice app for advanced Flutter topics — GoRouter, Riverpod, and feature layers.
+description: Practice project for navigation, layout, and lists.
 publish_to: "none"
 version: 1.0.0+1
 
