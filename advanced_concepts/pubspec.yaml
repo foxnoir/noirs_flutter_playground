@@ -1,5 +1,5 @@
 name: advanced_concepts
-description: Practice project for navigation, layout, and lists.
+description: Practice project for navigation, layout, lists, and API integration.
 publish_to: "none"
 version: 1.0.0+1
 
@@ -16,6 +16,7 @@ dependencies:
     sdk: flutter
   flutter_riverpod: ^3.4.2
   go_router: ^17.5.0
+  http: ^1.5.0
   intl: any
 
 dev_dependencies:

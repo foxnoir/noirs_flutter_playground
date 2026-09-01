@@ -1,10 +1,9 @@
 {
-  "name": "firebase_lab",
+  "name": "advanced-concepts-api",
   "private": true,
   "scripts": {
     "start": "firebase emulators:start --only functions,firestore",
-    "deploy": "firebase deploy --only functions,firestore",
-    "test": "npm --prefix functions test"
+    "deploy": "firebase deploy --only functions,firestore"
   },
   "devDependencies": {
     "firebase-tools": "^14.15.1"

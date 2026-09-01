@@ -12,6 +12,18 @@ void main() {
       AppFailure.fromException(const NotFoundException()),
       const NotFoundFailure(),
     );
+    expect(
+      AppFailure.fromException(const RequestTimeoutException()),
+      const TimeoutFailure(),
+    );
+    expect(
+      AppFailure.fromException(const UnauthorizedException()),
+      const UnauthorizedFailure(),
+    );
+    expect(
+      AppFailure.fromException(const ServerException()),
+      const ServerFailure(),
+    );
   });
 
   test('from maps exceptions, failures, and unknown objects', () {

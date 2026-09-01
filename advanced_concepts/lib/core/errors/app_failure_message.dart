@@ -6,6 +6,9 @@ extension AppFailureMessage on AppFailure {
     return switch (this) {
       NetworkFailure() => l10n.errorNetwork,
       NotFoundFailure() => l10n.errorNotFound,
+      TimeoutFailure() => l10n.errorTimeout,
+      UnauthorizedFailure() => l10n.errorUnauthorized,
+      ServerFailure() => l10n.errorServer,
       UnknownFailure() => l10n.errorOccurred,
     };
   }

@@ -13,7 +13,7 @@
   <img src="assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Noir's Flutter Playground</h1>
   <p>
-     Practice projects for Flutter — Riverpod, navigation, layout, lists, architecture, and a Firebase API.
+     Practice projects for Flutter — Riverpod, navigation, layout, lists, and architecture.
   </p>
 </div>
 
@@ -33,7 +33,6 @@
 [![FVM](assets/badges/fvm.svg)](https://fvm.app)
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
-[![Firebase](assets/badges/firebase.svg)](https://firebase.google.com/)
 
 </div>
 
@@ -44,7 +43,6 @@
     <li><a href="#app-architecture-and-folder-structure">App architecture and folder structure</a></li>
     <li><a href="#packages">Packages</a></li>
     <li><a href="#previous-projects">Previous Projects</a></li>
-    <li><a href="#firebase-lab">Firebase Lab</a></li>
     <li><a href="#starters">Starters</a></li>
     <li><a href="#badges">Badges</a></li>
     <li>
@@ -68,7 +66,7 @@
 
 This repository is a playground for practicing Flutter.
 
-Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **lists**, architecture, and a **Firebase** HTTP API — without mixing everything into one project.
+Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **lists**, and architecture — without mixing everything into one project.
 
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -170,6 +168,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
 | [freezed_annotation](https://pub.dev/packages/freezed_annotation) | Annotations for immutable Freezed models. |
 | [json_annotation](https://pub.dev/packages/json_annotation) | Annotations for `fromJson` / `toJson` codegen. |
 | [go_router](https://pub.dev/packages/go_router) | Declarative routes for iOS and web. |
+| [http](https://pub.dev/packages/http) | Real HTTP in the API Integration Lab (`ApiClient`). |
 | [flutter_localizations](https://docs.flutter.dev/ui/internationalization) | Generated EN/DE l10n from ARB files. |
 | [intl](https://pub.dev/packages/intl) | Message and date formatting used by l10n. |
 | [freezed](https://pub.dev/packages/freezed) | Codegen for immutable models and unions (`dev`). |
@@ -200,23 +199,9 @@ Practice project for **Riverpod**: provider types, labs (listen, ConsumerWidget,
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project for **navigation**, **layout**, and **lists**: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers.
+Practice project for **navigation**, **layout**, **lists**, and **API integration**: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers; unified API class, timeouts, and network errors.
 
 [README »](advanced_concepts/README.md)
-
-<p align="right"><a href="#readme-top">back to top</a></p>
-
----
-
-## Firebase Lab
-
-<h3>
-  <a href="firebase_lab/">Firebase Lab »</a>
-</h3>
-
-Own **Firebase** backend for API-service practice: Cloud Functions HTTP + Firestore. Local emulators, optional cloud deploy. Not a Flutter app — no coverage badge.
-
-[README »](firebase_lab/README.md)
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

@@ -9,6 +9,9 @@ sealed class AppFailure implements Exception {
     return switch (exception) {
       NetworkException() => const NetworkFailure(),
       NotFoundException() => const NotFoundFailure(),
+      RequestTimeoutException() => const TimeoutFailure(),
+      UnauthorizedException() => const UnauthorizedFailure(),
+      ServerException() => const ServerFailure(),
     };
   }
 
@@ -29,6 +32,18 @@ final class NetworkFailure extends AppFailure {
 
 final class NotFoundFailure extends AppFailure {
   const NotFoundFailure();
+}
+
+final class TimeoutFailure extends AppFailure {
+  const TimeoutFailure();
+}
+
+final class UnauthorizedFailure extends AppFailure {
+  const UnauthorizedFailure();
+}
+
+final class ServerFailure extends AppFailure {
+  const ServerFailure();
 }
 
 final class UnknownFailure extends AppFailure {

@@ -8,6 +8,7 @@ npm --prefix functions install --omit=dev
 echo
 echo "API:  http://127.0.0.1:5001/noirs-firebase-lab/europe-west1/api"
 echo "UI:   http://127.0.0.1:4000"
+echo "Leave this Terminal open. Then run the Flutter app."
 echo
 
 exec npx firebase emulators:start --only functions,firestore
