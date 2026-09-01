@@ -1,5 +1,4 @@
 import 'package:advanced_concepts/core/errors/app_failure.dart';
-import 'package:advanced_concepts/core/errors/map_to_app_failure.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 
 extension AppFailureMessage on AppFailure {
@@ -13,5 +12,5 @@ extension AppFailureMessage on AppFailure {
 }
 
 String localizedError(AppLocalizations l10n, Object error) {
-  return mapToAppFailure(error).message(l10n);
+  return AppFailure.from(error).message(l10n);
 }

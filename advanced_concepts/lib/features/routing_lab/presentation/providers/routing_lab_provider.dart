@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/core/router/nav_calls.dart';
+import 'package:advanced_concepts/core/router/app_router_calls.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
@@ -51,8 +51,8 @@ class RoutingLabNotifier extends Notifier<RoutingLabState?> {
 
   void detailsOpened(int id) {
     state = RoutingLabState(
-      call: NavCalls.userDetails(id),
-      listCall: state?.listCall ?? NavCalls.pushNamed,
+      call: AppRouterCalls.userDetails(id),
+      listCall: state?.listCall ?? AppRouterCalls.pushNamed,
       stackBelow: state?.stackBelow ?? NavStackBelow.none,
     );
   }
@@ -60,10 +60,10 @@ class RoutingLabNotifier extends Notifier<RoutingLabState?> {
   /// Logs pop, then pops. Pass the router — notifiers have no BuildContext.
   void tryPop(GoRouter router) {
     if (router.canPop()) {
-      logged(NavCalls.pop);
+      logged(AppRouterCalls.pop);
       router.pop();
       return;
     }
-    logged(NavCalls.popBlocked);
+    logged(AppRouterCalls.popBlocked);
   }
 }

@@ -1,6 +1,6 @@
 import 'package:advanced_concepts/core/errors/app_failure_message.dart';
+import 'package:advanced_concepts/core/router/app_router_calls.dart';
 import 'package:advanced_concepts/core/router/app_router_names.dart';
-import 'package:advanced_concepts/core/router/nav_calls.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/providers/routing_lab_provider.dart';
 import 'package:advanced_concepts/features/user_list/presentation/providers/user_list_provider.dart';
 import 'package:advanced_concepts/features/user_list/presentation/widgets/user_list_nav_header.dart';
@@ -33,7 +33,8 @@ class UserListScreen extends ConsumerWidget {
             stackBelow: stackBelow,
             canPop: canPop,
             openedWith:
-                routingLab?.listCall ?? (canPop ? NavCalls.push : NavCalls.go),
+                routingLab?.listCall ??
+                (canPop ? AppRouterCalls.push : AppRouterCalls.go),
             onPop: () => ref
                 .read(routingLabProvider.notifier)
                 .tryPop(GoRouter.of(context)),

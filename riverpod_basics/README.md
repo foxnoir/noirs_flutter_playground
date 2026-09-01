@@ -578,7 +578,7 @@ Thrown objects and UI copy are different types. There is no extra package: Dart 
 
 **Repositories throw `AppFailure`.** They catch **`AppException` only** (same as `on ApiException` in the old dartz repos) and `throw AppFailure.fromException(e)`. That is `Left(ApiFailure.fromException(e))` without dartz. They also map models → entities. Unexpected errors are wrapped as `AppException` **in the data source**, not in the repository. The notifier only stores the failure.
 
-`lib/core/errors/` is the whole set: `app_exception.dart`, `app_failure.dart`, `map_to_app_failure.dart`, `app_failure_message.dart`.
+`lib/core/errors/` is the whole set: `app_exception.dart`, `app_failure.dart`, `app_failure_message.dart`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -595,7 +595,7 @@ Never show `error.toString()`. Never store a magic string like `'fetchUsers'` on
 
 User List has that split: `InMemoryUserListDataSource` throws `AppException`; `InMemoryUserListRepository` maps. A **repository fake** in tests throws `AppFailure` already — it stands in for the repository, not the data source.
 
-`AsyncNotifier` / `FutureProvider` put the thrown object on `AsyncError`. If the repository did its job, that object is already `AppFailure`. **`localizedError`** still runs the mapper so demo notifiers without a repository stay safe.
+`AsyncNotifier` / `FutureProvider` put the thrown object on `AsyncError`. If the repository did its job, that object is already `AppFailure`. **`localizedError`** still runs `AppFailure.from` so demo notifiers without a repository stay safe.
 
 Add User **validation** (`duplicateUserId` / `duplicateEmail`) is not a fetch failure. Those stay as form strings.
 

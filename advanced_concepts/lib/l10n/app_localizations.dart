@@ -725,8 +725,176 @@ abstract class AppLocalizations {
   /// No description provided for @layoutContext.
   ///
   /// In en, this message translates to:
-  /// **'**Expanded** is **Flexible(fit: FlexFit.tight)**. **Flexible** is **loose** — leftover can stay empty. **PreferredSize** tells **Scaffold** how tall **appBar** wants to be. **Row overflow** is the yellow-black stripes; **Expanded** shares leftover width so children fit.'**
+  /// **'**Expanded** is **Flexible(fit: FlexFit.tight)**. **Flexible** is **loose** — leftover can stay empty. **PreferredSize** tells **Scaffold** how tall **appBar** wants to be. **MediaQuery.sizeOf** is the window. **LayoutBuilder** is the parent. **AppBreakpoint** is compact until **600** — mobile first, every layout. **Row overflow** is the yellow-black stripes; **Expanded** shares leftover width so children fit.'**
   String get layoutContext;
+
+  /// No description provided for @layoutWindowWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Window size'**
+  String get layoutWindowWhen;
+
+  /// No description provided for @layoutWindowCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'MediaQuery.sizeOf'**
+  String get layoutWindowCalls;
+
+  /// No description provided for @layoutWindowHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The app window. Resize Chrome. Do not use kIsWeb.'**
+  String get layoutWindowHint;
+
+  /// No description provided for @layoutBuilderWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Parent space'**
+  String get layoutBuilderWhen;
+
+  /// No description provided for @layoutBuilderCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'LayoutBuilder'**
+  String get layoutBuilderCalls;
+
+  /// No description provided for @layoutBuilderHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The parent. A 120-wide box is not the window.'**
+  String get layoutBuilderHint;
+
+  /// No description provided for @layoutMobileFirstWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Default layout'**
+  String get layoutMobileFirstWhen;
+
+  /// No description provided for @layoutMobileFirstCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'compact, then ≥ 600'**
+  String get layoutMobileFirstCalls;
+
+  /// No description provided for @layoutMobileFirstRuleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Mobile first everywhere. AppBreakpoint in theme — not AdaptiveScaffold.'**
+  String get layoutMobileFirstRuleHint;
+
+  /// No description provided for @layoutSizeCompact.
+  ///
+  /// In en, this message translates to:
+  /// **'compact'**
+  String get layoutSizeCompact;
+
+  /// No description provided for @layoutSizeMedium.
+  ///
+  /// In en, this message translates to:
+  /// **'medium'**
+  String get layoutSizeMedium;
+
+  /// No description provided for @layoutSizeExpanded.
+  ///
+  /// In en, this message translates to:
+  /// **'expanded'**
+  String get layoutSizeExpanded;
+
+  /// No description provided for @layoutSizeLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'large'**
+  String get layoutSizeLarge;
+
+  /// No description provided for @layoutSizeExtraLarge.
+  ///
+  /// In en, this message translates to:
+  /// **'extra-large'**
+  String get layoutSizeExtraLarge;
+
+  /// No description provided for @layoutBreakpointTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakpoints'**
+  String get layoutBreakpointTitle;
+
+  /// No description provided for @layoutBreakpointHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakpoints are numbers in AppBreakpoint. MediaQuery does not jump — it only reports the window. This Column/Row jumps at 600 of the parent. Ticks are 600, 840, 1200, 1600.'**
+  String get layoutBreakpointHint;
+
+  /// No description provided for @layoutBreakpointCall.
+  ///
+  /// In en, this message translates to:
+  /// **'if (AppBreakpoint.fromWidth(parentWidth).isCompact) Column else Row'**
+  String get layoutBreakpointCall;
+
+  /// No description provided for @layoutBreakpointChip.
+  ///
+  /// In en, this message translates to:
+  /// **'parent {width}  ·  {name}'**
+  String layoutBreakpointChip(int width, String name);
+
+  /// No description provided for @layoutBreakpointWindowChip.
+  ///
+  /// In en, this message translates to:
+  /// **'window {width}  ·  {name}'**
+  String layoutBreakpointWindowChip(int width, String name);
+
+  /// No description provided for @layoutBuilderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'LayoutBuilder vs MediaQuery'**
+  String get layoutBuilderTitle;
+
+  /// No description provided for @layoutBuilderWrongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  child width = MediaQuery.sizeOf'**
+  String get layoutBuilderWrongTitle;
+
+  /// No description provided for @layoutBuilderWrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The parent is 120. MediaQuery.sizeOf is the window. Same yellow-black as Row overflow.'**
+  String get layoutBuilderWrongHint;
+
+  /// No description provided for @layoutBuilderRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  child width = LayoutBuilder'**
+  String get layoutBuilderRightTitle;
+
+  /// No description provided for @layoutBuilderRightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'LayoutBuilder.maxWidth is 120. The child is 120. No stripes.'**
+  String get layoutBuilderRightHint;
+
+  /// No description provided for @layoutBuilderCallWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'SizedBox(width: MediaQuery.sizeOf(context).width)'**
+  String get layoutBuilderCallWrong;
+
+  /// No description provided for @layoutBuilderCallRight.
+  ///
+  /// In en, this message translates to:
+  /// **'SizedBox(width: constraints.maxWidth)'**
+  String get layoutBuilderCallRight;
+
+  /// No description provided for @layoutBuilderPaneChip.
+  ///
+  /// In en, this message translates to:
+  /// **'parent {parent}  ·  child {child}'**
+  String layoutBuilderPaneChip(int parent, int child);
+
+  /// No description provided for @layoutBuilderStripe.
+  ///
+  /// In en, this message translates to:
+  /// **'RIGHT OVERFLOWED BY {pixels} PIXELS'**
+  String layoutBuilderStripe(int pixels);
 
   /// No description provided for @layoutOverflowTitle.
   ///

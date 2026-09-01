@@ -1,6 +1,7 @@
 import 'package:advanced_concepts/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
+export 'package:advanced_concepts/core/theme/app_breakpoint.dart';
 export 'package:advanced_concepts/core/theme/app_color.dart';
 
 ThemeData getLightTheme() {

@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/core/router/nav_calls.dart';
+import 'package:advanced_concepts/core/router/app_router_calls.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/providers/routing_lab_provider.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/widgets/routing_lab_nav_tile.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
@@ -50,7 +50,7 @@ class UserListNavHeader extends StatelessWidget {
           Text(_canPopCopy(l10n), style: textTheme.bodySmall),
           const SizedBox(height: 8),
           RoutingLabNavTile(
-            call: NavCalls.pop,
+            call: AppRouterCalls.pop,
             caption: canPop
                 ? l10n.userListPopCaptionCan
                 : l10n.userListPopCaptionCannot,

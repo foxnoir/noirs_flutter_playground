@@ -4,8 +4,10 @@ import 'package:advanced_concepts/features/routing_lab/presentation/widgets/rout
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter_web_plugins/url_strategy.dart';
 
 void main() {
+  usePathUrlStrategy();
   runApp(const ProviderScope(child: AdvancedConceptsApp()));
 }
 

@@ -88,5 +88,11 @@
     "file": "x.svg",
     "url": "x-url",
     "href": "https://twitter.com/_foxnoir_?lang=de"
+  },
+  {
+    "image": "firebase",
+    "file": "firebase.svg",
+    "url": "firebase-url",
+    "href": "https://firebase.google.com/"
   }
 ]

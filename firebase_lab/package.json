@@ -1,0 +1,12 @@
+{
+  "name": "firebase_lab",
+  "private": true,
+  "scripts": {
+    "start": "firebase emulators:start --only functions,firestore",
+    "deploy": "firebase deploy --only functions,firestore",
+    "test": "npm --prefix functions test"
+  },
+  "devDependencies": {
+    "firebase-tools": "^14.15.1"
+  }
+}

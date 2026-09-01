@@ -1,0 +1,16 @@
+# Dependencies
+node_modules/
+functions/node_modules/
+
+# Firebase / emulator
+firebase-debug.log
+firebase-debug.*.log
+firestore-debug.log
+ui-debug.log
+pubsub-debug.log
+.emulator/
+emulator_data/
+*.local
+
+# npm
+npm-debug.log*

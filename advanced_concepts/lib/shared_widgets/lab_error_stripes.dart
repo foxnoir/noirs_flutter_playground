@@ -2,11 +2,10 @@ import 'package:flutter/material.dart';
 
 /// Flutter-debug overflow look, without throwing so the lab page stays up.
 class LabErrorStripes extends StatelessWidget {
-  const LabErrorStripes({required this.message, super.key});
+  const LabErrorStripes({required this.message, this.height = 108, super.key});
 
   final String message;
-
-  static const height = 108.0;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -16,11 +15,16 @@ class LabErrorStripes extends StatelessWidget {
       child: CustomPaint(
         painter: const _LabErrorStripePainter(),
         child: Padding(
-          padding: const EdgeInsets.all(12),
+          padding: EdgeInsets.symmetric(
+            horizontal: 8,
+            vertical: height < 72 ? 4 : 12,
+          ),
           child: Center(
             child: Text(
               message,
               textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.labelLarge?.copyWith(
                 color: Colors.white,
                 fontWeight: FontWeight.w700,

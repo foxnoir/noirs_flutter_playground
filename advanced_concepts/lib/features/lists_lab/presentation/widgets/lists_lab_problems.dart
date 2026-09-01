@@ -19,10 +19,7 @@ class ListsLabProblems extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          l10n.listsProblemEagerTitle,
-          style: textTheme.titleSmall,
-        ),
+        Text(l10n.listsProblemEagerTitle, style: textTheme.titleSmall),
         const SizedBox(height: 4),
         Text(l10n.listsProblemEagerCaption, style: textTheme.bodySmall),
         const SizedBox(height: 8),
@@ -51,10 +48,7 @@ class ListsLabProblems extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 20),
-        Text(
-          l10n.listsProblemUnboundedTitle,
-          style: textTheme.titleSmall,
-        ),
+        Text(l10n.listsProblemUnboundedTitle, style: textTheme.titleSmall),
         const SizedBox(height: 4),
         Text(l10n.listsProblemUnboundedCaption, style: textTheme.bodySmall),
         const SizedBox(height: 8),
@@ -114,10 +108,7 @@ class ListsLabProblems extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 20),
-        Text(
-          l10n.listsProblemShrinkTitle,
-          style: textTheme.titleSmall,
-        ),
+        Text(l10n.listsProblemShrinkTitle, style: textTheme.titleSmall),
         const SizedBox(height: 4),
         Text(l10n.listsProblemShrinkBody, style: textTheme.bodySmall),
       ],

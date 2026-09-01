@@ -60,6 +60,7 @@ BADGES: list[tuple[str, str, str, str]] = [
     ("linkedin", "LinkedIn", "#0A66C2", "official LinkedIn"),
     ("instagram", "Instagram", "#8B5FBF", "lilac (same family as Riverpod)"),
     ("x", "X", "#7EB8D6", "pastel light blue (replaces black)"),
+    ("firebase", "Firebase", "#039BE5", "Firebase blue (replaces yellow/orange)"),
 ]
 
 

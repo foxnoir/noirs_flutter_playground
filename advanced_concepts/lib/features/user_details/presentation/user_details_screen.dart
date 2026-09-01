@@ -1,5 +1,5 @@
 import 'package:advanced_concepts/core/errors/app_failure_message.dart';
-import 'package:advanced_concepts/core/router/nav_calls.dart';
+import 'package:advanced_concepts/core/router/app_router_calls.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/providers/routing_lab_provider.dart';
 import 'package:advanced_concepts/features/user_details/presentation/providers/user_details_provider.dart';
 import 'package:advanced_concepts/features/user_details/presentation/widgets/user_details_body.dart';
@@ -63,7 +63,7 @@ class UserDetailsScreen extends ConsumerWidget {
               style: Theme.of(context).textTheme.labelMedium,
             ),
             const SizedBox(height: 4),
-            CodeSnippet(NavCalls.userDetails(id)),
+            CodeSnippet(AppRouterCalls.userDetails(id)),
             const SizedBox(height: 16),
             UserDetailsBody(user: user),
           ],

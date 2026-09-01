@@ -13,7 +13,7 @@
   <img src="assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Noir's Flutter Playground</h1>
   <p>
-     Practice projects for Flutter — Riverpod, navigation, layout, lists, and architecture.
+     Practice projects for Flutter — Riverpod, navigation, layout, lists, architecture, and a Firebase API.
   </p>
 </div>
 
@@ -33,6 +33,7 @@
 [![FVM](assets/badges/fvm.svg)](https://fvm.app)
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
+[![Firebase](assets/badges/firebase.svg)](https://firebase.google.com/)
 
 </div>
 
@@ -43,6 +44,7 @@
     <li><a href="#app-architecture-and-folder-structure">App architecture and folder structure</a></li>
     <li><a href="#packages">Packages</a></li>
     <li><a href="#previous-projects">Previous Projects</a></li>
+    <li><a href="#firebase-lab">Firebase Lab</a></li>
     <li><a href="#starters">Starters</a></li>
     <li><a href="#badges">Badges</a></li>
     <li>
@@ -66,7 +68,7 @@
 
 This repository is a playground for practicing Flutter.
 
-Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **lists**, and architecture — without mixing everything into one project.
+Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **lists**, architecture, and a **Firebase** HTTP API — without mixing everything into one project.
 
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -149,7 +151,7 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 - **widgets/** — feature-local UI.
 - **feature_screen.dart** — the screen for that feature (`*Screen`). Riverpod Basics landing is still `LandingPage`.
 
-`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both practice projects). Advanced Concepts also has `CodeSnippet` (monospace Dart), `NavStackPreview` (stack diagram on User List / User Details), `LabCompareFrame` (wrong vs works), and `LabErrorStripes` (Flutter-style overflow paint without crashing the page). `core/` holds app-wide routing, theme, and similar infrastructure. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
+`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both practice projects). Advanced Concepts also has `CodeSnippet` (monospace Dart), `NavStackPreview` (stack diagram on User List / User Details), `LabCompareFrame` (wrong vs works), `LabErrorStripes` (Flutter-style overflow paint without crashing the page), and `LabScreenBody` (`LayoutBuilder` caps width at 840 for web). `core/` holds app-wide routing, theme, and similar infrastructure. Breakpoints are `AppBreakpoint` in `core/theme/` (Material 3: compact below 600, medium 600, expanded 840, large 1200, extra-large 1600) — not AdaptiveScaffold. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
 
 Data sources and repositories are named after the feature: `InMemoryUserListDataSource`, `InMemoryUserListRepository` (not a generic `UserRepository`).
 
@@ -198,9 +200,23 @@ Practice project for **Riverpod**: provider types, labs (listen, ConsumerWidget,
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project for **navigation**, **layout**, and **lists**: go, push, pop, replace; Flexible vs Expanded, PreferredSize; ListView / GridView / slivers.
+Practice project for **navigation**, **layout**, and **lists**: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers.
 
 [README »](advanced_concepts/README.md)
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Firebase Lab
+
+<h3>
+  <a href="firebase_lab/">Firebase Lab »</a>
+</h3>
+
+Own **Firebase** backend for API-service practice: Cloud Functions HTTP + Firestore. Local emulators, optional cloud deploy. Not a Flutter app — no coverage badge.
+
+[README »](firebase_lab/README.md)
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -252,6 +268,7 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 | `linkedin.svg` | `#06386B` → `#0A66C2` → `#80AFDF` | official LinkedIn |
 | `instagram.svg` | `#4C3469` → `#8B5FBF` → `#C3ACDE` | lilac |
 | `x.svg` | `#456576` → `#7EB8D6` → `#BCDAEA` | pastel light blue |
+| `firebase.svg` | `#02557E` → `#039BE5` → `#7CCBF1` | Firebase blue (replaces yellow/orange) |
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
