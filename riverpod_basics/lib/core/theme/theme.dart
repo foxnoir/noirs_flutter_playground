@@ -15,6 +15,24 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
       fontWeight: FontWeight.w600,
       color: AppColor.teal,
     ),
+
+    /// Lab subsection titles.
+    titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+
+    /// Body copy.
+    bodyMedium: TextStyle(fontSize: 14),
+
+    /// Captions and hints.
+    bodySmall: TextStyle(fontSize: 12, height: 1.35),
+
+    /// Buttons, chips, list labels.
+    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+
+    /// Compact labels.
+    labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+
+    /// Tiny labels.
+    labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
   );
 
   return ThemeData(
@@ -25,12 +43,9 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
       foregroundColor: colorScheme.onPrimaryContainer,
       elevation: 0,
     ),
-    snackBarTheme: const SnackBarThemeData(
+    snackBarTheme: SnackBarThemeData(
       backgroundColor: AppColor.tertiary,
-      contentTextStyle: TextStyle(
-        color: AppColor.teal,
-        fontWeight: FontWeight.w600,
-      ),
+      contentTextStyle: textTheme.labelLarge?.copyWith(color: AppColor.teal),
       behavior: SnackBarBehavior.floating,
     ),
   );

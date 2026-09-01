@@ -15,6 +15,24 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
       fontWeight: FontWeight.w600,
       color: AppColor.teal,
     ),
+
+    /// Lab subsection titles.
+    titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
+
+    /// Rules and body copy.
+    bodyMedium: TextStyle(fontSize: 14),
+
+    /// Captions, hints, [CodeSnippet] size.
+    bodySmall: TextStyle(fontSize: 12, height: 1.35),
+
+    /// Cells, chips, nav calls.
+    labelLarge: TextStyle(fontSize: 14, fontWeight: FontWeight.w600),
+
+    /// SegmentedButton labels.
+    labelMedium: TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
+
+    /// Tiny labels (leftover, overflow chips).
+    labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
   );
 
   return ThemeData(
@@ -25,21 +43,16 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
       foregroundColor: colorScheme.onPrimaryContainer,
       elevation: 0,
     ),
-    segmentedButtonTheme: const SegmentedButtonThemeData(
+    segmentedButtonTheme: SegmentedButtonThemeData(
       style: ButtonStyle(
-        textStyle: WidgetStatePropertyAll(
-          TextStyle(fontSize: 12, fontWeight: FontWeight.w500),
-        ),
+        textStyle: WidgetStatePropertyAll(textTheme.labelMedium),
         visualDensity: VisualDensity.compact,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
       ),
     ),
-    snackBarTheme: const SnackBarThemeData(
+    snackBarTheme: SnackBarThemeData(
       backgroundColor: AppColor.tertiary,
-      contentTextStyle: TextStyle(
-        color: AppColor.teal,
-        fontWeight: FontWeight.w600,
-      ),
+      contentTextStyle: textTheme.labelLarge?.copyWith(color: AppColor.teal),
       behavior: SnackBarBehavior.floating,
     ),
   );
@@ -64,4 +77,9 @@ ColorScheme _getColorScheme() {
     errorContainer: AppColor.errorContainer,
     onErrorContainer: AppColor.onErrorContainer,
   );
+}
+
+extension AdvancedConceptsTextTheme on TextTheme {
+  /// Dart snippets. Size comes from [bodySmall]; family is code-only.
+  TextStyle get code => bodySmall!.copyWith(fontFamily: 'monospace');
 }

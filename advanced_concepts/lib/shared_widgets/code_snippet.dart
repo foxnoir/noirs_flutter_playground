@@ -1,3 +1,4 @@
+import 'package:advanced_concepts/core/theme/theme.dart';
 import 'package:flutter/material.dart';
 
 class CodeSnippet extends StatelessWidget {
@@ -8,13 +9,11 @@ class CodeSnippet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final base = DefaultTextStyle.of(context).style;
-
     return Text(
       text,
       maxLines: maxLines,
       overflow: maxLines == null ? TextOverflow.visible : TextOverflow.ellipsis,
-      style: base.copyWith(fontFamily: 'monospace', fontSize: 12, height: 1.35),
+      style: Theme.of(context).textTheme.code,
     );
   }
 }
