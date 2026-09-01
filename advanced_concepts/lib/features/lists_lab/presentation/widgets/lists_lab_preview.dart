@@ -109,7 +109,7 @@ class _SliverHeader extends StatelessWidget {
           style: Theme.of(context).textTheme.labelLarge?.copyWith(
             fontFamily: 'monospace',
             fontWeight: FontWeight.w600,
-            color: Colors.white,
+            color: Theme.of(context).textTheme.titleLarge?.color,
           ),
         ),
       ),

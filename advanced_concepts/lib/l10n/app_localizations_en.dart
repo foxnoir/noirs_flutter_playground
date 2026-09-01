@@ -349,7 +349,108 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get layoutContext =>
-      '**Expanded** is **Flexible(fit: FlexFit.tight)**. **Flexible** is **loose** — leftover can stay empty. **PreferredSize** tells **Scaffold** how tall **appBar** wants to be. **Row overflow** is the yellow-black stripes; **Expanded** shares leftover width so children fit.';
+      '**Expanded** is **Flexible(fit: FlexFit.tight)**. **Flexible** is **loose** — leftover can stay empty. **PreferredSize** tells **Scaffold** how tall **appBar** wants to be. **MediaQuery.sizeOf** is the window. **LayoutBuilder** is the parent. **AppBreakpoint** is compact until **600** — mobile first, every layout. **Row overflow** is the yellow-black stripes; **Expanded** shares leftover width so children fit.';
+
+  @override
+  String get layoutWindowWhen => 'Window size';
+
+  @override
+  String get layoutWindowCalls => 'MediaQuery.sizeOf';
+
+  @override
+  String get layoutWindowHint =>
+      'The app window. Resize Chrome. Do not use kIsWeb.';
+
+  @override
+  String get layoutBuilderWhen => 'Parent space';
+
+  @override
+  String get layoutBuilderCalls => 'LayoutBuilder';
+
+  @override
+  String get layoutBuilderHint =>
+      'The parent. A 120-wide box is not the window.';
+
+  @override
+  String get layoutMobileFirstWhen => 'Default layout';
+
+  @override
+  String get layoutMobileFirstCalls => 'compact, then ≥ 600';
+
+  @override
+  String get layoutMobileFirstRuleHint =>
+      'Mobile first everywhere. AppBreakpoint in theme — not AdaptiveScaffold.';
+
+  @override
+  String get layoutSizeCompact => 'compact';
+
+  @override
+  String get layoutSizeMedium => 'medium';
+
+  @override
+  String get layoutSizeExpanded => 'expanded';
+
+  @override
+  String get layoutSizeLarge => 'large';
+
+  @override
+  String get layoutSizeExtraLarge => 'extra-large';
+
+  @override
+  String get layoutBreakpointTitle => 'Breakpoints';
+
+  @override
+  String get layoutBreakpointHint =>
+      'Breakpoints are numbers in AppBreakpoint. MediaQuery does not jump — it only reports the window. This Column/Row jumps at 600 of the parent. Ticks are 600, 840, 1200, 1600.';
+
+  @override
+  String get layoutBreakpointCall =>
+      'if (AppBreakpoint.fromWidth(parentWidth).isCompact) Column else Row';
+
+  @override
+  String layoutBreakpointChip(int width, String name) {
+    return 'parent $width  ·  $name';
+  }
+
+  @override
+  String layoutBreakpointWindowChip(int width, String name) {
+    return 'window $width  ·  $name';
+  }
+
+  @override
+  String get layoutBuilderTitle => 'LayoutBuilder vs MediaQuery';
+
+  @override
+  String get layoutBuilderWrongTitle =>
+      'wrong  ·  child width = MediaQuery.sizeOf';
+
+  @override
+  String get layoutBuilderWrongHint =>
+      'The parent is 120. MediaQuery.sizeOf is the window. Same yellow-black as Row overflow.';
+
+  @override
+  String get layoutBuilderRightTitle => 'works  ·  child width = LayoutBuilder';
+
+  @override
+  String get layoutBuilderRightHint =>
+      'LayoutBuilder.maxWidth is 120. The child is 120. No stripes.';
+
+  @override
+  String get layoutBuilderCallWrong =>
+      'SizedBox(width: MediaQuery.sizeOf(context).width)';
+
+  @override
+  String get layoutBuilderCallRight => 'SizedBox(width: constraints.maxWidth)';
+
+  @override
+  String layoutBuilderPaneChip(int parent, int child) {
+    return 'parent $parent  ·  child $child';
+  }
+
+  @override
+  String layoutBuilderStripe(int pixels) {
+    return 'RIGHT OVERFLOWED BY $pixels PIXELS';
+  }
 
   @override
   String get layoutOverflowTitle => 'Row overflow';

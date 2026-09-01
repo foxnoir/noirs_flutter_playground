@@ -17,10 +17,7 @@ class LayoutLabPreferredSize extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          l10n.layoutPreferredTitle,
-          style: textTheme.titleSmall,
-        ),
+        Text(l10n.layoutPreferredTitle, style: textTheme.titleSmall),
         const SizedBox(height: 8),
         LabCompareFrame(
           ok: true,

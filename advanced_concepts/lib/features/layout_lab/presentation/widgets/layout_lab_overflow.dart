@@ -17,10 +17,7 @@ class LayoutLabOverflow extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          l10n.layoutOverflowTitle,
-          style: textTheme.titleSmall,
-        ),
+        Text(l10n.layoutOverflowTitle, style: textTheme.titleSmall),
         const SizedBox(height: 8),
         LabCompareFrame(
           ok: false,

@@ -11,6 +11,16 @@ sealed class AppFailure implements Exception {
       NotFoundException() => const NotFoundFailure(),
     };
   }
+
+  /// For UI / demo notifiers that have no repository.
+  /// Repositories use [AppFailure.fromException] on [AppException] only.
+  factory AppFailure.from(Object error) {
+    return switch (error) {
+      AppFailure() => error,
+      AppException() => AppFailure.fromException(error),
+      _ => const UnknownFailure(),
+    };
+  }
 }
 
 final class NetworkFailure extends AppFailure {

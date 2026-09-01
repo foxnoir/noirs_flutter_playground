@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Advanced Concepts</h1>
   <p>
-     Practice project for navigation, layout, and lists: go, push, pop, replace; Flexible vs Expanded, PreferredSize; ListView / GridView / slivers.
+     Practice project for navigation, layout, and lists: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers.
   </p>
 </div>
 
@@ -33,6 +33,7 @@
 [![Very Good Analysis](../assets/badges/very_good.svg)](https://pub.dev/packages/very_good_analysis)
 [![FVM](../assets/badges/fvm.svg)](https://fvm.app)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
+[![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
 </div>
 
@@ -54,6 +55,8 @@
       <ul>
         <li><a href="#flexible-vs-expanded">Flexible vs Expanded</a></li>
         <li><a href="#preferredsize">PreferredSize</a></li>
+        <li><a href="#layoutbuilder-vs-mediaquery">LayoutBuilder vs MediaQuery</a></li>
+        <li><a href="#breakpoints">Breakpoints</a></li>
       </ul>
     </li>
     <li>
@@ -82,13 +85,14 @@
 
 This project is the **navigation**, **layout**, and **lists** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, and **PreferredSize**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
 
 Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
+[![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-There is no Android project or Chrome. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26.5).
+There is no Android project. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26.5) or Chrome. Layout is **mobile first** everywhere: compact is the default, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. There is no AdaptiveScaffold — breakpoints are the `AppBreakpoint` enum.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -181,9 +185,9 @@ The lab shows **go**, **push**, **pop**, and **replace** on `context`, plus **go
 
 ## Layout
 
-**Flexible**, **Expanded**, and **PreferredSize** are about *constraints*, not scrolling. A `Row` / `Column` splits leftover space among flex children. `Scaffold.appBar` (and `bottomNavigationBar`) does not: it asks the widget for a **preferred** height, then lays out `body` in what is left.
+**Flexible**, **Expanded**, **PreferredSize**, **LayoutBuilder**, and **MediaQuery** are about *constraints*, not scrolling. A `Row` / `Column` splits leftover space among flex children. `Scaffold.appBar` (and `bottomNavigationBar`) does not: it asks the widget for a **preferred** height, then lays out `body` in what is left. **MediaQuery.sizeOf** is the app **window**. **LayoutBuilder** is the **parent**. **AppBreakpoint** maps that width to compact / medium / expanded / large / extra-large. Compact is the default (mobile first).
 
-The Layout Lab (`lib/features/layout_lab/`) is a short rule list and three live pictures, in that order: **Flexible vs Expanded** (leftover labeled), **PreferredSize** (AppBar 56 vs custom 96 stacked), then **wrong vs works** Row overflow (yellow-black stripes vs `Expanded`). AppBar is **Layout**.
+The Layout Lab (`lib/features/layout_lab/`) is a short rule list and live pictures, in that order: **Flexible vs Expanded** (leftover labeled), **PreferredSize** (AppBar 56 vs custom 96 stacked), **LayoutBuilder vs MediaQuery** (120-wide parent: overflow stripes vs a child that fits), **Breakpoints** (compact Column, Row from 600), then **wrong vs works** Row overflow (yellow-black stripes vs `Expanded`). AppBar is **Layout**. Breakpoints live in `lib/core/theme/app_breakpoint.dart` (Material 3 compact / medium / expanded / large / extra-large). Not AdaptiveScaffold. Lab screens cap copy at 840 (`LabScreenBody`) so a wide Chrome window does not stretch the text. Mobile first is the default for every layout, not a separate trick.
 
 ### Flexible vs Expanded
 
@@ -222,6 +226,42 @@ appBar: PreferredSize(
 `preferredSize` is a **hint** to the parent. If the child is shorter, you get empty space in the bar. If the child is taller, it overflows. The lab’s nested Scaffold switches **AppBar** (`56` when `primary: false`) and **PreferredSize 96** so the body shrinks as the bar grows.
 
 Do not use `PreferredSize` as a `Row` / `Column` child to “give a size”. That is `SizedBox` / `Flexible` / `Expanded`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### LayoutBuilder vs MediaQuery
+
+They answer different questions. Use the one that matches the question.
+
+| | Reads | Use when |
+| --- | --- | --- |
+| `MediaQuery.sizeOf(context)` | The **window** | App-level chrome: how wide is this Flutter view? Prefer `sizeOf` over `MediaQuery.of(context).size` so unrelated MediaQuery fields do not rebuild you. |
+| `LayoutBuilder` | The **parent** | A widget that might sit in a pane, a sidebar, or a capped body. `constraints.maxWidth` is the space you actually got. |
+
+A 120-wide parent inside a 400-wide phone still has **120** pixels. `LayoutBuilder` says so. `MediaQuery.sizeOf` still says **400**. If the child uses that 400 as its width, it overflows — yellow-black stripes, even on a phone.
+
+Do **not** switch layouts with `kIsWeb`, `Platform.isIOS`, or `OrientationBuilder` at the app root. Chrome can be phone-sized. A phone can be landscape. Layout from **width**.
+
+The lab’s **wrong** box paints the same yellow-black overflow as Row overflow. The **works** box is a 120-wide child. No need to resize Chrome.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Breakpoints
+
+There is no `AdaptiveScaffold` here. Breakpoints are **numbers** in `AppBreakpoint` (`lib/core/theme/app_breakpoint.dart`): **600**, **840**, **1200**, **1600**. `fromWidth` maps a width onto compact / medium / expanded / large / extra-large. **Nothing jumps by itself.** `MediaQuery.sizeOf` only reports the window. A widget jumps when it compares: this lab’s tiles use the **parent** (`LayoutBuilder`) and switch Column → Row at **600** (`isCompact`).
+
+`LabScreenBody` caps the parent at 840. On a wide Chrome window the **window** marker can sit in large while the **parent** marker stops near 840 — that is why the two lines can disagree.
+
+```dart
+if (AppBreakpoint.fromWidth(parentWidth).isCompact) {
+  return Column(children: [a, b]);
+}
+return Row(children: [Expanded(child: a), Expanded(child: b)]);
+```
+
+On iPhone 17 Pro both markers sit in compact and the tiles stack. Widen Chrome past 600: parent crosses 600, tiles go to a row. Keep widening: window keeps moving, parent stops at the 840 cap.
+
+Path URLs (`usePathUrlStrategy`) so Chrome shows `/layout`, not `/#/layout`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -298,11 +338,17 @@ fvm flutter pub get
 fvm flutter run
 ```
 
-`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5). There is no Android project or Chrome.
+`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5) — mobile first. For web:
+
+```
+fvm flutter run -d chrome
+```
+
+Chrome shows path URLs (`/layout`). There is no Android project. A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `intl`, `cupertino_icons`. Dev: `riverpod_lint`, `very_good_analysis`.
+Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `intl`, `cupertino_icons`, `flutter_web_plugins`. Dev: `riverpod_lint`, `very_good_analysis`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -310,14 +356,14 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded and PreferredSize. **Lists** opens the Lists Lab preview (ListView / GridView / Sliver).
+`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**86.2%** line coverage (1160 of 1346 lines).
+**85.9%** line coverage (1360 of 1583 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -351,6 +397,11 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 - [Flexible](https://api.flutter.dev/flutter/widgets/Flexible-class.html)
 - [Expanded](https://api.flutter.dev/flutter/widgets/Expanded-class.html)
 - [PreferredSize](https://api.flutter.dev/flutter/widgets/PreferredSize-class.html)
+- [LayoutBuilder](https://api.flutter.dev/flutter/widgets/LayoutBuilder-class.html)
+- [MediaQuery.sizeOf](https://api.flutter.dev/flutter/widgets/MediaQuery/sizeOf.html)
+- [Adaptive and responsive design](https://docs.flutter.dev/ui/adaptive-responsive)
+- [Material 3 breakpoints](https://m3.material.io/foundations/layout/breakpoints/overview)
+- [Flutter web](https://docs.flutter.dev/platform-integration/web)
 - [ListView](https://api.flutter.dev/flutter/widgets/ListView-class.html)
 - [GridView](https://api.flutter.dev/flutter/widgets/GridView-class.html)
 - [Sliver overview](https://docs.flutter.dev/ui/layout/scrolling/slivers)

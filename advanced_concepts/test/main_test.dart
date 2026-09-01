@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/core/router/nav_calls.dart';
+import 'package:advanced_concepts/core/router/app_router_calls.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
@@ -58,14 +58,14 @@ void main() {
 
     expect(find.byType(RoutingLabScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Navigation'), findsOneWidget);
-    expect(find.text(NavCalls.go), findsOneWidget);
-    expect(find.text(NavCalls.goNamed), findsOneWidget);
-    expect(find.text(NavCalls.push), findsOneWidget);
-    expect(find.text(NavCalls.pushNamed), findsOneWidget);
-    expect(find.text(NavCalls.goViaRouter), findsOneWidget);
-    expect(find.text(NavCalls.pushNamedViaRouter), findsOneWidget);
-    expect(find.text(NavCalls.pop), findsOneWidget);
-    expect(find.text(NavCalls.replaceNamed), findsOneWidget);
+    expect(find.text(AppRouterCalls.go), findsOneWidget);
+    expect(find.text(AppRouterCalls.goNamed), findsOneWidget);
+    expect(find.text(AppRouterCalls.push), findsOneWidget);
+    expect(find.text(AppRouterCalls.pushNamed), findsOneWidget);
+    expect(find.text(AppRouterCalls.goViaRouter), findsOneWidget);
+    expect(find.text(AppRouterCalls.pushNamedViaRouter), findsOneWidget);
+    expect(find.text(AppRouterCalls.pop), findsOneWidget);
+    expect(find.text(AppRouterCalls.replaceNamed), findsOneWidget);
   });
 
   testWidgets('pushNamed keeps Routing Lab on the stack; goNamed does not', (
@@ -80,7 +80,7 @@ void main() {
     );
 
     await _openRoutingLab(tester);
-    await tester.tap(find.text(NavCalls.pushNamed));
+    await tester.tap(find.text(AppRouterCalls.pushNamed));
     await tester.pumpAndSettle();
 
     expect(find.byType(UserListScreen), findsOneWidget);
@@ -88,7 +88,7 @@ void main() {
       GoRouter.of(tester.element(find.byType(UserListScreen))).canPop(),
       isTrue,
     );
-    expect(find.text(NavCalls.pushNamed), findsWidgets);
+    expect(find.text(AppRouterCalls.pushNamed), findsWidgets);
     expect(find.text('Routing Lab'), findsWidgets);
     expect(find.text('you are here'), findsOneWidget);
 
@@ -96,7 +96,7 @@ void main() {
     await tester.pumpAndSettle();
     expect(find.byType(RoutingLabScreen), findsOneWidget);
 
-    await tester.tap(find.text(NavCalls.goNamed));
+    await tester.tap(find.text(AppRouterCalls.goNamed));
     await tester.pumpAndSettle();
 
     expect(find.byType(UserListScreen), findsOneWidget);
@@ -120,7 +120,7 @@ void main() {
     );
 
     await _openRoutingLab(tester);
-    await tester.tap(find.text(NavCalls.goNamed));
+    await tester.tap(find.text(AppRouterCalls.goNamed));
     await tester.pumpAndSettle();
     expect(find.byType(UserListScreen), findsOneWidget);
 
@@ -136,8 +136,8 @@ void main() {
     await _openRoutingLab(tester);
     expect(find.byType(RoutingLabScreen), findsOneWidget);
 
-    await tester.ensureVisible(find.text(NavCalls.pop));
-    await tester.tap(find.text(NavCalls.pop));
+    await tester.ensureVisible(find.text(AppRouterCalls.pop));
+    await tester.tap(find.text(AppRouterCalls.pop));
     await tester.pumpAndSettle();
     expect(find.byType(LandingScreen), findsOneWidget);
   });
@@ -154,8 +154,8 @@ void main() {
       );
 
       await _openRoutingLab(tester);
-      await tester.ensureVisible(find.text(NavCalls.replaceNamed));
-      await tester.tap(find.text(NavCalls.replaceNamed));
+      await tester.ensureVisible(find.text(AppRouterCalls.replaceNamed));
+      await tester.tap(find.text(AppRouterCalls.replaceNamed));
       await tester.pumpAndSettle();
 
       expect(find.byType(UserListScreen), findsOneWidget);
@@ -183,20 +183,20 @@ void main() {
     );
 
     await _openRoutingLab(tester);
-    await tester.tap(find.text(NavCalls.goNamed));
+    await tester.tap(find.text(AppRouterCalls.goNamed));
     await tester.pumpAndSettle();
     expect(find.byType(UserListScreen), findsOneWidget);
 
     await tester.tap(
       find.descendant(
         of: find.byType(UserListScreen),
-        matching: find.text(NavCalls.pop),
+        matching: find.text(AppRouterCalls.pop),
       ),
     );
     await tester.pumpAndSettle();
 
     expect(find.byType(UserListScreen), findsOneWidget);
-    expect(find.text(NavCalls.popBlocked), findsOneWidget);
+    expect(find.text(AppRouterCalls.popBlocked), findsOneWidget);
   });
 
   testWidgets('User List pushNamed opens User Details', (tester) async {
@@ -213,14 +213,14 @@ void main() {
     );
 
     await _openRoutingLab(tester);
-    await tester.tap(find.text(NavCalls.pushNamed));
+    await tester.tap(find.text(AppRouterCalls.pushNamed));
     await tester.pumpAndSettle();
     await tester.tap(find.text('Ada'));
     await tester.pumpAndSettle();
 
     expect(find.byType(UserDetailsScreen), findsOneWidget);
     expect(find.text('ada@example.com'), findsOneWidget);
-    expect(find.text(NavCalls.userDetails(1)), findsWidgets);
+    expect(find.text(AppRouterCalls.userDetails(1)), findsWidgets);
   });
 
   testWidgets('Unknown path shows NotFoundScreen', (tester) async {

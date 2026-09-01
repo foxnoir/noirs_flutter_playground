@@ -37,6 +37,14 @@
       },
       "emulatorId": "apple_ios_simulator",
       "preLaunchTask": "Boot iPhone 17 Pro Simulator"
+    },
+    {
+      "name": "Advanced Concepts (Chrome)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}/advanced_concepts",
+      "program": "lib/main.dart",
+      "deviceId": "chrome"
     }
   ]
 }

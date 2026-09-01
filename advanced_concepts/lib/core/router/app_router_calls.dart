@@ -1,5 +1,5 @@
 /// Exact GoRouter calls shown in the lab UI (not localized — they are Dart).
-abstract final class NavCalls {
+abstract final class AppRouterCalls {
   static const go = "context.go('/user-list')";
   static const goNamed = "context.goNamed('userList')";
   static const push = "context.push('/user-list')";

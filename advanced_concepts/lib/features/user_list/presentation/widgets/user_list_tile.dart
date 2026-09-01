@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/core/router/nav_calls.dart';
+import 'package:advanced_concepts/core/router/app_router_calls.dart';
 import 'package:advanced_concepts/features/user_list/domain/entities/user.dart';
 import 'package:advanced_concepts/shared_widgets/code_snippet.dart';
 import 'package:advanced_concepts/shared_widgets/user_avatar.dart';
@@ -12,7 +12,7 @@ class UserListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final call = NavCalls.userDetails(user.id);
+    final call = AppRouterCalls.userDetails(user.id);
 
     return ListTile(
       isThreeLine: true,

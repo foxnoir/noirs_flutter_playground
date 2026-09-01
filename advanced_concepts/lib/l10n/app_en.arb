@@ -104,7 +104,58 @@
   "layoutPreferredWhen": "Scaffold slot height",
   "layoutPreferredCalls": "PreferredSize / AppBar",
   "layoutPreferredHint": "appBar and bottomNavigationBar ask for PreferredSizeWidget. Not a Flex child.",
-  "layoutContext": "**Expanded** is **Flexible(fit: FlexFit.tight)**. **Flexible** is **loose** — leftover can stay empty. **PreferredSize** tells **Scaffold** how tall **appBar** wants to be. **Row overflow** is the yellow-black stripes; **Expanded** shares leftover width so children fit.",
+  "layoutContext": "**Expanded** is **Flexible(fit: FlexFit.tight)**. **Flexible** is **loose** — leftover can stay empty. **PreferredSize** tells **Scaffold** how tall **appBar** wants to be. **MediaQuery.sizeOf** is the window. **LayoutBuilder** is the parent. **AppBreakpoint** is compact until **600** — mobile first, every layout. **Row overflow** is the yellow-black stripes; **Expanded** shares leftover width so children fit.",
+  "layoutWindowWhen": "Window size",
+  "layoutWindowCalls": "MediaQuery.sizeOf",
+  "layoutWindowHint": "The app window. Resize Chrome. Do not use kIsWeb.",
+  "layoutBuilderWhen": "Parent space",
+  "layoutBuilderCalls": "LayoutBuilder",
+  "layoutBuilderHint": "The parent. A 120-wide box is not the window.",
+  "layoutMobileFirstWhen": "Default layout",
+  "layoutMobileFirstCalls": "compact, then ≥ 600",
+  "layoutMobileFirstRuleHint": "Mobile first everywhere. AppBreakpoint in theme — not AdaptiveScaffold.",
+  "layoutSizeCompact": "compact",
+  "layoutSizeMedium": "medium",
+  "layoutSizeExpanded": "expanded",
+  "layoutSizeLarge": "large",
+  "layoutSizeExtraLarge": "extra-large",
+  "layoutBreakpointTitle": "Breakpoints",
+  "layoutBreakpointHint": "Breakpoints are numbers in AppBreakpoint. MediaQuery does not jump — it only reports the window. This Column/Row jumps at 600 of the parent. Ticks are 600, 840, 1200, 1600.",
+  "layoutBreakpointCall": "if (AppBreakpoint.fromWidth(parentWidth).isCompact) Column else Row",
+  "layoutBreakpointChip": "parent {width}  ·  {name}",
+  "@layoutBreakpointChip": {
+    "placeholders": {
+      "width": {"type": "int"},
+      "name": {"type": "String"}
+    }
+  },
+  "layoutBreakpointWindowChip": "window {width}  ·  {name}",
+  "@layoutBreakpointWindowChip": {
+    "placeholders": {
+      "width": {"type": "int"},
+      "name": {"type": "String"}
+    }
+  },
+  "layoutBuilderTitle": "LayoutBuilder vs MediaQuery",
+  "layoutBuilderWrongTitle": "wrong  ·  child width = MediaQuery.sizeOf",
+  "layoutBuilderWrongHint": "The parent is 120. MediaQuery.sizeOf is the window. Same yellow-black as Row overflow.",
+  "layoutBuilderRightTitle": "works  ·  child width = LayoutBuilder",
+  "layoutBuilderRightHint": "LayoutBuilder.maxWidth is 120. The child is 120. No stripes.",
+  "layoutBuilderCallWrong": "SizedBox(width: MediaQuery.sizeOf(context).width)",
+  "layoutBuilderCallRight": "SizedBox(width: constraints.maxWidth)",
+  "layoutBuilderPaneChip": "parent {parent}  ·  child {child}",
+  "@layoutBuilderPaneChip": {
+    "placeholders": {
+      "parent": {"type": "int"},
+      "child": {"type": "int"}
+    }
+  },
+  "layoutBuilderStripe": "RIGHT OVERFLOWED BY {pixels} PIXELS",
+  "@layoutBuilderStripe": {
+    "placeholders": {
+      "pixels": {"type": "int"}
+    }
+  },
   "layoutOverflowTitle": "Row overflow",
   "layoutOverflowWrongTitle": "wrong  ·  Row + long children",
   "layoutOverflowWrongHint": "The children want more width than the Row. Flutter paints yellow-black stripes on the overflowing edge.",

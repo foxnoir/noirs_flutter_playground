@@ -17,10 +17,7 @@ class LayoutLabFlex extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          l10n.layoutFlexTitle,
-          style: textTheme.titleSmall,
-        ),
+        Text(l10n.layoutFlexTitle, style: textTheme.titleSmall),
         const SizedBox(height: 8),
         LabCompareFrame(
           ok: true,
