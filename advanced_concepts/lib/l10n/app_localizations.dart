@@ -1070,16 +1070,28 @@ abstract class AppLocalizations {
   /// **'The server failed. Try again.'**
   String get errorServer;
 
+  /// No description provided for @apiHandling.
+  ///
+  /// In en, this message translates to:
+  /// **'API Handling'**
+  String get apiHandling;
+
+  /// No description provided for @apiGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get apiGeneral;
+
   /// No description provided for @apiHttp.
   ///
   /// In en, this message translates to:
-  /// **'API HTTP'**
+  /// **'Example HTTP'**
   String get apiHttp;
 
   /// No description provided for @apiDio.
   ///
   /// In en, this message translates to:
-  /// **'API Dio'**
+  /// **'Example Dio'**
   String get apiDio;
 
   /// No description provided for @apiUnifiedWhen.

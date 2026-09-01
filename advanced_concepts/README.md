@@ -94,9 +94,9 @@
 
 This project is the **navigation**, **layout**, **lists**, and **API integration** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API HTTP** opens the API Integration Lab (`ApiIntegrationLabScreen`): one **ApiClient** (`package:http`) against a **Firebase** Cloud Functions + Firestore backend of romantasy **books**. **API Dio** opens an empty `ApiIntegrationDioLabScreen` (no data/domain yet). The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`). **General** is the current unified-API lab (`ApiGeneralLabScreen`): one **ApiClient** (`package:http`) against a **Firebase** Cloud Functions + Firestore backend of romantasy **books**. **Example HTTP** and **Example Dio** are empty layer shells (`ApiHttpLabScreen`, `ApiDioLabScreen`) for a later pass. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
 
-Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `ApiIntegrationLabScreen`, `ApiIntegrationDioLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Books go Firebase emulator → `package:http` → `ApiClient` → `HttpBookApiDataSource` → `HttpBookApiRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
+Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Books go Firebase emulator → `package:http` → `ApiClient` → `HttpBookApiDataSource` → `HttpBookApiRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -401,7 +401,7 @@ fvm flutter run
 fvm flutter run -d chrome
 ```
 
-Chrome shows path URLs (`/layout`, `/api-http`, `/api-dio`). There is no Android project. A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
+Chrome shows path URLs (`/layout`, `/api-handling`, `/api-handling/general`). There is no Android project. A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
@@ -413,14 +413,14 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API HTTP** opens the API Integration Lab (`package:http` against a mock in tests; Firebase emulator when you run the app). **API Dio** opens the empty `ApiIntegrationDioLabScreen`.
+`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API Handling** opens the hub. **General** opens the unified-API lab (`package:http` against a mock in tests; Firebase emulator when you run the app). **Example HTTP** and **Example Dio** open empty screens.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**85.0%** line coverage (1685 of 1983 lines).
+**84.7%** line coverage (1714 of 2024 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

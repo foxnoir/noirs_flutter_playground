@@ -549,10 +549,16 @@ class AppLocalizationsDe extends AppLocalizations {
       'Der Server ist fehlgeschlagen. Versuch es nochmal.';
 
   @override
-  String get apiHttp => 'API HTTP';
+  String get apiHandling => 'API Handling';
 
   @override
-  String get apiDio => 'API Dio';
+  String get apiGeneral => 'General';
+
+  @override
+  String get apiHttp => 'Example HTTP';
+
+  @override
+  String get apiDio => 'Example Dio';
 
   @override
   String get apiUnifiedWhen => 'Jeder HTTP-Call';
