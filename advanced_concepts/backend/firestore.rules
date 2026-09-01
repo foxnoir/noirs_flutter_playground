@@ -1,11 +1,10 @@
 rules_version = '2';
 
-// Practice project: open on purpose so the HTTP API and a Flutter
-// Firestore SDK client can both write without Auth. Do not copy this
-// into a real app.
+// Practice lab: open so Functions (Admin SDK) and a later Firestore SDK
+// client can both write. Do not copy this into a real app.
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /notes/{noteId} {
+    match /books/{bookId} {
       allow read, write: if true;
     }
 

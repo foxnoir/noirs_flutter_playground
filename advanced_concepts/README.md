@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Advanced Concepts</h1>
   <p>
-     Practice project for navigation, layout, and lists: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers.
+     Practice project for navigation, layout, lists, and API integration: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers; unified API class, timeouts, and network errors.
   </p>
 </div>
 
@@ -34,6 +34,7 @@
 [![FVM](../assets/badges/fvm.svg)](https://fvm.app)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
+[![Firebase](../assets/badges/firebase.svg)](https://firebase.google.com/)
 
 </div>
 
@@ -67,6 +68,14 @@
         <li><a href="#problems">Problems</a></li>
       </ul>
     </li>
+    <li>
+      <a href="#api-integration">API integration</a>
+      <ul>
+        <li><a href="#unified-api-class">Unified API class</a></li>
+        <li><a href="#timeouts">Timeouts</a></li>
+        <li><a href="#network-errors">Network errors</a></li>
+      </ul>
+    </li>
     <li><a href="#getting-started">Getting Started</a></li>
     <li>
       <a href="#testing">Testing</a>
@@ -83,11 +92,11 @@
 
 ## About
 
-This project is the **navigation**, **layout**, and **lists** practice project in [Noir's Flutter Playground](../README.md).
+This project is the **navigation**, **layout**, **lists**, and **API integration** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API HTTP** opens the API Integration Lab (`ApiIntegrationLabScreen`): one **ApiClient** (`package:http`) against a **Firebase** Cloud Functions + Firestore backend of romantasy **books**. **API Dio** opens an empty `ApiIntegrationDioLabScreen` (no data/domain yet). The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
 
-Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
+Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `ApiIntegrationLabScreen`, `ApiIntegrationDioLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Books go Firebase emulator → `package:http` → `ApiClient` → `HttpBookApiDataSource` → `HttpBookApiRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -319,6 +328,42 @@ The lab draws the Column trap as **wrong** (stripes + assertion) vs **works** (a
 
 ---
 
+## API integration
+
+**ApiClient** (`lib/core/network/api_client.dart`) is the unified API class: `package:http`, then `.timeout`, then status codes, then connection errors. It throws `AppException`. The book data source only parses JSON. The repository maps to `AppFailure`.
+
+The backend lives in `backend/`: **Cloud Functions** (HTTP) + **Firestore** (books). Same functions as a typical Dio training server: `GET /success`, `GET /error`, `GET /timeout` (2s delay), `POST /identify`, `GET /books`, plus `PUT` / `DELETE` on `/books/:id`. Content is romantasy (Maas, Yarros, *Liebe kennt keine Grenzen*).
+
+This is real HTTP. The emulator is a local Firebase, not an in-process fake. Tests inject `http.MockClient` so CI does not need Java.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Unified API class
+
+Wrong: `if (response.statusCode == 200)` in every data-source method. Timeout never happens. Error strings leak into data.
+
+Works: `ApiClient.get('/books', parse)`. `GET /success` and `GET /books` share the mapping. JSON stays wrapped (`data`, `books`) so parsing is deliberate.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Timeouts
+
+Wrong: `send(request)` with no deadline. `GET /timeout` on the emulator waits 2s; the button spins until it returns.
+
+Works: `send(request).timeout(...)`. The client fails first with `RequestTimeoutException` → `TimeoutFailure` → `ErrorWidget`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Network errors
+
+Wrong: `catch (e) => Text(e.toString())`. 401 and 500 look the same.
+
+Works: `401` → `UnauthorizedException`, `500` → `ServerException`, thrown connection → `NetworkException`. Each has a localized line. `POST /identify` with the wrong author is the 401 drill.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
 ## Getting Started
 
 Clone the playground, then open this project folder:
@@ -335,6 +380,18 @@ git@github.com:foxnoir/noirs_flutter_playground.git
 cd advanced_concepts
 fvm install
 fvm flutter pub get
+```
+
+API lab: start the Firebase emulator **first**, leave that Terminal open, then run Flutter in a second Terminal.
+
+```
+cd backend
+./start.sh
+```
+
+Wait for `All emulators ready`. API: `http://127.0.0.1:5001/noirs-firebase-lab/europe-west1/api`. UI: `http://127.0.0.1:4000`.
+
+```
 fvm flutter run
 ```
 
@@ -344,11 +401,11 @@ fvm flutter run
 fvm flutter run -d chrome
 ```
 
-Chrome shows path URLs (`/layout`). There is no Android project. A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
+Chrome shows path URLs (`/layout`, `/api-http`, `/api-dio`). There is no Android project. A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `intl`, `cupertino_icons`, `flutter_web_plugins`. Dev: `riverpod_lint`, `very_good_analysis`.
+Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `http`, `intl`, `cupertino_icons`, `flutter_web_plugins`. Dev: `riverpod_lint`, `very_good_analysis`. Optional cloud deploy: `cd backend && ./deploy.sh` (Google login + Blaze).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -356,14 +413,14 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver).
+`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API HTTP** opens the API Integration Lab (`package:http` against a mock in tests; Firebase emulator when you run the app). **API Dio** opens the empty `ApiIntegrationDioLabScreen`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**85.9%** line coverage (1360 of 1583 lines).
+**85.0%** line coverage (1685 of 1983 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -405,6 +462,9 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 - [ListView](https://api.flutter.dev/flutter/widgets/ListView-class.html)
 - [GridView](https://api.flutter.dev/flutter/widgets/GridView-class.html)
 - [Sliver overview](https://docs.flutter.dev/ui/layout/scrolling/slivers)
+- [Future.timeout](https://api.flutter.dev/flutter/dart-async/Future/timeout.html)
+- [http](https://pub.dev/packages/http)
+- [Cloud Functions HTTP](https://firebase.google.com/docs/functions/http-events)
 - [flutter_riverpod](https://pub.dev/packages/flutter_riverpod)
 - [riverpod_lint](https://pub.dev/packages/riverpod_lint)
 - [very_good_analysis](https://pub.dev/packages/very_good_analysis)

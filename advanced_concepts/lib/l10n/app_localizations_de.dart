@@ -537,4 +537,145 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get layoutPreferredCallCustom =>
       'PreferredSize(preferredSize: Size.fromHeight(96), child: …)';
+
+  @override
+  String get errorTimeout => 'Der Server hat zu lange gebraucht.';
+
+  @override
+  String get errorUnauthorized => 'Diese Anfrage war nicht erlaubt.';
+
+  @override
+  String get errorServer =>
+      'Der Server ist fehlgeschlagen. Versuch es nochmal.';
+
+  @override
+  String get apiHttp => 'API HTTP';
+
+  @override
+  String get apiDio => 'API Dio';
+
+  @override
+  String get apiUnifiedWhen => 'Jeder HTTP-Call';
+
+  @override
+  String get apiUnifiedCalls => 'ApiClient';
+
+  @override
+  String get apiUnifiedHint =>
+      'Timeout, 401, 404, 500 und Verbindungsfehler liegen in einer Klasse. Die Data Source parst nur JSON.';
+
+  @override
+  String get apiTimeoutWhen => 'Server ist langsam';
+
+  @override
+  String get apiTimeoutCalls => '.timeout';
+
+  @override
+  String get apiTimeoutHint =>
+      'Der Client gibt auf. GET /timeout auf dem Firebase-Emulator wartet 2s. Nicht durchwarten.';
+
+  @override
+  String get apiNetworkWhen => 'Kein Body zum Parsen';
+
+  @override
+  String get apiNetworkCalls => 'status → AppException';
+
+  @override
+  String get apiNetworkHint =>
+      '500 ist ServerFailure. 401 ist UnauthorizedFailure. DNS / Socket ist NetworkFailure. Nie e.toString() zeigen.';
+
+  @override
+  String get apiContext =>
+      '**ApiClient** ist die Unified API Class und nutzt **package:http**. Das Backend ist Firebase Cloud Functions + Firestore (Emulator: `./backend/start.sh`). Die Data Source wirft **AppException**. Das Repository mappt auf **AppFailure**. Die UI liest **localizedError**.';
+
+  @override
+  String get apiUnifiedTitle => 'Unified API class';
+
+  @override
+  String get apiUnifiedWrongTitle => 'wrong  ·  statusCode in der Data Source';
+
+  @override
+  String get apiUnifiedWrongHint =>
+      'Jede Methode wiederholt if (statusCode == 401). Timeout fehlt. Fehlerstrings sickern in die Data-Schicht.';
+
+  @override
+  String get apiUnifiedRightTitle => 'works  ·  ApiClient.send';
+
+  @override
+  String get apiUnifiedRightHint =>
+      'GET /books und GET /success teilen dasselbe Mapping. Tippen parst das gewrappte JSON (books / data).';
+
+  @override
+  String get apiUnifiedCallWrong =>
+      'if (response.statusCode == 200) BookModel.fromJson(json)';
+
+  @override
+  String get apiUnifiedCallRight =>
+      'ApiClient.get(\'/books\', parse)  // throws AppException';
+
+  @override
+  String get apiTimeoutTitle => 'Timeout';
+
+  @override
+  String get apiTimeoutWrongTitle => 'wrong  ·  kein Client-Timeout';
+
+  @override
+  String get apiTimeoutWrongHint =>
+      'GET /timeout wartet die volle Delay. Der Button spinnt, bis der Server antwortet.';
+
+  @override
+  String get apiTimeoutRightTitle => 'works  ·  ApiClient.timeout';
+
+  @override
+  String get apiTimeoutRightHint =>
+      'Derselbe Pfad. Der Client bricht zuerst ab. TimeoutFailure → ErrorWidget.';
+
+  @override
+  String get apiTimeoutCallWrong => 'send(request)  // waits forever';
+
+  @override
+  String get apiTimeoutCallRight =>
+      'send(request).timeout(Duration(milliseconds: 400))';
+
+  @override
+  String get apiNetworkTitle => 'Network errors';
+
+  @override
+  String get apiNetworkWrongTitle => 'wrong  ·  catch (e) => e.toString()';
+
+  @override
+  String get apiNetworkWrongHint =>
+      'Die UI zeigt einen Socket-Dump. 401 und 500 sehen gleich aus.';
+
+  @override
+  String get apiNetworkRightTitle => 'works  ·  Mapping in ApiClient';
+
+  @override
+  String get apiNetworkRightHint =>
+      '500, 401 und offline bekommen je ein typisiertes Failure und eine lokalisierte Zeile.';
+
+  @override
+  String get apiNetworkCallWrong => 'catch (e) => Text(e.toString())';
+
+  @override
+  String get apiNetworkCallRight =>
+      '401 → UnauthorizedException  ·  500 → ServerException  ·  catch → NetworkException';
+
+  @override
+  String get apiCallBooks => 'GET /books';
+
+  @override
+  String get apiCallSuccess => 'GET /success';
+
+  @override
+  String get apiCallTimeout => 'GET /timeout';
+
+  @override
+  String get apiCallError => 'GET /error';
+
+  @override
+  String get apiCallUnauthorized => 'POST /identify  (falsche Autorin)';
+
+  @override
+  String get apiCallOffline => 'GET /offline';
 }

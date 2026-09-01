@@ -1051,6 +1051,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'PreferredSize(preferredSize: Size.fromHeight(96), child: …)'**
   String get layoutPreferredCallCustom;
+
+  /// No description provided for @errorTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'The server took too long to answer.'**
+  String get errorTimeout;
+
+  /// No description provided for @errorUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'That request was not allowed.'**
+  String get errorUnauthorized;
+
+  /// No description provided for @errorServer.
+  ///
+  /// In en, this message translates to:
+  /// **'The server failed. Try again.'**
+  String get errorServer;
+
+  /// No description provided for @apiHttp.
+  ///
+  /// In en, this message translates to:
+  /// **'API HTTP'**
+  String get apiHttp;
+
+  /// No description provided for @apiDio.
+  ///
+  /// In en, this message translates to:
+  /// **'API Dio'**
+  String get apiDio;
+
+  /// No description provided for @apiUnifiedWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Every HTTP call'**
+  String get apiUnifiedWhen;
+
+  /// No description provided for @apiUnifiedCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'ApiClient'**
+  String get apiUnifiedCalls;
+
+  /// No description provided for @apiUnifiedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeout, 401, 404, 500, and connection errors live in one class. The data source only parses JSON.'**
+  String get apiUnifiedHint;
+
+  /// No description provided for @apiTimeoutWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Server is slow'**
+  String get apiTimeoutWhen;
+
+  /// No description provided for @apiTimeoutCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'.timeout'**
+  String get apiTimeoutCalls;
+
+  /// No description provided for @apiTimeoutHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The client gives up. GET /timeout on the Firebase emulator waits 2s. Do not wait it out.'**
+  String get apiTimeoutHint;
+
+  /// No description provided for @apiNetworkWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'No body to parse'**
+  String get apiNetworkWhen;
+
+  /// No description provided for @apiNetworkCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'status → AppException'**
+  String get apiNetworkCalls;
+
+  /// No description provided for @apiNetworkHint.
+  ///
+  /// In en, this message translates to:
+  /// **'500 is ServerFailure. 401 is UnauthorizedFailure. DNS / socket is NetworkFailure. Never show e.toString().'**
+  String get apiNetworkHint;
+
+  /// No description provided for @apiContext.
+  ///
+  /// In en, this message translates to:
+  /// **'**ApiClient** is the unified API class and uses **package:http**. The backend is Firebase Cloud Functions + Firestore (emulator: `./backend/start.sh`). Data source throws **AppException**. Repository maps to **AppFailure**. UI reads **localizedError**.'**
+  String get apiContext;
+
+  /// No description provided for @apiUnifiedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Unified API class'**
+  String get apiUnifiedTitle;
+
+  /// No description provided for @apiUnifiedWrongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  statusCode in the data source'**
+  String get apiUnifiedWrongTitle;
+
+  /// No description provided for @apiUnifiedWrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Every method repeats if (statusCode == 401). Timeout is forgotten. Error strings leak into data.'**
+  String get apiUnifiedWrongHint;
+
+  /// No description provided for @apiUnifiedRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  ApiClient.send'**
+  String get apiUnifiedRightTitle;
+
+  /// No description provided for @apiUnifiedRightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'GET /books and GET /success share the same mapping. Tap to parse the wrapped JSON (books / data).'**
+  String get apiUnifiedRightHint;
+
+  /// No description provided for @apiUnifiedCallWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'if (response.statusCode == 200) BookModel.fromJson(json)'**
+  String get apiUnifiedCallWrong;
+
+  /// No description provided for @apiUnifiedCallRight.
+  ///
+  /// In en, this message translates to:
+  /// **'ApiClient.get(\'/books\', parse)  // throws AppException'**
+  String get apiUnifiedCallRight;
+
+  /// No description provided for @apiTimeoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Timeout'**
+  String get apiTimeoutTitle;
+
+  /// No description provided for @apiTimeoutWrongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  no client timeout'**
+  String get apiTimeoutWrongTitle;
+
+  /// No description provided for @apiTimeoutWrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'GET /timeout waits the full delay. The button spins until the server answers.'**
+  String get apiTimeoutWrongHint;
+
+  /// No description provided for @apiTimeoutRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  ApiClient.timeout'**
+  String get apiTimeoutRightTitle;
+
+  /// No description provided for @apiTimeoutRightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Same path. The client cancels first. TimeoutFailure → ErrorWidget.'**
+  String get apiTimeoutRightHint;
+
+  /// No description provided for @apiTimeoutCallWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'send(request)  // waits forever'**
+  String get apiTimeoutCallWrong;
+
+  /// No description provided for @apiTimeoutCallRight.
+  ///
+  /// In en, this message translates to:
+  /// **'send(request).timeout(Duration(milliseconds: 400))'**
+  String get apiTimeoutCallRight;
+
+  /// No description provided for @apiNetworkTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Network errors'**
+  String get apiNetworkTitle;
+
+  /// No description provided for @apiNetworkWrongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  catch (e) => e.toString()'**
+  String get apiNetworkWrongTitle;
+
+  /// No description provided for @apiNetworkWrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The UI shows a socket dump. 401 and 500 look the same.'**
+  String get apiNetworkWrongHint;
+
+  /// No description provided for @apiNetworkRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  map in ApiClient'**
+  String get apiNetworkRightTitle;
+
+  /// No description provided for @apiNetworkRightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'500, 401, and offline each get a typed failure and a localized line.'**
+  String get apiNetworkRightHint;
+
+  /// No description provided for @apiNetworkCallWrong.
+  ///
+  /// In en, this message translates to:
+  /// **'catch (e) => Text(e.toString())'**
+  String get apiNetworkCallWrong;
+
+  /// No description provided for @apiNetworkCallRight.
+  ///
+  /// In en, this message translates to:
+  /// **'401 → UnauthorizedException  ·  500 → ServerException  ·  catch → NetworkException'**
+  String get apiNetworkCallRight;
+
+  /// No description provided for @apiCallBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'GET /books'**
+  String get apiCallBooks;
+
+  /// No description provided for @apiCallSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'GET /success'**
+  String get apiCallSuccess;
+
+  /// No description provided for @apiCallTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'GET /timeout'**
+  String get apiCallTimeout;
+
+  /// No description provided for @apiCallError.
+  ///
+  /// In en, this message translates to:
+  /// **'GET /error'**
+  String get apiCallError;
+
+  /// No description provided for @apiCallUnauthorized.
+  ///
+  /// In en, this message translates to:
+  /// **'POST /identify  (wrong author)'**
+  String get apiCallUnauthorized;
+
+  /// No description provided for @apiCallOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'GET /offline'**
+  String get apiCallOffline;
 }
 
 class _AppLocalizationsDelegate

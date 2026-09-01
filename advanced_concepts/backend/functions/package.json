@@ -1,13 +1,10 @@
 {
-  "name": "firebase-lab-api",
-  "description": "Practice HTTP API for Noir's Flutter Playground",
+  "name": "advanced-concepts-book-api",
+  "description": "HTTP API for the Advanced Concepts API Integration Lab",
   "private": true,
   "main": "index.js",
   "engines": {
     "node": "22"
-  },
-  "scripts": {
-    "test": "node --test notes.test.js"
   },
   "dependencies": {
     "express": "^4.21.2",

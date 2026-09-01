@@ -21,7 +21,6 @@ if ! npx firebase use "$PROJECT_ID" --non-interactive >/dev/null 2>&1; then
   npx firebase use "$PROJECT_ID"
 fi
 
-# Keep .firebaserc in sync when FIREBASE_PROJECT_ID is set.
 node -e "
 const fs = require('fs');
 const path = '.firebaserc';
