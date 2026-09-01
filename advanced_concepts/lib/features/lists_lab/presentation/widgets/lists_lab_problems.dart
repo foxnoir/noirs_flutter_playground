@@ -21,7 +21,7 @@ class ListsLabProblems extends StatelessWidget {
       children: [
         Text(
           l10n.listsProblemEagerTitle,
-          style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+          style: textTheme.titleSmall,
         ),
         const SizedBox(height: 4),
         Text(l10n.listsProblemEagerCaption, style: textTheme.bodySmall),
@@ -53,7 +53,7 @@ class ListsLabProblems extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           l10n.listsProblemUnboundedTitle,
-          style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+          style: textTheme.titleSmall,
         ),
         const SizedBox(height: 4),
         Text(l10n.listsProblemUnboundedCaption, style: textTheme.bodySmall),
@@ -116,7 +116,7 @@ class ListsLabProblems extends StatelessWidget {
         const SizedBox(height: 20),
         Text(
           l10n.listsProblemShrinkTitle,
-          style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+          style: textTheme.titleSmall,
         ),
         const SizedBox(height: 4),
         Text(l10n.listsProblemShrinkBody, style: textTheme.bodySmall),

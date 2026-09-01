@@ -19,7 +19,7 @@ class LayoutLabFlex extends StatelessWidget {
       children: [
         Text(
           l10n.layoutFlexTitle,
-          style: textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700),
+          style: textTheme.titleSmall,
         ),
         const SizedBox(height: 8),
         LabCompareFrame(
