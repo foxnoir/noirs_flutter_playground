@@ -1,7 +1,9 @@
 import 'package:advanced_concepts/core/router/app_router_names.dart';
 import 'package:advanced_concepts/core/router/not_found_screen.dart';
-import 'package:advanced_concepts/features/api_integration_dio_lab/presentation/api_integration_dio_lab_screen.dart';
-import 'package:advanced_concepts/features/api_integration_lab/presentation/api_integration_lab_screen.dart';
+import 'package:advanced_concepts/features/api_dio_lab/presentation/api_dio_lab_screen.dart';
+import 'package:advanced_concepts/features/api_general_lab/presentation/api_general_lab_screen.dart';
+import 'package:advanced_concepts/features/api_handling/presentation/api_handling_screen.dart';
+import 'package:advanced_concepts/features/api_http_lab/presentation/api_http_lab_screen.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
@@ -37,14 +39,26 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const ListsLabScreen(),
           ),
           GoRoute(
-            path: AppRoutePaths.apiHttp,
-            name: AppRouteNames.apiHttp,
-            builder: (context, state) => const ApiIntegrationLabScreen(),
-          ),
-          GoRoute(
-            path: AppRoutePaths.apiDio,
-            name: AppRouteNames.apiDio,
-            builder: (context, state) => const ApiIntegrationDioLabScreen(),
+            path: AppRoutePaths.apiHandling,
+            name: AppRouteNames.apiHandling,
+            builder: (context, state) => const ApiHandlingScreen(),
+            routes: [
+              GoRoute(
+                path: AppRoutePaths.apiGeneral,
+                name: AppRouteNames.apiGeneral,
+                builder: (context, state) => const ApiGeneralLabScreen(),
+              ),
+              GoRoute(
+                path: AppRoutePaths.apiHttp,
+                name: AppRouteNames.apiHttp,
+                builder: (context, state) => const ApiHttpLabScreen(),
+              ),
+              GoRoute(
+                path: AppRoutePaths.apiDio,
+                name: AppRouteNames.apiDio,
+                builder: (context, state) => const ApiDioLabScreen(),
+              ),
+            ],
           ),
         ],
       ),

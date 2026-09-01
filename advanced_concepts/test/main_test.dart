@@ -1,6 +1,8 @@
 import 'package:advanced_concepts/core/router/app_router_calls.dart';
-import 'package:advanced_concepts/features/api_integration_dio_lab/presentation/api_integration_dio_lab_screen.dart';
-import 'package:advanced_concepts/features/api_integration_lab/presentation/api_integration_lab_screen.dart';
+import 'package:advanced_concepts/features/api_dio_lab/presentation/api_dio_lab_screen.dart';
+import 'package:advanced_concepts/features/api_general_lab/presentation/api_general_lab_screen.dart';
+import 'package:advanced_concepts/features/api_handling/presentation/api_handling_screen.dart';
+import 'package:advanced_concepts/features/api_http_lab/presentation/api_http_lab_screen.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
@@ -54,8 +56,7 @@ void main() {
     expect(find.text('Navigation'), findsOneWidget);
     expect(find.text('Layout'), findsOneWidget);
     expect(find.text('Lists'), findsOneWidget);
-    expect(find.text('API HTTP'), findsOneWidget);
-    expect(find.text('API Dio'), findsOneWidget);
+    expect(find.text('API Handling'), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Navigation'), findsNothing);
 
     await _openRoutingLab(tester);
@@ -266,27 +267,60 @@ void main() {
     expect(find.widgetWithText(AppBar, 'Lists'), findsOneWidget);
   });
 
-  testWidgets('Landing API HTTP tile opens API Integration Lab', (
+  testWidgets('Landing API Handling tile opens API hub', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('API Handling'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ApiHandlingScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'API Handling'), findsOneWidget);
+    expect(find.text('General'), findsOneWidget);
+    expect(find.text('Example HTTP'), findsOneWidget);
+    expect(find.text('Example Dio'), findsOneWidget);
+  });
+
+  testWidgets('API Handling General tile opens General Lab', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('API Handling'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('General'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ApiGeneralLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'General'), findsOneWidget);
+  });
+
+  testWidgets('API Handling Example HTTP tile opens empty HTTP Lab', (
     tester,
   ) async {
     _useTallSurface(tester);
     await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
 
-    await tester.tap(find.text('API HTTP'));
+    await tester.tap(find.text('API Handling'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Example HTTP'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(ApiIntegrationLabScreen), findsOneWidget);
-    expect(find.widgetWithText(AppBar, 'API HTTP'), findsOneWidget);
+    expect(find.byType(ApiHttpLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Example HTTP'), findsOneWidget);
   });
 
-  testWidgets('Landing API Dio tile opens empty Dio Lab', (tester) async {
+  testWidgets('API Handling Example Dio tile opens empty Dio Lab', (
+    tester,
+  ) async {
     _useTallSurface(tester);
     await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
 
-    await tester.tap(find.text('API Dio'));
+    await tester.tap(find.text('API Handling'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Example Dio'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(ApiIntegrationDioLabScreen), findsOneWidget);
-    expect(find.widgetWithText(AppBar, 'API Dio'), findsOneWidget);
+    expect(find.byType(ApiDioLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Example Dio'), findsOneWidget);
   });
 }

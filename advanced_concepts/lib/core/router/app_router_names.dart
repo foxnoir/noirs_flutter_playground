@@ -3,6 +3,8 @@ abstract final class AppRouteNames {
   static const routing = 'routing';
   static const lists = 'lists';
   static const layout = 'layout';
+  static const apiHandling = 'apiHandling';
+  static const apiGeneral = 'apiGeneral';
   static const apiHttp = 'apiHttp';
   static const apiDio = 'apiDio';
   static const userList = 'userList';
@@ -16,8 +18,10 @@ abstract final class AppRoutePaths {
   static const routing = 'routing';
   static const lists = 'lists';
   static const layout = 'layout';
-  static const apiHttp = 'api-http';
-  static const apiDio = 'api-dio';
+  static const apiHandling = 'api-handling';
+  static const apiGeneral = 'general';
+  static const apiHttp = 'http';
+  static const apiDio = 'dio';
   static const userList = '/user-list';
   static const userDetails = ':userId';
 }

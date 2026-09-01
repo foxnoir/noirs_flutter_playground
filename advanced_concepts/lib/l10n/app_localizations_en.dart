@@ -548,10 +548,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorServer => 'The server failed. Try again.';
 
   @override
-  String get apiHttp => 'API HTTP';
+  String get apiHandling => 'API Handling';
 
   @override
-  String get apiDio => 'API Dio';
+  String get apiGeneral => 'General';
+
+  @override
+  String get apiHttp => 'Example HTTP';
+
+  @override
+  String get apiDio => 'Example Dio';
 
   @override
   String get apiUnifiedWhen => 'Every HTTP call';

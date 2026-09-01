@@ -5,33 +5,29 @@ import 'package:advanced_concepts/shared_widgets/lab_screen_body.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class LandingScreen extends StatelessWidget {
-  const LandingScreen({super.key});
+class ApiHandlingScreen extends StatelessWidget {
+  const ApiHandlingScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text(l10n.appTitle)),
+      appBar: AppBar(title: Text(l10n.apiHandling)),
       body: LabScreenBody(
         child: ListView(
           children: [
             LandingListTile(
-              label: l10n.navigation,
-              onTap: () => context.pushNamed(AppRouteNames.routing),
+              label: l10n.apiGeneral,
+              onTap: () => context.pushNamed(AppRouteNames.apiGeneral),
             ),
             LandingListTile(
-              label: l10n.layout,
-              onTap: () => context.pushNamed(AppRouteNames.layout),
+              label: l10n.apiHttp,
+              onTap: () => context.pushNamed(AppRouteNames.apiHttp),
             ),
             LandingListTile(
-              label: l10n.lists,
-              onTap: () => context.pushNamed(AppRouteNames.lists),
-            ),
-            LandingListTile(
-              label: l10n.apiHandling,
-              onTap: () => context.pushNamed(AppRouteNames.apiHandling),
+              label: l10n.apiDio,
+              onTap: () => context.pushNamed(AppRouteNames.apiDio),
             ),
           ],
         ),
