@@ -35,40 +35,28 @@ fi
 
 echo "update_coverage: testing ${app_root}…"
 
+# Do not pass --reporter compact and do not redirect stdout.
+# On GitHub Actions, `flutter test` defaults to the `github` reporter, which
+# writes ::error annotations with the failing test name. Compact + a log file
+# hid that, so the job only showed "Process completed with exit code 1."
 if [ -n "${CI:-}" ] || ! command -v fvm >/dev/null 2>&1 || [ ! -f "${app_root}/.fvmrc" ]; then
-  run_cmd="flutter test --coverage"
+  set -- flutter test --coverage
 else
-  run_cmd="fvm flutter test --coverage"
+  set -- fvm flutter test --coverage
 fi
 
-log="${app_root}/.update_coverage_test.log"
 set +e
-# Compact reporter uses \r; keep a line-based copy for [E] names.
-(cd "$app_root" && $run_cmd --reporter compact) >"$log" 2>&1
+(cd "$app_root" && "$@")
 status=$?
 set -e
-normalized="${log}.lines"
-tr '\r' '\n' <"$log" | tee "$normalized"
 
 if [ "$status" -ne 0 ]; then
   echo "update_coverage: tests failed in ${app_root}" >&2
-  echo "Failing tests:" >&2
-  found=0
-  while IFS= read -r line || [ -n "${line:-}" ]; do
-    case "$line" in
-      *'[E]')
-        echo "  ✗ ${line% \[E]}" >&2
-        found=1
-        ;;
-    esac
-  done <"$normalized"
-  if [ "$found" -eq 0 ]; then
-    echo "  (could not parse names — see log above)" >&2
+  if [ -n "${GITHUB_ACTIONS:-}" ]; then
+    echo "::error::Tests failed in ${app_root##*/}. Scroll the test log above for the failing name." >&2
   fi
-  rm -f "$log" "$normalized"
   exit "$status"
 fi
-rm -f "$log" "$normalized"
 
 lcov="${app_root}/coverage/lcov.info"
 if [ ! -f "$lcov" ]; then

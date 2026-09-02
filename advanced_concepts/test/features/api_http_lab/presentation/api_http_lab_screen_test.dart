@@ -91,14 +91,15 @@ void main() {
 
     await tester.tap(find.byKey(const Key('api-http-lab-refresh')));
     await tester.pump();
+    await tester.pump();
 
-    expect(find.text('Fourth Wing'), findsNothing);
+    expect(find.byKey(const Key('api-http-lab-book-3')), findsNothing);
     expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
     hold.complete();
     await tester.pumpAndSettle();
 
-    expect(find.text('Fourth Wing'), findsOneWidget);
+    expect(find.byKey(const Key('api-http-lab-book-3')), findsOneWidget);
     expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
