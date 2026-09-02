@@ -23,8 +23,22 @@ class BookModel {
   final String author;
   final BookStatus status;
 
+  Map<String, Object?> toJson() {
+    return {'title': title, 'author': author, 'status': status.apiValue};
+  }
+
   Book toEntity() {
     return Book(id: id, title: title, author: author, status: status);
+  }
+}
+
+extension BookStatusApi on BookStatus {
+  String get apiValue {
+    return switch (this) {
+      BookStatus.notStarted => 'not_started',
+      BookStatus.reading => 'reading',
+      BookStatus.finished => 'finished',
+    };
   }
 }
 

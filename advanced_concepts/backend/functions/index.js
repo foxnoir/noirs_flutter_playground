@@ -61,11 +61,25 @@ const SEED_BOOKS = [
   },
   {
     id: "7",
-    title: "Liebe kennt keine Grenzen",
-    author: "Kathryn Taylor",
+    title: "A Court of Wings and Ruin",
+    author: "Sarah J. Maas",
+    status: "finished",
+  },
+  {
+    id: "8",
+    title: "A Court of Frost and Starlight",
+    author: "Sarah J. Maas",
     status: "reading",
   },
+  {
+    id: "9",
+    title: "A Court of Silver Flames",
+    author: "Sarah J. Maas",
+    status: "not_started",
+  },
 ];
+
+const SEED_VERSION = 2;
 
 function sendError(res, status, code, message) {
   res.status(status).json({code, message});
@@ -90,20 +104,18 @@ function toBook(id, data) {
 async function ensureSeed() {
   const meta = db.collection("_meta").doc("books");
   const marker = await meta.get();
-  if (marker.exists) {
+  const version = marker.data()?.version ?? 0;
+  if (version >= SEED_VERSION) {
     return;
   }
-  const existing = await books.limit(1).get();
-  if (existing.empty) {
-    for (const seed of SEED_BOOKS) {
-      await books.doc(seed.id).set({
-        title: seed.title,
-        author: seed.author,
-        status: seed.status,
-      });
-    }
+  for (const seed of SEED_BOOKS) {
+    await books.doc(seed.id).set({
+      title: seed.title,
+      author: seed.author,
+      status: seed.status,
+    });
   }
-  await meta.set({seeded: true});
+  await meta.set({seeded: true, version: SEED_VERSION});
 }
 
 function parseBook(body) {
