@@ -30,7 +30,7 @@ class ApiHttpLabNotifier extends AsyncNotifier<ApiHttpLabShelf> {
   }
 
   Future<void> load(ApiHttpLabScenario scenario) async {
-    state = const AsyncLoading();
+    state = const AsyncLoading<ApiHttpLabShelf>();
     state = await AsyncValue.guard(() async {
       return ApiHttpLabShelf(books: await _fetch(scenario));
     });

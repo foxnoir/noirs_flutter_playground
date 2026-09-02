@@ -5,6 +5,7 @@ abstract final class AppRouteNames {
   static const layout = 'layout';
   static const apiHandling = 'apiHandling';
   static const apiGeneral = 'apiGeneral';
+  static const apiCompare = 'apiCompare';
   static const apiHttp = 'apiHttp';
   static const httpBookDetails = 'httpBookDetails';
   static const apiDio = 'apiDio';
@@ -22,6 +23,7 @@ abstract final class AppRoutePaths {
   static const layout = 'layout';
   static const apiHandling = 'api-handling';
   static const apiGeneral = 'general';
+  static const apiCompare = 'compare';
   static const apiHttp = 'http';
   static const apiDio = 'dio';
   static const bookDetails = 'books/:bookId';

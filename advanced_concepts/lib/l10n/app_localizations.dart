@@ -1100,6 +1100,150 @@ abstract class AppLocalizations {
   /// **'Example Dio'**
   String get apiDio;
 
+  /// No description provided for @apiCompare.
+  ///
+  /// In en, this message translates to:
+  /// **'HTTP vs Dio'**
+  String get apiCompare;
+
+  /// No description provided for @apiCompareHint.
+  ///
+  /// In en, this message translates to:
+  /// **'No live call. Step the same GET through package:http (_send) and Dio (interceptors) until the request fires.'**
+  String get apiCompareHint;
+
+  /// No description provided for @apiCompareNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get apiCompareNext;
+
+  /// No description provided for @apiCompareReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset'**
+  String get apiCompareReset;
+
+  /// No description provided for @apiCompareGet.
+  ///
+  /// In en, this message translates to:
+  /// **'GET'**
+  String get apiCompareGet;
+
+  /// No description provided for @apiCompareIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick GET or a drill. Next walks both stacks.'**
+  String get apiCompareIdle;
+
+  /// No description provided for @apiCompareHttpTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'package:http'**
+  String get apiCompareHttpTitle;
+
+  /// No description provided for @apiCompareDioTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Dio'**
+  String get apiCompareDioTitle;
+
+  /// No description provided for @apiCompareFires.
+  ///
+  /// In en, this message translates to:
+  /// **'GET fires'**
+  String get apiCompareFires;
+
+  /// No description provided for @apiCompareHintEnter.
+  ///
+  /// In en, this message translates to:
+  /// **'Data source calls the client. Same entry, different internals.'**
+  String get apiCompareHintEnter;
+
+  /// No description provided for @apiCompareHintHttpSend.
+  ///
+  /// In en, this message translates to:
+  /// **'No interceptors. Headers, timeout, and status mapping live in _send.'**
+  String get apiCompareHintHttpSend;
+
+  /// No description provided for @apiCompareHintDioSend.
+  ///
+  /// In en, this message translates to:
+  /// **'_send only forwards to _dio.request. Logging and mapping are interceptors.'**
+  String get apiCompareHintDioSend;
+
+  /// No description provided for @apiCompareHintHttpNoInterceptor.
+  ///
+  /// In en, this message translates to:
+  /// **'No interceptor pipeline. Still inside _send until the socket.'**
+  String get apiCompareHintHttpNoInterceptor;
+
+  /// No description provided for @apiCompareHintDioOnRequest.
+  ///
+  /// In en, this message translates to:
+  /// **'onRequest runs before the socket. Logging and mapping are interceptors, not the data source.'**
+  String get apiCompareHintDioOnRequest;
+
+  /// No description provided for @apiCompareHintFire.
+  ///
+  /// In en, this message translates to:
+  /// **'The HTTP request leaves the device here.'**
+  String get apiCompareHintFire;
+
+  /// No description provided for @apiCompareHintHttpMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Status 200 is mapped in _send, then JSON is parsed.'**
+  String get apiCompareHintHttpMap;
+
+  /// No description provided for @apiCompareHintDioOnResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'onResponse runs after the socket. Then the client parses JSON.'**
+  String get apiCompareHintDioOnResponse;
+
+  /// No description provided for @apiCompareHintHttpTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'_send catches TimeoutException and throws RequestTimeoutException.'**
+  String get apiCompareHintHttpTimeout;
+
+  /// No description provided for @apiCompareHintDioOnError.
+  ///
+  /// In en, this message translates to:
+  /// **'onError maps DioExceptionType.receiveTimeout to RequestTimeoutException.'**
+  String get apiCompareHintDioOnError;
+
+  /// No description provided for @apiCompareHintHttpOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'_send catch becomes NetworkException. No interceptor pipeline.'**
+  String get apiCompareHintHttpOffline;
+
+  /// No description provided for @apiCompareHintDioOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'onError maps connectionError to NetworkException.'**
+  String get apiCompareHintDioOffline;
+
+  /// No description provided for @apiCompareHintHttpServer.
+  ///
+  /// In en, this message translates to:
+  /// **'_send switch: status >= 500 → ServerException.'**
+  String get apiCompareHintHttpServer;
+
+  /// No description provided for @apiCompareHintDioServer.
+  ///
+  /// In en, this message translates to:
+  /// **'onError maps badResponse 500 to ServerException.'**
+  String get apiCompareHintDioServer;
+
+  /// No description provided for @apiCompareUnstableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Unstable is not a verb. The live labs fail every third GET. The stack is the same as GET.'**
+  String get apiCompareUnstableHint;
+
   /// No description provided for @apiCrudWhen.
   ///
   /// In en, this message translates to:

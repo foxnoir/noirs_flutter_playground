@@ -36,10 +36,39 @@ fi
 echo "update_coverage: testing ${app_root}…"
 
 if [ -n "${CI:-}" ] || ! command -v fvm >/dev/null 2>&1 || [ ! -f "${app_root}/.fvmrc" ]; then
-  flutter test --coverage
+  run_cmd="flutter test --coverage"
 else
-  fvm flutter test --coverage
+  run_cmd="fvm flutter test --coverage"
 fi
+
+log="${app_root}/.update_coverage_test.log"
+set +e
+# Compact reporter uses \r; keep a line-based copy for [E] names.
+(cd "$app_root" && $run_cmd --reporter compact) >"$log" 2>&1
+status=$?
+set -e
+normalized="${log}.lines"
+tr '\r' '\n' <"$log" | tee "$normalized"
+
+if [ "$status" -ne 0 ]; then
+  echo "update_coverage: tests failed in ${app_root}" >&2
+  echo "Failing tests:" >&2
+  found=0
+  while IFS= read -r line || [ -n "${line:-}" ]; do
+    case "$line" in
+      *'[E]')
+        echo "  ✗ ${line% \[E]}" >&2
+        found=1
+        ;;
+    esac
+  done <"$normalized"
+  if [ "$found" -eq 0 ]; then
+    echo "  (could not parse names — see log above)" >&2
+  fi
+  rm -f "$log" "$normalized"
+  exit "$status"
+fi
+rm -f "$log" "$normalized"
 
 lcov="${app_root}/coverage/lcov.info"
 if [ ! -f "$lcov" ]; then

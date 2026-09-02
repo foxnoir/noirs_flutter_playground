@@ -563,6 +563,93 @@ class AppLocalizationsEn extends AppLocalizations {
   String get apiDio => 'Example Dio';
 
   @override
+  String get apiCompare => 'HTTP vs Dio';
+
+  @override
+  String get apiCompareHint =>
+      'No live call. Step the same GET through package:http (_send) and Dio (interceptors) until the request fires.';
+
+  @override
+  String get apiCompareNext => 'Next';
+
+  @override
+  String get apiCompareReset => 'Reset';
+
+  @override
+  String get apiCompareGet => 'GET';
+
+  @override
+  String get apiCompareIdle => 'Pick GET or a drill. Next walks both stacks.';
+
+  @override
+  String get apiCompareHttpTitle => 'package:http';
+
+  @override
+  String get apiCompareDioTitle => 'Dio';
+
+  @override
+  String get apiCompareFires => 'GET fires';
+
+  @override
+  String get apiCompareHintEnter =>
+      'Data source calls the client. Same entry, different internals.';
+
+  @override
+  String get apiCompareHintHttpSend =>
+      'No interceptors. Headers, timeout, and status mapping live in _send.';
+
+  @override
+  String get apiCompareHintDioSend =>
+      '_send only forwards to _dio.request. Logging and mapping are interceptors.';
+
+  @override
+  String get apiCompareHintHttpNoInterceptor =>
+      'No interceptor pipeline. Still inside _send until the socket.';
+
+  @override
+  String get apiCompareHintDioOnRequest =>
+      'onRequest runs before the socket. Logging and mapping are interceptors, not the data source.';
+
+  @override
+  String get apiCompareHintFire => 'The HTTP request leaves the device here.';
+
+  @override
+  String get apiCompareHintHttpMap =>
+      'Status 200 is mapped in _send, then JSON is parsed.';
+
+  @override
+  String get apiCompareHintDioOnResponse =>
+      'onResponse runs after the socket. Then the client parses JSON.';
+
+  @override
+  String get apiCompareHintHttpTimeout =>
+      '_send catches TimeoutException and throws RequestTimeoutException.';
+
+  @override
+  String get apiCompareHintDioOnError =>
+      'onError maps DioExceptionType.receiveTimeout to RequestTimeoutException.';
+
+  @override
+  String get apiCompareHintHttpOffline =>
+      '_send catch becomes NetworkException. No interceptor pipeline.';
+
+  @override
+  String get apiCompareHintDioOffline =>
+      'onError maps connectionError to NetworkException.';
+
+  @override
+  String get apiCompareHintHttpServer =>
+      '_send switch: status >= 500 → ServerException.';
+
+  @override
+  String get apiCompareHintDioServer =>
+      'onError maps badResponse 500 to ServerException.';
+
+  @override
+  String get apiCompareUnstableHint =>
+      'Unstable is not a verb. The live labs fail every third GET. The stack is the same as GET.';
+
+  @override
   String get apiCrudWhen => 'Four verbs for a resource';
 
   @override
