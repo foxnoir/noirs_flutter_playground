@@ -4,7 +4,7 @@ import 'package:advanced_concepts/features/lists_lab/presentation/widgets/lists_
 import 'package:advanced_concepts/features/lists_lab/presentation/widgets/lists_lab_problems.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:advanced_concepts/shared_widgets/code_snippet.dart';
-import 'package:advanced_concepts/shared_widgets/lab_screen_body.dart';
+import 'package:advanced_concepts/shared_widgets/labs/lab_screen_body.dart';
 import 'package:flutter/material.dart';
 
 class ListsLabScreen extends StatefulWidget {

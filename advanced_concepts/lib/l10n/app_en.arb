@@ -251,6 +251,7 @@
   "apiDioSearchTitleLabel": "Title",
   "apiDioSearchAuthorLabel": "Author",
   "apiDioSearchSubmit": "Search",
+  "apiDioSearchClear": "Show all books",
   "apiDioSearchFound": "POST /search · {title}",
   "@apiDioSearchFound": {
     "placeholders": {

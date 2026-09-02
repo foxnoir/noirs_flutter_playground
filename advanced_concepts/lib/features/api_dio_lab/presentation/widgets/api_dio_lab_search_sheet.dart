@@ -84,6 +84,7 @@ class _ApiDioLabSearchSheetState extends ConsumerState<ApiDioLabSearchSheet> {
             decoration: InputDecoration(
               labelText: l10n.apiDioSearchTitleLabel,
               hintText: 'Fourth Wing',
+              floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
           ),
           const SizedBox(height: 8),
@@ -96,6 +97,7 @@ class _ApiDioLabSearchSheetState extends ConsumerState<ApiDioLabSearchSheet> {
             decoration: InputDecoration(
               labelText: l10n.apiDioSearchAuthorLabel,
               hintText: 'Rebecca Yarros',
+              floatingLabelBehavior: FloatingLabelBehavior.always,
             ),
           ),
           if (error != null) ...[

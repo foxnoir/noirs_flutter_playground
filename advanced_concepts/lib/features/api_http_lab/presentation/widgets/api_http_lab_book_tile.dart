@@ -91,7 +91,6 @@ class ApiHttpLabBookTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ApiHttpLabAssetIcon(
               ApiHttpLabIcons.book,
@@ -123,6 +122,7 @@ class ApiHttpLabBookTile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             ApiHttpLabStatusLabel(status: book.status),
+            const SizedBox(width: 12),
             IconButton(
               key: Key('api-http-lab-edit-${book.id}'),
               tooltip: l10n.apiDioEdit,

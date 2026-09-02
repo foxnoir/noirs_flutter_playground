@@ -30,6 +30,6 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - assets/profiles/
+    - assets/user_avatars/
     - assets/img/
     - assets/img/icons/

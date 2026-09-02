@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:advanced_concepts/core/errors/app_failure.dart';
 import 'package:advanced_concepts/features/api_http_lab/data/repositories/api_http_lab_repository.dart';
 import 'package:advanced_concepts/features/api_http_lab/domain/entities/book.dart';
@@ -78,6 +80,37 @@ void main() {
     expect(find.text('Finished'), findsOneWidget);
     expect(find.text('GET /books'), findsNothing);
     expect(find.byKey(const Key('api-http-lab-scenario-books')), findsNothing);
+  });
+
+  testWidgets('refresh shows a spinner on the AppBar button', (tester) async {
+    final repository = FakeApiHttpLabRepository(books: const [_fourthWing]);
+    await _pumpLab(tester, repository: repository);
+
+    final hold = Completer<void>();
+    repository.onFetchBooks = () => hold.future;
+
+    await tester.tap(find.byKey(const Key('api-http-lab-refresh')));
+    await tester.pump();
+
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('api-http-lab-refresh')),
+        matching: find.byType(CircularProgressIndicator),
+      ),
+      findsOneWidget,
+    );
+    expect(find.text('Fourth Wing'), findsOneWidget);
+
+    hold.complete();
+    await tester.pumpAndSettle();
+
+    expect(
+      find.descendant(
+        of: find.byKey(const Key('api-http-lab-refresh')),
+        matching: find.byType(CircularProgressIndicator),
+      ),
+      findsNothing,
+    );
   });
 
   testWidgets('Server drill maps to ServerFailure, retry loads the shelf', (
@@ -168,13 +201,19 @@ void main() {
     expect(find.text('That request was not allowed.'), findsOneWidget);
   });
 
-  testWidgets('matching search shows the HTTP call in a snackbar', (
+  testWidgets('matching search shows only the hit; clear restores the shelf', (
     tester,
   ) async {
+    const ironFlame = Book(
+      id: '4',
+      title: 'Iron Flame',
+      author: 'Rebecca Yarros',
+      status: BookStatus.reading,
+    );
     await _pumpLab(
       tester,
       repository: FakeApiHttpLabRepository(
-        books: const [_fourthWing],
+        books: const [_fourthWing, ironFlame],
         match: _fourthWing,
       ),
     );
@@ -193,6 +232,16 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('POST /search · Fourth Wing'), findsOneWidget);
+    expect(find.text('Fourth Wing'), findsOneWidget);
+    expect(find.text('Iron Flame'), findsNothing);
+    expect(find.byKey(const Key('api-http-lab-search-clear')), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('api-http-lab-search-clear')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Fourth Wing'), findsOneWidget);
+    expect(find.text('Iron Flame'), findsOneWidget);
+    expect(find.byKey(const Key('api-http-lab-search')), findsOneWidget);
   });
 
   testWidgets('add book posts and lists the new title', (tester) async {

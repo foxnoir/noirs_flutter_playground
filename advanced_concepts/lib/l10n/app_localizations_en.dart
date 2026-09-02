@@ -721,6 +721,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get apiDioSearchSubmit => 'Search';
 
   @override
+  String get apiDioSearchClear => 'Show all books';
+
+  @override
   String apiDioSearchFound(String title) {
     return 'POST /search · $title';
   }

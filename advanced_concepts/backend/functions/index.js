@@ -77,9 +77,33 @@ const SEED_BOOKS = [
     author: "Sarah J. Maas",
     status: "not_started",
   },
+  {
+    id: "10",
+    title: "Blood and Ash – Liebe kennt keine Grenzen",
+    author: "Jennifer Armentrout",
+    status: "finished",
+  },
+  {
+    id: "11",
+    title: "Flesh and Fire – Liebe kennt keine Grenzen",
+    author: "Jennifer Armentrout",
+    status: "reading",
+  },
+  {
+    id: "12",
+    title: "Crown and Bones – Liebe kennt keine Grenzen",
+    author: "Jennifer Armentrout",
+    status: "not_started",
+  },
+  {
+    id: "13",
+    title: "War and Queens – Liebe kennt keine Grenzen",
+    author: "Jennifer Armentrout",
+    status: "not_started",
+  },
 ];
 
-const SEED_VERSION = 2;
+const SEED_VERSION = 4;
 
 function sendError(res, status, code, message) {
   res.status(status).json({code, message});

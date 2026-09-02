@@ -1,7 +1,7 @@
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:advanced_concepts/shared_widgets/code_snippet.dart';
-import 'package:advanced_concepts/shared_widgets/lab_compare_frame.dart';
-import 'package:advanced_concepts/shared_widgets/lab_error_stripes.dart';
+import 'package:advanced_concepts/shared_widgets/labs/lab_compare_frame.dart';
+import 'package:advanced_concepts/shared_widgets/labs/lab_error_stripes.dart';
 import 'package:flutter/material.dart';
 
 class LayoutLabBuilder extends StatelessWidget {

@@ -5,7 +5,7 @@ import 'package:advanced_concepts/features/routing_lab/presentation/providers/ro
 import 'package:advanced_concepts/features/routing_lab/presentation/widgets/routing_info.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/widgets/routing_lab_nav_tile.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
-import 'package:advanced_concepts/shared_widgets/lab_screen_body.dart';
+import 'package:advanced_concepts/shared_widgets/labs/lab_screen_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';

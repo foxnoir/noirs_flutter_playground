@@ -40,4 +40,16 @@ void main() {
 
     expect(find.widgetWithText(AppBar, 'Book Details'), findsOneWidget);
   });
+
+  testWidgets('long book title wraps to two lines', (tester) async {
+    const longTitle = 'Blood and Ash – Liebe kennt keine Grenzen';
+    await _pumpBookScreen(tester, bookId: '10', title: longTitle);
+
+    final title = tester.widget<Text>(
+      find.descendant(of: find.byType(AppBar), matching: find.text(longTitle)),
+    );
+    expect(title.maxLines, 2);
+    expect(title.softWrap, isTrue);
+    expect(title.overflow, TextOverflow.clip);
+  });
 }

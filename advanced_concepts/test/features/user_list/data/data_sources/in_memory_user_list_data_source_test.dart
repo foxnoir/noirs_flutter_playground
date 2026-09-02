@@ -11,11 +11,11 @@ void main() {
     expect(models, hasLength(5));
     expect(models.first.nickname, 'Ada');
     expect(models.map((user) => user.imageUrl).toList(), [
-      'assets/profiles/1.png',
-      'assets/profiles/2.png',
-      'assets/profiles/3.png',
-      'assets/profiles/4.png',
-      'assets/profiles/1.png',
+      'assets/user_avatars/1.png',
+      'assets/user_avatars/2.png',
+      'assets/user_avatars/3.png',
+      'assets/user_avatars/4.png',
+      'assets/user_avatars/1.png',
     ]);
   });
 
