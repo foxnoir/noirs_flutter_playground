@@ -40,13 +40,39 @@ echo "update_coverage: testing ${app_root}…"
 # writes ::error annotations with the failing test name. Compact + a log file
 # hid that, so the job only showed "Process completed with exit code 1."
 if [ -n "${CI:-}" ] || ! command -v fvm >/dev/null 2>&1 || [ ! -f "${app_root}/.fvmrc" ]; then
-  set -- flutter test --coverage
+  run_flutter() { flutter "$@"; }
 else
-  set -- fvm flutter test --coverage
+  run_flutter() { fvm flutter "$@"; }
+fi
+
+# pub.dev sometimes returns 401 ("authorization failed") on GitHub runners.
+# flutter test then never starts. Retry pub get before treating it as a test fail.
+attempt=1
+pub_status=1
+while [ "$attempt" -le 3 ]; do
+  echo "update_coverage: pub get (attempt ${attempt}/3)…"
+  set +e
+  run_flutter pub get
+  pub_status=$?
+  set -e
+  if [ "$pub_status" -eq 0 ]; then
+    break
+  fi
+  echo "update_coverage: pub get exited ${pub_status}, retrying…" >&2
+  attempt=$((attempt + 1))
+  sleep 8
+done
+
+if [ "$pub_status" -ne 0 ]; then
+  echo "update_coverage: pub get failed in ${app_root} after 3 attempts." >&2
+  if [ -n "${GITHUB_ACTIONS:-}" ]; then
+    echo "::error::pub get failed in ${app_root##*/} (pub.dev). Not a failing test." >&2
+  fi
+  exit "$pub_status"
 fi
 
 set +e
-(cd "$app_root" && "$@")
+run_flutter test --coverage
 status=$?
 set -e
 
