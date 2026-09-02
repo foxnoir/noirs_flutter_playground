@@ -28,6 +28,43 @@ class ApiDioLabAssetIcon extends StatelessWidget {
   }
 }
 
+class ApiDioLabStatusLabel extends StatelessWidget {
+  const ApiDioLabStatusLabel({required this.status, super.key});
+
+  final BookStatus status;
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final (background, foreground) = switch (status) {
+      BookStatus.notStarted => (scheme.errorContainer, scheme.onError),
+      BookStatus.reading => (
+        scheme.primaryContainer,
+        scheme.onPrimaryContainer,
+      ),
+      BookStatus.finished => (
+        scheme.secondaryContainer,
+        scheme.onSecondaryContainer,
+      ),
+    };
+
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+        child: Text(
+          apiDioLabStatusLabel(AppLocalizations.of(context), status),
+          style: theme.textTheme.labelSmall?.copyWith(color: foreground),
+        ),
+      ),
+    );
+  }
+}
+
 class ApiDioLabBookTile extends StatelessWidget {
   const ApiDioLabBookTile({
     required this.book,
@@ -45,44 +82,73 @@ class ApiDioLabBookTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
 
-    return ListTile(
+    return InkWell(
       key: Key('api-dio-lab-book-${book.id}'),
       onTap: onOpen,
-      minLeadingWidth: 40,
-      horizontalTitleGap: 8,
-      leading: ApiDioLabAssetIcon(
-        ApiDioLabIcons.book,
-        key: Key('api-dio-lab-open-${book.id}'),
-        size: 40,
-      ),
-      title: Text(book.title),
-      subtitle: Text(book.author),
-      trailing: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(right: 4),
-            child: Text(
-              apiDioLabStatusLabel(l10n, book.status),
-              style: Theme.of(context).textTheme.labelSmall,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ApiDioLabAssetIcon(
+              ApiDioLabIcons.book,
+              key: Key('api-dio-lab-open-${book.id}'),
+              size: 40,
             ),
-          ),
-          IconButton(
-            key: Key('api-dio-lab-edit-${book.id}'),
-            tooltip: l10n.apiDioEdit,
-            visualDensity: VisualDensity.compact,
-            onPressed: onEdit,
-            icon: const ApiDioLabAssetIcon(ApiDioLabIcons.edit),
-          ),
-          IconButton(
-            key: Key('api-dio-lab-delete-${book.id}'),
-            tooltip: l10n.apiDioDelete,
-            visualDensity: VisualDensity.compact,
-            onPressed: onDelete,
-            icon: const ApiDioLabAssetIcon(ApiDioLabIcons.delete),
-          ),
-        ],
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    book.title,
+                    style: theme.textTheme.titleSmall?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: scheme.onSurface,
+                      height: 1.2,
+                    ),
+                  ),
+                  Text(
+                    book.author,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      color: scheme.onSurfaceVariant,
+                      height: 1.2,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(width: 8),
+            ApiDioLabStatusLabel(status: book.status),
+            IconButton(
+              key: Key('api-dio-lab-edit-${book.id}'),
+              tooltip: l10n.apiDioEdit,
+              style: IconButton.styleFrom(
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: EdgeInsets.zero,
+                minimumSize: const Size(32, 32),
+                visualDensity: VisualDensity.compact,
+              ),
+              onPressed: onEdit,
+              icon: const ApiDioLabAssetIcon(ApiDioLabIcons.edit),
+            ),
+            IconButton(
+              key: Key('api-dio-lab-delete-${book.id}'),
+              tooltip: l10n.apiDioDelete,
+              style: IconButton.styleFrom(
+                tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                padding: EdgeInsets.zero,
+                minimumSize: const Size(32, 32),
+                visualDensity: VisualDensity.compact,
+              ),
+              onPressed: onDelete,
+              icon: const ApiDioLabAssetIcon(ApiDioLabIcons.delete),
+            ),
+          ],
+        ),
       ),
     );
   }
