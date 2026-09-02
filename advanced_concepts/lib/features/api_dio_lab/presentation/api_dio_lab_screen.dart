@@ -108,8 +108,8 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final books = ref.watch(apiDioLabProvider);
-    final searchActive = ref.read(apiDioLabProvider.notifier).searchActive;
+    final shelf = ref.watch(apiDioLabProvider);
+    final searchActive = shelf.value?.searchActive ?? false;
 
     return Scaffold(
       appBar: AppBar(
@@ -132,8 +132,8 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
           IconButton(
             key: const Key('api-dio-lab-refresh'),
             tooltip: l10n.retry,
-            onPressed: books.isLoading ? null : () => _loadShelf(snack: true),
-            icon: books.isLoading
+            onPressed: shelf.isLoading ? null : () => _loadShelf(snack: true),
+            icon: shelf.isLoading
                 ? SizedBox(
                     width: 24,
                     height: 24,
@@ -158,7 +158,7 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ApiDioLabScenarioBar(selected: _drill, onSelect: _runDrill),
-              Expanded(child: _body(l10n, books)),
+              Expanded(child: _body(l10n, shelf)),
             ],
           ),
         ),
@@ -166,21 +166,21 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
     );
   }
 
-  Widget _body(AppLocalizations l10n, AsyncValue<List<Book>> books) {
-    if (books.isLoading && !books.hasValue) {
+  Widget _body(AppLocalizations l10n, AsyncValue<ApiDioLabShelf> shelf) {
+    if (shelf.isLoading && !shelf.hasValue) {
       return const Center(child: CircularProgressIndicator());
     }
-    if (books.hasError) {
+    if (shelf.hasError) {
       return Center(
         child: app.ErrorWidget(
-          message: localizedError(l10n, books.error!),
+          message: localizedError(l10n, shelf.error!),
           retryLabel: l10n.retry,
           onRetry: () => _loadShelf(snack: true),
         ),
       );
     }
     return ApiDioLabBookList(
-      books: books.requireValue,
+      books: shelf.requireValue.books,
       onRefresh: () => _loadShelf(snack: true),
       onOpen: _openBook,
       onEdit: (book) => _openBookSheet(book: book),

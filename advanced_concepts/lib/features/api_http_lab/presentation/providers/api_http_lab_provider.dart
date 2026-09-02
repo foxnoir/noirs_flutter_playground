@@ -4,35 +4,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ApiHttpLabScenario { books, unstable, timeout, offline, serverError }
 
+class ApiHttpLabShelf {
+  const ApiHttpLabShelf({required this.books, this.searchActive = false});
+
+  final List<Book> books;
+  final bool searchActive;
+}
+
 final apiHttpLabProvider =
-    AsyncNotifierProvider<ApiHttpLabNotifier, List<Book>>(
+    AsyncNotifierProvider<ApiHttpLabNotifier, ApiHttpLabShelf>(
       ApiHttpLabNotifier.new,
       // Riverpod 3 retries build() failures and keeps isLoading; when() then
       // shows a spinner instead of the error. The lab must surface the failure.
       retry: (_, _) => null,
     );
 
-class ApiHttpLabNotifier extends AsyncNotifier<List<Book>> {
-  static const guardedTimeout = Duration(milliseconds: 400);
+class ApiHttpLabNotifier extends AsyncNotifier<ApiHttpLabShelf> {
+  static const _guardedTimeout = Duration(milliseconds: 400);
 
   var _unstableLoads = 0;
-  var searchActive = false;
 
   @override
-  Future<List<Book>> build() => _fetch(ApiHttpLabScenario.books);
+  Future<ApiHttpLabShelf> build() async {
+    return ApiHttpLabShelf(books: await _fetch(ApiHttpLabScenario.books));
+  }
 
   Future<void> load(ApiHttpLabScenario scenario) async {
-    searchActive = false;
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _fetch(scenario));
+    state = await AsyncValue.guard(() async {
+      return ApiHttpLabShelf(books: await _fetch(scenario));
+    });
   }
 
   Future<Book> search({required String title, required String author}) async {
     final book = await ref
         .read(apiHttpLabRepositoryProvider)
         .search(title: title, author: author);
-    searchActive = true;
-    state = AsyncData([book]);
+    state = AsyncData(ApiHttpLabShelf(books: [book], searchActive: true));
     return book;
   }
 
@@ -56,10 +64,11 @@ class ApiHttpLabNotifier extends AsyncNotifier<List<Book>> {
   }
 
   Future<void> _syncBooks() async {
-    searchActive = false;
     try {
       state = AsyncData(
-        await ref.read(apiHttpLabRepositoryProvider).fetchBooks(),
+        ApiHttpLabShelf(
+          books: await ref.read(apiHttpLabRepositoryProvider).fetchBooks(),
+        ),
       );
     } on Object catch (error, stackTrace) {
       state = AsyncError(error, stackTrace);
@@ -74,7 +83,7 @@ class ApiHttpLabNotifier extends AsyncNotifier<List<Book>> {
       ApiHttpLabScenario.books ||
       ApiHttpLabScenario.unstable => repo.fetchBooks(),
       ApiHttpLabScenario.timeout =>
-        repo.fetchTimeout(timeout: guardedTimeout).then((_) => <Book>[]),
+        repo.fetchTimeout(timeout: _guardedTimeout).then((_) => <Book>[]),
       ApiHttpLabScenario.offline => repo.fetchOffline().then((_) => <Book>[]),
       ApiHttpLabScenario.serverError => repo.fetchError().then((_) => <Book>[]),
     };

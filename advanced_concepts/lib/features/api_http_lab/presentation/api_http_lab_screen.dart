@@ -111,8 +111,8 @@ class _ApiHttpLabScreenState extends ConsumerState<ApiHttpLabScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final books = ref.watch(apiHttpLabProvider);
-    final searchActive = ref.read(apiHttpLabProvider.notifier).searchActive;
+    final shelf = ref.watch(apiHttpLabProvider);
+    final searchActive = shelf.value?.searchActive ?? false;
 
     return Scaffold(
       appBar: AppBar(
@@ -135,8 +135,8 @@ class _ApiHttpLabScreenState extends ConsumerState<ApiHttpLabScreen> {
           IconButton(
             key: const Key('api-http-lab-refresh'),
             tooltip: l10n.retry,
-            onPressed: books.isLoading ? null : () => _loadShelf(snack: true),
-            icon: books.isLoading
+            onPressed: shelf.isLoading ? null : () => _loadShelf(snack: true),
+            icon: shelf.isLoading
                 ? SizedBox(
                     width: 24,
                     height: 24,
@@ -161,7 +161,7 @@ class _ApiHttpLabScreenState extends ConsumerState<ApiHttpLabScreen> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               ApiHttpLabScenarioBar(selected: _drill, onSelect: _runDrill),
-              Expanded(child: _body(l10n, books)),
+              Expanded(child: _body(l10n, shelf)),
             ],
           ),
         ),
@@ -169,21 +169,21 @@ class _ApiHttpLabScreenState extends ConsumerState<ApiHttpLabScreen> {
     );
   }
 
-  Widget _body(AppLocalizations l10n, AsyncValue<List<Book>> books) {
-    if (books.isLoading && !books.hasValue) {
+  Widget _body(AppLocalizations l10n, AsyncValue<ApiHttpLabShelf> shelf) {
+    if (shelf.isLoading && !shelf.hasValue) {
       return const Center(child: CircularProgressIndicator());
     }
-    if (books.hasError) {
+    if (shelf.hasError) {
       return Center(
         child: app.ErrorWidget(
-          message: localizedError(l10n, books.error!),
+          message: localizedError(l10n, shelf.error!),
           retryLabel: l10n.retry,
           onRetry: () => _loadShelf(snack: true),
         ),
       );
     }
     return ApiHttpLabBookList(
-      books: books.requireValue,
+      books: shelf.requireValue.books,
       onRefresh: () => _loadShelf(snack: true),
       onOpen: _openBook,
       onEdit: (book) => _openBookSheet(book: book),
