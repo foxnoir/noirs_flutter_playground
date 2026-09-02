@@ -28,7 +28,7 @@ class _ScriptAdapter implements HttpClientAdapter {
 void main() {
   DioApiClient clientWith(
     Future<ResponseBody> Function(RequestOptions options) handler, {
-    Duration timeout = const Duration(milliseconds: 20),
+    Duration timeout = const Duration(seconds: 5),
   }) {
     final dio =
         Dio(
@@ -57,7 +57,7 @@ void main() {
   test('2xx returns parsed JSON from a Dio response', () async {
     final client = clientWith((options) async {
       expect(options.method, 'GET');
-      expect(options.path, '/x');
+      expect(options.uri.path, '/x');
       return jsonBody({'ok': true}, 200);
     });
     final json = await client.get('/x', (body) => body! as Map);
@@ -82,7 +82,7 @@ void main() {
     final client = clientWith((options) async {
       await Future<void>.delayed(const Duration(milliseconds: 80));
       return jsonBody({}, 200);
-    });
+    }, timeout: const Duration(milliseconds: 20));
     expect(
       client.get('/timeout', (_) {}),
       throwsA(isA<RequestTimeoutException>()),
