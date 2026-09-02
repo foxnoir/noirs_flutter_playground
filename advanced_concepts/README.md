@@ -345,7 +345,7 @@ lib/core/network/
   dio/dio_log_interceptor.dart
 ```
 
-The backend lives in `backend/`: **Cloud Functions** (HTTP) + **Firestore** (books). Same functions as a typical Dio training server: `GET /success`, `GET /error`, `GET /timeout` (2s delay), `POST /search`, `GET /books`, plus `PUT` / `DELETE` on `/books/:id`. Content is romantasy (Maas ACOTAR / Crescent City, Yarros Empyrean).
+The backend lives in `backend/`: **Cloud Functions** (HTTP) + **Firestore** (books). Same functions as a typical Dio training server: `GET /success`, `GET /error`, `GET /timeout` (2s delay), `POST /search`, `GET /books`, plus `PUT` / `DELETE` on `/books/:id`. Content is romantasy (Maas ACOTAR / Crescent City, Yarros Empyrean, Armentrout Blood and Ash).
 
 This is real HTTP. The emulator is a local Firebase, not an in-process fake. Client tests inject `http.MockClient` or a Dio `HttpClientAdapter`. CI does not need Java.
 
@@ -433,7 +433,7 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**79.3%** line coverage (2469 of 3112 lines).
+**79.7%** line coverage (2511 of 3152 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
