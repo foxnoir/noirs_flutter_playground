@@ -8,6 +8,8 @@ import 'package:advanced_concepts/features/api_http_lab/presentation/widgets/api
 import 'package:advanced_concepts/features/api_http_lab/presentation/widgets/api_http_lab_search_sheet.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:advanced_concepts/shared_widgets/error_widget.dart' as app;
+import 'package:advanced_concepts/shared_widgets/api_lab_background.dart';
+import 'package:advanced_concepts/shared_widgets/api_lab_divider.dart';
 import 'package:advanced_concepts/shared_widgets/lab_screen_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -136,13 +138,15 @@ class _ApiHttpLabScreenState extends ConsumerState<ApiHttpLabScreen> {
         onPressed: _openBookSheet,
         child: const Icon(Icons.add),
       ),
-      body: LabScreenBody(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: [
-            ApiHttpLabScenarioBar(selected: _drill, onSelect: _runDrill),
-            Expanded(child: _body(l10n, books)),
-          ],
+      body: ApiLabBackground(
+        child: LabScreenBody(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              ApiHttpLabScenarioBar(selected: _drill, onSelect: _runDrill),
+              Expanded(child: _body(l10n, books)),
+            ],
+          ),
         ),
       ),
     );
@@ -201,9 +205,10 @@ class _ApiHttpLabBookList extends StatelessWidget {
 
     return RefreshIndicator(
       onRefresh: onRefresh,
-      child: ListView.builder(
+      child: ListView.separated(
         physics: const AlwaysScrollableScrollPhysics(),
         itemCount: books.length,
+        separatorBuilder: (context, _) => const ApiLabDivider(),
         itemBuilder: (context, index) {
           final book = books[index];
           return ApiHttpLabBookTile(
