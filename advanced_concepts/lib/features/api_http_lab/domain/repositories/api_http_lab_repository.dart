@@ -13,4 +13,10 @@ abstract interface class ApiHttpLabRepository {
   Future<List<Book>> fetchBooks();
 
   Future<Book> search({required String title, required String author});
+
+  Future<Book> addBook(Book book);
+
+  Future<Book> updateBook(Book book);
+
+  Future<void> deleteBook(String id);
 }

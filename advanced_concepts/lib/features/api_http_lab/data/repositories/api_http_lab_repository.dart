@@ -59,6 +59,34 @@ class HttpApiHttpLabRepository implements ApiHttpLabRepository {
     return _map(() => _dataSource.search(title: title, author: author));
   }
 
+  @override
+  Future<Book> addBook(Book book) {
+    return _map(() => _dataSource.addBook(_toModel(book)));
+  }
+
+  @override
+  Future<Book> updateBook(Book book) {
+    return _map(() => _dataSource.updateBook(_toModel(book)));
+  }
+
+  @override
+  Future<void> deleteBook(String id) async {
+    try {
+      await _dataSource.deleteBook(id);
+    } on AppException catch (e) {
+      throw AppFailure.fromException(e);
+    }
+  }
+
+  BookModel _toModel(Book book) {
+    return BookModel(
+      id: book.id,
+      title: book.title,
+      author: book.author,
+      status: book.status,
+    );
+  }
+
   Future<Book> _map(Future<BookModel> Function() call) async {
     try {
       final model = await call();

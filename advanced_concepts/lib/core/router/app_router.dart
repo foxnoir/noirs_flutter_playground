@@ -53,6 +53,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoutePaths.apiHttp,
                 name: AppRouteNames.apiHttp,
                 builder: (context, state) => const ApiHttpLabScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutePaths.bookDetails,
+                    name: AppRouteNames.httpBookDetails,
+                    builder: (context, state) {
+                      final extra = state.extra;
+                      return BookDetailsScreen(
+                        bookId: state.pathParameters['bookId'] ?? '',
+                        title: extra is String ? extra : null,
+                      );
+                    },
+                  ),
+                ],
               ),
               GoRoute(
                 path: AppRoutePaths.apiDio,

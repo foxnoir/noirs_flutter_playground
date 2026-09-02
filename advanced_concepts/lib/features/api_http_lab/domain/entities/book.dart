@@ -16,6 +16,20 @@ class Book {
   final String author;
   final BookStatus status;
 
+  Book copyWith({
+    String? id,
+    String? title,
+    String? author,
+    BookStatus? status,
+  }) {
+    return Book(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      author: author ?? this.author,
+      status: status ?? this.status,
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     return other is Book &&

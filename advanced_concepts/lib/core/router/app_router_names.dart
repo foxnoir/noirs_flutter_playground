@@ -6,6 +6,7 @@ abstract final class AppRouteNames {
   static const apiHandling = 'apiHandling';
   static const apiGeneral = 'apiGeneral';
   static const apiHttp = 'apiHttp';
+  static const httpBookDetails = 'httpBookDetails';
   static const apiDio = 'apiDio';
   static const bookDetails = 'bookDetails';
   static const userList = 'userList';

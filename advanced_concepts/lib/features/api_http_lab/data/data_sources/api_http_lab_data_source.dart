@@ -17,6 +17,12 @@ abstract interface class ApiHttpLabDataSource {
   Future<List<BookModel>> fetchBooks();
 
   Future<BookModel> search({required String title, required String author});
+
+  Future<BookModel> addBook(BookModel book);
+
+  Future<BookModel> updateBook(BookModel book);
+
+  Future<void> deleteBook(String id);
 }
 
 final httpClientProvider = Provider<http.Client>((ref) {
@@ -89,6 +95,27 @@ class HttpApiHttpLabDataSource implements ApiHttpLabDataSource {
       'author': author,
     }, _asMap);
     return BookModel.fromJson(_asMap(json['book']));
+  }
+
+  @override
+  Future<BookModel> addBook(BookModel book) async {
+    final json = await _client.post('/books', book.toJson(), _asMap);
+    return BookModel.fromJson(_asMap(json['book']));
+  }
+
+  @override
+  Future<BookModel> updateBook(BookModel book) async {
+    final id = book.id;
+    if (id == null || id.isEmpty) {
+      throw const NetworkException();
+    }
+    final json = await _client.put('/books/$id', book.toJson(), _asMap);
+    return BookModel.fromJson(_asMap(json['book']));
+  }
+
+  @override
+  Future<void> deleteBook(String id) {
+    return _client.delete('/books/$id');
   }
 
   static Map<String, dynamic> _asMap(Object? json) {

@@ -4,6 +4,9 @@ import 'package:advanced_concepts/features/api_dio_lab/domain/entities/book.dart
 import 'package:advanced_concepts/features/api_dio_lab/presentation/api_dio_lab_screen.dart';
 import 'package:advanced_concepts/features/api_general_lab/presentation/api_general_lab_screen.dart';
 import 'package:advanced_concepts/features/api_handling/presentation/api_handling_screen.dart';
+import 'package:advanced_concepts/features/api_http_lab/data/repositories/api_http_lab_repository.dart';
+import 'package:advanced_concepts/features/api_http_lab/domain/entities/book.dart'
+    as http_book;
 import 'package:advanced_concepts/features/api_http_lab/presentation/api_http_lab_screen.dart';
 import 'package:advanced_concepts/features/book_details/presentation/book_details_screen.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
@@ -22,6 +25,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
 import 'features/api_dio_lab/fake_api_dio_lab_repository.dart';
+import 'features/api_http_lab/fake_api_http_lab_repository.dart';
 import 'features/user_list/fake_user_list_repository.dart';
 
 void _useTallSurface(WidgetTester tester) {
@@ -300,7 +304,16 @@ void main() {
 
   testWidgets('API Handling Example HTTP tile opens HTTP Lab', (tester) async {
     _useTallSurface(tester);
-    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          apiHttpLabRepositoryProvider.overrideWithValue(
+            FakeApiHttpLabRepository(),
+          ),
+        ],
+        child: const AdvancedConceptsApp(),
+      ),
+    );
 
     await tester.tap(find.text('API Handling'));
     await tester.pumpAndSettle();
@@ -362,6 +375,42 @@ void main() {
     await tester.tap(find.text('Example Dio'));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('api-dio-lab-book-3')));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(BookDetailsScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Fourth Wing'), findsOneWidget);
+    expect(find.byKey(const Key('book-details-3')), findsOneWidget);
+  });
+
+  testWidgets('HTTP lab book tap opens the placeholder details screen', (
+    tester,
+  ) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          apiHttpLabRepositoryProvider.overrideWithValue(
+            FakeApiHttpLabRepository(
+              books: const [
+                http_book.Book(
+                  id: '3',
+                  title: 'Fourth Wing',
+                  author: 'Rebecca Yarros',
+                  status: http_book.BookStatus.finished,
+                ),
+              ],
+            ),
+          ),
+        ],
+        child: const AdvancedConceptsApp(),
+      ),
+    );
+
+    await tester.tap(find.text('API Handling'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Example HTTP'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('api-http-lab-book-3')));
     await tester.pumpAndSettle();
 
     expect(find.byType(BookDetailsScreen), findsOneWidget);
