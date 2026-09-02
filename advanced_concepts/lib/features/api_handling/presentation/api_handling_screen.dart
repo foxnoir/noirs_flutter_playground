@@ -29,6 +29,10 @@ class ApiHandlingScreen extends StatelessWidget {
               label: l10n.apiDio,
               onTap: () => context.pushNamed(AppRouteNames.apiDio),
             ),
+            LandingListTile(
+              label: l10n.apiCompare,
+              onTap: () => context.pushNamed(AppRouteNames.apiCompare),
+            ),
           ],
         ),
       ),

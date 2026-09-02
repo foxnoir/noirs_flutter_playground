@@ -82,7 +82,7 @@ void main() {
     expect(find.byKey(const Key('api-dio-lab-scenario-books')), findsNothing);
   });
 
-  testWidgets('refresh shows a spinner on the AppBar button', (tester) async {
+  testWidgets('refresh replaces the shelf with a spinner', (tester) async {
     final repository = FakeApiDioLabRepository(books: const [_fourthWing]);
     await _pumpLab(tester, repository: repository);
 
@@ -92,25 +92,14 @@ void main() {
     await tester.tap(find.byKey(const Key('api-dio-lab-refresh')));
     await tester.pump();
 
-    expect(
-      find.descendant(
-        of: find.byKey(const Key('api-dio-lab-refresh')),
-        matching: find.byType(CircularProgressIndicator),
-      ),
-      findsOneWidget,
-    );
-    expect(find.text('Fourth Wing'), findsOneWidget);
+    expect(find.text('Fourth Wing'), findsNothing);
+    expect(find.byType(CircularProgressIndicator), findsOneWidget);
 
     hold.complete();
     await tester.pumpAndSettle();
 
-    expect(
-      find.descendant(
-        of: find.byKey(const Key('api-dio-lab-refresh')),
-        matching: find.byType(CircularProgressIndicator),
-      ),
-      findsNothing,
-    );
+    expect(find.text('Fourth Wing'), findsOneWidget);
+    expect(find.byType(CircularProgressIndicator), findsNothing);
   });
 
   testWidgets('Server drill maps to ServerFailure, retry loads the shelf', (
@@ -232,15 +221,16 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('POST /search · Fourth Wing'), findsOneWidget);
-    expect(find.text('Fourth Wing'), findsOneWidget);
-    expect(find.text('Iron Flame'), findsNothing);
+    expect(find.byKey(const Key('api-dio-lab-book-3')), findsOneWidget);
+    expect(find.byKey(const Key('api-dio-lab-book-4')), findsNothing);
     expect(find.byKey(const Key('api-dio-lab-search-clear')), findsOneWidget);
+    expect(find.byKey(const Key('api-dio-lab-search-submit')), findsNothing);
 
     await tester.tap(find.byKey(const Key('api-dio-lab-search-clear')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Fourth Wing'), findsOneWidget);
-    expect(find.text('Iron Flame'), findsOneWidget);
+    expect(find.byKey(const Key('api-dio-lab-book-3')), findsOneWidget);
+    expect(find.byKey(const Key('api-dio-lab-book-4')), findsOneWidget);
     expect(find.byKey(const Key('api-dio-lab-search')), findsOneWidget);
   });
 

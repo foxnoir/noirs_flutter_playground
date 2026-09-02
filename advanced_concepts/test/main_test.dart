@@ -1,4 +1,5 @@
 import 'package:advanced_concepts/core/router/app_router_calls.dart';
+import 'package:advanced_concepts/features/api_compare_lab/presentation/api_compare_lab_screen.dart';
 import 'package:advanced_concepts/features/api_dio_lab/data/repositories/api_dio_lab_repository.dart';
 import 'package:advanced_concepts/features/api_dio_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/api_dio_lab_screen.dart';
@@ -285,6 +286,7 @@ void main() {
     expect(find.byType(ApiHandlingScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'API Handling'), findsOneWidget);
     expect(find.text('General'), findsOneWidget);
+    expect(find.text('HTTP vs Dio'), findsOneWidget);
     expect(find.text('Example HTTP'), findsOneWidget);
     expect(find.text('Example Dio'), findsOneWidget);
   });
@@ -300,6 +302,21 @@ void main() {
 
     expect(find.byType(ApiGeneralLabScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'General'), findsOneWidget);
+  });
+
+  testWidgets('API Handling HTTP vs Dio tile opens Compare Lab', (
+    tester,
+  ) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('API Handling'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('HTTP vs Dio'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(ApiCompareLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'HTTP vs Dio'), findsOneWidget);
   });
 
   testWidgets('API Handling Example HTTP tile opens HTTP Lab', (tester) async {

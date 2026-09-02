@@ -30,7 +30,7 @@ class ApiDioLabNotifier extends AsyncNotifier<ApiDioLabShelf> {
   }
 
   Future<void> load(ApiDioLabScenario scenario) async {
-    state = const AsyncLoading();
+    state = const AsyncLoading<ApiDioLabShelf>();
     state = await AsyncValue.guard(() async {
       return ApiDioLabShelf(books: await _fetch(scenario));
     });

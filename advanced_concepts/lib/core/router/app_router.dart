@@ -1,5 +1,6 @@
 import 'package:advanced_concepts/core/router/app_router_names.dart';
 import 'package:advanced_concepts/core/router/not_found_screen.dart';
+import 'package:advanced_concepts/features/api_compare_lab/presentation/api_compare_lab_screen.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/api_dio_lab_screen.dart';
 import 'package:advanced_concepts/features/api_general_lab/presentation/api_general_lab_screen.dart';
 import 'package:advanced_concepts/features/api_handling/presentation/api_handling_screen.dart';
@@ -48,6 +49,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoutePaths.apiGeneral,
                 name: AppRouteNames.apiGeneral,
                 builder: (context, state) => const ApiGeneralLabScreen(),
+              ),
+              GoRoute(
+                path: AppRoutePaths.apiCompare,
+                name: AppRouteNames.apiCompare,
+                builder: (context, state) => const ApiCompareLabScreen(),
               ),
               GoRoute(
                 path: AppRoutePaths.apiHttp,

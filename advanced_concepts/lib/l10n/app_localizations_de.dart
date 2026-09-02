@@ -564,6 +564,94 @@ class AppLocalizationsDe extends AppLocalizations {
   String get apiDio => 'Example Dio';
 
   @override
+  String get apiCompare => 'HTTP vs Dio';
+
+  @override
+  String get apiCompareHint =>
+      'Kein Live-Call. Dieselbe GET durch package:http (_send) und Dio (Interceptors) steppen, bis der Request feuert.';
+
+  @override
+  String get apiCompareNext => 'Next';
+
+  @override
+  String get apiCompareReset => 'Reset';
+
+  @override
+  String get apiCompareGet => 'GET';
+
+  @override
+  String get apiCompareIdle =>
+      'GET oder Drill wählen. Next läuft beide Stacks.';
+
+  @override
+  String get apiCompareHttpTitle => 'package:http';
+
+  @override
+  String get apiCompareDioTitle => 'Dio';
+
+  @override
+  String get apiCompareFires => 'GET feuert';
+
+  @override
+  String get apiCompareHintEnter =>
+      'Die Data Source ruft den Client. Gleicher Einstieg, anderes Innenleben.';
+
+  @override
+  String get apiCompareHintHttpSend =>
+      'Keine Interceptors. Header, Timeout und Status-Mapping liegen in _send.';
+
+  @override
+  String get apiCompareHintDioSend =>
+      '_send reicht nur an _dio.request weiter. Logging und Mapping sind Interceptors.';
+
+  @override
+  String get apiCompareHintHttpNoInterceptor =>
+      'Keine Interceptor-Pipeline. Bis zum Socket bleibt alles in _send.';
+
+  @override
+  String get apiCompareHintDioOnRequest =>
+      'onRequest läuft vor dem Socket. Logging und Mapping sind Interceptors, nicht die Data Source.';
+
+  @override
+  String get apiCompareHintFire => 'Hier verlässt der HTTP-Request das Gerät.';
+
+  @override
+  String get apiCompareHintHttpMap =>
+      'Status 200 wird in _send gemappt, dann JSON geparst.';
+
+  @override
+  String get apiCompareHintDioOnResponse =>
+      'onResponse läuft nach dem Socket. Dann parst der Client JSON.';
+
+  @override
+  String get apiCompareHintHttpTimeout =>
+      '_send fängt TimeoutException und wirft RequestTimeoutException.';
+
+  @override
+  String get apiCompareHintDioOnError =>
+      'onError mappt DioExceptionType.receiveTimeout auf RequestTimeoutException.';
+
+  @override
+  String get apiCompareHintHttpOffline =>
+      '_send-catch wird NetworkException. Keine Interceptor-Pipeline.';
+
+  @override
+  String get apiCompareHintDioOffline =>
+      'onError mappt connectionError auf NetworkException.';
+
+  @override
+  String get apiCompareHintHttpServer =>
+      '_send-switch: status >= 500 → ServerException.';
+
+  @override
+  String get apiCompareHintDioServer =>
+      'onError mappt badResponse 500 auf ServerException.';
+
+  @override
+  String get apiCompareUnstableHint =>
+      'Instabil ist kein Verb. Die Live-Labs lassen jeden dritten GET fehlschlagen. Der Stack ist derselbe wie GET.';
+
+  @override
   String get apiCrudWhen => 'Vier Verben für eine Ressource';
 
   @override

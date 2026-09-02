@@ -132,17 +132,8 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
           IconButton(
             key: const Key('api-dio-lab-refresh'),
             tooltip: l10n.retry,
-            onPressed: shelf.isLoading ? null : () => _loadShelf(snack: true),
-            icon: shelf.isLoading
-                ? SizedBox(
-                    width: 24,
-                    height: 24,
-                    child: CircularProgressIndicator(
-                      strokeWidth: 2,
-                      color: IconTheme.of(context).color,
-                    ),
-                  )
-                : const Icon(Icons.refresh),
+            onPressed: () => _loadShelf(snack: true),
+            icon: const Icon(Icons.refresh),
           ),
         ],
       ),
@@ -167,24 +158,24 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
   }
 
   Widget _body(AppLocalizations l10n, AsyncValue<ApiDioLabShelf> shelf) {
-    if (shelf.isLoading && !shelf.hasValue) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    if (shelf.hasError) {
-      return Center(
+    return shelf.when(
+      skipLoadingOnReload: false,
+      skipLoadingOnRefresh: false,
+      loading: () => const Center(child: CircularProgressIndicator()),
+      error: (error, _) => Center(
         child: app.ErrorWidget(
-          message: localizedError(l10n, shelf.error!),
+          message: localizedError(l10n, error),
           retryLabel: l10n.retry,
           onRetry: () => _loadShelf(snack: true),
         ),
-      );
-    }
-    return ApiDioLabBookList(
-      books: shelf.requireValue.books,
-      onRefresh: () => _loadShelf(snack: true),
-      onOpen: _openBook,
-      onEdit: (book) => _openBookSheet(book: book),
-      onDelete: _deleteBook,
+      ),
+      data: (value) => ApiDioLabBookList(
+        books: value.books,
+        onRefresh: () => _loadShelf(snack: true),
+        onOpen: _openBook,
+        onEdit: (book) => _openBookSheet(book: book),
+        onDelete: _deleteBook,
+      ),
     );
   }
 }

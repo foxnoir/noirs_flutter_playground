@@ -40,5 +40,8 @@ ui-debug.log
 pubsub-debug.log
 advanced_concepts/backend/emulator-data/
 
+.update_coverage_test.log
+.update_coverage_test.log.lines
+
 .flutter-plugins
 .flutter-plugins-dependencies
