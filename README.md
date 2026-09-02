@@ -168,8 +168,8 @@ Packages currently used in the playground apps. Update this table when a `pubspe
 | [freezed_annotation](https://pub.dev/packages/freezed_annotation) | Annotations for immutable Freezed models. |
 | [json_annotation](https://pub.dev/packages/json_annotation) | Annotations for `fromJson` / `toJson` codegen. |
 | [go_router](https://pub.dev/packages/go_router) | Declarative routes for iOS and web. |
-| [http](https://pub.dev/packages/http) | Real HTTP in API Handling → Example HTTP (`ApiClient`). |
-| [dio](https://pub.dev/packages/dio) | Real HTTP in API Handling → Example Dio (`DioApiClient` + interceptors). |
+| [http](https://pub.dev/packages/http) | Example HTTP lab (`ApiClient`). Teaching stack only — a real app does not also ship Dio. |
+| [dio](https://pub.dev/packages/dio) | Example Dio lab (`DioApiClient` + interceptors). Teaching stack only — a real app does not also ship `package:http`. |
 | [flutter_localizations](https://docs.flutter.dev/ui/internationalization) | Generated EN/DE l10n from ARB files. |
 | [intl](https://pub.dev/packages/intl) | Message and date formatting used by l10n. |
 | [freezed](https://pub.dev/packages/freezed) | Codegen for immutable models and unions (`dev`). |
@@ -200,7 +200,7 @@ Practice project for **Riverpod**: provider types, labs (listen, ConsumerWidget,
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project for **navigation**, **layout**, **lists**, and **API integration**: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers; unified API class, timeouts, and network errors.
+Practice project for **navigation**, **layout**, **lists**, and **API integration**: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers; **Example HTTP** and **Example Dio** side by side (same backend — pick one client in a real app).
 
 [README »](advanced_concepts/README.md)
 
