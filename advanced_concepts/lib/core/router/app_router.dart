@@ -4,6 +4,7 @@ import 'package:advanced_concepts/features/api_dio_lab/presentation/api_dio_lab_
 import 'package:advanced_concepts/features/api_general_lab/presentation/api_general_lab_screen.dart';
 import 'package:advanced_concepts/features/api_handling/presentation/api_handling_screen.dart';
 import 'package:advanced_concepts/features/api_http_lab/presentation/api_http_lab_screen.dart';
+import 'package:advanced_concepts/features/book_details/presentation/book_details_screen.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
@@ -57,6 +58,19 @@ final goRouterProvider = Provider<GoRouter>((ref) {
                 path: AppRoutePaths.apiDio,
                 name: AppRouteNames.apiDio,
                 builder: (context, state) => const ApiDioLabScreen(),
+                routes: [
+                  GoRoute(
+                    path: AppRoutePaths.bookDetails,
+                    name: AppRouteNames.bookDetails,
+                    builder: (context, state) {
+                      final extra = state.extra;
+                      return BookDetailsScreen(
+                        bookId: state.pathParameters['bookId'] ?? '',
+                        title: extra is String ? extra : null,
+                      );
+                    },
+                  ),
+                ],
               ),
             ],
           ),

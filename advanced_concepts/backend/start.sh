@@ -9,6 +9,12 @@ echo
 echo "API:  http://127.0.0.1:5001/noirs-firebase-lab/europe-west1/api"
 echo "UI:   http://127.0.0.1:4000"
 echo "Leave this Terminal open. Then run the Flutter app."
+echo "Ctrl+C exports Firestore to emulator-data/ (restored on the next start)."
 echo
 
-exec npx firebase emulators:start --only functions,firestore
+args=(emulators:start --only functions,firestore --export-on-exit=./emulator-data)
+if [[ -d emulator-data ]]; then
+  args+=(--import=./emulator-data)
+fi
+
+exec npx firebase "${args[@]}"

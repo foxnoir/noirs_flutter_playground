@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Advanced Concepts</h1>
   <p>
-     Practice project for navigation, layout, lists, and API integration: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers; unified API class, timeouts, and network errors.
+     Practice project for navigation, layout, lists, and API integration: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers; Example HTTP and Example Dio side by side (same backend — pick one client in a real app).
   </p>
 </div>
 
@@ -94,9 +94,9 @@
 
 This project is the **navigation**, **layout**, **lists**, and **API integration** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`). **General** is the current unified-API lab (`ApiGeneralLabScreen`): one **ApiClient** (`package:http`) against a **Firebase** Cloud Functions + Firestore backend of romantasy **books**. **Example HTTP** and **Example Dio** are empty layer shells (`ApiHttpLabScreen`, `ApiDioLabScreen`) for a later pass. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`). **General** (`ApiGeneralLabScreen`) is concepts only: **CRUD**, **interceptors** vs `package:http`, and a unified API class — no live buttons. **Example HTTP** (`ApiHttpLabScreen`) is still an empty screen. **Example Dio** (`ApiDioLabScreen`) is a bookshelf: GET /books, scenario chips (including every-third-fail **Unstable**), and Search. Tapping a book (or the book icon) opens a placeholder details page (`BookDetailsScreen`) with the title and the reading dragon. Edit stays the sheet. Delete stays the confirm dialog. Both labs' data layers talk to the same **Firebase** Cloud Functions + Firestore backend of romantasy **books** (`package:http` / `ApiClient` vs **Dio** / `DioApiClient`). Two stacks in one project is the lesson, not a production pattern — ship **http** or **dio**, never both. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
 
-Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. Books go Firebase emulator → `package:http` → `ApiClient` → `HttpBookApiDataSource` → `HttpBookApiRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
+Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `BookDetailsScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. Book Details is its own feature (`lib/features/book_details/`), like User Details — not a file inside the Dio lab. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. HTTP books: Firebase emulator → `package:http` → `ApiClient` → `HttpApiHttpLabDataSource` → `HttpApiHttpLabRepository`. Dio books: same emulator → `Dio` → `DioApiClient` → `DioApiDioLabDataSource` → `DioApiDioLabRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -158,7 +158,7 @@ Use **replace** when this screen should not come back: login → home, wizard st
 | `goNamed('userList')` / `pushNamed('userList')` | [AppRouteNames](lib/core/router/app_router_names.dart) | Prefer this in app code. Renaming a path does not break callers. |
 | `go('/user-list')` / `push('/user-list')` | The URL | What the browser / deep link uses. |
 
-User Details is `/user-list/:userId` (child of User List). The list always `pushNamed`s so Back returns to the list.
+User Details is `/user-list/:userId` (child of User List). The list always `pushNamed`s so Back returns to the list. Book Details is `/api-handling/dio/books/:bookId` (child of Example Dio), same pattern: `pushNamed('bookDetails')`.
 
 User List is a **sibling** of Landing Screen, not a nested child of Routing Lab. Nested under `/routing`, `go('/user-list')` would keep Routing Lab as a parent and the go vs push demo would vanish.
 
@@ -330,11 +330,24 @@ The lab draws the Column trap as **wrong** (stripes + assertion) vs **works** (a
 
 ## API integration
 
-**ApiClient** (`lib/core/network/api_client.dart`) is the unified API class: `package:http`, then `.timeout`, then status codes, then connection errors. It throws `AppException`. The book data source only parses JSON. The repository maps to `AppFailure`.
+**CRUD** is Create / Read / Update / Delete — the four HTTP verbs for one resource (`POST`, `GET`, `PUT`, `DELETE`). The books API is that resource.
 
-The backend lives in `backend/`: **Cloud Functions** (HTTP) + **Firestore** (books). Same functions as a typical Dio training server: `GET /success`, `GET /error`, `GET /timeout` (2s delay), `POST /identify`, `GET /books`, plus `PUT` / `DELETE` on `/books/:id`. Content is romantasy (Maas, Yarros, *Liebe kennt keine Grenzen*).
+**General** explains that, plus a unified API class, plus the interceptor vs `_send` split. **Example HTTP** and **Example Dio** are two labs on the **same** books API so you can compare `package:http` (`ApiClient`, mapping in `_send`) with **Dio** (`DioApiClient` + interceptors). That side-by-side is the playground. A real app picks **one** client — not both. **Example Dio** is a bookshelf: landing is the list, four error buttons sit above it, and you can add / edit status / delete books. Book tap opens an empty details page (title + dragon) for later `GET /books/:id`. **Example HTTP** is still an empty screen.
 
-This is real HTTP. The emulator is a local Firebase, not an in-process fake. Tests inject `http.MockClient` so CI does not need Java.
+**ApiClient** (`lib/core/network/http/api_client.dart`) is the `package:http` unified class: `_dispatch` picks the verb, then `.timeout`, then status codes, then connection errors. `package:http` has no interceptors. **DioApiClient** (`lib/core/network/dio/dio_api_client.dart`) is the Dio twin. **Interceptors** (`DioAppExceptionInterceptor`, `DioLogInterceptor`) live next to it and run `onRequest` / `onResponse` / `onError` before the data source. Both clients throw `AppException`. Each lab's data source only parses JSON. Each repository maps to `AppFailure`. Shared host config stays at `lib/core/network/api_config.dart` — not inside `http/` or `dio/`.
+
+```
+lib/core/network/
+  api_config.dart
+  http/api_client.dart
+  dio/dio_api_client.dart
+  dio/dio_app_exception_interceptor.dart
+  dio/dio_log_interceptor.dart
+```
+
+The backend lives in `backend/`: **Cloud Functions** (HTTP) + **Firestore** (books). Same functions as a typical Dio training server: `GET /success`, `GET /error`, `GET /timeout` (2s delay), `POST /search`, `GET /books`, plus `PUT` / `DELETE` on `/books/:id`. Content is romantasy (Maas, Yarros, *Liebe kennt keine Grenzen*).
+
+This is real HTTP. The emulator is a local Firebase, not an in-process fake. Client tests inject `http.MockClient` or a Dio `HttpClientAdapter`. CI does not need Java.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -358,7 +371,7 @@ Works: `send(request).timeout(...)`. The client fails first with `RequestTimeout
 
 Wrong: `catch (e) => Text(e.toString())`. 401 and 500 look the same.
 
-Works: `401` → `UnauthorizedException`, `500` → `ServerException`, thrown connection → `NetworkException`. Each has a localized line. `POST /identify` with the wrong author is the 401 drill.
+Works: `401` → `UnauthorizedException`, `500` → `ServerException`, thrown connection → `NetworkException`. Each has a localized line. `POST /search` with the wrong author is the 401 drill.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -382,14 +395,14 @@ fvm install
 fvm flutter pub get
 ```
 
-API lab: start the Firebase emulator **first**, leave that Terminal open, then run Flutter in a second Terminal.
+API lab: start the Firebase emulator **first**, leave that Terminal open, then run Flutter in a second Terminal. `./start.sh` **imports** `backend/emulator-data/` when that folder exists and **exports** Firestore there on Ctrl+C. That is the emulator backup — CRUD edits survive a clean emulator restart. A kill (`kill -9`) skips the export. The first start with an empty Firestore seeds the romantasy list.
 
 ```
 cd backend
 ./start.sh
 ```
 
-Wait for `All emulators ready`. API: `http://127.0.0.1:5001/noirs-firebase-lab/europe-west1/api`. UI: `http://127.0.0.1:4000`.
+Wait for `All emulators ready`. API: `http://127.0.0.1:5001/noirs-firebase-lab/europe-west1/api`. UI: `http://127.0.0.1:4000`. Override the app base URL with `--dart-define=API_BASE_URL=https://…/api/` after deploy.
 
 ```
 fvm flutter run
@@ -401,11 +414,11 @@ fvm flutter run
 fvm flutter run -d chrome
 ```
 
-Chrome shows path URLs (`/layout`, `/api-handling`, `/api-handling/general`). There is no Android project. A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
+Chrome shows path URLs (`/layout`, `/api-handling`, `/api-handling/general`, `/api-handling/dio`, `/api-handling/dio/books/:bookId`). There is no Android project. A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `http`, `intl`, `cupertino_icons`, `flutter_web_plugins`. Dev: `riverpod_lint`, `very_good_analysis`. Optional cloud deploy: `cd backend && ./deploy.sh` (Google login + Blaze).
+Packages live in `pubspec.yaml` (do not copy versions from this README; they move). Runtime: `flutter_riverpod`, `go_router`, `http`, `dio`, `intl`, `cupertino_icons`, `flutter_web_plugins`. Dev: `riverpod_lint`, `very_good_analysis`. Optional cloud deploy: `cd backend && ./deploy.sh` (Google login + Blaze).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -413,14 +426,14 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API Handling** opens the hub. **General** opens the unified-API lab (`package:http` against a mock in tests; Firebase emulator when you run the app). **Example HTTP** and **Example Dio** open empty screens.
+`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API Handling** opens the hub. **General** is concept-only (CRUD, interceptors, unified client — no buttons). **Example HTTP** opens an empty screen. **Example Dio** opens the bookshelf (repository faked in tests). A book tap opens `BookDetailsScreen`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**84.7%** line coverage (1714 of 2024 lines).
+**75.6%** line coverage (1997 of 2642 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

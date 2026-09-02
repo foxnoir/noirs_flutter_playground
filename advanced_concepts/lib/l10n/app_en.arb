@@ -6,6 +6,7 @@
   "routing": "Routing Lab",
   "userList": "User List",
   "userDetails": "User Details",
+  "bookDetails": "Book Details",
   "nickname": "Nickname",
   "email": "Email",
   "age": "Age",
@@ -125,15 +126,23 @@
   "layoutBreakpointChip": "parent {width}  ·  {name}",
   "@layoutBreakpointChip": {
     "placeholders": {
-      "width": {"type": "int"},
-      "name": {"type": "String"}
+      "width": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
     }
   },
   "layoutBreakpointWindowChip": "window {width}  ·  {name}",
   "@layoutBreakpointWindowChip": {
     "placeholders": {
-      "width": {"type": "int"},
-      "name": {"type": "String"}
+      "width": {
+        "type": "int"
+      },
+      "name": {
+        "type": "String"
+      }
     }
   },
   "layoutBuilderTitle": "LayoutBuilder vs MediaQuery",
@@ -146,14 +155,20 @@
   "layoutBuilderPaneChip": "parent {parent}  ·  child {child}",
   "@layoutBuilderPaneChip": {
     "placeholders": {
-      "parent": {"type": "int"},
-      "child": {"type": "int"}
+      "parent": {
+        "type": "int"
+      },
+      "child": {
+        "type": "int"
+      }
     }
   },
   "layoutBuilderStripe": "RIGHT OVERFLOWED BY {pixels} PIXELS",
   "@layoutBuilderStripe": {
     "placeholders": {
-      "pixels": {"type": "int"}
+      "pixels": {
+        "type": "int"
+      }
     }
   },
   "layoutOverflowTitle": "Row overflow",
@@ -189,8 +204,14 @@
   "apiGeneral": "General",
   "apiHttp": "Example HTTP",
   "apiDio": "Example Dio",
+  "apiCrudWhen": "Four verbs for a resource",
+  "apiCrudCalls": "CRUD",
+  "apiCrudHint": "Create POST, Read GET, Update PUT, Delete DELETE. GET /books lists. POST /books adds. PUT /books/:id edits. DELETE /books/:id removes.",
+  "apiInterceptorWhen": "Same work on every request",
+  "apiInterceptorCalls": "Interceptor (Dio)",
+  "apiInterceptorHint": "Dio runs onRequest, onResponse, and onError before the data source. package:http has no interceptors — ApiClient maps timeout and status in _send instead.",
   "apiUnifiedWhen": "Every HTTP call",
-  "apiUnifiedCalls": "ApiClient",
+  "apiUnifiedCalls": "one client class",
   "apiUnifiedHint": "Timeout, 401, 404, 500, and connection errors live in one class. The data source only parses JSON.",
   "apiTimeoutWhen": "Server is slow",
   "apiTimeoutCalls": ".timeout",
@@ -198,17 +219,17 @@
   "apiNetworkWhen": "No body to parse",
   "apiNetworkCalls": "status → AppException",
   "apiNetworkHint": "500 is ServerFailure. 401 is UnauthorizedFailure. DNS / socket is NetworkFailure. Never show e.toString().",
-  "apiContext": "**ApiClient** is the unified API class and uses **package:http**. The backend is Firebase Cloud Functions + Firestore (emulator: `./backend/start.sh`). Data source throws **AppException**. Repository maps to **AppFailure**. UI reads **localizedError**.",
+  "apiContext": "**CRUD** is the four HTTP verbs for one resource. A **unified API class** maps timeout and status once. **Interceptors** are Dio's pipeline for that (and logging). **Example HTTP** uses **package:http**. **Example Dio** uses **Dio**. Same Firebase backend. No live calls here.",
   "apiUnifiedTitle": "Unified API class",
   "apiUnifiedWrongTitle": "wrong  ·  statusCode in the data source",
   "apiUnifiedWrongHint": "Every method repeats if (statusCode == 401). Timeout is forgotten. Error strings leak into data.",
   "apiUnifiedRightTitle": "works  ·  ApiClient.send",
-  "apiUnifiedRightHint": "GET /books and GET /success share the same mapping. Tap to parse the wrapped JSON (books / data).",
+  "apiUnifiedRightHint": "GET /books and GET /success share the same mapping. JSON stays wrapped (books / data).",
   "apiUnifiedCallWrong": "if (response.statusCode == 200) BookModel.fromJson(json)",
   "apiUnifiedCallRight": "ApiClient.get('/books', parse)  // throws AppException",
   "apiTimeoutTitle": "Timeout",
   "apiTimeoutWrongTitle": "wrong  ·  no client timeout",
-  "apiTimeoutWrongHint": "GET /timeout waits the full delay. The button spins until the server answers.",
+  "apiTimeoutWrongHint": "GET /timeout waits the full delay. Without a client timeout the UI waits until the server answers.",
   "apiTimeoutRightTitle": "works  ·  ApiClient.timeout",
   "apiTimeoutRightHint": "Same path. The client cancels first. TimeoutFailure → ErrorWidget.",
   "apiTimeoutCallWrong": "send(request)  // waits forever",
@@ -220,10 +241,63 @@
   "apiNetworkRightHint": "500, 401, and offline each get a typed failure and a localized line.",
   "apiNetworkCallWrong": "catch (e) => Text(e.toString())",
   "apiNetworkCallRight": "401 → UnauthorizedException  ·  500 → ServerException  ·  catch → NetworkException",
-  "apiCallBooks": "GET /books",
-  "apiCallSuccess": "GET /success",
-  "apiCallTimeout": "GET /timeout",
-  "apiCallError": "GET /error",
-  "apiCallUnauthorized": "POST /identify  (wrong author)",
-  "apiCallOffline": "GET /offline"
+  "apiDioScenarioBooks": "Shelf",
+  "apiDioScenarioUnstable": "Unstable",
+  "apiDioScenarioTimeout": "Slow",
+  "apiDioScenarioOffline": "Offline",
+  "apiDioScenarioServer": "Server error",
+  "apiDioUnstableHint": "Every third Unstable tap fails. Retry loads the shelf.",
+  "apiDioSearch": "Search",
+  "apiDioSearchTitleLabel": "Title",
+  "apiDioSearchAuthorLabel": "Author",
+  "apiDioSearchSubmit": "Search",
+  "apiDioSearchFound": "POST /search · {title}",
+  "@apiDioSearchFound": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "apiDioEmpty": "No books on this shelf.",
+  "apiDioNotStarted": "Not started",
+  "apiDioFinished": "Finished",
+  "apiDioReading": "Reading",
+  "apiDioAdd": "Add book",
+  "apiDioEdit": "Edit",
+  "apiDioSave": "Save",
+  "apiDioDelete": "Delete",
+  "apiDioConfirmDelete": "Delete {title}?",
+  "@apiDioConfirmDelete": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "apiDioSnackGetBooks": "GET /books",
+  "apiDioSnackAdded": "POST /books · {title}",
+  "@apiDioSnackAdded": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "apiDioSnackUpdated": "PUT /books · {title}",
+  "@apiDioSnackUpdated": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "apiDioSnackDeleted": "DELETE /books · {title}",
+  "@apiDioSnackDeleted": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  }
 }

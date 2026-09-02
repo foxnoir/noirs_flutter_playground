@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart' hide ErrorWidget;
 
-/// Icon plus a localized message for async error UI.
+/// Illustration plus a localized message for async error UI.
 ///
 /// Import material with `hide ErrorWidget` so this name does not clash
 /// with Flutter's build-failure fallback.
@@ -9,12 +9,16 @@ class ErrorWidget extends StatelessWidget {
     required this.message,
     this.retryLabel,
     this.onRetry,
+    this.imageAsset = defaultImageAsset,
     super.key,
   });
+
+  static const defaultImageAsset = 'assets/img/error_dragon.png';
 
   final String message;
   final String? retryLabel;
   final VoidCallback? onRetry;
+  final String imageAsset;
 
   @override
   Widget build(BuildContext context) {
@@ -26,11 +30,7 @@ class ErrorWidget extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(
-          Icons.error_outline,
-          size: 72,
-          color: Theme.of(context).colorScheme.error,
-        ),
+        Image.asset(imageAsset, width: 220, fit: BoxFit.contain),
         const SizedBox(height: 24),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),

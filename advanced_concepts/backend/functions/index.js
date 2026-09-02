@@ -13,11 +13,13 @@ const app = express();
 
 app.use(express.json());
 
+const STATUSES = new Set(["not_started", "reading", "finished"]);
+
 const SUCCESS_BOOK = {
   id: null,
   title: "A Court of Silver Flames",
   author: "Sarah J. Maas",
-  finished: false,
+  status: "reading",
 };
 
 const SEED_BOOKS = [
@@ -25,50 +27,55 @@ const SEED_BOOKS = [
     id: "1",
     title: "A Court of Thorns and Roses",
     author: "Sarah J. Maas",
-    finished: true,
+    status: "finished",
   },
   {
     id: "2",
     title: "A Court of Mist and Fury",
     author: "Sarah J. Maas",
-    finished: true,
+    status: "finished",
   },
   {
     id: "3",
     title: "Fourth Wing",
     author: "Rebecca Yarros",
-    finished: true,
+    status: "finished",
   },
   {
     id: "4",
     title: "Iron Flame",
     author: "Rebecca Yarros",
-    finished: false,
+    status: "reading",
   },
   {
     id: "5",
     title: "Onyx Storm",
     author: "Rebecca Yarros",
-    finished: false,
+    status: "not_started",
   },
   {
     id: "6",
     title: "House of Earth and Blood",
     author: "Sarah J. Maas",
-    finished: true,
+    status: "finished",
   },
   {
     id: "7",
     title: "Liebe kennt keine Grenzen",
     author: "Kathryn Taylor",
-    finished: false,
+    status: "reading",
   },
 ];
 
-let didEnsureSeed = false;
-
 function sendError(res, status, code, message) {
   res.status(status).json({code, message});
+}
+
+function bookStatus(data) {
+  if (STATUSES.has(data.status)) {
+    return data.status;
+  }
+  return data.finished ? "finished" : "reading";
 }
 
 function toBook(id, data) {
@@ -76,12 +83,14 @@ function toBook(id, data) {
     id,
     title: data.title ?? "",
     author: data.author ?? "",
-    finished: Boolean(data.finished),
+    status: bookStatus(data),
   };
 }
 
 async function ensureSeed() {
-  if (didEnsureSeed) {
+  const meta = db.collection("_meta").doc("books");
+  const marker = await meta.get();
+  if (marker.exists) {
     return;
   }
   const existing = await books.limit(1).get();
@@ -90,11 +99,11 @@ async function ensureSeed() {
       await books.doc(seed.id).set({
         title: seed.title,
         author: seed.author,
-        finished: seed.finished,
+        status: seed.status,
       });
     }
   }
-  didEnsureSeed = true;
+  await meta.set({seeded: true});
 }
 
 function parseBook(body) {
@@ -107,15 +116,24 @@ function parseBook(body) {
   if (typeof body.author !== "string" || body.author.trim().length === 0) {
     return {ok: false, message: "author is required"};
   }
-  if (body.finished !== undefined && typeof body.finished !== "boolean") {
-    return {ok: false, message: "finished must be a boolean"};
+  let status = "not_started";
+  if (body.status !== undefined) {
+    if (!STATUSES.has(body.status)) {
+      return {ok: false, message: "status must be not_started, reading, or finished"};
+    }
+    status = body.status;
+  } else if (body.finished !== undefined) {
+    if (typeof body.finished !== "boolean") {
+      return {ok: false, message: "finished must be a boolean"};
+    }
+    status = body.finished ? "finished" : "reading";
   }
   return {
     ok: true,
     value: {
       title: body.title.trim(),
       author: body.author.trim(),
-      finished: body.finished ?? false,
+      status,
     },
   };
 }
@@ -140,7 +158,7 @@ app.get("/timeout", async (_req, res) => {
   res.status(200).json({message: "Delayed response"});
 });
 
-app.post("/identify", async (req, res) => {
+app.post("/search", async (req, res) => {
   try {
     await ensureSeed();
     const title = req.body?.title;

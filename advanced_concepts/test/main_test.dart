@@ -1,8 +1,11 @@
 import 'package:advanced_concepts/core/router/app_router_calls.dart';
+import 'package:advanced_concepts/features/api_dio_lab/data/repositories/api_dio_lab_repository.dart';
+import 'package:advanced_concepts/features/api_dio_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/api_dio_lab_screen.dart';
 import 'package:advanced_concepts/features/api_general_lab/presentation/api_general_lab_screen.dart';
 import 'package:advanced_concepts/features/api_handling/presentation/api_handling_screen.dart';
 import 'package:advanced_concepts/features/api_http_lab/presentation/api_http_lab_screen.dart';
+import 'package:advanced_concepts/features/book_details/presentation/book_details_screen.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
@@ -18,6 +21,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
 
+import 'features/api_dio_lab/fake_api_dio_lab_repository.dart';
 import 'features/user_list/fake_user_list_repository.dart';
 
 void _useTallSurface(WidgetTester tester) {
@@ -294,9 +298,7 @@ void main() {
     expect(find.widgetWithText(AppBar, 'General'), findsOneWidget);
   });
 
-  testWidgets('API Handling Example HTTP tile opens empty HTTP Lab', (
-    tester,
-  ) async {
+  testWidgets('API Handling Example HTTP tile opens HTTP Lab', (tester) async {
     _useTallSurface(tester);
     await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
 
@@ -309,11 +311,18 @@ void main() {
     expect(find.widgetWithText(AppBar, 'Example HTTP'), findsOneWidget);
   });
 
-  testWidgets('API Handling Example Dio tile opens empty Dio Lab', (
-    tester,
-  ) async {
+  testWidgets('API Handling Example Dio tile opens Dio Lab', (tester) async {
     _useTallSurface(tester);
-    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          apiDioLabRepositoryProvider.overrideWithValue(
+            FakeApiDioLabRepository(),
+          ),
+        ],
+        child: const AdvancedConceptsApp(),
+      ),
+    );
 
     await tester.tap(find.text('API Handling'));
     await tester.pumpAndSettle();
@@ -322,5 +331,41 @@ void main() {
 
     expect(find.byType(ApiDioLabScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Example Dio'), findsOneWidget);
+  });
+
+  testWidgets('Dio lab book tap opens the placeholder details screen', (
+    tester,
+  ) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          apiDioLabRepositoryProvider.overrideWithValue(
+            FakeApiDioLabRepository(
+              books: const [
+                Book(
+                  id: '3',
+                  title: 'Fourth Wing',
+                  author: 'Rebecca Yarros',
+                  status: BookStatus.finished,
+                ),
+              ],
+            ),
+          ),
+        ],
+        child: const AdvancedConceptsApp(),
+      ),
+    );
+
+    await tester.tap(find.text('API Handling'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Example Dio'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('api-dio-lab-book-3')));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(BookDetailsScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Fourth Wing'), findsOneWidget);
+    expect(find.byKey(const Key('book-details-3')), findsOneWidget);
   });
 }

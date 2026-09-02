@@ -28,6 +28,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get userDetails => 'Userdetails';
 
   @override
+  String get bookDetails => 'Buchdetails';
+
+  @override
   String get nickname => 'Spitzname';
 
   @override
@@ -561,10 +564,30 @@ class AppLocalizationsDe extends AppLocalizations {
   String get apiDio => 'Example Dio';
 
   @override
+  String get apiCrudWhen => 'Vier Verben für eine Ressource';
+
+  @override
+  String get apiCrudCalls => 'CRUD';
+
+  @override
+  String get apiCrudHint =>
+      'Create POST, Read GET, Update PUT, Delete DELETE. GET /books listet. POST /books legt an. PUT /books/:id ändert. DELETE /books/:id löscht.';
+
+  @override
+  String get apiInterceptorWhen => 'Dieselbe Arbeit bei jedem Request';
+
+  @override
+  String get apiInterceptorCalls => 'Interceptor (Dio)';
+
+  @override
+  String get apiInterceptorHint =>
+      'Dio läuft onRequest, onResponse und onError vor der Data Source. package:http hat keine Interceptors — ApiClient mappt Timeout und Status in _send.';
+
+  @override
   String get apiUnifiedWhen => 'Jeder HTTP-Call';
 
   @override
-  String get apiUnifiedCalls => 'ApiClient';
+  String get apiUnifiedCalls => 'eine Client-Klasse';
 
   @override
   String get apiUnifiedHint =>
@@ -592,7 +615,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get apiContext =>
-      '**ApiClient** ist die Unified API Class und nutzt **package:http**. Das Backend ist Firebase Cloud Functions + Firestore (Emulator: `./backend/start.sh`). Die Data Source wirft **AppException**. Das Repository mappt auf **AppFailure**. Die UI liest **localizedError**.';
+      '**CRUD** sind die vier HTTP-Verben für eine Ressource. Eine **Unified API Class** mappt Timeout und Status einmal. **Interceptors** sind Dios Pipeline dafür (und für Logs). **Example HTTP** nutzt **package:http**. **Example Dio** nutzt **Dio**. Dasselbe Firebase-Backend. Hier keine Live-Calls.';
 
   @override
   String get apiUnifiedTitle => 'Unified API class';
@@ -609,7 +632,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get apiUnifiedRightHint =>
-      'GET /books und GET /success teilen dasselbe Mapping. Tippen parst das gewrappte JSON (books / data).';
+      'GET /books und GET /success teilen dasselbe Mapping. JSON bleibt gewrappt (books / data).';
 
   @override
   String get apiUnifiedCallWrong =>
@@ -627,7 +650,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get apiTimeoutWrongHint =>
-      'GET /timeout wartet die volle Delay. Der Button spinnt, bis der Server antwortet.';
+      'GET /timeout wartet die volle Delay. Ohne Client-Timeout wartet die UI, bis der Server antwortet.';
 
   @override
   String get apiTimeoutRightTitle => 'works  ·  ApiClient.timeout';
@@ -668,20 +691,85 @@ class AppLocalizationsDe extends AppLocalizations {
       '401 → UnauthorizedException  ·  500 → ServerException  ·  catch → NetworkException';
 
   @override
-  String get apiCallBooks => 'GET /books';
+  String get apiDioScenarioBooks => 'Regal';
 
   @override
-  String get apiCallSuccess => 'GET /success';
+  String get apiDioScenarioUnstable => 'Instabil';
 
   @override
-  String get apiCallTimeout => 'GET /timeout';
+  String get apiDioScenarioTimeout => 'Langsam';
 
   @override
-  String get apiCallError => 'GET /error';
+  String get apiDioScenarioOffline => 'Offline';
 
   @override
-  String get apiCallUnauthorized => 'POST /identify  (falsche Autorin)';
+  String get apiDioScenarioServer => 'Serverfehler';
 
   @override
-  String get apiCallOffline => 'GET /offline';
+  String get apiDioUnstableHint =>
+      'Jeder dritte Tipp auf Instabil schlägt fehl. Retry lädt das Regal.';
+
+  @override
+  String get apiDioSearch => 'Suchen';
+
+  @override
+  String get apiDioSearchTitleLabel => 'Titel';
+
+  @override
+  String get apiDioSearchAuthorLabel => 'Autorin';
+
+  @override
+  String get apiDioSearchSubmit => 'Suchen';
+
+  @override
+  String apiDioSearchFound(String title) {
+    return 'POST /search · $title';
+  }
+
+  @override
+  String get apiDioEmpty => 'Keine Bücher in diesem Regal.';
+
+  @override
+  String get apiDioNotStarted => 'Nicht begonnen';
+
+  @override
+  String get apiDioFinished => 'Gelesen';
+
+  @override
+  String get apiDioReading => 'Am Lesen';
+
+  @override
+  String get apiDioAdd => 'Buch hinzufügen';
+
+  @override
+  String get apiDioEdit => 'Bearbeiten';
+
+  @override
+  String get apiDioSave => 'Speichern';
+
+  @override
+  String get apiDioDelete => 'Löschen';
+
+  @override
+  String apiDioConfirmDelete(String title) {
+    return '$title löschen?';
+  }
+
+  @override
+  String get apiDioSnackGetBooks => 'GET /books';
+
+  @override
+  String apiDioSnackAdded(String title) {
+    return 'POST /books · $title';
+  }
+
+  @override
+  String apiDioSnackUpdated(String title) {
+    return 'PUT /books · $title';
+  }
+
+  @override
+  String apiDioSnackDeleted(String title) {
+    return 'DELETE /books · $title';
+  }
 }

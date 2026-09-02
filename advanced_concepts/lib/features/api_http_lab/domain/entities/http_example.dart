@@ -1,3 +1,0 @@
-class HttpExample {
-  const HttpExample();
-}

@@ -13,6 +13,18 @@ class ApiLabInfo extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         _ApiLabRuleRow(
+          when: l10n.apiCrudWhen,
+          then: l10n.apiCrudCalls,
+          hint: l10n.apiCrudHint,
+        ),
+        const SizedBox(height: 12),
+        _ApiLabRuleRow(
+          when: l10n.apiInterceptorWhen,
+          then: l10n.apiInterceptorCalls,
+          hint: l10n.apiInterceptorHint,
+        ),
+        const SizedBox(height: 12),
+        _ApiLabRuleRow(
           when: l10n.apiUnifiedWhen,
           then: l10n.apiUnifiedCalls,
           hint: l10n.apiUnifiedHint,

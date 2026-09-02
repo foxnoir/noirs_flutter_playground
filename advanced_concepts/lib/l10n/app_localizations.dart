@@ -134,6 +134,12 @@ abstract class AppLocalizations {
   /// **'User Details'**
   String get userDetails;
 
+  /// No description provided for @bookDetails.
+  ///
+  /// In en, this message translates to:
+  /// **'Book Details'**
+  String get bookDetails;
+
   /// No description provided for @nickname.
   ///
   /// In en, this message translates to:
@@ -1094,6 +1100,42 @@ abstract class AppLocalizations {
   /// **'Example Dio'**
   String get apiDio;
 
+  /// No description provided for @apiCrudWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Four verbs for a resource'**
+  String get apiCrudWhen;
+
+  /// No description provided for @apiCrudCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'CRUD'**
+  String get apiCrudCalls;
+
+  /// No description provided for @apiCrudHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Create POST, Read GET, Update PUT, Delete DELETE. GET /books lists. POST /books adds. PUT /books/:id edits. DELETE /books/:id removes.'**
+  String get apiCrudHint;
+
+  /// No description provided for @apiInterceptorWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'Same work on every request'**
+  String get apiInterceptorWhen;
+
+  /// No description provided for @apiInterceptorCalls.
+  ///
+  /// In en, this message translates to:
+  /// **'Interceptor (Dio)'**
+  String get apiInterceptorCalls;
+
+  /// No description provided for @apiInterceptorHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Dio runs onRequest, onResponse, and onError before the data source. package:http has no interceptors — ApiClient maps timeout and status in _send instead.'**
+  String get apiInterceptorHint;
+
   /// No description provided for @apiUnifiedWhen.
   ///
   /// In en, this message translates to:
@@ -1103,7 +1145,7 @@ abstract class AppLocalizations {
   /// No description provided for @apiUnifiedCalls.
   ///
   /// In en, this message translates to:
-  /// **'ApiClient'**
+  /// **'one client class'**
   String get apiUnifiedCalls;
 
   /// No description provided for @apiUnifiedHint.
@@ -1151,7 +1193,7 @@ abstract class AppLocalizations {
   /// No description provided for @apiContext.
   ///
   /// In en, this message translates to:
-  /// **'**ApiClient** is the unified API class and uses **package:http**. The backend is Firebase Cloud Functions + Firestore (emulator: `./backend/start.sh`). Data source throws **AppException**. Repository maps to **AppFailure**. UI reads **localizedError**.'**
+  /// **'**CRUD** is the four HTTP verbs for one resource. A **unified API class** maps timeout and status once. **Interceptors** are Dio\'s pipeline for that (and logging). **Example HTTP** uses **package:http**. **Example Dio** uses **Dio**. Same Firebase backend. No live calls here.'**
   String get apiContext;
 
   /// No description provided for @apiUnifiedTitle.
@@ -1181,7 +1223,7 @@ abstract class AppLocalizations {
   /// No description provided for @apiUnifiedRightHint.
   ///
   /// In en, this message translates to:
-  /// **'GET /books and GET /success share the same mapping. Tap to parse the wrapped JSON (books / data).'**
+  /// **'GET /books and GET /success share the same mapping. JSON stays wrapped (books / data).'**
   String get apiUnifiedRightHint;
 
   /// No description provided for @apiUnifiedCallWrong.
@@ -1211,7 +1253,7 @@ abstract class AppLocalizations {
   /// No description provided for @apiTimeoutWrongHint.
   ///
   /// In en, this message translates to:
-  /// **'GET /timeout waits the full delay. The button spins until the server answers.'**
+  /// **'GET /timeout waits the full delay. Without a client timeout the UI waits until the server answers.'**
   String get apiTimeoutWrongHint;
 
   /// No description provided for @apiTimeoutRightTitle.
@@ -1280,41 +1322,149 @@ abstract class AppLocalizations {
   /// **'401 → UnauthorizedException  ·  500 → ServerException  ·  catch → NetworkException'**
   String get apiNetworkCallRight;
 
-  /// No description provided for @apiCallBooks.
+  /// No description provided for @apiDioScenarioBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Shelf'**
+  String get apiDioScenarioBooks;
+
+  /// No description provided for @apiDioScenarioUnstable.
+  ///
+  /// In en, this message translates to:
+  /// **'Unstable'**
+  String get apiDioScenarioUnstable;
+
+  /// No description provided for @apiDioScenarioTimeout.
+  ///
+  /// In en, this message translates to:
+  /// **'Slow'**
+  String get apiDioScenarioTimeout;
+
+  /// No description provided for @apiDioScenarioOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get apiDioScenarioOffline;
+
+  /// No description provided for @apiDioScenarioServer.
+  ///
+  /// In en, this message translates to:
+  /// **'Server error'**
+  String get apiDioScenarioServer;
+
+  /// No description provided for @apiDioUnstableHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Every third Unstable tap fails. Retry loads the shelf.'**
+  String get apiDioUnstableHint;
+
+  /// No description provided for @apiDioSearch.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get apiDioSearch;
+
+  /// No description provided for @apiDioSearchTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get apiDioSearchTitleLabel;
+
+  /// No description provided for @apiDioSearchAuthorLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Author'**
+  String get apiDioSearchAuthorLabel;
+
+  /// No description provided for @apiDioSearchSubmit.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get apiDioSearchSubmit;
+
+  /// No description provided for @apiDioSearchFound.
+  ///
+  /// In en, this message translates to:
+  /// **'POST /search · {title}'**
+  String apiDioSearchFound(String title);
+
+  /// No description provided for @apiDioEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No books on this shelf.'**
+  String get apiDioEmpty;
+
+  /// No description provided for @apiDioNotStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not started'**
+  String get apiDioNotStarted;
+
+  /// No description provided for @apiDioFinished.
+  ///
+  /// In en, this message translates to:
+  /// **'Finished'**
+  String get apiDioFinished;
+
+  /// No description provided for @apiDioReading.
+  ///
+  /// In en, this message translates to:
+  /// **'Reading'**
+  String get apiDioReading;
+
+  /// No description provided for @apiDioAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add book'**
+  String get apiDioAdd;
+
+  /// No description provided for @apiDioEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get apiDioEdit;
+
+  /// No description provided for @apiDioSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get apiDioSave;
+
+  /// No description provided for @apiDioDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get apiDioDelete;
+
+  /// No description provided for @apiDioConfirmDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete {title}?'**
+  String apiDioConfirmDelete(String title);
+
+  /// No description provided for @apiDioSnackGetBooks.
   ///
   /// In en, this message translates to:
   /// **'GET /books'**
-  String get apiCallBooks;
+  String get apiDioSnackGetBooks;
 
-  /// No description provided for @apiCallSuccess.
+  /// No description provided for @apiDioSnackAdded.
   ///
   /// In en, this message translates to:
-  /// **'GET /success'**
-  String get apiCallSuccess;
+  /// **'POST /books · {title}'**
+  String apiDioSnackAdded(String title);
 
-  /// No description provided for @apiCallTimeout.
+  /// No description provided for @apiDioSnackUpdated.
   ///
   /// In en, this message translates to:
-  /// **'GET /timeout'**
-  String get apiCallTimeout;
+  /// **'PUT /books · {title}'**
+  String apiDioSnackUpdated(String title);
 
-  /// No description provided for @apiCallError.
+  /// No description provided for @apiDioSnackDeleted.
   ///
   /// In en, this message translates to:
-  /// **'GET /error'**
-  String get apiCallError;
-
-  /// No description provided for @apiCallUnauthorized.
-  ///
-  /// In en, this message translates to:
-  /// **'POST /identify  (wrong author)'**
-  String get apiCallUnauthorized;
-
-  /// No description provided for @apiCallOffline.
-  ///
-  /// In en, this message translates to:
-  /// **'GET /offline'**
-  String get apiCallOffline;
+  /// **'DELETE /books · {title}'**
+  String apiDioSnackDeleted(String title);
 }
 
 class _AppLocalizationsDelegate

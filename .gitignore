@@ -38,6 +38,7 @@ firebase-debug.*.log
 firestore-debug.log
 ui-debug.log
 pubsub-debug.log
+advanced_concepts/backend/emulator-data/
 
 .flutter-plugins
 .flutter-plugins-dependencies
