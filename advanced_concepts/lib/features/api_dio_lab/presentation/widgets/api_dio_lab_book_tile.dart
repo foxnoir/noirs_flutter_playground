@@ -91,7 +91,6 @@ class ApiDioLabBookTile extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             ApiDioLabAssetIcon(
               ApiDioLabIcons.book,
@@ -123,6 +122,7 @@ class ApiDioLabBookTile extends StatelessWidget {
             ),
             const SizedBox(width: 8),
             ApiDioLabStatusLabel(status: book.status),
+            const SizedBox(width: 12),
             IconButton(
               key: Key('api-dio-lab-edit-${book.id}'),
               tooltip: l10n.apiDioEdit,

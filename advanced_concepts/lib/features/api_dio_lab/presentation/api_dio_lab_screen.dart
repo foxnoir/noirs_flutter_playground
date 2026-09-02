@@ -2,15 +2,14 @@ import 'package:advanced_concepts/core/errors/app_failure_message.dart';
 import 'package:advanced_concepts/core/router/app_router_names.dart';
 import 'package:advanced_concepts/features/api_dio_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/providers/api_dio_lab_provider.dart';
+import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_book_list.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_book_sheet.dart';
-import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_book_tile.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_scenario_bar.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_search_sheet.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
+import 'package:advanced_concepts/shared_widgets/apis/api_lab_background.dart';
 import 'package:advanced_concepts/shared_widgets/error_widget.dart' as app;
-import 'package:advanced_concepts/shared_widgets/api_lab_background.dart';
-import 'package:advanced_concepts/shared_widgets/api_lab_divider.dart';
-import 'package:advanced_concepts/shared_widgets/lab_screen_body.dart';
+import 'package:advanced_concepts/shared_widgets/labs/lab_screen_body.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
@@ -110,22 +109,40 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final books = ref.watch(apiDioLabProvider);
+    final searchActive = ref.read(apiDioLabProvider.notifier).searchActive;
 
     return Scaffold(
       appBar: AppBar(
         title: Text(l10n.apiDio),
         actions: [
-          IconButton(
-            key: const Key('api-dio-lab-search'),
-            tooltip: l10n.apiDioSearch,
-            onPressed: () => showApiDioLabSearchSheet(context),
-            icon: const Icon(Icons.search),
-          ),
+          if (searchActive)
+            IconButton(
+              key: const Key('api-dio-lab-search-clear'),
+              tooltip: l10n.apiDioSearchClear,
+              onPressed: () => _loadShelf(snack: false),
+              icon: const Icon(Icons.clear),
+            )
+          else
+            IconButton(
+              key: const Key('api-dio-lab-search'),
+              tooltip: l10n.apiDioSearch,
+              onPressed: () => showApiDioLabSearchSheet(context),
+              icon: const Icon(Icons.search),
+            ),
           IconButton(
             key: const Key('api-dio-lab-refresh'),
             tooltip: l10n.retry,
-            onPressed: () => _loadShelf(snack: true),
-            icon: const Icon(Icons.refresh),
+            onPressed: books.isLoading ? null : () => _loadShelf(snack: true),
+            icon: books.isLoading
+                ? SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      color: IconTheme.of(context).color,
+                    ),
+                  )
+                : const Icon(Icons.refresh),
           ),
         ],
       ),
@@ -150,6 +167,9 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
   }
 
   Widget _body(AppLocalizations l10n, AsyncValue<List<Book>> books) {
+    if (books.isLoading && !books.hasValue) {
+      return const Center(child: CircularProgressIndicator());
+    }
     if (books.hasError) {
       return Center(
         child: app.ErrorWidget(
@@ -159,63 +179,12 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
         ),
       );
     }
-    if (books.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-    return _ApiDioLabBookList(
+    return ApiDioLabBookList(
       books: books.requireValue,
       onRefresh: () => _loadShelf(snack: true),
       onOpen: _openBook,
       onEdit: (book) => _openBookSheet(book: book),
       onDelete: _deleteBook,
-    );
-  }
-}
-
-class _ApiDioLabBookList extends StatelessWidget {
-  const _ApiDioLabBookList({
-    required this.books,
-    required this.onRefresh,
-    required this.onOpen,
-    required this.onEdit,
-    required this.onDelete,
-  });
-
-  final List<Book> books;
-  final Future<void> Function() onRefresh;
-  final ValueChanged<Book> onOpen;
-  final ValueChanged<Book> onEdit;
-  final ValueChanged<Book> onDelete;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-
-    if (books.isEmpty) {
-      return Center(
-        child: Text(
-          l10n.apiDioEmpty,
-          style: Theme.of(context).textTheme.bodyLarge,
-        ),
-      );
-    }
-
-    return RefreshIndicator(
-      onRefresh: onRefresh,
-      child: ListView.separated(
-        physics: const AlwaysScrollableScrollPhysics(),
-        itemCount: books.length,
-        separatorBuilder: (context, _) => const ApiLabDivider(),
-        itemBuilder: (context, index) {
-          final book = books[index];
-          return ApiDioLabBookTile(
-            book: book,
-            onOpen: () => onOpen(book),
-            onEdit: () => onEdit(book),
-            onDelete: () => onDelete(book),
-          );
-        },
-      ),
     );
   }
 }

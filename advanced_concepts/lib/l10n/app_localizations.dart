@@ -1382,6 +1382,12 @@ abstract class AppLocalizations {
   /// **'Search'**
   String get apiDioSearchSubmit;
 
+  /// No description provided for @apiDioSearchClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Show all books'**
+  String get apiDioSearchClear;
+
   /// No description provided for @apiDioSearchFound.
   ///
   /// In en, this message translates to:

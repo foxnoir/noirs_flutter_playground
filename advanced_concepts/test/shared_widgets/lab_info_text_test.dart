@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/shared_widgets/lab_info_text.dart';
+import 'package:advanced_concepts/shared_widgets/labs/lab_info_text.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void main() {

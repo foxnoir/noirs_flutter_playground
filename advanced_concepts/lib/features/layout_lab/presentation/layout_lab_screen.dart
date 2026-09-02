@@ -5,7 +5,7 @@ import 'package:advanced_concepts/features/layout_lab/presentation/widgets/layou
 import 'package:advanced_concepts/features/layout_lab/presentation/widgets/layout_lab_overflow.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/widgets/layout_lab_preferred_size.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
-import 'package:advanced_concepts/shared_widgets/lab_screen_body.dart';
+import 'package:advanced_concepts/shared_widgets/labs/lab_screen_body.dart';
 import 'package:flutter/material.dart';
 
 class LayoutLabScreen extends StatelessWidget {

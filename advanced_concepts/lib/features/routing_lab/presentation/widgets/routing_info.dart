@@ -1,5 +1,5 @@
 import 'package:advanced_concepts/l10n/app_localizations.dart';
-import 'package:advanced_concepts/shared_widgets/lab_info_text.dart';
+import 'package:advanced_concepts/shared_widgets/labs/lab_info_text.dart';
 import 'package:flutter/material.dart';
 
 class RoutingInfo extends StatelessWidget {

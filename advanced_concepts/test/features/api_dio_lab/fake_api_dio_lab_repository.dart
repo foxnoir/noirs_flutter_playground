@@ -14,6 +14,7 @@ class FakeApiDioLabRepository implements ApiDioLabRepository {
   final AppFailure? error;
   final AppFailure? searchError;
   final Book? match;
+  Future<void> Function()? onFetchBooks;
 
   @override
   Future<Book> fetchSuccess() async {
@@ -37,6 +38,7 @@ class FakeApiDioLabRepository implements ApiDioLabRepository {
 
   @override
   Future<List<Book>> fetchBooks() async {
+    await onFetchBooks?.call();
     return List<Book>.of(_throwOr(books));
   }
 

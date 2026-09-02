@@ -42,8 +42,9 @@ class _VictorianFlourishPainter extends CustomPainter {
     final cy = size.height / 2;
     final half = size.width / 2;
 
-    canvas.save();
-    canvas.translate(cx, cy);
+    canvas
+      ..save()
+      ..translate(cx, cy);
     _paintArm(canvas, stroke, fill, half);
     canvas.scale(-1, 1);
     _paintArm(canvas, stroke, fill, half);
@@ -74,12 +75,13 @@ class _VictorianFlourishPainter extends CustomPainter {
       ..cubicTo(end - 1.5, 0, end, -2.8, end - 3, -3.6)
       ..cubicTo(end - 6.5, -4.4, end - 5.5, -0.8, end - 3, -0.4);
 
-    canvas.drawPath(innerScroll, stroke);
-    canvas.drawPath(lowerScroll, stroke);
-    canvas.drawPath(rule, stroke);
-    canvas.drawPath(terminal, stroke);
-    canvas.drawCircle(Offset(end - 3.2, -1.8), 0.65, fill);
-    canvas.drawCircle(const Offset(13.5, -4.2), 0.6, fill);
+    canvas
+      ..drawPath(innerScroll, stroke)
+      ..drawPath(lowerScroll, stroke)
+      ..drawPath(rule, stroke)
+      ..drawPath(terminal, stroke)
+      ..drawCircle(Offset(end - 3.2, -1.8), 0.65, fill)
+      ..drawCircle(const Offset(13.5, -4.2), 0.6, fill);
   }
 
   void _paintFleuron(Canvas canvas, Offset c, Paint stroke, Paint fill) {

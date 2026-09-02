@@ -16,19 +16,24 @@ class ApiHttpLabNotifier extends AsyncNotifier<List<Book>> {
   static const guardedTimeout = Duration(milliseconds: 400);
 
   var _unstableLoads = 0;
+  var searchActive = false;
 
   @override
   Future<List<Book>> build() => _fetch(ApiHttpLabScenario.books);
 
   Future<void> load(ApiHttpLabScenario scenario) async {
+    searchActive = false;
     state = const AsyncLoading();
     state = await AsyncValue.guard(() => _fetch(scenario));
   }
 
-  Future<Book> search({required String title, required String author}) {
-    return ref
+  Future<Book> search({required String title, required String author}) async {
+    final book = await ref
         .read(apiHttpLabRepositoryProvider)
         .search(title: title, author: author);
+    searchActive = true;
+    state = AsyncData([book]);
+    return book;
   }
 
   Future<Book> addBook(Book book) async {
@@ -51,6 +56,7 @@ class ApiHttpLabNotifier extends AsyncNotifier<List<Book>> {
   }
 
   Future<void> _syncBooks() async {
+    searchActive = false;
     try {
       state = AsyncData(
         await ref.read(apiHttpLabRepositoryProvider).fetchBooks(),

@@ -39,13 +39,41 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
     labelSmall: TextStyle(fontSize: 11, fontWeight: FontWeight.w500),
   );
 
+  const appBarSize = 20.0;
+
   return ThemeData(
     colorScheme: colorScheme,
     textTheme: textTheme,
+    actionIconTheme: ActionIconThemeData(
+      backButtonIconBuilder: (context) {
+        final cupertino = switch (Theme.of(context).platform) {
+          TargetPlatform.iOS || TargetPlatform.macOS => true,
+          _ => false,
+        };
+        // iOS chevron reads larger than search/refresh at the same size.
+        return Icon(
+          cupertino ? Icons.arrow_back_ios_new_rounded : Icons.arrow_back,
+          size: cupertino ? 16 : appBarSize,
+        );
+      },
+    ),
     appBarTheme: AppBarTheme(
       backgroundColor: colorScheme.primaryContainer,
       foregroundColor: colorScheme.onPrimaryContainer,
       elevation: 0,
+      titleTextStyle: TextStyle(
+        fontSize: appBarSize,
+        fontWeight: FontWeight.w600,
+        color: colorScheme.onPrimaryContainer,
+      ),
+      iconTheme: IconThemeData(
+        color: colorScheme.onPrimaryContainer,
+        size: appBarSize,
+      ),
+      actionsIconTheme: IconThemeData(
+        color: colorScheme.onPrimaryContainer,
+        size: appBarSize,
+      ),
     ),
     listTileTheme: ListTileThemeData(
       titleTextStyle: textTheme.titleMedium?.copyWith(
@@ -60,6 +88,15 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
         textStyle: WidgetStatePropertyAll(textTheme.labelMedium),
         visualDensity: VisualDensity.compact,
         tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      // Solid gray, not a tinted overlay — hints must not look like typed text.
+      hintStyle: TextStyle(
+        color: Color.alphaBlend(
+          colorScheme.onSurface.withValues(alpha: 0.42),
+          colorScheme.surface,
+        ),
       ),
     ),
     snackBarTheme: SnackBarThemeData(

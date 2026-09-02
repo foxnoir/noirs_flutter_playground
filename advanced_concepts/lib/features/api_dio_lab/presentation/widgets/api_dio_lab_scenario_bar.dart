@@ -12,12 +12,8 @@ class ApiDioLabScenarioBar extends StatelessWidget {
   final ApiDioLabScenario? selected;
   final ValueChanged<ApiDioLabScenario> onSelect;
 
-  static final _style = FilledButton.styleFrom(
-    visualDensity: VisualDensity.compact,
-    tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    minimumSize: Size.zero,
-    padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+  static const _shape = RoundedRectangleBorder(
+    borderRadius: BorderRadius.all(Radius.circular(8)),
   );
 
   @override
@@ -34,24 +30,28 @@ class ApiDioLabScenarioBar extends StatelessWidget {
             child: Row(
               children: [
                 _button(
+                  context,
                   key: const Key('api-dio-lab-scenario-unstable'),
                   label: l10n.apiDioScenarioUnstable,
                   value: ApiDioLabScenario.unstable,
                 ),
                 const SizedBox(width: 8),
                 _button(
+                  context,
                   key: const Key('api-dio-lab-scenario-timeout'),
                   label: l10n.apiDioScenarioTimeout,
                   value: ApiDioLabScenario.timeout,
                 ),
                 const SizedBox(width: 8),
                 _button(
+                  context,
                   key: const Key('api-dio-lab-scenario-offline'),
                   label: l10n.apiDioScenarioOffline,
                   value: ApiDioLabScenario.offline,
                 ),
                 const SizedBox(width: 8),
                 _button(
+                  context,
                   key: const Key('api-dio-lab-scenario-server'),
                   label: l10n.apiDioScenarioServer,
                   value: ApiDioLabScenario.serverError,
@@ -71,23 +71,27 @@ class ApiDioLabScenarioBar extends StatelessWidget {
     );
   }
 
-  Widget _button({
+  Widget _button(
+    BuildContext context, {
     required Key key,
     required String label,
     required ApiDioLabScenario value,
   }) {
+    final scheme = Theme.of(context).colorScheme;
     final isSelected = selected == value;
-    if (isSelected) {
-      return FilledButton(
-        key: key,
-        style: _style,
-        onPressed: () => onSelect(value),
-        child: Text(label),
-      );
-    }
-    return FilledButton.tonal(
+    return FilledButton(
       key: key,
-      style: _style,
+      style: FilledButton.styleFrom(
+        visualDensity: VisualDensity.compact,
+        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        minimumSize: Size.zero,
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+        shape: _shape,
+        backgroundColor: isSelected ? scheme.primary : scheme.surface,
+        foregroundColor: isSelected
+            ? scheme.onPrimary
+            : scheme.tertiaryContainer,
+      ),
       onPressed: () => onSelect(value),
       child: Text(label),
     );
