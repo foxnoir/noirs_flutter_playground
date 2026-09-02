@@ -4,34 +4,43 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum ApiDioLabScenario { books, unstable, timeout, offline, serverError }
 
-final apiDioLabProvider = AsyncNotifierProvider<ApiDioLabNotifier, List<Book>>(
-  ApiDioLabNotifier.new,
-  // Riverpod 3 retries build() failures and keeps isLoading; when() then
-  // shows a spinner instead of the error. The lab must surface the failure.
-  retry: (_, _) => null,
-);
+class ApiDioLabShelf {
+  const ApiDioLabShelf({required this.books, this.searchActive = false});
 
-class ApiDioLabNotifier extends AsyncNotifier<List<Book>> {
-  static const guardedTimeout = Duration(milliseconds: 400);
+  final List<Book> books;
+  final bool searchActive;
+}
+
+final apiDioLabProvider =
+    AsyncNotifierProvider<ApiDioLabNotifier, ApiDioLabShelf>(
+      ApiDioLabNotifier.new,
+      // Riverpod 3 retries build() failures and keeps isLoading; when() then
+      // shows a spinner instead of the error. The lab must surface the failure.
+      retry: (_, _) => null,
+    );
+
+class ApiDioLabNotifier extends AsyncNotifier<ApiDioLabShelf> {
+  static const _guardedTimeout = Duration(milliseconds: 400);
 
   var _unstableLoads = 0;
-  var searchActive = false;
 
   @override
-  Future<List<Book>> build() => _fetch(ApiDioLabScenario.books);
+  Future<ApiDioLabShelf> build() async {
+    return ApiDioLabShelf(books: await _fetch(ApiDioLabScenario.books));
+  }
 
   Future<void> load(ApiDioLabScenario scenario) async {
-    searchActive = false;
     state = const AsyncLoading();
-    state = await AsyncValue.guard(() => _fetch(scenario));
+    state = await AsyncValue.guard(() async {
+      return ApiDioLabShelf(books: await _fetch(scenario));
+    });
   }
 
   Future<Book> search({required String title, required String author}) async {
     final book = await ref
         .read(apiDioLabRepositoryProvider)
         .search(title: title, author: author);
-    searchActive = true;
-    state = AsyncData([book]);
+    state = AsyncData(ApiDioLabShelf(books: [book], searchActive: true));
     return book;
   }
 
@@ -55,10 +64,11 @@ class ApiDioLabNotifier extends AsyncNotifier<List<Book>> {
   }
 
   Future<void> _syncBooks() async {
-    searchActive = false;
     try {
       state = AsyncData(
-        await ref.read(apiDioLabRepositoryProvider).fetchBooks(),
+        ApiDioLabShelf(
+          books: await ref.read(apiDioLabRepositoryProvider).fetchBooks(),
+        ),
       );
     } on Object catch (error, stackTrace) {
       state = AsyncError(error, stackTrace);
@@ -73,7 +83,7 @@ class ApiDioLabNotifier extends AsyncNotifier<List<Book>> {
       ApiDioLabScenario.books ||
       ApiDioLabScenario.unstable => repo.fetchBooks(),
       ApiDioLabScenario.timeout =>
-        repo.fetchTimeout(timeout: guardedTimeout).then((_) => <Book>[]),
+        repo.fetchTimeout(timeout: _guardedTimeout).then((_) => <Book>[]),
       ApiDioLabScenario.offline => repo.fetchOffline().then((_) => <Book>[]),
       ApiDioLabScenario.serverError => repo.fetchError().then((_) => <Book>[]),
     };

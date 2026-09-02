@@ -433,7 +433,7 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**79.7%** line coverage (2511 of 3152 lines).
+**79.6%** line coverage (2510 of 3153 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
