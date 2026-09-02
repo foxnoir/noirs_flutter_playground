@@ -312,6 +312,7 @@ void main() {
 
     await tester.tap(find.text('API Handling'));
     await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('HTTP vs Dio'));
     await tester.tap(find.text('HTTP vs Dio'));
     await tester.pumpAndSettle();
 
@@ -334,6 +335,7 @@ void main() {
 
     await tester.tap(find.text('API Handling'));
     await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Example HTTP'));
     await tester.tap(find.text('Example HTTP'));
     await tester.pumpAndSettle();
 
@@ -356,6 +358,7 @@ void main() {
 
     await tester.tap(find.text('API Handling'));
     await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Example Dio'));
     await tester.tap(find.text('Example Dio'));
     await tester.pumpAndSettle();
 
@@ -389,6 +392,7 @@ void main() {
 
     await tester.tap(find.text('API Handling'));
     await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Example Dio'));
     await tester.tap(find.text('Example Dio'));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('api-dio-lab-book-3')));
@@ -425,6 +429,7 @@ void main() {
 
     await tester.tap(find.text('API Handling'));
     await tester.pumpAndSettle();
+    await tester.ensureVisible(find.text('Example HTTP'));
     await tester.tap(find.text('Example HTTP'));
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('api-http-lab-book-3')));
