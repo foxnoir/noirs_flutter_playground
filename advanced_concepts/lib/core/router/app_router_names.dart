@@ -7,6 +7,7 @@ abstract final class AppRouteNames {
   static const apiGeneral = 'apiGeneral';
   static const apiHttp = 'apiHttp';
   static const apiDio = 'apiDio';
+  static const bookDetails = 'bookDetails';
   static const userList = 'userList';
   static const userDetails = 'userDetails';
 }
@@ -22,6 +23,7 @@ abstract final class AppRoutePaths {
   static const apiGeneral = 'general';
   static const apiHttp = 'http';
   static const apiDio = 'dio';
+  static const bookDetails = 'books/:bookId';
   static const userList = '/user-list';
   static const userDetails = ':userId';
 }

@@ -17,6 +17,9 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
       color: AppColor.teal,
     ),
 
+    /// List titles (book rows, user rows).
+    titleMedium: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+
     /// Lab subsection titles.
     titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
 
@@ -43,6 +46,14 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
       backgroundColor: colorScheme.primaryContainer,
       foregroundColor: colorScheme.onPrimaryContainer,
       elevation: 0,
+    ),
+    listTileTheme: ListTileThemeData(
+      titleTextStyle: textTheme.titleMedium?.copyWith(
+        color: colorScheme.onSurface,
+      ),
+      subtitleTextStyle: textTheme.bodyMedium?.copyWith(
+        color: colorScheme.onSurfaceVariant,
+      ),
     ),
     segmentedButtonTheme: SegmentedButtonThemeData(
       style: ButtonStyle(

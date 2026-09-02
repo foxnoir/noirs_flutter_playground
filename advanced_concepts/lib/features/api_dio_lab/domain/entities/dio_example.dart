@@ -1,3 +1,0 @@
-class DioExample {
-  const DioExample();
-}

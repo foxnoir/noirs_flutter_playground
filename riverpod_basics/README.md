@@ -141,7 +141,7 @@ There is no Android project or Chrome. Run on the iOS Simulator (**iPhone 17 Pro
 
 ## Example Screens
 
-<img src="assets/finalLayout.png" alt="icons" width="65%" height="100%">
+<img src="assets/final_lsayout.png" alt="icons" width="65%" height="100%">
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
