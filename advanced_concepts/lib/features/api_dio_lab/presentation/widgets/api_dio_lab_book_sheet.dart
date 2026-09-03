@@ -2,6 +2,7 @@ import 'package:advanced_concepts/core/errors/app_failure_message.dart';
 import 'package:advanced_concepts/features/api_dio_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/providers/api_dio_lab_provider.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_book_tile.dart';
+import 'package:advanced_concepts/features/api_lab_session/presentation/widgets/api_lab_unauthorized_dialog.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -87,6 +88,7 @@ class _ApiDioLabBookSheetState extends ConsumerState<ApiDioLabBookSheet> {
     if (book == null || id == null) {
       return;
     }
+    if (!await isAuthorized(context, ref) || !mounted) return;
     setState(() {
       _loading = true;
       _error = null;

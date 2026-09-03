@@ -1,6 +1,13 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum ApiCompareLabScenario { get, unstable, timeout, offline, serverError }
+enum ApiCompareLabScenario {
+  get,
+  delete,
+  unstable,
+  timeout,
+  offline,
+  serverError,
+}
 
 class ApiCompareLabState {
   const ApiCompareLabState({this.scenario, this.step = 0});

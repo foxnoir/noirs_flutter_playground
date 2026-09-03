@@ -7,14 +7,16 @@ class ApiCompareLabBeat {
     required this.dioCall,
     required this.httpHint,
     required this.dioHint,
-    this.fires = false,
+    this.firesVerb,
   });
 
   final String httpCall;
   final String dioCall;
   final String httpHint;
   final String dioHint;
-  final bool fires;
+  final String? firesVerb;
+
+  bool get fires => firesVerb != null;
 }
 
 List<ApiCompareLabBeat> apiCompareLabBeats(
@@ -25,6 +27,7 @@ List<ApiCompareLabBeat> apiCompareLabBeats(
     ApiCompareLabScenario.get || ApiCompareLabScenario.unstable => _stack(
       l10n: l10n,
       path: '/books',
+      verb: 'GET',
       afterFire: ApiCompareLabBeat(
         httpCall: 'status 200 → parse',
         dioCall: 'DioLogInterceptor.onResponse',
@@ -32,9 +35,21 @@ List<ApiCompareLabBeat> apiCompareLabBeats(
         dioHint: l10n.apiCompareHintDioOnResponse,
       ),
     ),
+    ApiCompareLabScenario.delete => _stack(
+      l10n: l10n,
+      path: '/books/:id',
+      verb: 'DELETE',
+      afterFire: ApiCompareLabBeat(
+        httpCall: 'status 2xx → no parse',
+        dioCall: 'DioLogInterceptor.onResponse',
+        httpHint: l10n.apiCompareHintHttpDeleteMap,
+        dioHint: l10n.apiCompareHintDioDeleteOnResponse,
+      ),
+    ),
     ApiCompareLabScenario.timeout => _stack(
       l10n: l10n,
       path: '/timeout',
+      verb: 'GET',
       httpSendCall: 'ApiClient._send  ·  .timeout(400ms)',
       afterFire: ApiCompareLabBeat(
         httpCall: 'TimeoutException → RequestTimeoutException',
@@ -46,6 +61,7 @@ List<ApiCompareLabBeat> apiCompareLabBeats(
     ApiCompareLabScenario.offline => _stack(
       l10n: l10n,
       path: '/offline',
+      verb: 'GET',
       afterFire: ApiCompareLabBeat(
         httpCall: 'catch → NetworkException',
         dioCall: 'DioAppExceptionInterceptor.onError',
@@ -56,6 +72,7 @@ List<ApiCompareLabBeat> apiCompareLabBeats(
     ApiCompareLabScenario.serverError => _stack(
       l10n: l10n,
       path: '/error',
+      verb: 'GET',
       afterFire: ApiCompareLabBeat(
         httpCall: 'status >= 500 → ServerException',
         dioCall: 'DioAppExceptionInterceptor.onError',
@@ -69,13 +86,15 @@ List<ApiCompareLabBeat> apiCompareLabBeats(
 List<ApiCompareLabBeat> _stack({
   required AppLocalizations l10n,
   required String path,
+  required String verb,
   required ApiCompareLabBeat afterFire,
   String httpSendCall = 'ApiClient._send',
 }) {
+  final method = verb.toLowerCase();
   return [
     ApiCompareLabBeat(
-      httpCall: "ApiClient.get('$path')",
-      dioCall: "DioApiClient.get('$path')",
+      httpCall: "ApiClient.$method('$path')",
+      dioCall: "DioApiClient.$method('$path')",
       httpHint: l10n.apiCompareHintEnter,
       dioHint: l10n.apiCompareHintEnter,
     ),
@@ -92,11 +111,11 @@ List<ApiCompareLabBeat> _stack({
       dioHint: l10n.apiCompareHintDioOnRequest,
     ),
     ApiCompareLabBeat(
-      httpCall: 'http.Client.get',
+      httpCall: 'http.Client.$method',
       dioCall: '_dio.request',
       httpHint: l10n.apiCompareHintFire,
       dioHint: l10n.apiCompareHintFire,
-      fires: true,
+      firesVerb: verb,
     ),
     afterFire,
   ];

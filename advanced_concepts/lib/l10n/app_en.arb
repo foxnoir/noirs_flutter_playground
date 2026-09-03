@@ -205,14 +205,22 @@
   "apiHttp": "Example HTTP",
   "apiDio": "Example Dio",
   "apiCompare": "HTTP vs Dio",
-  "apiCompareHint": "No live call. Step the same GET through package:http (_send) and Dio (interceptors) until the request fires.",
+  "apiCompareHint": "No live call. Step GET or DELETE through package:http (_send) and Dio (interceptors) until the request fires.",
   "apiCompareNext": "Next",
   "apiCompareReset": "Reset",
   "apiCompareGet": "GET",
-  "apiCompareIdle": "Pick GET or a drill. Next walks both stacks.",
+  "apiCompareDelete": "DELETE",
+  "apiCompareIdle": "Pick GET, DELETE, or a drill. Next walks both stacks.",
   "apiCompareHttpTitle": "package:http",
   "apiCompareDioTitle": "Dio",
-  "apiCompareFires": "GET fires",
+  "apiCompareFires": "{verb} fires",
+  "@apiCompareFires": {
+    "placeholders": {
+      "verb": {
+        "type": "String"
+      }
+    }
+  },
   "apiCompareHintEnter": "Data source calls the client. Same entry, different internals.",
   "apiCompareHintHttpSend": "No interceptors. Headers, timeout, and status mapping live in _send.",
   "apiCompareHintDioSend": "_send only forwards to _dio.request. Logging and mapping are interceptors.",
@@ -221,6 +229,8 @@
   "apiCompareHintFire": "The HTTP request leaves the device here.",
   "apiCompareHintHttpMap": "Status 200 is mapped in _send, then JSON is parsed.",
   "apiCompareHintDioOnResponse": "onResponse runs after the socket. Then the client parses JSON.",
+  "apiCompareHintHttpDeleteMap": "Status 2xx is mapped in _send. DELETE has no body to parse.",
+  "apiCompareHintDioDeleteOnResponse": "onResponse runs after the socket. DELETE has no JSON to parse.",
   "apiCompareHintHttpTimeout": "_send catches TimeoutException and throws RequestTimeoutException.",
   "apiCompareHintDioOnError": "onError maps DioExceptionType.receiveTimeout to RequestTimeoutException.",
   "apiCompareHintHttpOffline": "_send catch becomes NetworkException. No interceptor pipeline.",
@@ -228,6 +238,7 @@
   "apiCompareHintHttpServer": "_send switch: status >= 500 → ServerException.",
   "apiCompareHintDioServer": "onError maps badResponse 500 to ServerException.",
   "apiCompareUnstableHint": "Unstable is not a verb. The live labs fail every third GET. The stack is the same as GET.",
+  "apiCompareDeleteHint": "Same _send vs interceptors as GET. Path is /books/:id. The live labs' login dialog is UI, not this stack.",
   "apiCrudWhen": "Four verbs for a resource",
   "apiCrudCalls": "CRUD",
   "apiCrudHint": "Create POST, Read GET, Update PUT, Delete DELETE. GET /books lists. POST /books adds. PUT /books/:id edits. DELETE /books/:id removes.",
@@ -324,5 +335,17 @@
         "type": "String"
       }
     }
-  }
+  },
+  "apiLabUnauthorizedTitle": "Not authorized",
+  "apiLabUnauthorizedBody": "You are not authorized for this step. Please log in.",
+  "apiLabLogin": "Login",
+  "apiLabLoginTitle": "Login",
+  "apiLabPassword": "Password",
+  "apiLabLoginEmailRequired": "Enter an email.",
+  "apiLabLoginEmailInvalid": "Enter an email with @.",
+  "apiLabLoginPasswordRequired": "Enter a password.",
+  "apiLabLoginPasswordShort": "Use at least 6 characters.",
+  "apiLabLoggedIn": "Logged in",
+  "apiLabLoggedOut": "Not logged in",
+  "apiLabSnackLoggedIn": "Logged in"
 }

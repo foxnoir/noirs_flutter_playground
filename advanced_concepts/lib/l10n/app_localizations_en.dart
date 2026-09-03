@@ -567,7 +567,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get apiCompareHint =>
-      'No live call. Step the same GET through package:http (_send) and Dio (interceptors) until the request fires.';
+      'No live call. Step GET or DELETE through package:http (_send) and Dio (interceptors) until the request fires.';
 
   @override
   String get apiCompareNext => 'Next';
@@ -579,7 +579,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get apiCompareGet => 'GET';
 
   @override
-  String get apiCompareIdle => 'Pick GET or a drill. Next walks both stacks.';
+  String get apiCompareDelete => 'DELETE';
+
+  @override
+  String get apiCompareIdle =>
+      'Pick GET, DELETE, or a drill. Next walks both stacks.';
 
   @override
   String get apiCompareHttpTitle => 'package:http';
@@ -588,7 +592,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get apiCompareDioTitle => 'Dio';
 
   @override
-  String get apiCompareFires => 'GET fires';
+  String apiCompareFires(String verb) {
+    return '$verb fires';
+  }
 
   @override
   String get apiCompareHintEnter =>
@@ -622,6 +628,14 @@ class AppLocalizationsEn extends AppLocalizations {
       'onResponse runs after the socket. Then the client parses JSON.';
 
   @override
+  String get apiCompareHintHttpDeleteMap =>
+      'Status 2xx is mapped in _send. DELETE has no body to parse.';
+
+  @override
+  String get apiCompareHintDioDeleteOnResponse =>
+      'onResponse runs after the socket. DELETE has no JSON to parse.';
+
+  @override
   String get apiCompareHintHttpTimeout =>
       '_send catches TimeoutException and throws RequestTimeoutException.';
 
@@ -648,6 +662,10 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get apiCompareUnstableHint =>
       'Unstable is not a verb. The live labs fail every third GET. The stack is the same as GET.';
+
+  @override
+  String get apiCompareDeleteHint =>
+      'Same _send vs interceptors as GET. Path is /books/:id. The live labs\' login dialog is UI, not this stack.';
 
   @override
   String get apiCrudWhen => 'Four verbs for a resource';
@@ -861,4 +879,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String apiDioSnackDeleted(String title) {
     return 'DELETE /books · $title';
   }
+
+  @override
+  String get apiLabUnauthorizedTitle => 'Not authorized';
+
+  @override
+  String get apiLabUnauthorizedBody =>
+      'You are not authorized for this step. Please log in.';
+
+  @override
+  String get apiLabLogin => 'Login';
+
+  @override
+  String get apiLabLoginTitle => 'Login';
+
+  @override
+  String get apiLabPassword => 'Password';
+
+  @override
+  String get apiLabLoginEmailRequired => 'Enter an email.';
+
+  @override
+  String get apiLabLoginEmailInvalid => 'Enter an email with @.';
+
+  @override
+  String get apiLabLoginPasswordRequired => 'Enter a password.';
+
+  @override
+  String get apiLabLoginPasswordShort => 'Use at least 6 characters.';
+
+  @override
+  String get apiLabLoggedIn => 'Logged in';
+
+  @override
+  String get apiLabLoggedOut => 'Not logged in';
+
+  @override
+  String get apiLabSnackLoggedIn => 'Logged in';
 }

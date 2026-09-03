@@ -53,7 +53,9 @@ class ApiCompareLabPanel extends StatelessWidget {
                     active: i == step,
                     done: i < step,
                     pending: i > step,
-                    firesLabel: l10n.apiCompareFires,
+                    firesLabel: beats[i].firesVerb == null
+                        ? ''
+                        : l10n.apiCompareFires(beats[i].firesVerb!),
                   );
                 },
               ),

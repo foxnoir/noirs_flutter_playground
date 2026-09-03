@@ -33,7 +33,7 @@ void main() {
 
     expect(find.widgetWithText(AppBar, 'HTTP vs Dio'), findsOneWidget);
     expect(
-      find.text('Pick GET or a drill. Next walks both stacks.'),
+      find.text('Pick GET, DELETE, or a drill. Next walks both stacks.'),
       findsOneWidget,
     );
 
@@ -86,5 +86,33 @@ void main() {
       find.text('The HTTP request leaves the device here.'),
       findsNWidgets(2),
     );
+    expect(find.text('GET fires'), findsNWidgets(2));
+  });
+
+  testWidgets('DELETE walks delete then DELETE fires', (tester) async {
+    await _pumpLab(tester);
+
+    await tester.tap(find.byKey(const Key('api-compare-lab-delete')));
+    await tester.pump();
+
+    expect(find.text("ApiClient.delete('/books/:id')"), findsOneWidget);
+    expect(find.text("DioApiClient.delete('/books/:id')"), findsOneWidget);
+    expect(
+      find.text(
+        "Same _send vs interceptors as GET. Path is /books/:id. The live labs' login dialog is UI, not this stack.",
+      ),
+      findsOneWidget,
+    );
+
+    await tester.tap(find.byKey(const Key('api-compare-lab-next')));
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('api-compare-lab-next')));
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('api-compare-lab-next')));
+    await tester.pump();
+
+    expect(find.text('http.Client.delete'), findsOneWidget);
+    expect(find.text('_dio.request'), findsOneWidget);
+    expect(find.text('DELETE fires'), findsNWidgets(2));
   });
 }
