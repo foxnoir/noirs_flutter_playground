@@ -542,6 +542,45 @@ class AppLocalizationsEn extends AppLocalizations {
       'PreferredSize(preferredSize: Size.fromHeight(96), child: …)';
 
   @override
+  String get mixins => 'Mixins';
+
+  @override
+  String get mixinsHint =>
+      'MixinsLabBusyTap is our mixin, not Dart. Save already extends State. A second parent is illegal. with MixinsLabBusyTap copies busy into that State. Tap Save: only the button is busy. Reload stays idle. A Provider would be one busy for both.';
+
+  @override
+  String get mixinsWrongTitle => 'wrong  ·  two extends';
+
+  @override
+  String get mixinsWrongHint =>
+      'Dart allows one parent. State is already the parent.';
+
+  @override
+  String get mixinsRightTitle => 'works  ·  with MixinsLabBusyTap';
+
+  @override
+  String get mixinsRightHint =>
+      'runBusy: busy on, wait 2s, busy off. Each widget has its own busy.';
+
+  @override
+  String get mixinsWithLabel => 'the with line';
+
+  @override
+  String get mixinsMixinLabel => 'our mixin MixinsLabBusyTap';
+
+  @override
+  String get mixinsSave => 'Save';
+
+  @override
+  String get mixinsReload => 'Reload';
+
+  @override
+  String get mixinsIdle => 'idle';
+
+  @override
+  String get mixinsBusy => 'busy';
+
+  @override
   String get errorTimeout => 'The server took too long to answer.';
 
   @override

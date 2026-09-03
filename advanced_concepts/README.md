@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Advanced Concepts</h1>
   <p>
-     Practice project for navigation, layout, lists, and API integration: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers; Example HTTP and Example Dio side by side (same backend — pick one client in a real app); HTTP vs Dio debugger (no live call).
+     Practice project for navigation, layout, mixins, lists, and API integration: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; mixin vs extends; ListView / GridView / slivers; Example HTTP and Example Dio side by side (same backend — pick one client in a real app); HTTP vs Dio debugger (no live call).
   </p>
 </div>
 
@@ -61,6 +61,13 @@
       </ul>
     </li>
     <li>
+      <a href="#mixins">Mixins</a>
+      <ul>
+        <li><a href="#mixin-vs-extends">mixin vs extends</a></li>
+        <li><a href="#parentview-is-not-a-mixin">ParentView is not a mixin</a></li>
+      </ul>
+    </li>
+    <li>
       <a href="#lists">Lists</a>
       <ul>
         <li><a href="#listview-vs-gridview-vs-slivers">ListView vs GridView vs slivers</a></li>
@@ -97,9 +104,9 @@
 
 This project is the **navigation**, **layout**, **lists**, and **API integration** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`), tiles in this order: **General**, **Example HTTP**, **Example Dio**, **HTTP vs Dio** last. **General** (`ApiGeneralLabScreen`) is concepts only: **CRUD**, **interceptors** vs `package:http`, and a unified API class — no live buttons. **Example HTTP** (`ApiHttpLabScreen`) and **Example Dio** (`ApiDioLabScreen`) are the same bookshelf twice — GET /books, scenario chips (including every-third-fail **Unstable**), Search, add / edit / delete. The list slot is one `when` (loading / error / data): refresh and every chip go through `load()`, so a spinner **replaces** the list — not an overlay. Tapping a book opens a placeholder details page (`BookDetailsScreen`) with the title and the reading dragon. Edit stays the sheet. Delete stays the confirm dialog, then `DELETE /books/:id`; 401 opens the login warning (see [Authorized vs not](#authorized-vs-not-lab-only)). The two features are **copied on purpose** so each lab stays a complete `package:http` or Dio stack. Sharing the shelf widgets would mix the clients; that is not best practice in a real app, and not the point here. Both labs' data layers talk to the same **Firebase** Cloud Functions + Firestore backend of romantasy **books** (`package:http` / `ApiClient` vs **Dio** / `DioApiClient`). Two stacks in one project is the lesson, not a production pattern — ship **http** or **dio**, never both. **HTTP vs Dio** (`ApiCompareLabScreen`) is a debugger: GET, DELETE, Unstable, Slow, Offline, Server error; HTTP on top, Dio below; **Next** steps `_send` vs interceptors until the request fires — still no live call. POST / PUT chips are not in this lab yet. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Mixins** opens the Mixins Lab (`MixinsLabScreen`): illegal two-`extends` vs `with MixinsLabBusyTap`; Save is a button, Reload is a card; tap one, only that widget is busy. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`), tiles in this order: **General**, **Example HTTP**, **Example Dio**, **HTTP vs Dio** last. **General** (`ApiGeneralLabScreen`) is concepts only: **CRUD**, **interceptors** vs `package:http`, and a unified API class — no live buttons. **Example HTTP** (`ApiHttpLabScreen`) and **Example Dio** (`ApiDioLabScreen`) are the same bookshelf twice — GET /books, scenario chips (including every-third-fail **Unstable**), Search, add / edit / delete. The list slot is one `when` (loading / error / data): refresh and every chip go through `load()`, so a spinner **replaces** the list — not an overlay. Tapping a book opens a placeholder details page (`BookDetailsScreen`) with the title and the reading dragon. Edit stays the sheet. Delete stays the confirm dialog, then `DELETE /books/:id`; 401 opens the login warning (see [Authorized vs not](#authorized-vs-not-lab-only)). The two features are **copied on purpose** so each lab stays a complete `package:http` or Dio stack. Sharing the shelf widgets would mix the clients; that is not best practice in a real app, and not the point here. Both labs' data layers talk to the same **Firebase** Cloud Functions + Firestore backend of romantasy **books** (`package:http` / `ApiClient` vs **Dio** / `DioApiClient`). Two stacks in one project is the lesson, not a production pattern — ship **http** or **dio**, never both. **HTTP vs Dio** (`ApiCompareLabScreen`) is a debugger: GET, DELETE, Unstable, Slow, Offline, Server error; HTTP on top, Dio below; **Next** steps `_send` vs interceptors until the request fires — still no live call. POST / PUT chips are not in this lab yet. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
 
-Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `ApiCompareLabScreen`, `BookDetailsScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. Book Details is its own feature (`lib/features/book_details/`), like User Details — both labs `pushNamed` into it. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. HTTP books: Firebase emulator → `package:http` → `ApiClient` → `HttpApiHttpLabDataSource` → `HttpApiHttpLabRepository`. Dio books: same emulator → `Dio` → `DioApiClient` → `DioApiDioLabDataSource` → `DioApiDioLabRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
+Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `MixinsLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `ApiCompareLabScreen`, `BookDetailsScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. Book Details is its own feature (`lib/features/book_details/`), like User Details — both labs `pushNamed` into it. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. HTTP books: Firebase emulator → `package:http` → `ApiClient` → `HttpApiHttpLabDataSource` → `HttpApiHttpLabRepository`. Dio books: same emulator → `Dio` → `DioApiClient` → `DioApiDioLabDataSource` → `DioApiDioLabRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -274,6 +281,41 @@ return Row(children: [Expanded(child: a), Expanded(child: b)]);
 On iPhone 17 Pro both markers sit in compact and the tiles stack. Widen Chrome past 600: parent crosses 600, tiles go to a row. Keep widening: window keeps moving, parent stops at the 840 cap.
 
 Path URLs (`usePathUrlStrategy`) so Chrome shows `/layout`, not `/#/layout`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Mixins
+
+A **mixin** is extra behavior you attach with **with**. It is not a second parent class. Dart allows one **extends**. Several mixins are fine.
+
+```dart
+mixin MixinsLabBusyTap on State { … }
+
+class _MixinsLabSaveButtonState extends State<MixinsLabSaveButton>
+    with MixinsLabBusyTap { … }
+class _MixinsLabReloadCardState extends State<MixinsLabReloadCard>
+    with MixinsLabBusyTap { … }
+```
+
+`on State` means only a `State` can `with MixinsLabBusyTap`. Flutter already does this: `SingleTickerProviderStateMixin` for `AnimationController`. MixinsLabBusyTap is **ours**, not the SDK.
+
+The Mixins Lab (`lib/features/mixins_lab/`) is Layout-style **wrong vs works**. Wrong: two `extends`. Works: `MixinsLabSaveButton` and `MixinsLabReloadCard` both `with MixinsLabBusyTap` (our mixin, not Dart). Tap Save: the button is busy 2s. The card stays idle. `runBusy` is busy on → work → busy off. A Riverpod `busy` would be one flag for both widgets.
+
+### mixin vs extends
+
+| | Keyword | Use |
+| --- | --- | --- |
+| One parent (is-a) | `extends` | `ParentViewState extends ViewState` |
+| Extra behavior | `mixin` / `with` | `State with MixinsLabBusyTap` |
+| Restrict who can use it | `on` | `mixin MixinsLabBusyTap on State` |
+
+`class A extends B, C` is illegal. `class A extends B with C, D` is the Dart way.
+
+### ParentView is not a mixin
+
+The `ParentView` / `ParentViewState` snippet from another project has **no** `mixin` and **no** `with`. It **extends** `View` / `ViewState`, takes generics `T` (ViewModel) and `I` (interface), and in `initState` registers `vm as I` in get_it so child pages can inject the parent ViewModel. `dispose` unregisters. Changing `param1` / `param2` recreates the VM. That is inheritance plus DI lifecycle — useful to read, not a mixin lesson.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -499,7 +541,7 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**79.9%** line coverage (2872 of 3594 lines).
+**79.7%** line coverage (2938 of 3685 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
