@@ -297,6 +297,7 @@ void main() {
     await tester.tap(find.byKey(const Key('api-dio-lab-book-delete-confirm')));
     await tester.pumpAndSettle();
 
+    expect(find.text('Delete Fourth Wing?'), findsNothing);
     expect(
       find.text('You are not authorized for this step. Please log in.'),
       findsOneWidget,
@@ -316,6 +317,13 @@ void main() {
     await tester.pumpAndSettle();
     await tester.tap(find.byKey(const Key('api-lab-unauthorized-login')));
     await tester.pumpAndSettle();
+
+    expect(
+      find.text('You are not authorized for this step. Please log in.'),
+      findsNothing,
+    );
+    expect(find.byKey(const Key('api-lab-login-email')), findsOneWidget);
+
     await tester.tap(find.byKey(const Key('api-lab-login-submit')));
     await tester.pumpAndSettle();
 

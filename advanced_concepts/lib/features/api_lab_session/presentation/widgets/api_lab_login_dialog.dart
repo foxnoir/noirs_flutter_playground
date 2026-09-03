@@ -5,11 +5,21 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 /// Returns `true` after a valid form submit. Does not check credentials.
-Future<bool> showApiLabLoginDialog(BuildContext context) async {
-  final loggedIn = await showDialog<bool>(
+///
+/// Pass [replaceCurrentDialog] from the unauthorized warning so that
+/// route is removed instead of sitting under this one.
+Future<bool> showApiLabLoginDialog(
+  BuildContext context, {
+  bool replaceCurrentDialog = false,
+}) async {
+  final navigator = Navigator.of(context);
+  final route = DialogRoute<bool>(
     context: context,
     builder: (context) => const ApiLabLoginDialog(),
   );
+  final loggedIn = replaceCurrentDialog
+      ? await navigator.pushReplacement(route)
+      : await navigator.push(route);
   return loggedIn ?? false;
 }
 
