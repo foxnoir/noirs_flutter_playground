@@ -1058,6 +1058,78 @@ abstract class AppLocalizations {
   /// **'PreferredSize(preferredSize: Size.fromHeight(96), child: …)'**
   String get layoutPreferredCallCustom;
 
+  /// No description provided for @mixins.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixins'**
+  String get mixins;
+
+  /// No description provided for @mixinsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'MixinsLabBusyTap is our mixin, not Dart. Save already extends State. A second parent is illegal. with MixinsLabBusyTap copies busy into that State. Tap Save: only the button is busy. Reload stays idle. A Provider would be one busy for both.'**
+  String get mixinsHint;
+
+  /// No description provided for @mixinsWrongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  two extends'**
+  String get mixinsWrongTitle;
+
+  /// No description provided for @mixinsWrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Dart allows one parent. State is already the parent.'**
+  String get mixinsWrongHint;
+
+  /// No description provided for @mixinsRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  with MixinsLabBusyTap'**
+  String get mixinsRightTitle;
+
+  /// No description provided for @mixinsRightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'runBusy: busy on, wait 2s, busy off. Each widget has its own busy.'**
+  String get mixinsRightHint;
+
+  /// No description provided for @mixinsWithLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'the with line'**
+  String get mixinsWithLabel;
+
+  /// No description provided for @mixinsMixinLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'our mixin MixinsLabBusyTap'**
+  String get mixinsMixinLabel;
+
+  /// No description provided for @mixinsSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get mixinsSave;
+
+  /// No description provided for @mixinsReload.
+  ///
+  /// In en, this message translates to:
+  /// **'Reload'**
+  String get mixinsReload;
+
+  /// No description provided for @mixinsIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'idle'**
+  String get mixinsIdle;
+
+  /// No description provided for @mixinsBusy.
+  ///
+  /// In en, this message translates to:
+  /// **'busy'**
+  String get mixinsBusy;
+
   /// No description provided for @errorTimeout.
   ///
   /// In en, this message translates to:

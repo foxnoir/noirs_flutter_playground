@@ -9,6 +9,7 @@ import 'package:advanced_concepts/features/book_details/presentation/book_detail
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
+import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_screen.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/routing_lab_screen.dart';
 import 'package:advanced_concepts/features/user_details/presentation/user_details_screen.dart';
 import 'package:advanced_concepts/features/user_list/presentation/user_list_screen.dart';
@@ -34,6 +35,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutePaths.layout,
             name: AppRouteNames.layout,
             builder: (context, state) => const LayoutLabScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.mixins,
+            name: AppRouteNames.mixins,
+            builder: (context, state) => const MixinsLabScreen(),
           ),
           GoRoute(
             path: AppRoutePaths.lists,

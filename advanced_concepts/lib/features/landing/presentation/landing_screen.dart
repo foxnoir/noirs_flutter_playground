@@ -26,6 +26,10 @@ class LandingScreen extends StatelessWidget {
               onTap: () => context.pushNamed(AppRouteNames.layout),
             ),
             LandingListTile(
+              label: l10n.mixins,
+              onTap: () => context.pushNamed(AppRouteNames.mixins),
+            ),
+            LandingListTile(
               label: l10n.lists,
               onTap: () => context.pushNamed(AppRouteNames.lists),
             ),

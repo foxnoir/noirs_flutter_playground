@@ -13,6 +13,7 @@ import 'package:advanced_concepts/features/book_details/presentation/book_detail
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
+import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_screen.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/routing_lab_screen.dart';
 import 'package:advanced_concepts/features/user_details/presentation/user_details_screen.dart';
 import 'package:advanced_concepts/features/user_list/data/data_sources/in_memory_user_list_data_source.dart';
@@ -263,6 +264,17 @@ void main() {
 
     expect(find.byType(LayoutLabScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Layout'), findsOneWidget);
+  });
+
+  testWidgets('Landing Mixins tile opens Mixins Lab', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('Mixins'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(MixinsLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Mixins'), findsOneWidget);
   });
 
   testWidgets('Landing Lists tile opens Lists Lab', (tester) async {
