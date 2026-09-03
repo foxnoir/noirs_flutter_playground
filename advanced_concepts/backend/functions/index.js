@@ -311,7 +311,19 @@ app.put("/books/:id", async (req, res) => {
   }
 });
 
+function requireLabBearer(req, res) {
+  const header = req.get("Authorization") || "";
+  if (header !== "Bearer lab") {
+    sendError(res, 401, "unauthorized", "Not authorized");
+    return false;
+  }
+  return true;
+}
+
 app.delete("/books/:id", async (req, res) => {
+  if (!requireLabBearer(req, res)) {
+    return;
+  }
   try {
     const ref = books.doc(req.params.id);
     const existing = await ref.get();

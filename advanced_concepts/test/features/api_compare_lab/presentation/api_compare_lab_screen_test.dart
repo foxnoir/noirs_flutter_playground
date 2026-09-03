@@ -99,7 +99,7 @@ void main() {
     expect(find.text("DioApiClient.delete('/books/:id')"), findsOneWidget);
     expect(
       find.text(
-        "Same _send vs interceptors as GET. Path is /books/:id. The live labs' login dialog is UI, not this stack.",
+        'Same _send vs interceptors as GET. Path is /books/:id. DELETE without Bearer lab is 401. package:http sets the header in _send; Dio uses DioAuthInterceptor.',
       ),
       findsOneWidget,
     );

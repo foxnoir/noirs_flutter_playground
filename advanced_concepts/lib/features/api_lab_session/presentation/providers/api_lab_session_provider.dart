@@ -1,9 +1,7 @@
+import 'package:advanced_concepts/core/network/api_access_token.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// In-memory authorized flag for the DELETE lab.
-///
-/// Starts false. `logIn` sets it true. There is no token, no backend check,
-/// and no stored user. That is the point of the lab — see the README.
+/// AppBar lock. The emulator decides DELETE: token on the request, or 401.
 final apiLabSessionProvider = NotifierProvider<ApiLabSessionNotifier, bool>(
   ApiLabSessionNotifier.new,
 );
@@ -13,6 +11,7 @@ class ApiLabSessionNotifier extends Notifier<bool> {
   bool build() => false;
 
   void logIn() {
+    ref.read(apiAccessTokenProvider).value = ApiLabAccessToken.value;
     state = true;
   }
 }

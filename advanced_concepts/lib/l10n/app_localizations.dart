@@ -1265,7 +1265,7 @@ abstract class AppLocalizations {
   /// No description provided for @apiCompareDeleteHint.
   ///
   /// In en, this message translates to:
-  /// **'Same _send vs interceptors as GET. Path is /books/:id. The live labs\' login dialog is UI, not this stack.'**
+  /// **'Same _send vs interceptors as GET. Path is /books/:id. DELETE without Bearer lab is 401. package:http sets the header in _send; Dio uses DioAuthInterceptor.'**
   String get apiCompareDeleteHint;
 
   /// No description provided for @apiCrudWhen.

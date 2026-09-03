@@ -11,11 +11,13 @@ class ApiClient {
     required this.client,
     required this.baseUrl,
     this.timeout = const Duration(seconds: 5),
+    this.readAccessToken,
   });
 
   final http.Client client;
   final Uri baseUrl;
   final Duration timeout;
+  final String? Function()? readAccessToken;
 
   Future<T> get<T>(
     String path,
@@ -65,6 +67,10 @@ class ApiClient {
     final encoded = body == null ? null : jsonEncode(body);
     if (encoded != null) {
       headers['Content-Type'] = 'application/json; charset=utf-8';
+    }
+    final token = readAccessToken?.call();
+    if (token != null && token.isNotEmpty) {
+      headers['Authorization'] = 'Bearer $token';
     }
     final url = uri ?? _uri(path);
 

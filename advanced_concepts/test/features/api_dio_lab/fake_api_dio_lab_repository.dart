@@ -1,4 +1,5 @@
 import 'package:advanced_concepts/core/errors/app_failure.dart';
+import 'package:advanced_concepts/core/network/api_access_token.dart';
 import 'package:advanced_concepts/features/api_dio_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/api_dio_lab/domain/repositories/api_dio_lab_repository.dart';
 
@@ -8,12 +9,14 @@ class FakeApiDioLabRepository implements ApiDioLabRepository {
     this.error,
     this.searchError,
     this.match,
+    this.accessToken,
   }) : books = List<Book>.of(books);
 
   final List<Book> books;
   final AppFailure? error;
   final AppFailure? searchError;
   final Book? match;
+  final ApiAccessToken? accessToken;
   Future<void> Function()? onFetchBooks;
 
   @override
@@ -77,6 +80,10 @@ class FakeApiDioLabRepository implements ApiDioLabRepository {
   @override
   Future<void> deleteBook(String id) async {
     _throwIfError();
+    final stored = accessToken;
+    if (stored != null && stored.value != ApiLabAccessToken.value) {
+      throw const UnauthorizedFailure();
+    }
     books.removeWhere((entry) => entry.id == id);
   }
 

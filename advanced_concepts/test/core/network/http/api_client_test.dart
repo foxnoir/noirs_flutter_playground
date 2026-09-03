@@ -60,4 +60,25 @@ void main() {
     });
     expect(client.get('/offline', (_) {}), throwsA(isA<NetworkException>()));
   });
+
+  test('DELETE sends Bearer when readAccessToken returns a token', () async {
+    final client = ApiClient(
+      client: MockClient((request) async {
+        expect(request.method, 'DELETE');
+        expect(request.headers['Authorization'], 'Bearer lab');
+        return http.Response('{}', 200);
+      }),
+      baseUrl: Uri.parse('http://api.test/'),
+      readAccessToken: () => 'lab',
+    );
+    await client.delete('/books/3');
+  });
+
+  test('DELETE omits Authorization when there is no token', () async {
+    final client = clientWith((request) async {
+      expect(request.headers.containsKey('Authorization'), isFalse);
+      return http.Response('{}', 200);
+    });
+    await client.delete('/books/3');
+  });
 }

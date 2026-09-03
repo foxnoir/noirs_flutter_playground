@@ -1,16 +1,19 @@
-import 'package:advanced_concepts/features/api_lab_session/presentation/providers/api_lab_session_provider.dart';
+import 'package:advanced_concepts/core/errors/app_failure.dart';
 import 'package:advanced_concepts/features/api_lab_session/presentation/widgets/api_lab_login_dialog.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-/// `true` only when already authorized. Login never finishes the DELETE.
-Future<bool> isAuthorized(BuildContext context, WidgetRef ref) async {
-  if (ref.read(apiLabSessionProvider)) {
-    return true;
+/// Shows the lab login warning when DELETE returned 401.
+/// Returns `true` if this was unauthorized (caller should stop).
+Future<bool> showUnauthorizedIfNeeded(
+  BuildContext context,
+  Object error,
+) async {
+  if (AppFailure.from(error) is! UnauthorizedFailure) {
+    return false;
   }
   await showApiLabUnauthorizedDialog(context);
-  return false;
+  return true;
 }
 
 Future<void> showApiLabUnauthorizedDialog(BuildContext context) {

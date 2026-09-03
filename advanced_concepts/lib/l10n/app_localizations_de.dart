@@ -666,7 +666,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get apiCompareDeleteHint =>
-      'Derselbe _send-vs-Interceptors-Stack wie GET. Pfad ist /books/:id. Der Login-Dialog der Live-Labs ist UI, nicht dieser Stack.';
+      'Derselbe _send-vs-Interceptors-Stack wie GET. Pfad ist /books/:id. DELETE ohne Bearer lab ist 401. package:http setzt den Header in _send, Dio in DioAuthInterceptor.';
 
   @override
   String get apiCrudWhen => 'Vier Verben für eine Ressource';

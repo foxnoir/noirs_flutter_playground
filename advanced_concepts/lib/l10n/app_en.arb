@@ -238,7 +238,7 @@
   "apiCompareHintHttpServer": "_send switch: status >= 500 → ServerException.",
   "apiCompareHintDioServer": "onError maps badResponse 500 to ServerException.",
   "apiCompareUnstableHint": "Unstable is not a verb. The live labs fail every third GET. The stack is the same as GET.",
-  "apiCompareDeleteHint": "Same _send vs interceptors as GET. Path is /books/:id. The live labs' login dialog is UI, not this stack.",
+  "apiCompareDeleteHint": "Same _send vs interceptors as GET. Path is /books/:id. DELETE without Bearer lab is 401. package:http sets the header in _send; Dio uses DioAuthInterceptor.",
   "apiCrudWhen": "Four verbs for a resource",
   "apiCrudCalls": "CRUD",
   "apiCrudHint": "Create POST, Read GET, Update PUT, Delete DELETE. GET /books lists. POST /books adds. PUT /books/:id edits. DELETE /books/:id removes.",
