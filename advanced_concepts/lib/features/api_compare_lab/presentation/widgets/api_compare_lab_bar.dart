@@ -38,6 +38,13 @@ class ApiCompareLabBar extends StatelessWidget {
                 const SizedBox(width: 8),
                 _button(
                   context,
+                  key: const Key('api-compare-lab-delete'),
+                  label: l10n.apiCompareDelete,
+                  value: ApiCompareLabScenario.delete,
+                ),
+                const SizedBox(width: 8),
+                _button(
+                  context,
                   key: const Key('api-compare-lab-unstable'),
                   label: l10n.apiDioScenarioUnstable,
                   value: ApiCompareLabScenario.unstable,
@@ -70,6 +77,13 @@ class ApiCompareLabBar extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               l10n.apiCompareUnstableHint,
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
+          ],
+          if (selected == ApiCompareLabScenario.delete) ...[
+            const SizedBox(height: 8),
+            Text(
+              l10n.apiCompareDeleteHint,
               style: Theme.of(context).textTheme.bodySmall,
             ),
           ],

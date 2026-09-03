@@ -1109,7 +1109,7 @@ abstract class AppLocalizations {
   /// No description provided for @apiCompareHint.
   ///
   /// In en, this message translates to:
-  /// **'No live call. Step the same GET through package:http (_send) and Dio (interceptors) until the request fires.'**
+  /// **'No live call. Step GET or DELETE through package:http (_send) and Dio (interceptors) until the request fires.'**
   String get apiCompareHint;
 
   /// No description provided for @apiCompareNext.
@@ -1130,10 +1130,16 @@ abstract class AppLocalizations {
   /// **'GET'**
   String get apiCompareGet;
 
+  /// No description provided for @apiCompareDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get apiCompareDelete;
+
   /// No description provided for @apiCompareIdle.
   ///
   /// In en, this message translates to:
-  /// **'Pick GET or a drill. Next walks both stacks.'**
+  /// **'Pick GET, DELETE, or a drill. Next walks both stacks.'**
   String get apiCompareIdle;
 
   /// No description provided for @apiCompareHttpTitle.
@@ -1151,8 +1157,8 @@ abstract class AppLocalizations {
   /// No description provided for @apiCompareFires.
   ///
   /// In en, this message translates to:
-  /// **'GET fires'**
-  String get apiCompareFires;
+  /// **'{verb} fires'**
+  String apiCompareFires(String verb);
 
   /// No description provided for @apiCompareHintEnter.
   ///
@@ -1202,6 +1208,18 @@ abstract class AppLocalizations {
   /// **'onResponse runs after the socket. Then the client parses JSON.'**
   String get apiCompareHintDioOnResponse;
 
+  /// No description provided for @apiCompareHintHttpDeleteMap.
+  ///
+  /// In en, this message translates to:
+  /// **'Status 2xx is mapped in _send. DELETE has no body to parse.'**
+  String get apiCompareHintHttpDeleteMap;
+
+  /// No description provided for @apiCompareHintDioDeleteOnResponse.
+  ///
+  /// In en, this message translates to:
+  /// **'onResponse runs after the socket. DELETE has no JSON to parse.'**
+  String get apiCompareHintDioDeleteOnResponse;
+
   /// No description provided for @apiCompareHintHttpTimeout.
   ///
   /// In en, this message translates to:
@@ -1243,6 +1261,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unstable is not a verb. The live labs fail every third GET. The stack is the same as GET.'**
   String get apiCompareUnstableHint;
+
+  /// No description provided for @apiCompareDeleteHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Same _send vs interceptors as GET. Path is /books/:id. The live labs\' login dialog is UI, not this stack.'**
+  String get apiCompareDeleteHint;
 
   /// No description provided for @apiCrudWhen.
   ///
@@ -1615,6 +1639,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'DELETE /books · {title}'**
   String apiDioSnackDeleted(String title);
+
+  /// No description provided for @apiLabUnauthorizedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not authorized'**
+  String get apiLabUnauthorizedTitle;
+
+  /// No description provided for @apiLabUnauthorizedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You are not authorized for this step. Please log in.'**
+  String get apiLabUnauthorizedBody;
+
+  /// No description provided for @apiLabLogin.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get apiLabLogin;
+
+  /// No description provided for @apiLabLoginTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Login'**
+  String get apiLabLoginTitle;
+
+  /// No description provided for @apiLabPassword.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get apiLabPassword;
+
+  /// No description provided for @apiLabLoginEmailRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an email.'**
+  String get apiLabLoginEmailRequired;
+
+  /// No description provided for @apiLabLoginEmailInvalid.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter an email with @.'**
+  String get apiLabLoginEmailInvalid;
+
+  /// No description provided for @apiLabLoginPasswordRequired.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter a password.'**
+  String get apiLabLoginPasswordRequired;
+
+  /// No description provided for @apiLabLoginPasswordShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Use at least 6 characters.'**
+  String get apiLabLoginPasswordShort;
+
+  /// No description provided for @apiLabLoggedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged in'**
+  String get apiLabLoggedIn;
+
+  /// No description provided for @apiLabLoggedOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Not logged in'**
+  String get apiLabLoggedOut;
+
+  /// No description provided for @apiLabSnackLoggedIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Logged in'**
+  String get apiLabSnackLoggedIn;
 }
 
 class _AppLocalizationsDelegate

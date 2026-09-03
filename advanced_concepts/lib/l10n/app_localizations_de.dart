@@ -568,7 +568,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get apiCompareHint =>
-      'Kein Live-Call. Dieselbe GET durch package:http (_send) und Dio (Interceptors) steppen, bis der Request feuert.';
+      'Kein Live-Call. GET oder DELETE durch package:http (_send) und Dio (Interceptors) steppen, bis der Request feuert.';
 
   @override
   String get apiCompareNext => 'Next';
@@ -580,8 +580,11 @@ class AppLocalizationsDe extends AppLocalizations {
   String get apiCompareGet => 'GET';
 
   @override
+  String get apiCompareDelete => 'DELETE';
+
+  @override
   String get apiCompareIdle =>
-      'GET oder Drill wählen. Next läuft beide Stacks.';
+      'GET, DELETE oder Drill wählen. Next läuft beide Stacks.';
 
   @override
   String get apiCompareHttpTitle => 'package:http';
@@ -590,7 +593,9 @@ class AppLocalizationsDe extends AppLocalizations {
   String get apiCompareDioTitle => 'Dio';
 
   @override
-  String get apiCompareFires => 'GET feuert';
+  String apiCompareFires(String verb) {
+    return '$verb feuert';
+  }
 
   @override
   String get apiCompareHintEnter =>
@@ -624,6 +629,14 @@ class AppLocalizationsDe extends AppLocalizations {
       'onResponse läuft nach dem Socket. Dann parst der Client JSON.';
 
   @override
+  String get apiCompareHintHttpDeleteMap =>
+      'Status 2xx wird in _send gemappt. DELETE hat keinen Body zum Parsen.';
+
+  @override
+  String get apiCompareHintDioDeleteOnResponse =>
+      'onResponse läuft nach dem Socket. DELETE hat kein JSON zum Parsen.';
+
+  @override
   String get apiCompareHintHttpTimeout =>
       '_send fängt TimeoutException und wirft RequestTimeoutException.';
 
@@ -650,6 +663,10 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get apiCompareUnstableHint =>
       'Instabil ist kein Verb. Die Live-Labs lassen jeden dritten GET fehlschlagen. Der Stack ist derselbe wie GET.';
+
+  @override
+  String get apiCompareDeleteHint =>
+      'Derselbe _send-vs-Interceptors-Stack wie GET. Pfad ist /books/:id. Der Login-Dialog der Live-Labs ist UI, nicht dieser Stack.';
 
   @override
   String get apiCrudWhen => 'Vier Verben für eine Ressource';
@@ -863,4 +880,41 @@ class AppLocalizationsDe extends AppLocalizations {
   String apiDioSnackDeleted(String title) {
     return 'DELETE /books · $title';
   }
+
+  @override
+  String get apiLabUnauthorizedTitle => 'Nicht autorisiert';
+
+  @override
+  String get apiLabUnauthorizedBody =>
+      'Für diesen Schritt sind Sie nicht autorisiert. Bitte loggen Sie sich ein.';
+
+  @override
+  String get apiLabLogin => 'Login';
+
+  @override
+  String get apiLabLoginTitle => 'Login';
+
+  @override
+  String get apiLabPassword => 'Passwort';
+
+  @override
+  String get apiLabLoginEmailRequired => 'E-Mail eingeben.';
+
+  @override
+  String get apiLabLoginEmailInvalid => 'E-Mail mit @ eingeben.';
+
+  @override
+  String get apiLabLoginPasswordRequired => 'Passwort eingeben.';
+
+  @override
+  String get apiLabLoginPasswordShort => 'Mindestens 6 Zeichen.';
+
+  @override
+  String get apiLabLoggedIn => 'Eingeloggt';
+
+  @override
+  String get apiLabLoggedOut => 'Nicht eingeloggt';
+
+  @override
+  String get apiLabSnackLoggedIn => 'Eingeloggt';
 }

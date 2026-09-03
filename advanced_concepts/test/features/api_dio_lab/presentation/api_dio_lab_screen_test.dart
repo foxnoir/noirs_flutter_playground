@@ -4,6 +4,7 @@ import 'package:advanced_concepts/core/errors/app_failure.dart';
 import 'package:advanced_concepts/features/api_dio_lab/data/repositories/api_dio_lab_repository.dart';
 import 'package:advanced_concepts/features/api_dio_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/api_dio_lab_screen.dart';
+import 'package:advanced_concepts/features/api_lab_session/presentation/providers/api_lab_session_provider.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:advanced_concepts/shared_widgets/error_widget.dart';
 import 'package:flutter/material.dart' hide ErrorWidget;
@@ -29,6 +30,7 @@ void _useTallSurface(WidgetTester tester) {
 Future<void> _pumpLab(
   WidgetTester tester, {
   FakeApiDioLabRepository? repository,
+  bool authorized = false,
 }) async {
   _useTallSurface(tester);
   await tester.pumpWidget(
@@ -37,6 +39,8 @@ Future<void> _pumpLab(
         apiDioLabRepositoryProvider.overrideWithValue(
           repository ?? FakeApiDioLabRepository(books: const [_fourthWing]),
         ),
+        if (authorized)
+          apiLabSessionProvider.overrideWith(_AuthorizedSession.new),
       ],
       child: const MaterialApp(
         locale: Locale('en'),
@@ -47,6 +51,11 @@ Future<void> _pumpLab(
     ),
   );
   await tester.pumpAndSettle();
+}
+
+class _AuthorizedSession extends ApiLabSessionNotifier {
+  @override
+  bool build() => true;
 }
 
 Future<void> _tapKey(WidgetTester tester, Key key) async {
@@ -268,8 +277,81 @@ void main() {
     expect(find.text('PUT /books · Fourth Wing'), findsOneWidget);
   });
 
-  testWidgets('delete book removes it from the shelf', (tester) async {
+  testWidgets('delete while logged out shows unauthorized and keeps the book', (
+    tester,
+  ) async {
     await _pumpLab(tester);
+
+    await tester.tap(find.byKey(const Key('api-dio-lab-delete-3')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('api-dio-lab-book-delete-confirm')));
+    await tester.pumpAndSettle();
+
+    expect(
+      find.text('You are not authorized for this step. Please log in.'),
+      findsOneWidget,
+    );
+    expect(find.text('Fourth Wing'), findsOneWidget);
+    expect(find.text('DELETE /books · Fourth Wing'), findsNothing);
+  });
+
+  testWidgets('login form validates then authorized delete removes the book', (
+    tester,
+  ) async {
+    await _pumpLab(tester);
+
+    await tester.tap(find.byKey(const Key('api-dio-lab-delete-3')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('api-dio-lab-book-delete-confirm')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('api-lab-unauthorized-login')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('api-lab-login-submit')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Enter an email.'), findsOneWidget);
+    expect(find.text('Enter a password.'), findsOneWidget);
+
+    await tester.enterText(
+      find.byKey(const Key('api-lab-login-email')),
+      'not-an-email',
+    );
+    await tester.enterText(
+      find.byKey(const Key('api-lab-login-password')),
+      'short',
+    );
+    await tester.tap(find.byKey(const Key('api-lab-login-submit')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Enter an email with @.'), findsOneWidget);
+    expect(find.text('Use at least 6 characters.'), findsOneWidget);
+
+    await tester.enterText(
+      find.byKey(const Key('api-lab-login-email')),
+      'lab@example.com',
+    );
+    await tester.enterText(
+      find.byKey(const Key('api-lab-login-password')),
+      'secret1',
+    );
+    await tester.tap(find.byKey(const Key('api-lab-login-submit')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Logged in'), findsWidgets);
+    expect(find.byIcon(Icons.lock_open), findsOneWidget);
+    expect(find.text('Fourth Wing'), findsOneWidget);
+
+    await tester.tap(find.byKey(const Key('api-dio-lab-delete-3')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('api-dio-lab-book-delete-confirm')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Fourth Wing'), findsNothing);
+    expect(find.text('DELETE /books · Fourth Wing'), findsOneWidget);
+  });
+
+  testWidgets('delete book removes it from the shelf', (tester) async {
+    await _pumpLab(tester, authorized: true);
 
     await tester.tap(find.byKey(const Key('api-dio-lab-delete-3')));
     await tester.pumpAndSettle();

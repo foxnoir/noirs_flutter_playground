@@ -6,6 +6,8 @@ import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_
 import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_book_sheet.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_scenario_bar.dart';
 import 'package:advanced_concepts/features/api_dio_lab/presentation/widgets/api_dio_lab_search_sheet.dart';
+import 'package:advanced_concepts/features/api_lab_session/presentation/widgets/api_lab_session_button.dart';
+import 'package:advanced_concepts/features/api_lab_session/presentation/widgets/api_lab_unauthorized_dialog.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:advanced_concepts/shared_widgets/apis/api_lab_background.dart';
 import 'package:advanced_concepts/shared_widgets/error_widget.dart' as app;
@@ -72,6 +74,7 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
       },
     );
     if (confirmed != true || !mounted) return;
+    if (!await isAuthorized(context, ref) || !mounted) return;
     try {
       await ref.read(apiDioLabProvider.notifier).deleteBook(id);
       if (!mounted) return;
@@ -82,7 +85,7 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
     }
   }
 
-  void _openBook(Book book) {
+  void _showDetails(Book book) {
     final id = book.id;
     if (id == null) return;
     context.pushNamed(
@@ -135,6 +138,7 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
             onPressed: () => _loadShelf(snack: true),
             icon: const Icon(Icons.refresh),
           ),
+          const ApiLabSessionButton(),
         ],
       ),
       floatingActionButton: FloatingActionButton(
@@ -172,7 +176,7 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
       data: (value) => ApiDioLabBookList(
         books: value.books,
         onRefresh: () => _loadShelf(snack: true),
-        onOpen: _openBook,
+        onOpen: _showDetails,
         onEdit: (book) => _openBookSheet(book: book),
         onDelete: _deleteBook,
       ),
