@@ -41,7 +41,7 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
     }
   }
 
-  Future<void> _loadShelf({required bool snack}) async {
+  Future<void> _fetchBooks({required bool snack}) async {
     setState(() => _drill = null);
     await ref.read(apiDioLabProvider.notifier).load(ApiDioLabScenario.books);
     if (!mounted) return;
@@ -54,35 +54,78 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
     final id = book.id;
     if (id == null) return;
     final l10n = AppLocalizations.of(context);
-    final confirmed = await showDialog<bool>(
+    final outcome = await showDialog<({bool deleted, Object? error})>(
       context: context,
-      builder: (context) {
-        return AlertDialog(
-          content: Text(l10n.apiDioConfirmDelete(book.title)),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.of(context).pop(false),
-              child: Text(MaterialLocalizations.of(context).cancelButtonLabel),
-            ),
-            FilledButton(
-              key: const Key('api-dio-lab-book-delete-confirm'),
-              onPressed: () => Navigator.of(context).pop(true),
-              child: Text(l10n.apiDioDelete),
-            ),
-          ],
+      builder: (dialogContext) {
+        var loading = false;
+        return StatefulBuilder(
+          builder: (dialogContext, setDialogState) {
+            return PopScope(
+              canPop: !loading,
+              child: AlertDialog(
+                content: Text(l10n.apiDioConfirmDelete(book.title)),
+                actions: [
+                  TextButton(
+                    onPressed: loading
+                        ? null
+                        : () => Navigator.of(dialogContext).pop(),
+                    child: Text(
+                      MaterialLocalizations.of(dialogContext).cancelButtonLabel,
+                    ),
+                  ),
+                  FilledButton(
+                    key: const Key('api-dio-lab-book-delete-confirm'),
+                    onPressed: loading
+                        ? null
+                        : () async {
+                            setDialogState(() => loading = true);
+                            try {
+                              await ref
+                                  .read(apiDioLabProvider.notifier)
+                                  .deleteBook(id);
+                              if (dialogContext.mounted) {
+                                Navigator.of(
+                                  dialogContext,
+                                ).pop((deleted: true, error: null));
+                              }
+                            } catch (error) {
+                              if (!dialogContext.mounted) return;
+                              if (await showUnauthorizedIfNeeded(
+                                dialogContext,
+                                error,
+                                replaceCurrentDialog: true,
+                              )) {
+                                return;
+                              }
+                              Navigator.of(
+                                dialogContext,
+                              ).pop((deleted: false, error: error));
+                            }
+                          },
+                    child: loading
+                        ? const SizedBox(
+                            width: 18,
+                            height: 18,
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          )
+                        : Text(l10n.apiDioDelete),
+                  ),
+                ],
+              ),
+            );
+          },
         );
       },
     );
-    if (confirmed != true || !mounted) return;
-    try {
-      await ref.read(apiDioLabProvider.notifier).deleteBook(id);
-      if (!mounted) return;
+    if (!mounted || outcome == null) return;
+    if (outcome.deleted) {
       _snack(l10n.apiDioSnackDeleted(book.title));
-    } catch (error) {
-      if (!mounted) return;
-      if (await showUnauthorizedIfNeeded(context, error)) return;
-      _snack(localizedError(l10n, error));
+      return;
     }
+    final error = outcome.error;
+    if (error == null) return;
+    if (await showUnauthorizedIfNeeded(context, error)) return;
+    _snack(localizedError(l10n, error));
   }
 
   void _showDetails(Book book) {
@@ -122,7 +165,7 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
             IconButton(
               key: const Key('api-dio-lab-search-clear'),
               tooltip: l10n.apiDioSearchClear,
-              onPressed: () => _loadShelf(snack: false),
+              onPressed: () => _fetchBooks(snack: false),
               icon: const Icon(Icons.clear),
             )
           else
@@ -135,7 +178,7 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
           IconButton(
             key: const Key('api-dio-lab-refresh'),
             tooltip: l10n.retry,
-            onPressed: () => _loadShelf(snack: true),
+            onPressed: () => _fetchBooks(snack: true),
             icon: const Icon(Icons.refresh),
           ),
           const ApiLabSessionButton(),
@@ -170,12 +213,12 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
         child: app.ErrorWidget(
           message: localizedError(l10n, error),
           retryLabel: l10n.retry,
-          onRetry: () => _loadShelf(snack: true),
+          onRetry: () => _fetchBooks(snack: true),
         ),
       ),
       data: (value) => ApiDioLabBookList(
         books: value.books,
-        onRefresh: () => _loadShelf(snack: true),
+        onRefresh: () => _fetchBooks(snack: true),
         onOpen: _showDetails,
         onEdit: (book) => _openBookSheet(book: book),
         onDelete: _deleteBook,

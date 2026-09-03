@@ -5,22 +5,37 @@ import 'package:flutter/material.dart';
 
 /// Shows the lab login warning when DELETE returned 401.
 /// Returns `true` if this was unauthorized (caller should stop).
+///
+/// Pass [replaceCurrentDialog] from a confirm dialog so that route is
+/// removed instead of sitting under this one.
 Future<bool> showUnauthorizedIfNeeded(
   BuildContext context,
-  Object error,
-) async {
+  Object error, {
+  bool replaceCurrentDialog = false,
+}) async {
   if (AppFailure.from(error) is! UnauthorizedFailure) {
     return false;
   }
-  await showApiLabUnauthorizedDialog(context);
+  await showApiLabUnauthorizedDialog(
+    context,
+    replaceCurrentDialog: replaceCurrentDialog,
+  );
   return true;
 }
 
-Future<void> showApiLabUnauthorizedDialog(BuildContext context) {
-  return showDialog<void>(
+Future<void> showApiLabUnauthorizedDialog(
+  BuildContext context, {
+  bool replaceCurrentDialog = false,
+}) {
+  final navigator = Navigator.of(context);
+  final route = DialogRoute<void>(
     context: context,
     builder: (context) => const ApiLabUnauthorizedDialog(),
   );
+  if (replaceCurrentDialog) {
+    return navigator.pushReplacement(route);
+  }
+  return navigator.push(route);
 }
 
 class ApiLabUnauthorizedDialog extends StatelessWidget {
@@ -54,11 +69,8 @@ class ApiLabUnauthorizedDialog extends StatelessWidget {
             backgroundColor: colors.error,
             foregroundColor: colors.onError,
           ),
-          onPressed: () async {
-            final loggedIn = await showApiLabLoginDialog(context);
-            if (loggedIn && context.mounted) {
-              Navigator.of(context).pop();
-            }
+          onPressed: () {
+            showApiLabLoginDialog(context, replaceCurrentDialog: true);
           },
           child: Text(l10n.apiLabLogin),
         ),
