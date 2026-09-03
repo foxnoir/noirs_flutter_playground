@@ -74,13 +74,13 @@ class _ApiDioLabScreenState extends ConsumerState<ApiDioLabScreen> {
       },
     );
     if (confirmed != true || !mounted) return;
-    if (!await isAuthorized(context, ref) || !mounted) return;
     try {
       await ref.read(apiDioLabProvider.notifier).deleteBook(id);
       if (!mounted) return;
       _snack(l10n.apiDioSnackDeleted(book.title));
     } catch (error) {
       if (!mounted) return;
+      if (await showUnauthorizedIfNeeded(context, error)) return;
       _snack(localizedError(l10n, error));
     }
   }

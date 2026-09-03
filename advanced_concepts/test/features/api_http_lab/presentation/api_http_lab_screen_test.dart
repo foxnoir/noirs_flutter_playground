@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:advanced_concepts/core/errors/app_failure.dart';
+import 'package:advanced_concepts/core/network/api_access_token.dart';
 import 'package:advanced_concepts/features/api_http_lab/data/repositories/api_http_lab_repository.dart';
 import 'package:advanced_concepts/features/api_http_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/api_http_lab/presentation/api_http_lab_screen.dart';
@@ -33,11 +34,20 @@ Future<void> _pumpLab(
   bool authorized = false,
 }) async {
   _useTallSurface(tester);
+  final token = ApiAccessToken();
+  if (authorized) {
+    token.value = ApiLabAccessToken.value;
+  }
   await tester.pumpWidget(
     ProviderScope(
       overrides: [
+        apiAccessTokenProvider.overrideWithValue(token),
         apiHttpLabRepositoryProvider.overrideWithValue(
-          repository ?? FakeApiHttpLabRepository(books: const [_fourthWing]),
+          repository ??
+              FakeApiHttpLabRepository(
+                books: const [_fourthWing],
+                accessToken: token,
+              ),
         ),
         if (authorized)
           apiLabSessionProvider.overrideWith(_AuthorizedSession.new),

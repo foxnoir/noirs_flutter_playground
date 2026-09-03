@@ -88,7 +88,6 @@ class _ApiDioLabBookSheetState extends ConsumerState<ApiDioLabBookSheet> {
     if (book == null || id == null) {
       return;
     }
-    if (!await isAuthorized(context, ref) || !mounted) return;
     setState(() {
       _loading = true;
       _error = null;
@@ -99,6 +98,10 @@ class _ApiDioLabBookSheetState extends ConsumerState<ApiDioLabBookSheet> {
       Navigator.of(context).pop(('deleted', book.title));
     } catch (error) {
       if (!mounted) return;
+      if (await showUnauthorizedIfNeeded(context, error)) {
+        setState(() => _loading = false);
+        return;
+      }
       setState(() {
         _loading = false;
         _error = localizedError(AppLocalizations.of(context), error);

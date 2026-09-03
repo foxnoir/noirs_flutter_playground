@@ -97,7 +97,7 @@
 
 This project is the **navigation**, **layout**, **lists**, and **API integration** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`), tiles in this order: **General**, **Example HTTP**, **Example Dio**, **HTTP vs Dio** last. **General** (`ApiGeneralLabScreen`) is concepts only: **CRUD**, **interceptors** vs `package:http`, and a unified API class — no live buttons. **Example HTTP** (`ApiHttpLabScreen`) and **Example Dio** (`ApiDioLabScreen`) are the same bookshelf twice — GET /books, scenario chips (including every-third-fail **Unstable**), Search, add / edit / delete. The list slot is one `when` (loading / error / data): refresh and every chip go through `load()`, so a spinner **replaces** the list — not an overlay. Tapping a book opens a placeholder details page (`BookDetailsScreen`) with the title and the reading dragon. Edit stays the sheet. Delete stays the confirm dialog, then a **lab-only** authorized check (not real auth — see [Authorized vs not](#authorized-vs-not-lab-only)). The two features are **copied on purpose** so each lab stays a complete `package:http` or Dio stack. Sharing the shelf widgets would mix the clients; that is not best practice in a real app, and not the point here. Both labs' data layers talk to the same **Firebase** Cloud Functions + Firestore backend of romantasy **books** (`package:http` / `ApiClient` vs **Dio** / `DioApiClient`). Two stacks in one project is the lesson, not a production pattern — ship **http** or **dio**, never both. **HTTP vs Dio** (`ApiCompareLabScreen`) is a debugger: GET, DELETE, Unstable, Slow, Offline, Server error; HTTP on top, Dio below; **Next** steps `_send` vs interceptors until the request fires — still no live call. POST / PUT chips are not in this lab yet. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`), tiles in this order: **General**, **Example HTTP**, **Example Dio**, **HTTP vs Dio** last. **General** (`ApiGeneralLabScreen`) is concepts only: **CRUD**, **interceptors** vs `package:http`, and a unified API class — no live buttons. **Example HTTP** (`ApiHttpLabScreen`) and **Example Dio** (`ApiDioLabScreen`) are the same bookshelf twice — GET /books, scenario chips (including every-third-fail **Unstable**), Search, add / edit / delete. The list slot is one `when` (loading / error / data): refresh and every chip go through `load()`, so a spinner **replaces** the list — not an overlay. Tapping a book opens a placeholder details page (`BookDetailsScreen`) with the title and the reading dragon. Edit stays the sheet. Delete stays the confirm dialog, then `DELETE /books/:id`; 401 opens the login warning (see [Authorized vs not](#authorized-vs-not-lab-only)). The two features are **copied on purpose** so each lab stays a complete `package:http` or Dio stack. Sharing the shelf widgets would mix the clients; that is not best practice in a real app, and not the point here. Both labs' data layers talk to the same **Firebase** Cloud Functions + Firestore backend of romantasy **books** (`package:http` / `ApiClient` vs **Dio** / `DioApiClient`). Two stacks in one project is the lesson, not a production pattern — ship **http** or **dio**, never both. **HTTP vs Dio** (`ApiCompareLabScreen`) is a debugger: GET, DELETE, Unstable, Slow, Offline, Server error; HTTP on top, Dio below; **Next** steps `_send` vs interceptors until the request fires — still no live call. POST / PUT chips are not in this lab yet. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
 
 Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `ApiCompareLabScreen`, `BookDetailsScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. Book Details is its own feature (`lib/features/book_details/`), like User Details — both labs `pushNamed` into it. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. HTTP books: Firebase emulator → `package:http` → `ApiClient` → `HttpApiHttpLabDataSource` → `HttpApiHttpLabRepository`. Dio books: same emulator → `Dio` → `DioApiClient` → `DioApiDioLabDataSource` → `DioApiDioLabRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
@@ -335,15 +335,17 @@ The lab draws the Column trap as **wrong** (stripes + assertion) vs **works** (a
 
 **CRUD** is Create / Read / Update / Delete — the four HTTP verbs for one resource (`POST`, `GET`, `PUT`, `DELETE`). The books API is that resource.
 
-**General** explains that, plus a unified API class, plus the interceptor vs `_send` split. **Example HTTP** and **Example Dio** are two labs on the **same** books API so you can compare `package:http` (`ApiClient`, mapping in `_send`) with **Dio** (`DioApiClient` + interceptors). That side-by-side is the playground. A real app picks **one** client — not both. Each lab is a full bookshelf (list, error chips, search, add / edit status / delete). Book tap opens an empty details page (title + dragon) for later `GET /books/:id`. DELETE from the trash icon (and from the edit sheet) is gated by a fake **authorized** flag — **not** how a real API authenticates; that lab is documented below. The shelf UI is duplicated in each feature on purpose — not shared — so the HTTP stack and the Dio stack stay readable. That copy-paste is a lab choice, not production architecture. Shared chrome (`ApiLabBackground`, `ApiLabDivider`) is fine. The DELETE lab session lives in `lib/features/api_lab_session/`. **HTTP vs Dio** is the last hub tile: same GET, both stacks, no network.
+**General** explains that, plus a unified API class, plus the interceptor vs `_send` split. **Example HTTP** and **Example Dio** are two labs on the **same** books API so you can compare `package:http` (`ApiClient`, mapping in `_send`) with **Dio** (`DioApiClient` + interceptors). That side-by-side is the playground. A real app picks **one** client — not both. Each lab is a full bookshelf (list, error chips, search, add / edit status / delete). Book tap opens an empty details page (title + dragon) for later `GET /books/:id`. DELETE from the trash icon (and from the edit sheet) sends `DELETE /books/:id`. Missing `Bearer lab` is **401** — see [Authorized vs not](#authorized-vs-not-lab-only). The shelf UI is duplicated in each feature on purpose — not shared — so the HTTP stack and the Dio stack stay readable. That copy-paste is a lab choice, not production architecture. Shared chrome (`ApiLabBackground`, `ApiLabDivider`) is fine. The DELETE lab session lives in `lib/features/api_lab_session/`. **HTTP vs Dio** is the last hub tile: same GET, both stacks, no network.
 
-**ApiClient** (`lib/core/network/http/api_client.dart`) is the `package:http` unified class: `_dispatch` picks the verb, then `.timeout`, then status codes, then connection errors. `package:http` has no interceptors. **DioApiClient** (`lib/core/network/dio/dio_api_client.dart`) is the Dio twin. **Interceptors** (`DioAppExceptionInterceptor`, `DioLogInterceptor`) live next to it and run `onRequest` / `onResponse` / `onError` before the data source. Both clients throw `AppException`. Each lab's data source only parses JSON. Each repository maps to `AppFailure`. Shared host config stays at `lib/core/network/api_config.dart` — not inside `http/` or `dio/`.
+**ApiClient** (`lib/core/network/http/api_client.dart`) is the `package:http` unified class: `_dispatch` picks the verb, then `.timeout`, then status codes, then connection errors. `package:http` has no interceptors. **DioApiClient** (`lib/core/network/dio/dio_api_client.dart`) is the Dio twin. **Interceptors** (`DioAuthInterceptor`, `DioAppExceptionInterceptor`, `DioLogInterceptor`) live next to it and run `onRequest` / `onResponse` / `onError` before the data source. Both clients throw `AppException`. Each lab's data source only parses JSON. Each repository maps to `AppFailure`. Shared host config stays at `lib/core/network/api_config.dart` — not inside `http/` or `dio/`.
 
 ```
 lib/core/network/
   api_config.dart
+  api_access_token.dart
   http/api_client.dart
   dio/dio_api_client.dart
+  dio/dio_auth_interceptor.dart
   dio/dio_app_exception_interceptor.dart
   dio/dio_log_interceptor.dart
 ```
@@ -390,7 +392,7 @@ No live call. HTTP panel on top, Dio below. Chips: **GET**, **DELETE**, **Unstab
 | 4 | `http.Client.get` / `delete` — **fires** | `_dio.request` — **fires** |
 | 5 | map in `_send`, or timeout / offline / 500 | `onResponse` or `DioAppExceptionInterceptor.onError` |
 
-GET and Unstable use `/books`. DELETE uses `/books/:id` (no JSON to parse on 2xx). Slow uses `/timeout` (HTTP `_send` shows `.timeout(400ms)`). Offline uses `/offline`. Server error uses `/error`. Unstable is the every-third-fail drill from the live labs — here it only labels the happy GET path; the live labs actually fail. The live labs' login dialog is **not** this stack — it is UI before `deleteBook`. POST / PUT are not in this debugger yet.
+GET and Unstable use `/books`. DELETE uses `/books/:id` (no JSON to parse on 2xx). The live labs attach `Bearer lab` in `_send` vs `DioAuthInterceptor`; this debugger does not send the request. Slow uses `/timeout` (HTTP `_send` shows `.timeout(400ms)`). Offline uses `/offline`. Server error uses `/error`. Unstable is the every-third-fail drill from the live labs — here it only labels the happy GET path; the live labs actually fail. POST / PUT are not in this debugger yet.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -420,27 +422,22 @@ Works: one `when`. Loading → spinner. Error → `ErrorWidget`. Data → list.
 
 ### Authorized vs not (lab only)
 
-**This is not a sensible way to do auth in a real app.** It is legitimate **here** so the playground can show **authorized vs not**, a confirm dialog, a red warning, and a `Form` + `validator` tear-off — without building a second login product.
+The **server** decides. `DELETE /books/:id` without `Authorization: Bearer lab` returns **401**. The client maps that to `UnauthorizedFailure`. Login is still a toy: any valid email + password writes the token `lab` into memory. There is no user store, no JWT, no Firebase Auth.
 
-What a real app does:
+What a real app does extra: real credentials, refresh, HTTPS-only cookies or signed JWTs. This lab stops at **header on the request** vs **401 from the emulator**.
 
-- The **server** decides. DELETE without a session returns **401**. The client maps that to `UnauthorizedFailure` (already how `POST /search` with the wrong author works).
-- Credentials live in a token / cookie. An interceptor (Dio) or header helper (`package:http`) sends `Authorization` on the request.
-- The UI does not keep a bool that means “this phone may DELETE.” Anyone can flip that bool. The emulator **does not** check login. The book still disappears if you call `DELETE /books/:id` without the dialog.
+What happens in the app:
 
-What this lab does on purpose:
+1. Trash → confirm. **Delete** always fires `deleteBook` — no client-side bool gate.
+2. No token → emulator 401 → red warning → **Login** form (`Form` + validator tear-offs).
+3. Valid form → `logIn()` sets `ApiAccessToken.value` to `lab`. Lock icon turns teal.
+4. Delete again → `Authorization: Bearer lab` → 200 → book gone.
 
-1. Trash → confirm dialog (unchanged).
-2. Confirm **Delete** while logged out → red warning: not authorized for this step, please log in. **Login** opens a second dialog.
-3. That dialog is a `Form` + `GlobalKey<FormState>` + `TextFormField.validator` tear-offs (`ApiLabLoginValidator.email` / `.password`). Empty / no `@` / short password fail. Any well-formed email + 6+ character password **succeeds**. There is no user store and no password check against saved data.
-4. After login the dialogs close. The AppBar lock turns into an open lock (teal). A snackbar says logged in.
-5. Delete again → confirm → the book is removed, same as before this lab.
+`package:http` adds the header in `ApiClient._send`. Dio adds it in `DioAuthInterceptor.onRequest` (before logging and error mapping). Shared token store: `apiAccessTokenProvider`. Session bool is only the AppBar lock.
 
-State is `apiLabSessionProvider` in `lib/features/api_lab_session/`: a `Notifier<bool>` that starts `false`. `logIn()` sets `true`. Form rules live in `ApiLabLoginValidator` next to the dialog, not on that notifier — empty email is not session state. Shared by Example HTTP and Example Dio so the lock is one session, not two fake accounts. That sharing is a tiny feature, not mixing the two HTTP clients. `ApiLabBackground` stays chrome.
+Wrong: `if (!loggedIn) showDialog()` and never send DELETE.
 
-Wrong in production: `if (!loggedIn) showDialog()` instead of sending the request and handling 401.
-
-Works in this playground: one flag, two dialogs, a validator. Then DELETE is the same `deleteBook` path as before.
+Works here: send DELETE, handle 401, then send it again with the header.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -495,14 +492,14 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API Handling** opens the hub. **General** is concept-only (CRUD, interceptors, unified client — no buttons). **Example HTTP** and **Example Dio** each open a bookshelf (repository faked in tests). Refresh replaces the list with a spinner until the fake GET completes. DELETE while logged out opens the unauthorized dialog (the book stays). A valid login form sets the session; the next confirm actually deletes. **HTTP vs Dio** steps `_send` vs interceptors until GET or DELETE fires (no live call). A book tap opens `BookDetailsScreen`.
+`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API Handling** opens the hub. **General** is concept-only (CRUD, interceptors, unified client — no buttons). **Example HTTP** and **Example Dio** each open a bookshelf (repository faked in tests). Refresh replaces the list with a spinner until the fake GET completes. DELETE without `Bearer lab` is 401 (the book stays). A valid login form writes the token; the next confirm actually deletes. **HTTP vs Dio** steps `_send` vs interceptors until GET or DELETE fires (no live call). A book tap opens `BookDetailsScreen`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**79.9%** line coverage (2832 of 3546 lines).
+**79.9%** line coverage (2851 of 3566 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

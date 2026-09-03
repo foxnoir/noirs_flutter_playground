@@ -665,7 +665,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get apiCompareDeleteHint =>
-      'Same _send vs interceptors as GET. Path is /books/:id. The live labs\' login dialog is UI, not this stack.';
+      'Same _send vs interceptors as GET. Path is /books/:id. DELETE without Bearer lab is 401. package:http sets the header in _send; Dio uses DioAuthInterceptor.';
 
   @override
   String get apiCrudWhen => 'Four verbs for a resource';

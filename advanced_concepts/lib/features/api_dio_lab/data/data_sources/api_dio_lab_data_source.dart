@@ -1,4 +1,5 @@
 import 'package:advanced_concepts/core/errors/app_exception.dart';
+import 'package:advanced_concepts/core/network/api_access_token.dart';
 import 'package:advanced_concepts/core/network/api_config.dart';
 import 'package:advanced_concepts/core/network/dio/dio_api_client.dart';
 import 'package:advanced_concepts/features/api_dio_lab/data/models/book_model.dart';
@@ -25,7 +26,11 @@ abstract interface class ApiDioLabDataSource {
 }
 
 final dioApiClientProvider = Provider<DioApiClient>((ref) {
-  final client = DioApiClient.create(baseUrl: ref.watch(apiBaseUrlProvider));
+  final token = ref.read(apiAccessTokenProvider);
+  final client = DioApiClient.create(
+    baseUrl: ref.watch(apiBaseUrlProvider),
+    readAccessToken: () => token.value,
+  );
   ref.onDispose(client.close);
   return client;
 });

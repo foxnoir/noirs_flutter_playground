@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:advanced_concepts/core/errors/app_exception.dart';
 import 'package:advanced_concepts/core/network/dio/dio_app_exception_interceptor.dart';
+import 'package:advanced_concepts/core/network/dio/dio_auth_interceptor.dart';
 import 'package:advanced_concepts/core/network/dio/dio_log_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
@@ -15,6 +16,7 @@ class DioApiClient {
     required Uri baseUrl,
     Duration timeout = const Duration(seconds: 5),
     bool log = kDebugMode,
+    String? Function()? readAccessToken,
   }) {
     final dio = Dio(
       BaseOptions(
@@ -28,6 +30,7 @@ class DioApiClient {
         },
       ),
     );
+    dio.interceptors.add(DioAuthInterceptor(readAccessToken ?? () => null));
     dio.interceptors.add(const DioAppExceptionInterceptor());
     if (log) {
       dio.interceptors.add(const DioLogInterceptor());

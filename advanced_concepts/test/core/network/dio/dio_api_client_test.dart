@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:advanced_concepts/core/errors/app_exception.dart';
 import 'package:advanced_concepts/core/network/dio/dio_api_client.dart';
 import 'package:advanced_concepts/core/network/dio/dio_app_exception_interceptor.dart';
+import 'package:advanced_concepts/core/network/dio/dio_auth_interceptor.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -97,5 +98,17 @@ void main() {
       );
     });
     expect(client.get('/offline', (_) {}), throwsA(isA<NetworkException>()));
+  });
+
+  test('DELETE sends Bearer from DioAuthInterceptor', () async {
+    final dio = Dio(BaseOptions(baseUrl: 'http://api.test/'))
+      ..httpClientAdapter = _ScriptAdapter((options) async {
+        expect(options.method, 'DELETE');
+        expect(options.headers['Authorization'], 'Bearer lab');
+        return jsonBody({}, 200);
+      })
+      ..interceptors.add(DioAuthInterceptor(() => 'lab'))
+      ..interceptors.add(const DioAppExceptionInterceptor());
+    await DioApiClient(dio).delete('/books/3');
   });
 }

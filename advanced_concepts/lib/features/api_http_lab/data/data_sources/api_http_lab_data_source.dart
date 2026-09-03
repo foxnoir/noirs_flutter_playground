@@ -1,4 +1,5 @@
 import 'package:advanced_concepts/core/errors/app_exception.dart';
+import 'package:advanced_concepts/core/network/api_access_token.dart';
 import 'package:advanced_concepts/core/network/api_config.dart';
 import 'package:advanced_concepts/core/network/http/api_client.dart';
 import 'package:advanced_concepts/features/api_http_lab/data/models/book_model.dart';
@@ -32,9 +33,11 @@ final httpClientProvider = Provider<http.Client>((ref) {
 });
 
 final apiClientProvider = Provider<ApiClient>((ref) {
+  final token = ref.read(apiAccessTokenProvider);
   return ApiClient(
     client: ref.watch(httpClientProvider),
     baseUrl: ref.watch(apiBaseUrlProvider),
+    readAccessToken: () => token.value,
   );
 });
 
