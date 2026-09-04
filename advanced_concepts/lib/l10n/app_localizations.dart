@@ -1067,7 +1067,7 @@ abstract class AppLocalizations {
   /// No description provided for @mixinsHint.
   ///
   /// In en, this message translates to:
-  /// **'MixinsLabBusyTap is our mixin, not Dart. Save already extends State. A second parent is illegal. with MixinsLabBusyTap copies busy into that State. Tap Save: only the button is busy. Reload stays idle. A Provider would be one busy for both.'**
+  /// **'A mixin is a bag of functions two classes can with. Each class keeps its own look. MixinsLabBusyMixin is ours, not Dart. Tap Save: only the button is busy.'**
   String get mixinsHint;
 
   /// No description provided for @mixinsWrongTitle.
@@ -1085,7 +1085,7 @@ abstract class AppLocalizations {
   /// No description provided for @mixinsRightTitle.
   ///
   /// In en, this message translates to:
-  /// **'works  ·  with MixinsLabBusyTap'**
+  /// **'works  ·  with MixinsLabBusyMixin'**
   String get mixinsRightTitle;
 
   /// No description provided for @mixinsRightHint.
@@ -1103,7 +1103,7 @@ abstract class AppLocalizations {
   /// No description provided for @mixinsMixinLabel.
   ///
   /// In en, this message translates to:
-  /// **'our mixin MixinsLabBusyTap'**
+  /// **'our mixin MixinsLabBusyMixin'**
   String get mixinsMixinLabel;
 
   /// No description provided for @mixinsSave.

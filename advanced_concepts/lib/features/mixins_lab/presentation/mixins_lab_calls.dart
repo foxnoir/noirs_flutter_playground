@@ -7,14 +7,14 @@ abstract final class MixinsLabCalls {
   static const withMixin =
       'class _MixinsLabSaveButtonState\n'
       '    extends State<MixinsLabSaveButton>\n'
-      '    with MixinsLabBusyTap\n'
+      '    with MixinsLabBusyMixin\n'
       '\n'
       'class _MixinsLabReloadCardState\n'
       '    extends State<MixinsLabReloadCard>\n'
-      '    with MixinsLabBusyTap';
+      '    with MixinsLabBusyMixin';
 
   static const mixinSource =
-      'mixin MixinsLabBusyTap on State {\n'
+      'mixin MixinsLabBusyMixin on State {\n'
       '  var busy = false;\n'
       '\n'
       '  // busy on → do work → busy off\n'

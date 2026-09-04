@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_busy_tap.dart';
+import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_busy_mixin.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_calls.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_screen.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
@@ -26,15 +26,15 @@ Future<void> _pumpLab(WidgetTester tester) async {
 }
 
 void main() {
-  testWidgets('Mixins lab shows illegal extends vs MixinsLabBusyTap', (
+  testWidgets('Mixins lab shows illegal extends vs MixinsLabBusyMixin', (
     tester,
   ) async {
     await _pumpLab(tester);
 
     expect(find.widgetWithText(AppBar, 'Mixins'), findsOneWidget);
     expect(find.text('wrong  ·  two extends'), findsOneWidget);
-    expect(find.text('works  ·  with MixinsLabBusyTap'), findsOneWidget);
-    expect(find.text('our mixin MixinsLabBusyTap'), findsOneWidget);
+    expect(find.text('works  ·  with MixinsLabBusyMixin'), findsOneWidget);
+    expect(find.text('our mixin MixinsLabBusyMixin'), findsOneWidget);
     expect(find.text(MixinsLabCalls.illegal), findsOneWidget);
     expect(find.text(MixinsLabCalls.withMixin), findsOneWidget);
     expect(find.text('Save'), findsOneWidget);

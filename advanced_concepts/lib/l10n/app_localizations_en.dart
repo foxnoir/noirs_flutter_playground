@@ -546,7 +546,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mixinsHint =>
-      'MixinsLabBusyTap is our mixin, not Dart. Save already extends State. A second parent is illegal. with MixinsLabBusyTap copies busy into that State. Tap Save: only the button is busy. Reload stays idle. A Provider would be one busy for both.';
+      'A mixin is a bag of functions two classes can with. Each class keeps its own look. MixinsLabBusyMixin is ours, not Dart. Tap Save: only the button is busy.';
 
   @override
   String get mixinsWrongTitle => 'wrong  ·  two extends';
@@ -556,7 +556,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'Dart allows one parent. State is already the parent.';
 
   @override
-  String get mixinsRightTitle => 'works  ·  with MixinsLabBusyTap';
+  String get mixinsRightTitle => 'works  ·  with MixinsLabBusyMixin';
 
   @override
   String get mixinsRightHint =>
@@ -566,7 +566,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mixinsWithLabel => 'the with line';
 
   @override
-  String get mixinsMixinLabel => 'our mixin MixinsLabBusyTap';
+  String get mixinsMixinLabel => 'our mixin MixinsLabBusyMixin';
 
   @override
   String get mixinsSave => 'Save';
