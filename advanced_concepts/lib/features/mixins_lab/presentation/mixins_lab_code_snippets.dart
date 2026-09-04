@@ -1,5 +1,5 @@
 /// Exact Dart shown in the lab (not localized).
-abstract final class MixinsLabCalls {
+abstract final class MixinsLabCodeSnippets {
   static const illegal =
       'class _MixinsLabSaveButtonState\n'
       '    extends State<MixinsLabSaveButton>, OtherClass';

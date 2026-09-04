@@ -121,7 +121,7 @@ The landing page has two sections: **Providers** and **Labs**.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
-There is no Android project or Chrome. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26.5).
+Runs on the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -629,7 +629,7 @@ fvm dart run build_runner build --force-jit
 fvm flutter run
 ```
 
-`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5). There is no Android project or Chrome.
+`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5).
 
 After you add or change a `@freezed` / `@riverpod` type, run `build_runner` again. See [Codegen](#codegen).
 

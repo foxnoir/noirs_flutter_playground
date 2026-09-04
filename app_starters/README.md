@@ -13,10 +13,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">App Starters</h1>
   <p>
-     Copyable Flutter starters for new apps.
-  </p>
-    <p>
-    <sub>Inspired by <a href="https://github.com">John Doe</a>’s <a href="https://www.udemy.com">Udemy course</a>.</sub>
+     Copyable Riverpod starters — scaffolding for a new app.
   </p>
 </div>
 
@@ -50,12 +47,14 @@
 
 ## About
 
-Copy a starter folder when you begin a new Flutter app.
+This folder holds copyable Flutter app skeletons. Copy a starter when you begin a new project, then rename the Dart package.
+
+The first starter is **Riverpod Basic Starter**: Riverpod, GoRouter, l10n, feature folders, sealed errors, and a sample Items feature so you start from a known shape. More starters can land here later.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-There is no Android project. The iOS Simulator is **iPhone 17 Pro** (iOS 26.5).
+Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -68,7 +67,7 @@ There is no Android project. The iOS Simulator is **iPhone 17 Pro** (iOS 26.5).
   <a href="riverpod_basic_starter/README.md#test-coverage"><img align="right" src="riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Copyable starter for **Riverpod**: GoRouter, l10n, a sample Items feature (data source, repository, entities), sealed failures, and a Material 3 seed theme.
+Copyable **Riverpod** app skeleton: GoRouter, l10n, feature folders, a sample Items feature, sealed failures, and a Material 3 seed theme.
 
 [README »](riverpod_basic_starter/README.md)
 

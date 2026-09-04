@@ -209,6 +209,24 @@
   "mixinsReload": "Reload",
   "mixinsIdle": "idle",
   "mixinsBusy": "busy",
+  "generics": "Generics",
+  "genericsGeneral": "General",
+  "genericsExample": "Example",
+  "genericsExampleHint": "One generic list. itemBuilder maps each User or Book into the row.",
+  "genericsExampleBooks": "Books",
+  "genericsExampleBooksRead": "Books read this year",
+  "genericsExampleBooksReadCount": "{count} books read this year",
+  "@genericsExampleBooksReadCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "genericsHint": "Write a generic when the UI is the same and only the model changes. titleOf is a function you pass, not a field named title: (u) => u.nickname or (b) => b.title.",
+  "genericsWrongTitle": "wrong  ·  two tiles",
+  "genericsWrongHint": "UserTile and BookTile are the same ListTile twice. Only nickname vs title changes.",
+  "genericsRightTitle": "works  ·  GenericsLabTile<T>",
+  "genericsRightHint": "Tap Ada or Fourth Wing. One widget. titleOf: (u) => u.nickname vs (b) => b.title.",
+  "genericsTileLabel": "class GenericsLabTile<T>",
   "errorTimeout": "The server took too long to answer.",
   "errorUnauthorized": "That request was not allowed.",
   "errorServer": "The server failed. Try again.",

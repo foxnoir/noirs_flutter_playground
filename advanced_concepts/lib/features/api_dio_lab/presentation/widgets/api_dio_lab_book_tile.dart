@@ -11,7 +11,7 @@ String apiDioLabStatusLabel(AppLocalizations l10n, BookStatus status) {
 }
 
 abstract final class ApiDioLabIcons {
-  static const book = 'assets/img/icons/book.png';
+  static const book = 'assets/img/icons/books/book_turquise.png';
   static const edit = 'assets/img/icons/edit.png';
   static const delete = 'assets/img/icons/delete.png';
 }

@@ -581,6 +581,51 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mixinsBusy => 'busy';
 
   @override
+  String get generics => 'Generics';
+
+  @override
+  String get genericsGeneral => 'General';
+
+  @override
+  String get genericsExample => 'Example';
+
+  @override
+  String get genericsExampleHint =>
+      'Eine generische Liste. itemBuilder mappt jeden User oder jedes Book in die Zeile.';
+
+  @override
+  String get genericsExampleBooks => 'Books';
+
+  @override
+  String get genericsExampleBooksRead => 'Gelesene Bücher des Jahres';
+
+  @override
+  String genericsExampleBooksReadCount(int count) {
+    return '$count gelesene Bücher des Jahres';
+  }
+
+  @override
+  String get genericsHint =>
+      'Ein Generic schreiben, wenn die UI gleich ist und nur das Model wechselt. titleOf ist eine Funktion, die du übergibst, kein Feld namens title: (u) => u.nickname oder (b) => b.title.';
+
+  @override
+  String get genericsWrongTitle => 'wrong  ·  two tiles';
+
+  @override
+  String get genericsWrongHint =>
+      'UserTile und BookTile sind dasselbe ListTile zweimal. Nur nickname vs title ändert sich.';
+
+  @override
+  String get genericsRightTitle => 'works  ·  GenericsLabTile<T>';
+
+  @override
+  String get genericsRightHint =>
+      'Ada oder Fourth Wing tippen. Ein Widget. titleOf: (u) => u.nickname vs (b) => b.title.';
+
+  @override
+  String get genericsTileLabel => 'class GenericsLabTile<T>';
+
+  @override
   String get errorTimeout => 'Der Server hat zu lange gebraucht.';
 
   @override

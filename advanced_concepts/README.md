@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Advanced Concepts</h1>
   <p>
-     Practice project for navigation, layout, mixins, lists, and API integration: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; mixin vs extends; ListView / GridView / slivers; Example HTTP and Example Dio side by side (same backend — pick one client in a real app); HTTP vs Dio debugger (no live call).
+     Practice project covering, among other things, layout, mixins, and generics.
   </p>
 </div>
 
@@ -64,7 +64,14 @@
       <a href="#mixins">Mixins</a>
       <ul>
         <li><a href="#mixin-vs-extends">mixin vs extends</a></li>
-        <li><a href="#parentview-is-not-a-mixin">ParentView is not a mixin</a></li>
+      </ul>
+    </li>
+    <li>
+      <a href="#generics">Generics</a>
+      <ul>
+        <li><a href="#t-is-a-type-blank">T is a type blank</a></li>
+        <li><a href="#genericslabtile-t">GenericsLabTile T</a></li>
+        <li><a href="#example-list">Example list</a></li>
       </ul>
     </li>
     <li>
@@ -102,16 +109,16 @@
 
 ## About
 
-This project is the **navigation**, **layout**, **lists**, and **API integration** practice project in [Noir's Flutter Playground](../README.md).
+This project is the **navigation**, **layout**, **mixins**, **generics**, **lists**, and **API integration** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Mixins** opens the Mixins Lab (`MixinsLabScreen`): illegal two-`extends` vs `with MixinsLabBusyMixin`; Save is a button, Reload is a card; tap one, only that widget is busy. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`), tiles in this order: **General**, **Example HTTP**, **Example Dio**, **HTTP vs Dio** last. **General** (`ApiGeneralLabScreen`) is concepts only: **CRUD**, **interceptors** vs `package:http`, and a unified API class — no live buttons. **Example HTTP** (`ApiHttpLabScreen`) and **Example Dio** (`ApiDioLabScreen`) are the same bookshelf twice — GET /books, scenario chips (including every-third-fail **Unstable**), Search, add / edit / delete. The list slot is one `when` (loading / error / data): refresh and every chip go through `load()`, so a spinner **replaces** the list — not an overlay. Tapping a book opens a placeholder details page (`BookDetailsScreen`) with the title and the reading dragon. Edit stays the sheet. Delete stays the confirm dialog, then `DELETE /books/:id`; 401 opens the login warning (see [Authorized vs not](#authorized-vs-not-lab-only)). The two features are **copied on purpose** so each lab stays a complete `package:http` or Dio stack. Sharing the shelf widgets would mix the clients; that is not best practice in a real app, and not the point here. Both labs' data layers talk to the same **Firebase** Cloud Functions + Firestore backend of romantasy **books** (`package:http` / `ApiClient` vs **Dio** / `DioApiClient`). Two stacks in one project is the lesson, not a production pattern — ship **http** or **dio**, never both. **HTTP vs Dio** (`ApiCompareLabScreen`) is a debugger: GET, DELETE, Unstable, Slow, Offline, Server error; HTTP on top, Dio below; **Next** steps `_send` vs interceptors until the request fires — still no live call. POST / PUT chips are not in this lab yet. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Mixins** opens the Mixins Lab (`MixinsLabScreen`): illegal two-`extends` vs `with MixinsLabBusyMixin`; Save is a button, Reload is a card; tap one, only that widget is busy. **Generics** opens a hub (`GenericsLabScreen`), tiles **General** then **Example**. **General** (`GenericsGeneralLabScreen`) is two copied tiles vs `class GenericsLabTile<T>` — Ada from User List, Fourth Wing from Example HTTP. **Example** (`GenericsExampleLabScreen`) is one shelf list switched between User List and Books. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`), tiles in this order: **General**, **Example HTTP**, **Example Dio**, **HTTP vs Dio** last. **General** (`ApiGeneralLabScreen`) is concepts only: **CRUD**, **interceptors** vs `package:http`, and a unified API class — no live buttons. **Example HTTP** (`ApiHttpLabScreen`) and **Example Dio** (`ApiDioLabScreen`) are the same bookshelf twice — GET /books, scenario chips (including every-third-fail **Unstable**), Search, add / edit / delete. The list slot is one `when` (loading / error / data): refresh and every chip go through `load()`, so a spinner **replaces** the list — not an overlay. Tapping a book opens a placeholder details page (`BookDetailsScreen`) with the title and the reading dragon. Edit stays the sheet. Delete stays the confirm dialog, then `DELETE /books/:id`; 401 opens the login warning (see [Authorized vs not](#authorized-vs-not-lab-only)). The two features are **copied on purpose** so each lab stays a complete `package:http` or Dio stack. Sharing the shelf widgets would mix the clients; that is not best practice in a real app, and not the point here. Both labs' data layers talk to the same **Firebase** Cloud Functions + Firestore backend of romantasy **books** (`package:http` / `ApiClient` vs **Dio** / `DioApiClient`). Two stacks in one project is the lesson, not a production pattern — ship **http** or **dio**, never both. **HTTP vs Dio** (`ApiCompareLabScreen`) is a debugger: GET, DELETE, Unstable, Slow, Offline, Server error; HTTP on top, Dio below; **Next** steps `_send` vs interceptors until the request fires — still no live call. POST / PUT chips are not in this lab yet. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
 
-Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `MixinsLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `ApiCompareLabScreen`, `BookDetailsScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. Book Details is its own feature (`lib/features/book_details/`), like User Details — both labs `pushNamed` into it. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. HTTP books: Firebase emulator → `package:http` → `ApiClient` → `HttpApiHttpLabDataSource` → `HttpApiHttpLabRepository`. Dio books: same emulator → `Dio` → `DioApiClient` → `DioApiDioLabDataSource` → `DioApiDioLabRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
+Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `MixinsLabScreen`, `GenericsLabScreen`, `GenericsGeneralLabScreen`, `GenericsExampleLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `ApiCompareLabScreen`, `BookDetailsScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. Book Details is its own feature (`lib/features/book_details/`), like User Details — both labs `pushNamed` into it. User List data is `InMemoryUserListDataSource` → `InMemoryUserListRepository`. HTTP books: Firebase emulator → `package:http` → `ApiClient` → `HttpApiHttpLabDataSource` → `HttpApiHttpLabRepository`. Dio books: same emulator → `Dio` → `DioApiClient` → `DioApiDioLabDataSource` → `DioApiDioLabRepository`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-There is no Android project. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26.5) or Chrome. Layout is **mobile first** everywhere: compact is the default, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. There is no AdaptiveScaffold — breakpoints are the `AppBreakpoint` enum.
+Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**. Layout is **mobile first** everywhere: compact is the default, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. There is no AdaptiveScaffold — breakpoints are the `AppBreakpoint` enum.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -299,23 +306,72 @@ class _MixinsLabReloadCardState extends State<MixinsLabReloadCard>
     with MixinsLabBusyMixin { … }
 ```
 
-`on State` means only a `State` can `with MixinsLabBusyMixin`. Flutter already does this: `SingleTickerProviderStateMixin` for `AnimationController`. MixinsLabBusyMixin is **ours**, not the SDK.
+`on State` means only a `State` can `with MixinsLabBusyMixin`. Flutter already does this: `SingleTickerProviderStateMixin` for `AnimationController`. `MixinsLabBusyMixin` is this lab, not the SDK.
 
-The Mixins Lab (`lib/features/mixins_lab/`) is Layout-style **wrong vs works**. Wrong: two `extends`. Works: `MixinsLabSaveButton` and `MixinsLabReloadCard` both `with MixinsLabBusyMixin` (our mixin, not Dart). Tap Save: the button is busy 2s. The card stays idle. `runBusy` is busy on → work → busy off. A Riverpod `busy` would be one flag for both widgets.
+The Mixins Lab (`lib/features/mixins_lab/`) is Layout-style **wrong vs works**. Wrong: two `extends`. Works: `MixinsLabSaveButton` and `MixinsLabReloadCard` both `with MixinsLabBusyMixin`. Tap Save: the button is busy 2s. The card stays idle. `runBusy` is busy on → work → busy off. A Riverpod `busy` would be one flag for both widgets.
 
 ### mixin vs extends
 
 | | Keyword | Use |
 | --- | --- | --- |
-| One parent (is-a) | `extends` | `ParentViewState extends ViewState` |
+| One parent (is-a) | `extends` | `State<MixinsLabSaveButton>` |
 | Extra behavior | `mixin` / `with` | `State with MixinsLabBusyMixin` |
 | Restrict who can use it | `on` | `mixin MixinsLabBusyMixin on State` |
 
 `class A extends B, C` is illegal. `class A extends B with C, D` is the Dart way.
 
-### ParentView is not a mixin
+<p align="right"><a href="#readme-top">back to top</a></p>
 
-The `ParentView` / `ParentViewState` snippet from another project has **no** `mixin` and **no** `with`. It **extends** `View` / `ViewState`, takes generics `T` (ViewModel) and `I` (interface), and in `initState` registers `vm as I` in get_it so child pages can inject the parent ViewModel. `dispose` unregisters. Changing `param1` / `param2` recreates the VM. That is inheritance plus DI lifecycle — useful to read, not a mixin lesson.
+---
+
+## Generics
+
+Write **your own** generic when the **UI is the same** and only the **model** changes. User List and a book shelf: same colors, same `ListTile`, `nickname` vs `title`. Two widget classes is the waste. One `GenericsLabTile<T>` is the fix. `titleOf` is how that model is read: `(u) => u.nickname` vs `(b) => b.title`. T stays `User` or `Book` — not a shared super-type you must cast.
+
+```dart
+class GenericsLabTile<T> extends StatelessWidget {
+  const GenericsLabTile({
+    required this.item,
+    required this.titleOf,
+    required this.subtitleOf,
+  });
+  final T item;
+  final String Function(T) titleOf;
+  final String Function(T) subtitleOf;
+
+  Widget build(...) => ListTile(
+    title: Text(titleOf(item)),
+    subtitle: Text(subtitleOf(item)),
+  );
+}
+
+GenericsLabTile<User>(item: ada, titleOf: (u) => u.nickname)
+GenericsLabTile<Book>(item: fourthWing, titleOf: (b) => b.title)
+```
+
+The Generics hub (`lib/features/generics_lab/`) is **General** then **Example**, like API Handling.
+
+**General** (`lib/features/generics_general_lab/`) is Layout-style **wrong vs works**. Wrong: `UserTile` and `BookTile` — the same `ListTile` twice. Works: tap **Ada** (`User`, User List) or **Fourth Wing** (`Book`, Example HTTP). Both are `GenericsLabTile<T>`. Selected: purple avatar (`2.png`) / purple book. Idle: gray avatar (`5.png`) / black book. Ada and Fourth Wing live in **domain** as consts. The generic is the **widget**. Book PNGs live in `assets/img/icons/books/` — list that folder in `pubspec.yaml`; Flutter does not recurse from `assets/img/icons/`.
+
+### T is a type blank
+
+| | Meaning |
+| --- | --- |
+| `T` | A type you fill in later |
+| `GenericsLabTile<T>` | One ListTile. `titleOf` reads that type |
+| `GenericsLabTile<User>` | Ada from User List |
+| `GenericsLabTile<Book>` | Fourth Wing from Example HTTP |
+| Two copied tiles | Same UI twice. Only the field names change |
+
+### GenericsLabTile T
+
+Write a generic when you would otherwise copy a widget (or a function) and only swap the type. A mixin copies **functions**. A generic fills **types**. They stack: `State<T> with MixinsLabBusyMixin`.
+
+### Example list
+
+**Example** (`lib/features/generics_example_lab/`) is one shelf list. Segment **User List** / **Books**. The **list** is generic: `GenericsExampleList<T>` plus `itemBuilder`. The **row** is not — it takes `title` and `subtitle` strings. In the builder you write `user.nickname` or `book.title` (or ISBN, if the model had it). Extra lines: another widget in the builder, not another `titleOf` on the row. Users are the same people as User List. Books are seed ids 1–6 from Example HTTP. User rows trail a flat `CustomPaint` book with books read this year — not `User.age`.
+
+The segment is `GenericsExampleEnum` (`user` / `book`). Switching it rebuilds `GenericsExampleList<User>` or `GenericsExampleList<Book>`. Same screen. `T` is `User` or `Book`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -503,7 +559,7 @@ fvm install
 fvm flutter pub get
 ```
 
-API lab: start the Firebase emulator **first**, leave that Terminal open, then run Flutter in a second Terminal. `./start.sh` **imports** `backend/emulator-data/` when that folder exists and **exports** Firestore there on Ctrl+C. That is the emulator backup — CRUD edits survive a clean emulator restart. A kill (`kill -9`) skips the export. The first start with an empty Firestore seeds the romantasy list.
+API lab: start the Firebase emulator **first**, leave that Terminal open, then run Flutter in a second Terminal. `./start.sh` **imports** `backend/emulator-data/` when that folder exists and **exports** Firestore there on Ctrl+C. That is the emulator backup — CRUD edits survive a clean emulator restart. A kill (`kill -9`) skips the export and can leave Java on port **8080**; `./start.sh` then stops with a kill hint. The first start with an empty Firestore seeds the romantasy list.
 
 ```
 cd backend
@@ -522,7 +578,7 @@ fvm flutter run
 fvm flutter run -d chrome
 ```
 
-Chrome shows path URLs (`/layout`, `/api-handling`, `/api-handling/general`, `/api-handling/http`, `/api-handling/http/books/:bookId`, `/api-handling/dio`, `/api-handling/dio/books/:bookId`, `/api-handling/compare`). There is no Android project. A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
+Chrome shows path URLs (`/layout`, `/mixins`, `/generics`, `/generics/general`, `/generics/example`, `/api-handling`, `/api-handling/general`, `/api-handling/http`, `/api-handling/http/books/:bookId`, `/api-handling/dio`, `/api-handling/dio/books/:bookId`, `/api-handling/compare`). A static host needs a rewrite to `index.html` for those paths; `flutter run` already does.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
@@ -534,14 +590,14 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API Handling** opens the hub. **General** is concept-only (CRUD, interceptors, unified client — no buttons). **Example HTTP** and **Example Dio** each open a bookshelf (repository faked in tests). Refresh replaces the list with a spinner until the fake GET completes. DELETE without `Bearer lab` is 401 (the book stays). A valid login form writes the token; the next confirm actually deletes. **HTTP vs Dio** steps `_send` vs interceptors until GET or DELETE fires (no live call). A book tap opens `BookDetailsScreen`.
+`test/` mirrors `lib/`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Mixins** opens two-`extends` vs `with MixinsLabBusyMixin` (Save busy, Reload idle). **Generics** opens the hub. **General** is two copied tiles vs `class GenericsLabTile<T>` (tap Fourth Wing → `T = Book`). **Example** is one list switched User List / Books. **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API Handling** opens the hub. **General** is concept-only (CRUD, interceptors, unified client — no buttons). **Example HTTP** and **Example Dio** each open a bookshelf (repository faked in tests). Refresh replaces the list with a spinner until the fake GET completes. DELETE without `Bearer lab` is 401 (the book stays). A valid login form writes the token; the next confirm actually deletes. **HTTP vs Dio** steps `_send` vs interceptors until GET or DELETE fires (no live call). A book tap opens `BookDetailsScreen`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**79.9%** line coverage (2938 of 3676 lines).
+**80.5%** line coverage (3177 of 3945 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -580,6 +636,8 @@ Changes to this playground: [noirs_flutter_playground](https://github.com/foxnoi
 - [Adaptive and responsive design](https://docs.flutter.dev/ui/adaptive-responsive)
 - [Material 3 breakpoints](https://m3.material.io/foundations/layout/breakpoints/overview)
 - [Flutter web](https://docs.flutter.dev/platform-integration/web)
+- [Mixins](https://dart.dev/language/mixins)
+- [Generics](https://dart.dev/language/generics)
 - [ListView](https://api.flutter.dev/flutter/widgets/ListView-class.html)
 - [GridView](https://api.flutter.dev/flutter/widgets/GridView-class.html)
 - [Sliver overview](https://docs.flutter.dev/ui/layout/scrolling/slivers)

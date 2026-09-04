@@ -1130,6 +1130,84 @@ abstract class AppLocalizations {
   /// **'busy'**
   String get mixinsBusy;
 
+  /// No description provided for @generics.
+  ///
+  /// In en, this message translates to:
+  /// **'Generics'**
+  String get generics;
+
+  /// No description provided for @genericsGeneral.
+  ///
+  /// In en, this message translates to:
+  /// **'General'**
+  String get genericsGeneral;
+
+  /// No description provided for @genericsExample.
+  ///
+  /// In en, this message translates to:
+  /// **'Example'**
+  String get genericsExample;
+
+  /// No description provided for @genericsExampleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One generic list. itemBuilder maps each User or Book into the row.'**
+  String get genericsExampleHint;
+
+  /// No description provided for @genericsExampleBooks.
+  ///
+  /// In en, this message translates to:
+  /// **'Books'**
+  String get genericsExampleBooks;
+
+  /// No description provided for @genericsExampleBooksRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Books read this year'**
+  String get genericsExampleBooksRead;
+
+  /// No description provided for @genericsExampleBooksReadCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} books read this year'**
+  String genericsExampleBooksReadCount(int count);
+
+  /// No description provided for @genericsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Write a generic when the UI is the same and only the model changes. titleOf is a function you pass, not a field named title: (u) => u.nickname or (b) => b.title.'**
+  String get genericsHint;
+
+  /// No description provided for @genericsWrongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  two tiles'**
+  String get genericsWrongTitle;
+
+  /// No description provided for @genericsWrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'UserTile and BookTile are the same ListTile twice. Only nickname vs title changes.'**
+  String get genericsWrongHint;
+
+  /// No description provided for @genericsRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  GenericsLabTile<T>'**
+  String get genericsRightTitle;
+
+  /// No description provided for @genericsRightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Ada or Fourth Wing. One widget. titleOf: (u) => u.nickname vs (b) => b.title.'**
+  String get genericsRightHint;
+
+  /// No description provided for @genericsTileLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'class GenericsLabTile<T>'**
+  String get genericsTileLabel;
+
   /// No description provided for @errorTimeout.
   ///
   /// In en, this message translates to:

@@ -4,6 +4,9 @@ abstract final class AppRouteNames {
   static const lists = 'lists';
   static const layout = 'layout';
   static const mixins = 'mixins';
+  static const generics = 'generics';
+  static const genericsGeneral = 'genericsGeneral';
+  static const genericsExample = 'genericsExample';
   static const apiHandling = 'apiHandling';
   static const apiGeneral = 'apiGeneral';
   static const apiCompare = 'apiCompare';
@@ -23,6 +26,9 @@ abstract final class AppRoutePaths {
   static const lists = 'lists';
   static const layout = 'layout';
   static const mixins = 'mixins';
+  static const generics = 'generics';
+  static const genericsGeneral = 'general';
+  static const genericsExample = 'example';
   static const apiHandling = 'api-handling';
   static const apiGeneral = 'general';
   static const apiCompare = 'compare';
