@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_calls.dart';
+import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_code_snippets.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/widgets/mixins_lab_reload_card.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/widgets/mixins_lab_save_button.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
@@ -28,7 +28,7 @@ class MixinsLabScreen extends StatelessWidget {
               ok: false,
               title: l10n.mixinsWrongTitle,
               hint: l10n.mixinsWrongHint,
-              child: const CodeSnippet(MixinsLabCalls.illegal),
+              child: const CodeSnippet(MixinsLabCodeSnippets.illegal),
             ),
             const SizedBox(height: 12),
             LabCompareFrame(
@@ -44,11 +44,11 @@ class MixinsLabScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(l10n.mixinsWithLabel, style: textTheme.labelLarge),
                   const SizedBox(height: 4),
-                  const CodeSnippet(MixinsLabCalls.withMixin),
+                  const CodeSnippet(MixinsLabCodeSnippets.withMixin),
                   const SizedBox(height: 12),
                   Text(l10n.mixinsMixinLabel, style: textTheme.labelLarge),
                   const SizedBox(height: 4),
-                  const CodeSnippet(MixinsLabCalls.mixinSource),
+                  const CodeSnippet(MixinsLabCodeSnippets.mixinSource),
                 ],
               ),
             ),

@@ -13,7 +13,7 @@
   <img src="assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Noir's Flutter Playground</h1>
   <p>
-     Practice projects for Flutter — Riverpod, navigation, layout, lists, and architecture.
+     Practice projects for Flutter — Riverpod, navigation, layout, mixins, generics, lists, and architecture.
   </p>
 </div>
 
@@ -66,12 +66,12 @@
 
 This repository is a playground for practicing Flutter.
 
-Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **lists**, and architecture — without mixing everything into one project.
+Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **mixins**, **generics**, **lists**, and architecture — without mixing everything into one project.
 
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-There is no Android project. The iOS Simulator is **iPhone 17 Pro** (iOS 26.5).
+Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts and the Riverpod starter also run on **web**.
 
 Copyable starters live in [app_starters](app_starters/).
 
@@ -85,7 +85,7 @@ The root README stays short: a link and a rough summary per project. Getting sta
 
 This is the approach every app in this playground follows. A small practice project may only fill `core/`, `features/`, and `l10n/`. A fuller app adds the extra `core/` and feature folders below. Not every folder has to exist from day one.
 
-Platforms are **iOS** and **Web**. There is no Android project. The iOS Simulator is **iPhone 17 Pro** (iOS 26.5).
+Every app targets **iOS**. Some also target **web**. Simulator: **iPhone 17 Pro** (iOS 26.5).
 
 ```
 app/
@@ -159,7 +159,7 @@ Data sources and repositories are named after the feature: `InMemoryUserListData
 
 ## Packages
 
-Packages currently used in the playground apps. Update this table when a `pubspec.yaml` changes.
+Packages currently used in the playground apps. Not every app uses every row. Update this table when a `pubspec.yaml` changes.
 
 | Package | Reason |
 | --- | --- |
@@ -168,6 +168,7 @@ Packages currently used in the playground apps. Update this table when a `pubspe
 | [freezed_annotation](https://pub.dev/packages/freezed_annotation) | Annotations for immutable Freezed models. |
 | [json_annotation](https://pub.dev/packages/json_annotation) | Annotations for `fromJson` / `toJson` codegen. |
 | [go_router](https://pub.dev/packages/go_router) | Declarative routes for iOS and web. |
+| [flutter_web_plugins](https://api.flutter.dev/flutter/flutter_web_plugins/flutter_web_plugins-library.html) | Path URLs on web in Advanced Concepts (`usePathUrlStrategy`). |
 | [http](https://pub.dev/packages/http) | Example HTTP lab (`ApiClient`). Teaching stack only — a real app does not also ship Dio. |
 | [dio](https://pub.dev/packages/dio) | Example Dio lab (`DioApiClient` + interceptors). Teaching stack only — a real app does not also ship `package:http`. |
 | [flutter_localizations](https://docs.flutter.dev/ui/internationalization) | Generated EN/DE l10n from ARB files. |
@@ -200,7 +201,7 @@ Practice project for **Riverpod**: provider types, labs (listen, ConsumerWidget,
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project for **navigation**, **layout**, **lists**, and **API integration**: go, push, pop, replace; Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery; ListView / GridView / slivers; **Example HTTP** and **Example Dio** side by side (same backend — pick one client in a real app); **HTTP vs Dio** debugger (no live call); DELETE gated by a fake client session (**lab only**, not real auth).
+Practice project covering, among other things, **layout**, **mixins**, and **generics**. Details live in that app’s [README](advanced_concepts/README.md#about).
 
 [README »](advanced_concepts/README.md)
 
@@ -215,7 +216,7 @@ Practice project for **navigation**, **layout**, **lists**, and **API integratio
   <a href="app_starters/riverpod_basic_starter/README.md#test-coverage"><img align="right" src="app_starters/riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Copyable starter for **Riverpod**: GoRouter, l10n, a sample Items feature (data source, repository, entities), sealed failures, and a Material 3 seed theme.
+Copyable **Riverpod** app skeleton: GoRouter, l10n, feature folders, a sample Items feature, sealed failures, and a Material 3 seed theme.
 
 [README »](app_starters/riverpod_basic_starter/README.md)
 

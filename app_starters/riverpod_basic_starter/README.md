@@ -15,7 +15,7 @@
   <img src="../../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basic Starter</h1>
   <p>
-     Starter for Riverpod — copy this app when you begin a new project.
+     Copyable Riverpod app skeleton — GoRouter, l10n, and a sample Items feature.
   </p>
 </div>
 
@@ -57,14 +57,14 @@
 
 ## About
 
-This is a **Riverpod** starter in [Noir's Flutter Playground](../../README.md). Copy the folder and rename the Dart package.
+This is a **Riverpod** starter in [Noir's Flutter Playground](../../README.md). Copy the folder and rename the Dart package. It is scaffolding, not a finished product: routing, theme, errors, and one working feature so you can delete or rename from a known shape.
 
 **Items** is the copyable feature: data source, repository, model, entity, list, and detail. Two and Three stay as placeholder routes.
 
 [![iOS](../../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-There is no Android project. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26.5) or Chrome.
+Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -72,7 +72,7 @@ There is no Android project. Run on the iOS Simulator (**iPhone 17 Pro**, iOS 26
 
 ## Features
 
-- **iOS + Web** (no Android)
+- **iOS + Web**
 - [Riverpod](https://pub.dev/packages/flutter_riverpod) (`ProviderScope`)
 - [GoRouter](https://pub.dev/packages/go_router)
 - l10n (English / German)
@@ -106,7 +106,7 @@ fvm flutter pub get
 fvm flutter run
 ```
 
-`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5). For web, use `fvm flutter run -d chrome`. There is no Android project.
+`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5). For web, use `fvm flutter run -d chrome`.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 

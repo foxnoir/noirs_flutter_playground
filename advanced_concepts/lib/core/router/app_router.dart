@@ -6,6 +6,9 @@ import 'package:advanced_concepts/features/api_general_lab/presentation/api_gene
 import 'package:advanced_concepts/features/api_handling/presentation/api_handling_screen.dart';
 import 'package:advanced_concepts/features/api_http_lab/presentation/api_http_lab_screen.dart';
 import 'package:advanced_concepts/features/book_details/presentation/book_details_screen.dart';
+import 'package:advanced_concepts/features/generics_example_lab/presentation/generics_example_lab_screen.dart';
+import 'package:advanced_concepts/features/generics_general_lab/presentation/generics_general_lab_screen.dart';
+import 'package:advanced_concepts/features/generics_lab/generics_lab_screen.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
@@ -40,6 +43,23 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutePaths.mixins,
             name: AppRouteNames.mixins,
             builder: (context, state) => const MixinsLabScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.generics,
+            name: AppRouteNames.generics,
+            builder: (context, state) => const GenericsLabScreen(),
+            routes: [
+              GoRoute(
+                path: AppRoutePaths.genericsGeneral,
+                name: AppRouteNames.genericsGeneral,
+                builder: (context, state) => const GenericsGeneralLabScreen(),
+              ),
+              GoRoute(
+                path: AppRoutePaths.genericsExample,
+                name: AppRouteNames.genericsExample,
+                builder: (context, state) => const GenericsExampleLabScreen(),
+              ),
+            ],
           ),
           GoRoute(
             path: AppRoutePaths.lists,

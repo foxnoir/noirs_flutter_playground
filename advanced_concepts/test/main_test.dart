@@ -10,6 +10,9 @@ import 'package:advanced_concepts/features/api_http_lab/domain/entities/book.dar
     as http_book;
 import 'package:advanced_concepts/features/api_http_lab/presentation/api_http_lab_screen.dart';
 import 'package:advanced_concepts/features/book_details/presentation/book_details_screen.dart';
+import 'package:advanced_concepts/features/generics_example_lab/presentation/generics_example_lab_screen.dart';
+import 'package:advanced_concepts/features/generics_general_lab/presentation/generics_general_lab_screen.dart';
+import 'package:advanced_concepts/features/generics_lab/generics_lab_screen.dart';
 import 'package:advanced_concepts/features/landing/presentation/landing_screen.dart';
 import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_screen.dart';
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
@@ -275,6 +278,46 @@ void main() {
 
     expect(find.byType(MixinsLabScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Mixins'), findsOneWidget);
+  });
+
+  testWidgets('Landing Generics tile opens Generics Lab', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('Generics'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(GenericsLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Generics'), findsOneWidget);
+    expect(find.text('General'), findsOneWidget);
+    expect(find.text('Example'), findsOneWidget);
+  });
+
+  testWidgets('Generics General tile opens General Lab', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('Generics'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('General'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(GenericsGeneralLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'General'), findsOneWidget);
+  });
+
+  testWidgets('Generics Example tile opens Example Lab', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('Generics'));
+    await tester.pumpAndSettle();
+    await tester.tap(find.text('Example'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(GenericsExampleLabScreen), findsOneWidget);
+    expect(find.widgetWithText(AppBar, 'Example'), findsOneWidget);
+    expect(find.text('Ada'), findsOneWidget);
   });
 
   testWidgets('Landing Lists tile opens Lists Lab', (tester) async {

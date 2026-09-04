@@ -581,6 +581,51 @@ class AppLocalizationsEn extends AppLocalizations {
   String get mixinsBusy => 'busy';
 
   @override
+  String get generics => 'Generics';
+
+  @override
+  String get genericsGeneral => 'General';
+
+  @override
+  String get genericsExample => 'Example';
+
+  @override
+  String get genericsExampleHint =>
+      'One generic list. itemBuilder maps each User or Book into the row.';
+
+  @override
+  String get genericsExampleBooks => 'Books';
+
+  @override
+  String get genericsExampleBooksRead => 'Books read this year';
+
+  @override
+  String genericsExampleBooksReadCount(int count) {
+    return '$count books read this year';
+  }
+
+  @override
+  String get genericsHint =>
+      'Write a generic when the UI is the same and only the model changes. titleOf is a function you pass, not a field named title: (u) => u.nickname or (b) => b.title.';
+
+  @override
+  String get genericsWrongTitle => 'wrong  ·  two tiles';
+
+  @override
+  String get genericsWrongHint =>
+      'UserTile and BookTile are the same ListTile twice. Only nickname vs title changes.';
+
+  @override
+  String get genericsRightTitle => 'works  ·  GenericsLabTile<T>';
+
+  @override
+  String get genericsRightHint =>
+      'Tap Ada or Fourth Wing. One widget. titleOf: (u) => u.nickname vs (b) => b.title.';
+
+  @override
+  String get genericsTileLabel => 'class GenericsLabTile<T>';
+
+  @override
   String get errorTimeout => 'The server took too long to answer.';
 
   @override

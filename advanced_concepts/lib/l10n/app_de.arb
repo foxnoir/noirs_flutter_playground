@@ -172,6 +172,24 @@
   "mixinsReload": "Reload",
   "mixinsIdle": "idle",
   "mixinsBusy": "busy",
+  "generics": "Generics",
+  "genericsGeneral": "General",
+  "genericsExample": "Example",
+  "genericsExampleHint": "Eine generische Liste. itemBuilder mappt jeden User oder jedes Book in die Zeile.",
+  "genericsExampleBooks": "Books",
+  "genericsExampleBooksRead": "Gelesene Bücher des Jahres",
+  "genericsExampleBooksReadCount": "{count} gelesene Bücher des Jahres",
+  "@genericsExampleBooksReadCount": {
+    "placeholders": {
+      "count": { "type": "int" }
+    }
+  },
+  "genericsHint": "Ein Generic schreiben, wenn die UI gleich ist und nur das Model wechselt. titleOf ist eine Funktion, die du übergibst, kein Feld namens title: (u) => u.nickname oder (b) => b.title.",
+  "genericsWrongTitle": "wrong  ·  two tiles",
+  "genericsWrongHint": "UserTile und BookTile sind dasselbe ListTile zweimal. Nur nickname vs title ändert sich.",
+  "genericsRightTitle": "works  ·  GenericsLabTile<T>",
+  "genericsRightHint": "Ada oder Fourth Wing tippen. Ein Widget. titleOf: (u) => u.nickname vs (b) => b.title.",
+  "genericsTileLabel": "class GenericsLabTile<T>",
   "errorTimeout": "Der Server hat zu lange gebraucht.",
   "errorUnauthorized": "Diese Anfrage war nicht erlaubt.",
   "errorServer": "Der Server ist fehlgeschlagen. Versuch es nochmal.",

@@ -1,5 +1,5 @@
 import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_busy_mixin.dart';
-import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_calls.dart';
+import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_code_snippets.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_screen.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -35,8 +35,8 @@ void main() {
     expect(find.text('wrong  ·  two extends'), findsOneWidget);
     expect(find.text('works  ·  with MixinsLabBusyMixin'), findsOneWidget);
     expect(find.text('our mixin MixinsLabBusyMixin'), findsOneWidget);
-    expect(find.text(MixinsLabCalls.illegal), findsOneWidget);
-    expect(find.text(MixinsLabCalls.withMixin), findsOneWidget);
+    expect(find.text(MixinsLabCodeSnippets.illegal), findsOneWidget);
+    expect(find.text(MixinsLabCodeSnippets.withMixin), findsOneWidget);
     expect(find.text('Save'), findsOneWidget);
     expect(find.text('Reload'), findsOneWidget);
     expect(find.text('idle'), findsOneWidget);
