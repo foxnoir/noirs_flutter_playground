@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_busy_tap.dart';
+import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_busy_mixin.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -10,7 +10,7 @@ class MixinsLabReloadCard extends StatefulWidget {
 }
 
 class _MixinsLabReloadCardState extends State<MixinsLabReloadCard>
-    with MixinsLabBusyTap {
+    with MixinsLabBusyMixin {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
