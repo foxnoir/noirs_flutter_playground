@@ -1130,6 +1130,96 @@ abstract class AppLocalizations {
   /// **'busy'**
   String get mixinsBusy;
 
+  /// No description provided for @sealed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sealed (plus extends)'**
+  String get sealed;
+
+  /// No description provided for @sealedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A sealed class is a closed family in one file. Hardcover, Paperback, and Ebook each extend BookFormat and add their own fields. Tap a format. The switch must cover every variant. A new JSON field on the API is not a subclass — change the model.'**
+  String get sealedHint;
+
+  /// No description provided for @sealedWrongTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'wrong  ·  subclass for a JSON field'**
+  String get sealedWrongTitle;
+
+  /// No description provided for @sealedWrongHint.
+  ///
+  /// In en, this message translates to:
+  /// **'The API grew a field. Add it to BookModel. Do not extend BookModel only to leave the old class untouched.'**
+  String get sealedWrongHint;
+
+  /// No description provided for @sealedRightTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'works  ·  sealed BookFormat'**
+  String get sealedRightTitle;
+
+  /// No description provided for @sealedRightHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap Hardcover, Paperback, or Ebook. Same book, Fourth Wing. Different extra fields. switch sees the subclass.'**
+  String get sealedRightHint;
+
+  /// No description provided for @sealedSnippetLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'sealed class BookFormat'**
+  String get sealedSnippetLabel;
+
+  /// No description provided for @sealedSwitchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'the switch'**
+  String get sealedSwitchLabel;
+
+  /// No description provided for @sealedHardcover.
+  ///
+  /// In en, this message translates to:
+  /// **'Hardcover'**
+  String get sealedHardcover;
+
+  /// No description provided for @sealedPaperback.
+  ///
+  /// In en, this message translates to:
+  /// **'Paperback'**
+  String get sealedPaperback;
+
+  /// No description provided for @sealedEbook.
+  ///
+  /// In en, this message translates to:
+  /// **'Ebook'**
+  String get sealedEbook;
+
+  /// No description provided for @sealedPages.
+  ///
+  /// In en, this message translates to:
+  /// **'{pages} pages'**
+  String sealedPages(int pages);
+
+  /// No description provided for @sealedTrade.
+  ///
+  /// In en, this message translates to:
+  /// **'trade paperback'**
+  String get sealedTrade;
+
+  /// No description provided for @sealedMassMarket.
+  ///
+  /// In en, this message translates to:
+  /// **'mass market'**
+  String get sealedMassMarket;
+
+  /// No description provided for @sealedFileSize.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB'**
+  String sealedFileSize(int size);
+
   /// No description provided for @generics.
   ///
   /// In en, this message translates to:

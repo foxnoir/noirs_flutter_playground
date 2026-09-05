@@ -18,6 +18,7 @@ import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_sc
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_screen.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/routing_lab_screen.dart';
+import 'package:advanced_concepts/features/sealed_lab/presentation/sealed_lab_screen.dart';
 import 'package:advanced_concepts/features/user_details/presentation/user_details_screen.dart';
 import 'package:advanced_concepts/features/user_list/data/data_sources/in_memory_user_list_data_source.dart';
 import 'package:advanced_concepts/features/user_list/data/repositories/in_memory_user_list_repository.dart';
@@ -278,6 +279,20 @@ void main() {
 
     expect(find.byType(MixinsLabScreen), findsOneWidget);
     expect(find.widgetWithText(AppBar, 'Mixins'), findsOneWidget);
+  });
+
+  testWidgets('Landing Sealed tile opens Sealed Lab', (tester) async {
+    _useTallSurface(tester);
+    await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
+
+    await tester.tap(find.text('Sealed (plus extends)'));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(SealedLabScreen), findsOneWidget);
+    expect(
+      find.widgetWithText(AppBar, 'Sealed (plus extends)'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('Landing Generics tile opens Generics Lab', (tester) async {

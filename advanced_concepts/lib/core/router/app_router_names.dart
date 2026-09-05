@@ -4,6 +4,7 @@ abstract final class AppRouteNames {
   static const lists = 'lists';
   static const layout = 'layout';
   static const mixins = 'mixins';
+  static const sealed = 'sealed';
   static const generics = 'generics';
   static const genericsGeneral = 'genericsGeneral';
   static const genericsExample = 'genericsExample';
@@ -26,6 +27,7 @@ abstract final class AppRoutePaths {
   static const lists = 'lists';
   static const layout = 'layout';
   static const mixins = 'mixins';
+  static const sealed = 'sealed';
   static const generics = 'generics';
   static const genericsGeneral = 'general';
   static const genericsExample = 'example';
