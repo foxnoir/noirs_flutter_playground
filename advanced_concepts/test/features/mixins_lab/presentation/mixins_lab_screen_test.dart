@@ -1,6 +1,6 @@
 import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_busy_mixin.dart';
-import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_code_snippets.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_screen.dart';
+import 'package:advanced_concepts/features/mixins_lab/presentation/widgets/mixins_lab_code_snippets.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';

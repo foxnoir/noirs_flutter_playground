@@ -7,12 +7,14 @@ class LabCompareFrame extends StatelessWidget {
     required this.hint,
     required this.child,
     super.key,
+    this.hintAtTop = false,
   });
 
   final bool ok;
   final String title;
   final String hint;
   final Widget child;
+  final bool hintAtTop;
 
   @override
   Widget build(BuildContext context) {
@@ -51,9 +53,20 @@ class LabCompareFrame extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
+            if (hintAtTop) ...[
+              Text(
+                hint,
+                style: textTheme.bodySmall?.copyWith(
+                  color: scheme.onSurfaceVariant,
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
             child,
-            const SizedBox(height: 8),
-            Text(hint, style: textTheme.bodySmall),
+            if (!hintAtTop) ...[
+              const SizedBox(height: 8),
+              Text(hint, style: textTheme.bodySmall),
+            ],
           ],
         ),
       ),

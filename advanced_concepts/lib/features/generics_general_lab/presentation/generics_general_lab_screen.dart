@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/features/generics_general_lab/presentation/generics_lab_code_snippets.dart';
+import 'package:advanced_concepts/features/generics_general_lab/presentation/widgets/generics_lab_code_snippets.dart';
 import 'package:advanced_concepts/features/generics_general_lab/presentation/widgets/generics_lab_rows.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:advanced_concepts/shared_widgets/code_snippet.dart';

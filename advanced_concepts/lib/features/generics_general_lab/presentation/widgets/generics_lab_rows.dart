@@ -1,11 +1,12 @@
 import 'package:advanced_concepts/features/api_http_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/generics_general_lab/domain/generics_lab_items.dart';
+import 'package:advanced_concepts/features/generics_general_lab/presentation/generics_lab_selection.dart';
+import 'package:advanced_concepts/features/generics_general_lab/presentation/providers/generics_lab_selection_provider.dart';
 import 'package:advanced_concepts/features/generics_general_lab/presentation/widgets/generics_lab_tile.dart';
 import 'package:advanced_concepts/features/user_list/domain/entities/user.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
-
-enum GenericsLabKind { user, book }
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract final class GenericsLabIcons {
   static const userSelected = 'assets/user_avatars/2.png';
@@ -14,24 +15,18 @@ abstract final class GenericsLabIcons {
   static const bookIdle = 'assets/img/icons/books/book_black.png';
 }
 
-class GenericsLabRows extends StatefulWidget {
+class GenericsLabRows extends ConsumerWidget {
   const GenericsLabRows({super.key});
 
   @override
-  State<GenericsLabRows> createState() => _GenericsLabRowsState();
-}
-
-class _GenericsLabRowsState extends State<GenericsLabRows> {
-  var _kind = GenericsLabKind.user;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final userSelected = _kind == GenericsLabKind.user;
-    final bookSelected = _kind == GenericsLabKind.book;
-    final tName = switch (_kind) {
-      GenericsLabKind.user => 'User',
-      GenericsLabKind.book => 'Book',
+    final selection = ref.watch(genericsLabSelectionProvider);
+    final userSelected = selection == GenericsLabSelection.user;
+    final bookSelected = selection == GenericsLabSelection.book;
+    final tName = switch (selection) {
+      GenericsLabSelection.user => 'User',
+      GenericsLabSelection.book => 'Book',
     };
 
     return Column(
@@ -42,7 +37,11 @@ class _GenericsLabRowsState extends State<GenericsLabRows> {
           titleOf: (user) => user.nickname,
           subtitleOf: (_) => l10n.userList,
           selected: userSelected,
-          onTap: () => setState(() => _kind = GenericsLabKind.user),
+          onTap: () {
+            ref
+                .read(genericsLabSelectionProvider.notifier)
+                .select(GenericsLabSelection.user);
+          },
           tileKey: const Key('generics-lab-user'),
           leading: ClipOval(
             child: Image.asset(
@@ -62,7 +61,11 @@ class _GenericsLabRowsState extends State<GenericsLabRows> {
           titleOf: (book) => book.title,
           subtitleOf: (_) => l10n.apiHttp,
           selected: bookSelected,
-          onTap: () => setState(() => _kind = GenericsLabKind.book),
+          onTap: () {
+            ref
+                .read(genericsLabSelectionProvider.notifier)
+                .select(GenericsLabSelection.book);
+          },
           tileKey: const Key('generics-lab-book'),
           leading: Image.asset(
             bookSelected

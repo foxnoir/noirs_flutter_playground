@@ -1,9 +1,10 @@
 import 'package:advanced_concepts/features/generics_general_lab/domain/generics_lab_items.dart';
 import 'package:advanced_concepts/features/generics_general_lab/presentation/generics_general_lab_screen.dart';
-import 'package:advanced_concepts/features/generics_general_lab/presentation/generics_lab_code_snippets.dart';
+import 'package:advanced_concepts/features/generics_general_lab/presentation/widgets/generics_lab_code_snippets.dart';
 import 'package:advanced_concepts/features/generics_general_lab/presentation/widgets/generics_lab_rows.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 String _assetName(WidgetTester tester, Key key) {
@@ -21,11 +22,13 @@ void _useTallSurface(WidgetTester tester) {
 Future<void> _pumpLab(WidgetTester tester) async {
   _useTallSurface(tester);
   await tester.pumpWidget(
-    const MaterialApp(
-      locale: Locale('en'),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: GenericsGeneralLabScreen(),
+    const ProviderScope(
+      child: MaterialApp(
+        locale: Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: GenericsGeneralLabScreen(),
+      ),
     ),
   );
   await tester.pump();
