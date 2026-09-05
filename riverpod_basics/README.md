@@ -133,7 +133,7 @@ Runs on the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5).
 
 ### Color Palette
 
-<img src="assets/colorPalette.png" alt="Color palette">
+<img src="assets/color_palette.png" alt="Color palette">
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -141,7 +141,7 @@ Runs on the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5).
 
 ## Example Screens
 
-<img src="assets/final_lsayout.png" alt="icons" width="65%" height="100%">
+<img src="assets/final_layout.png" alt="icons" width="65%" height="100%">
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

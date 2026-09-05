@@ -43,6 +43,12 @@
   <ol>
     <li><a href="#about">About</a></li>
     <li>
+      <a href="#style-guide">Style Guide</a>
+      <ul>
+        <li><a href="#color-palette">Color Palette</a></li>
+      </ul>
+    </li>
+    <li>
       <a href="#gorouter">GoRouter</a>
       <ul>
         <li><a href="#go-vs-push">go vs push</a></li>
@@ -122,6 +128,26 @@ Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `MixinsLabSc
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
 Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**. Layout is **mobile first** everywhere: compact is the default, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. There is no AdaptiveScaffold — breakpoints are the `AppBreakpoint` enum.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Style Guide
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+### Color Palette
+
+<img src="assets/img/color_palette.png" alt="Color palette">
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Example Screens
+
+<img src="assets/img/final_layout.png" alt="icons" width="65%" height="100%">
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -614,7 +640,7 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**80.9%** line coverage (3406 of 4209 lines).
+**80.9%** line coverage (3405 of 4209 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
