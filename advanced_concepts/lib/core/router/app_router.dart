@@ -14,6 +14,7 @@ import 'package:advanced_concepts/features/layout_lab/presentation/layout_lab_sc
 import 'package:advanced_concepts/features/lists_lab/presentation/lists_lab_screen.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_screen.dart';
 import 'package:advanced_concepts/features/routing_lab/presentation/routing_lab_screen.dart';
+import 'package:advanced_concepts/features/sealed_lab/presentation/sealed_lab_screen.dart';
 import 'package:advanced_concepts/features/user_details/presentation/user_details_screen.dart';
 import 'package:advanced_concepts/features/user_list/presentation/user_list_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,6 +44,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             path: AppRoutePaths.mixins,
             name: AppRouteNames.mixins,
             builder: (context, state) => const MixinsLabScreen(),
+          ),
+          GoRoute(
+            path: AppRoutePaths.sealed,
+            name: AppRouteNames.sealed,
+            builder: (context, state) => const SealedLabScreen(),
           ),
           GoRoute(
             path: AppRoutePaths.generics,
