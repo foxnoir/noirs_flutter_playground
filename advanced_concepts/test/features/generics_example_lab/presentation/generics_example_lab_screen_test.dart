@@ -1,6 +1,7 @@
 import 'package:advanced_concepts/features/generics_example_lab/presentation/generics_example_lab_screen.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 void _useTallSurface(WidgetTester tester) {
@@ -13,11 +14,13 @@ void _useTallSurface(WidgetTester tester) {
 Future<void> _pumpLab(WidgetTester tester) async {
   _useTallSurface(tester);
   await tester.pumpWidget(
-    const MaterialApp(
-      locale: Locale('en'),
-      localizationsDelegates: AppLocalizations.localizationsDelegates,
-      supportedLocales: AppLocalizations.supportedLocales,
-      home: GenericsExampleLabScreen(),
+    const ProviderScope(
+      child: MaterialApp(
+        locale: Locale('en'),
+        localizationsDelegates: AppLocalizations.localizationsDelegates,
+        supportedLocales: AppLocalizations.supportedLocales,
+        home: GenericsExampleLabScreen(),
+      ),
     ),
   );
   await tester.pump();

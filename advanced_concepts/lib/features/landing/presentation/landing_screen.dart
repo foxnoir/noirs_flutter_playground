@@ -31,6 +31,7 @@ class LandingScreen extends StatelessWidget {
             ),
             LandingListTile(
               label: l10n.sealed,
+              caption: l10n.sealedCaption,
               onTap: () => context.pushNamed(AppRouteNames.sealed),
             ),
             LandingListTile(

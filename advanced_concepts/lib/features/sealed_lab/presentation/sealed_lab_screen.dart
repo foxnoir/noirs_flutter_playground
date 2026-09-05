@@ -1,5 +1,6 @@
-import 'package:advanced_concepts/features/sealed_lab/presentation/sealed_lab_code_snippets.dart';
-import 'package:advanced_concepts/features/sealed_lab/presentation/widgets/sealed_lab_formats.dart';
+import 'package:advanced_concepts/features/sealed_lab/presentation/widgets/sealed_lab_book_format_row.dart';
+import 'package:advanced_concepts/features/sealed_lab/presentation/widgets/sealed_lab_code_snippets.dart';
+import 'package:advanced_concepts/features/sealed_lab/presentation/widgets/sealed_lab_selection_snippets.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:advanced_concepts/shared_widgets/code_snippet.dart';
 import 'package:advanced_concepts/shared_widgets/labs/lab_compare_frame.dart';
@@ -34,18 +35,18 @@ class SealedLabScreen extends StatelessWidget {
               ok: true,
               title: l10n.sealedRightTitle,
               hint: l10n.sealedRightHint,
+              hintAtTop: true,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const SealedLabFormats(),
+                  const SealedLabSwitchHint(),
                   const SizedBox(height: 12),
                   Text(l10n.sealedSnippetLabel, style: textTheme.labelLarge),
                   const SizedBox(height: 4),
-                  const CodeSnippet(SealedLabCodeSnippets.sealedFamily),
+                  const CodeSnippet(SealedLabCodeSnippets.bookMetadata),
                   const SizedBox(height: 12),
-                  Text(l10n.sealedSwitchLabel, style: textTheme.labelLarge),
-                  const SizedBox(height: 4),
-                  const CodeSnippet(SealedLabCodeSnippets.formatSwitch),
+                  const SealedLabBookFormatRow(),
+                  const SealedLabSelectionSnippets(),
                 ],
               ),
             ),

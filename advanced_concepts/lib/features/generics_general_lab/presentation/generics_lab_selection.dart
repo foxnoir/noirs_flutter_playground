@@ -1,0 +1,1 @@
+enum GenericsLabSelection { user, book }

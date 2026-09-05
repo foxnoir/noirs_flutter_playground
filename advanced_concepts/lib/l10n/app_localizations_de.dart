@@ -581,11 +581,14 @@ class AppLocalizationsDe extends AppLocalizations {
   String get mixinsBusy => 'busy';
 
   @override
-  String get sealed => 'Sealed (plus extends)';
+  String get sealed => 'Sealed';
+
+  @override
+  String get sealedCaption => 'plus extends';
 
   @override
   String get sealedHint =>
-      'Eine sealed class ist eine geschlossene Familie in einer Datei. Hardcover, Paperback und Ebook erben je BookFormat und bringen eigene Felder mit. Format tippen. Der switch muss jede Variante kennen. Ein neues JSON-Feld an der API ist keine Unterklasse — Model anpassen.';
+      'Eine sealed class ist eine geschlossene Familie. Hardcover, Paperback und Ebook sind die Formate. Sie erben BookMetadata (Titel, Autor) und bringen eigene Felder mit. Format tippen. Der switch muss jede Variante kennen. Ein neues JSON-Feld an der API ist keine Unterklasse — Model anpassen.';
 
   @override
   String get sealedWrongTitle => 'wrong  ·  subclass for a JSON field';
@@ -595,14 +598,17 @@ class AppLocalizationsDe extends AppLocalizations {
       'Die API hat ein Feld dazubekommen. An BookModel schreiben. BookModel nicht nur beerben, damit die alte Klasse unangetastet bleibt.';
 
   @override
-  String get sealedRightTitle => 'works  ·  sealed BookFormat';
+  String get sealedRightTitle => 'works  ·  sealed BookMetadata';
 
   @override
   String get sealedRightHint =>
       'Hardcover, Paperback oder Ebook tippen. Dasselbe Buch, Fourth Wing. Andere Extrafelder. switch sieht die Unterklasse.';
 
   @override
-  String get sealedSnippetLabel => 'sealed class BookFormat';
+  String get sealedSnippetLabel => 'sealed class BookMetadata';
+
+  @override
+  String get sealedSubclassLabel => 'the subclass';
 
   @override
   String get sealedSwitchLabel => 'the switch';

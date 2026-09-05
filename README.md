@@ -13,7 +13,7 @@
   <img src="assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Noir's Flutter Playground</h1>
   <p>
-     Practice projects for Flutter — Riverpod, navigation, layout, mixins, generics, lists, and architecture.
+     Practice projects for Flutter — Riverpod, navigation, layout, mixins, sealed classes, generics, lists, and architecture.
   </p>
 </div>
 
@@ -66,7 +66,7 @@
 
 This repository is a playground for practicing Flutter.
 
-Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **mixins**, **generics**, **lists**, and architecture — without mixing everything into one project.
+Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **mixins**, **sealed classes**, **generics**, **lists**, and architecture — without mixing everything into one project.
 
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -146,12 +146,12 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 #### Presentation
 
 - **providers/** — Riverpod notifiers and providers. Not Bloc.
-- **widgets/** — feature-local UI.
+- **widgets/** — feature-local UI. Lab Dart strings (`*CodeSnippets`) live here, next to the tiles. `CodeSnippet` (the monospace widget) is in `shared_widgets/`.
 - **feature_screen.dart** — the screen for that feature (`*Screen`). Riverpod Basics landing is still `LandingPage`.
 
 `shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both practice projects). Advanced Concepts also has `CodeSnippet` (monospace Dart), `NavStackPreview` (stack diagram on User List / User Details), `LabCompareFrame` (wrong vs works), `LabErrorStripes` (Flutter-style overflow paint without crashing the page), `LabScreenBody` (`LayoutBuilder` caps width at 840 for web), and API chrome (`ApiLabBackground`, `ApiLabDivider`). The DELETE lab session is a small feature (`api_lab_session`), not chrome. The HTTP and Dio **bookshelf** widgets stay in their own features — sharing them would mix the two clients. `core/` holds app-wide routing, theme, and similar infrastructure. Breakpoints are `AppBreakpoint` in `core/theme/` (Material 3: compact below 600, medium 600, expanded 840, large 1200, extra-large 1600) — not AdaptiveScaffold. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
 
-Data sources and repositories are named after the feature: `InMemoryUserListDataSource`, `InMemoryUserListRepository` (not a generic `UserRepository`).
+Data sources and repositories are named after the feature: `InMemoryUserListDataSource`, `InMemoryUserListRepository`, `InMemorySealedLabDataSource`, `InMemorySealedLabRepository` (not a generic `UserRepository`).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -201,7 +201,7 @@ Practice project for **Riverpod**: provider types, labs (listen, ConsumerWidget,
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project covering, among other things, **layout**, **mixins**, and **generics**. Details live in that app’s [README](advanced_concepts/README.md#about).
+Practice project covering, among other things, **layout**, **mixins**, **sealed classes**, and **generics**. Details live in that app’s [README](advanced_concepts/README.md#about).
 
 [README »](advanced_concepts/README.md)
 

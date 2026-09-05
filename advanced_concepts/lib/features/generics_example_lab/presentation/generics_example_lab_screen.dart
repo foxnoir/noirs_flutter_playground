@@ -1,5 +1,7 @@
 import 'package:advanced_concepts/features/api_http_lab/domain/entities/book.dart';
 import 'package:advanced_concepts/features/generics_example_lab/domain/generics_example_items.dart';
+import 'package:advanced_concepts/features/generics_example_lab/presentation/generics_example_enum.dart';
+import 'package:advanced_concepts/features/generics_example_lab/presentation/providers/generics_example_selection_provider.dart';
 import 'package:advanced_concepts/features/generics_example_lab/presentation/widgets/generics_example_books_read_icon.dart';
 import 'package:advanced_concepts/features/generics_example_lab/presentation/widgets/generics_example_list.dart';
 import 'package:advanced_concepts/features/generics_example_lab/presentation/widgets/generics_example_row.dart';
@@ -10,26 +12,18 @@ import 'package:advanced_concepts/shared_widgets/labs/lab_info_text.dart';
 import 'package:advanced_concepts/shared_widgets/labs/lab_screen_body.dart';
 import 'package:advanced_concepts/shared_widgets/user_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-enum GenericsExampleEnum { user, book }
-
-class GenericsExampleLabScreen extends StatefulWidget {
+class GenericsExampleLabScreen extends ConsumerWidget {
   const GenericsExampleLabScreen({super.key});
 
   static const bookIcon = 'assets/img/icons/books/book_turquise.png';
 
   @override
-  State<GenericsExampleLabScreen> createState() =>
-      _GenericsExampleLabScreenState();
-}
-
-class _GenericsExampleLabScreenState extends State<GenericsExampleLabScreen> {
-  var _selected = GenericsExampleEnum.user;
-
-  @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final tName = switch (_selected) {
+    final selection = ref.watch(genericsExampleSelectionProvider);
+    final tName = switch (selection) {
       GenericsExampleEnum.user => 'User',
       GenericsExampleEnum.book => 'Book',
     };
@@ -60,9 +54,11 @@ class _GenericsExampleLabScreenState extends State<GenericsExampleLabScreen> {
                       label: Text(l10n.genericsExampleBooks),
                     ),
                   ],
-                  selected: {_selected},
+                  selected: {selection},
                   onSelectionChanged: (selected) {
-                    setState(() => _selected = selected.single);
+                    ref
+                        .read(genericsExampleSelectionProvider.notifier)
+                        .select(selected.single);
                   },
                 ),
                 const SizedBox(height: 8),
@@ -72,7 +68,7 @@ class _GenericsExampleLabScreenState extends State<GenericsExampleLabScreen> {
                   style: Theme.of(context).textTheme.titleSmall,
                 ),
                 const SizedBox(height: 8),
-                Expanded(child: _list()),
+                Expanded(child: _list(selection)),
               ],
             ),
           ),
@@ -81,8 +77,8 @@ class _GenericsExampleLabScreenState extends State<GenericsExampleLabScreen> {
     );
   }
 
-  Widget _list() {
-    return switch (_selected) {
+  Widget _list(GenericsExampleEnum selection) {
+    return switch (selection) {
       GenericsExampleEnum.user => GenericsExampleList<User>(
         items: genericsExampleUsers,
         itemBuilder: (user) => GenericsExampleRow(

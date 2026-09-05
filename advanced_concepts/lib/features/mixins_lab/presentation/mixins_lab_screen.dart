@@ -1,4 +1,4 @@
-import 'package:advanced_concepts/features/mixins_lab/presentation/mixins_lab_code_snippets.dart';
+import 'package:advanced_concepts/features/mixins_lab/presentation/widgets/mixins_lab_code_snippets.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/widgets/mixins_lab_reload_card.dart';
 import 'package:advanced_concepts/features/mixins_lab/presentation/widgets/mixins_lab_save_button.dart';
 import 'package:advanced_concepts/l10n/app_localizations.dart';

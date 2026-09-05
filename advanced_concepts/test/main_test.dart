@@ -285,14 +285,13 @@ void main() {
     _useTallSurface(tester);
     await tester.pumpWidget(const ProviderScope(child: AdvancedConceptsApp()));
 
-    await tester.tap(find.text('Sealed (plus extends)'));
+    expect(find.text(' (plus extends)'), findsOneWidget);
+
+    await tester.tap(find.text('Sealed'));
     await tester.pumpAndSettle();
 
     expect(find.byType(SealedLabScreen), findsOneWidget);
-    expect(
-      find.widgetWithText(AppBar, 'Sealed (plus extends)'),
-      findsOneWidget,
-    );
+    expect(find.widgetWithText(AppBar, 'Sealed'), findsOneWidget);
   });
 
   testWidgets('Landing Generics tile opens Generics Lab', (tester) async {

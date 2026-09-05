@@ -1133,13 +1133,19 @@ abstract class AppLocalizations {
   /// No description provided for @sealed.
   ///
   /// In en, this message translates to:
-  /// **'Sealed (plus extends)'**
+  /// **'Sealed'**
   String get sealed;
+
+  /// No description provided for @sealedCaption.
+  ///
+  /// In en, this message translates to:
+  /// **'plus extends'**
+  String get sealedCaption;
 
   /// No description provided for @sealedHint.
   ///
   /// In en, this message translates to:
-  /// **'A sealed class is a closed family in one file. Hardcover, Paperback, and Ebook each extend BookFormat and add their own fields. Tap a format. The switch must cover every variant. A new JSON field on the API is not a subclass — change the model.'**
+  /// **'A sealed class is a closed family. Hardcover, Paperback, and Ebook are the formats. They extend BookMetadata (title, author) and add their own fields. Tap a format. The switch must cover every variant. A new JSON field on the API is not a subclass — change the model.'**
   String get sealedHint;
 
   /// No description provided for @sealedWrongTitle.
@@ -1157,7 +1163,7 @@ abstract class AppLocalizations {
   /// No description provided for @sealedRightTitle.
   ///
   /// In en, this message translates to:
-  /// **'works  ·  sealed BookFormat'**
+  /// **'works  ·  sealed BookMetadata'**
   String get sealedRightTitle;
 
   /// No description provided for @sealedRightHint.
@@ -1169,8 +1175,14 @@ abstract class AppLocalizations {
   /// No description provided for @sealedSnippetLabel.
   ///
   /// In en, this message translates to:
-  /// **'sealed class BookFormat'**
+  /// **'sealed class BookMetadata'**
   String get sealedSnippetLabel;
+
+  /// No description provided for @sealedSubclassLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'the subclass'**
+  String get sealedSubclassLabel;
 
   /// No description provided for @sealedSwitchLabel.
   ///
