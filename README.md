@@ -73,7 +73,7 @@ Each folder is a standalone practice project. Topics include **Riverpod**, **nav
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**.
+Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**. Firebase in Depth is **web-first** (Chrome DevTools for Firestore traffic).
 
 Copyable starters live in [app_starters](app_starters/).
 
@@ -213,7 +213,7 @@ Practice project covering, among other things, **layout**, **mixins**, **sealed 
   <a href="firebase_in_depth/README.md#test-coverage"><img align="right" src="firebase_in_depth/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-A deep dive into **Firebase**, using **Flutter**. Firestore, emulator, Storage. Details live in that app’s [README](firebase_in_depth/README.md#about).
+A deep dive into **Firebase**, using **Flutter**. **Web first** (Chrome). Firestore, emulator, Storage. Fundamentals live in that app’s [README](firebase_in_depth/README.md#firestore). [Web first / DevTools](firebase_in_depth/README.md#web-first).
 
 [README »](firebase_in_depth/README.md)
 

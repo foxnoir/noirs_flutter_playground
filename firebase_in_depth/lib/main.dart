@@ -9,8 +9,11 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  if (!kIsWeb && defaultTargetPlatform == TargetPlatform.iOS) {
-    await Firebase.initializeApp(options: DefaultFirebaseOptions.ios);
+  // Tests run on the VM (not web / iOS) and skip init.
+  if (kIsWeb || defaultTargetPlatform == TargetPlatform.iOS) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
   }
   runApp(const ProviderScope(child: FirebaseInDepthApp()));
 }
