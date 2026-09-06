@@ -148,7 +148,7 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 
 - **providers/** — Riverpod notifiers and providers. Not Bloc.
 - **widgets/** — feature-local UI. Lab Dart strings (`*CodeSnippets`) live here, next to the tiles. `CodeSnippet` (the monospace widget) is in `shared_widgets/`.
-- **feature_screen.dart** — the screen for that feature (`*Screen`). Riverpod Basics landing is still `LandingPage`.
+- **feature_screen.dart** — the screen for that feature (`*Screen`). Riverpod Basics landing is still `LandingPage`. Detail is its own feature (`item_details`, `user_details`, `book_details`) — it reuses the list repository and does not copy `data/` / `domain/`.
 
 `shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both practice projects). Advanced Concepts also has `CodeSnippet` (monospace Dart), `NavStackPreview` (stack diagram on User List / User Details), `LabCompareFrame` (wrong vs works), `LabErrorStripes` (Flutter-style overflow paint without crashing the page), `LabScreenBody` (`LayoutBuilder` caps width at 840 for web), and API chrome (`ApiLabBackground`, `ApiLabDivider`). The DELETE lab session is a small feature (`api_lab_session`), not chrome. The HTTP and Dio **bookshelf** widgets stay in their own features — sharing them would mix the two clients. `core/` holds app-wide routing, theme, and similar infrastructure. Breakpoints are `AppBreakpoint` in `core/theme/` (Material 3: compact below 600, medium 600, expanded 840, large 1200, extra-large 1600) — not AdaptiveScaffold. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
 
@@ -207,13 +207,13 @@ Practice project covering, among other things, **layout**, **mixins**, **sealed 
 [README »](advanced_concepts/README.md)
 
 <h3>
-  <a href="firebase_depth/">Firebase in Depth »</a>
-  <a href="firebase_depth/README.md#test-coverage"><img align="right" src="firebase_depth/assets/coverage/badge.svg" alt="Coverage"></a>
+  <a href="firebase_in_depth/">Firebase in Depth »</a>
+  <a href="firebase_in_depth/README.md#test-coverage"><img align="right" src="firebase_in_depth/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-A deep dive into **Firebase**, using **Flutter**. Firestore, emulator, Storage. Details live in that app’s [README](firebase_depth/README.md#about).
+A deep dive into **Firebase**, using **Flutter**. Firestore, emulator, Storage. Details live in that app’s [README](firebase_in_depth/README.md#about).
 
-[README »](firebase_depth/README.md)
+[README »](firebase_in_depth/README.md)
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -226,7 +226,7 @@ A deep dive into **Firebase**, using **Flutter**. Firestore, emulator, Storage. 
   <a href="app_starters/riverpod_basic_starter/README.md#test-coverage"><img align="right" src="app_starters/riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Copyable **Riverpod** app skeleton: GoRouter, l10n, feature folders, a sample Items feature, sealed failures, and a Material 3 seed theme.
+Copyable **Riverpod** app skeleton: GoRouter, l10n, feature folders, sample **Items** + **Item Details**, sealed failures, and a Material 3 seed theme.
 
 [README »](app_starters/riverpod_basic_starter/README.md)
 
@@ -341,7 +341,7 @@ One app:
 ./coverage_pipeline/update_coverage.sh riverpod_basics
 ./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
 ./coverage_pipeline/update_coverage.sh advanced_concepts
-./coverage_pipeline/update_coverage.sh firebase_depth
+./coverage_pipeline/update_coverage.sh firebase_in_depth
 ```
 
 ### Cursor Source Control

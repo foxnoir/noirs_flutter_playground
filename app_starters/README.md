@@ -49,7 +49,7 @@
 
 This folder holds copyable Flutter app skeletons. Copy a starter when you begin a new project, then rename the Dart package.
 
-The first starter is **Riverpod Basic Starter**: Riverpod, GoRouter, l10n, feature folders, sealed errors, and a sample Items feature so you start from a known shape. More starters can land here later.
+The first starter is **Riverpod Basic Starter**: Riverpod, GoRouter, l10n, feature folders, sealed errors, and sample **Items** + **Item Details** so you start from a known shape. More starters can land here later.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -67,7 +67,7 @@ Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**.
   <a href="riverpod_basic_starter/README.md#test-coverage"><img align="right" src="riverpod_basic_starter/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Copyable **Riverpod** app skeleton: GoRouter, l10n, feature folders, a sample Items feature, sealed failures, and a Material 3 seed theme.
+Copyable **Riverpod** app skeleton: GoRouter, l10n, feature folders, sample **Items** + **Item Details**, sealed failures, and a Material 3 seed theme.
 
 [README »](riverpod_basic_starter/README.md)
 

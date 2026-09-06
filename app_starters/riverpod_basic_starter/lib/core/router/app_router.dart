@@ -3,9 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_basic_starter/core/router/app_router_names.dart';
 import 'package:riverpod_basic_starter/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basic_starter/core/router/placeholder_screen.dart';
-import 'package:riverpod_basic_starter/features/home/presentation/home_page.dart';
-import 'package:riverpod_basic_starter/features/items/presentation/item_detail_page.dart';
-import 'package:riverpod_basic_starter/features/items/presentation/items_page.dart';
+import 'package:riverpod_basic_starter/features/home/presentation/home_screen.dart';
+import 'package:riverpod_basic_starter/features/item_details/presentation/item_details_screen.dart';
+import 'package:riverpod_basic_starter/features/items/presentation/items_screen.dart';
 import 'package:riverpod_basic_starter/l10n/app_localizations.dart';
 
 final goRouterProvider = Provider<GoRouter>((ref) {
@@ -16,22 +16,22 @@ final goRouterProvider = Provider<GoRouter>((ref) {
       GoRoute(
         path: AppRoutePaths.home,
         name: AppRouteNames.home,
-        builder: (context, state) => const HomePage(),
+        builder: (context, state) => const HomeScreen(),
         routes: [
           GoRoute(
             path: AppRoutePaths.items,
             name: AppRouteNames.items,
-            builder: (context, state) => const ItemsPage(),
+            builder: (context, state) => const ItemsScreen(),
             routes: [
               GoRoute(
-                path: AppRoutePaths.itemDetail,
-                name: AppRouteNames.itemDetail,
+                path: AppRoutePaths.itemDetails,
+                name: AppRouteNames.itemDetails,
                 builder: (context, state) {
                   final id = int.tryParse(state.pathParameters['itemId'] ?? '');
                   if (id == null) {
                     return const PageNotFoundScreen();
                   }
-                  return ItemDetailPage(id: id);
+                  return ItemDetailsScreen(id: id);
                 },
               ),
             ],

@@ -15,7 +15,7 @@
   <img src="../../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basic Starter</h1>
   <p>
-     Copyable Riverpod app skeleton — GoRouter, l10n, and a sample Items feature.
+     Copyable Riverpod app skeleton — GoRouter, l10n, Items and Item Details.
   </p>
 </div>
 
@@ -49,7 +49,7 @@
       </ul>
     </li>
     <li><a href="#errors">Errors</a></li>
-    <li><a href="#items-feature">Items feature</a></li>
+    <li><a href="#items-and-item-details">Items and Item Details</a></li>
   </ol>
 </details>
 
@@ -59,7 +59,7 @@
 
 This is a **Riverpod** starter in [Noir's Flutter Playground](../../README.md). Copy the folder and rename the Dart package. It is scaffolding, not a finished product: routing, theme, errors, and one working feature so you can delete or rename from a known shape.
 
-**Items** is the copyable feature: data source, repository, model, entity, list, and detail. Two and Three stay as placeholder routes.
+**Items** is the copyable list. **Item Details** is its own feature: data source, repository, model, and entity stay in Items. Two and Three stay as placeholder routes.
 
 [![iOS](../../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -77,7 +77,7 @@ Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**.
 - [GoRouter](https://pub.dev/packages/go_router)
 - l10n (English / German)
 - Feature folders (`presentation` / `data` / `domain`)
-- Sample **Items** feature (data source, repository, model, entity)
+- Sample **Items** list and **Item Details** (own feature, like User Details)
 - Sealed `AppException` / `AppFailure` with l10n mapping
 - Material 3 seed theme
 - [FVM](https://fvm.app) pin
@@ -113,7 +113,7 @@ This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**79.9%** line coverage (195 of 244 lines).
+**81.2%** line coverage (208 of 256 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -144,7 +144,7 @@ Thrown objects and UI copy are different types. No extra package: Dart 3 **`seal
 
 Files: `lib/core/errors/`. Copy lives in ARB (`errorNetwork`, `errorNotFound`, `errorOccurred`). **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`) is the shared error screen (icon + message + optional retry). Import material with `hide ErrorWidget`.
 
-The **Items** feature is the working example: `InMemoryItemDataSource` throws `AppException`; `InMemoryItemRepository` maps to `AppFailure`; the list/detail notifiers store `AsyncError`; the UI calls `localizedError`.
+**Items** and **Item Details** are the working example: `InMemoryItemDataSource` throws `AppException`; `InMemoryItemRepository` maps to `AppFailure`; the list and details notifiers store `AsyncError`; the UI calls `localizedError`.
 
 Form validation is not a fetch failure. Keep those as field/form strings.
 
@@ -152,25 +152,11 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 ---
 
-## Items feature
+## Items and Item Details
 
-Copy `lib/features/items/` when you add a real feature. Rename the types.
+**Items** is the list. **Item Details** is its own feature — same idea as User Details in Advanced Concepts. Data stays in Items (`InMemoryItemDataSource` → `InMemoryItemRepository`). Details watches `itemDetailsProvider` and reads that repository. Screens are `ItemsScreen` / `ItemDetailsScreen`. Feature-local UI lives in `presentation/widgets/` (`ItemsRow`, `ItemDetailsMetadata`, `ItemDetailsData`).
 
-```text
-lib/features/items/
-├── data/
-│   ├── models/item_model.dart
-│   ├── data_sources/in_memory_item_data_source.dart
-│   └── repositories/in_memory_item_repository.dart
-├── domain/
-│   ├── entities/item.dart
-│   └── repositories/item_repository.dart
-└── presentation/
-    ├── providers/item_list_provider.dart
-    ├── providers/item_provider.dart
-    ├── items_page.dart
-    └── item_detail_page.dart
-```
+Layers match the playground [folder structure](../../README.md#app-architecture-and-folder-structure).
 
 - **Data source** — fake GET. Returns `ItemModel`. Throws `NetworkException` / `NotFoundException`.
 - **Repository** — `on AppException` → `AppFailure.fromException`. Models → `Item` entities. Throws `AppFailure`.

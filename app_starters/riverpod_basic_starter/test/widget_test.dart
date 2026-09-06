@@ -1,10 +1,10 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
-import 'package:riverpod_basic_starter/features/home/presentation/home_page.dart';
+import 'package:riverpod_basic_starter/features/home/presentation/home_screen.dart';
+import 'package:riverpod_basic_starter/features/item_details/presentation/item_details_screen.dart';
 import 'package:riverpod_basic_starter/features/items/data/data_sources/in_memory_item_data_source.dart';
-import 'package:riverpod_basic_starter/features/items/presentation/item_detail_page.dart';
-import 'package:riverpod_basic_starter/features/items/presentation/items_page.dart';
+import 'package:riverpod_basic_starter/features/items/presentation/items_screen.dart';
 import 'package:riverpod_basic_starter/main.dart';
 
 void main() {
@@ -33,11 +33,11 @@ void main() {
     await tester.tap(find.text('Items'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(ItemsPage), findsOneWidget);
+    expect(find.byType(ItemsScreen), findsOneWidget);
     expect(find.text('Alpha'), findsOneWidget);
   });
 
-  testWidgets('Items navigates to item detail', (tester) async {
+  testWidgets('Items navigates to item details', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [delayOverride],
@@ -50,7 +50,7 @@ void main() {
     await tester.tap(find.text('Alpha'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(ItemDetailPage), findsOneWidget);
+    expect(find.byType(ItemDetailsScreen), findsOneWidget);
     expect(find.text('First sample item'), findsOneWidget);
   });
 
@@ -59,7 +59,7 @@ void main() {
       const ProviderScope(child: RiverpodBasicStarterApp()),
     );
 
-    final context = tester.element(find.byType(HomePage));
+    final context = tester.element(find.byType(HomeScreen));
     GoRouter.of(context).go('/does-not-exist');
     await tester.pumpAndSettle();
 

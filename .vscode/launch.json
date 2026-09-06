@@ -50,12 +50,12 @@
       "name": "Firebase in Depth",
       "request": "launch",
       "type": "dart",
-      "cwd": "${workspaceFolder}/firebase_depth",
+      "cwd": "${workspaceFolder}/firebase_in_depth",
       "program": "lib/main.dart",
-      "templateFor": "firebase_depth",
+      "templateFor": "firebase_in_depth",
       "codeLens": {
         "for": ["run-file", "debug-file"],
-        "path": "firebase_depth",
+        "path": "firebase_in_depth",
         "title": "${debugType} Firebase in Depth"
       },
       "emulatorId": "apple_ios_simulator",
@@ -65,7 +65,7 @@
       "name": "Firebase in Depth (Chrome)",
       "request": "launch",
       "type": "dart",
-      "cwd": "${workspaceFolder}/firebase_depth",
+      "cwd": "${workspaceFolder}/firebase_in_depth",
       "program": "lib/main.dart",
       "deviceId": "chrome"
     }
