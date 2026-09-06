@@ -81,7 +81,7 @@ Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**.
 - Sample **Items** list and **Item Details** (own feature, like User Details)
 - Sealed `AppException` / `AppFailure` with l10n mapping
 - Material 3 seed theme
-- [FVM](https://fvm.app) pin
+- [Firebase](https://firebase.google.com/) (`firebase_core`, iOS app on `fir-in-depth-813e4`)
 - Coverage badge and card
 
 Coming: Firestore (CRUD, collection groups, performance), emulator, Storage / photo upload.
@@ -109,14 +109,14 @@ fvm flutter pub get
 fvm flutter run
 ```
 
-`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5). For web, use `fvm flutter run -d chrome`.
+`fvm flutter run` uses the **iOS Simulator** (**iPhone 17 Pro**, iOS 26.5). Firebase is registered for **iOS** (`com.example.firebaseInDepth`). Web is not registered yet — `fvm flutter run -d chrome` still starts the UI, without `Firebase.initializeApp`.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**81.2%** line coverage (208 of 256 lines).
+**76.5%** line coverage (208 of 272 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
