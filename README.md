@@ -278,6 +278,10 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
+<p align="center">
+  <img src="assets/img/details_dragon.png" alt="Details dragon" width="280">
+</p>
+
 ---
 
 ## Coverage pipeline

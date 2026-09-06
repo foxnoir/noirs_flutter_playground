@@ -210,9 +210,11 @@ Use it for document shapes and for UI state that is more than one field. Do not 
 
 Firestore does not scan a collection to answer a query. It walks an **index** — a sorted list of field values plus document IDs. That is the performance guarantee: the work stays proportional to the result, not to how many courses you stored. Allowed queries are the ones an index can answer without a collection scan.
 
-**Automatic single-field indexes.** Every field gets one. `where('seqNo', isLessThanOrEqualTo: 5).orderBy('seqNo')` uses the index on `seqNo`. Inequality and `orderBy` must start on **the same field**, because that is the sort order of that index. This is the query that works in the lab (and in the Angular sample).
+This is **not** about index size. `seqNo` and `lessonsCount` each already have an index. The rules are about **operators** (`==` vs `<=`) and whether Firestore has a **combined** register for two fields together.
 
-**Two inequalities on different fields.** The course query is:
+**Automatic single-field indexes.** Every field gets one (Console → Indexes → Single field). Think of a phone book per field: look up `seqNo`, or look up `url`, not both at once. `where('seqNo', isLessThanOrEqualTo: 5).orderBy('seqNo')` uses only the `seqNo` book. Inequality and `orderBy` must start on **the same field**, because that is the sort order of that index. This is **Run valid query** (and the Angular sample that works without CREATE).
+
+**Two inequalities on different fields.** Not a missing index. The course query is:
 
 ```text
 where seqNo <= 5
@@ -220,7 +222,7 @@ where lessonsCount <= 10
 orderBy seqNo
 ```
 
-There is no single sorted list that is both “seqNo ascending” and “lessonsCount ascending” at once. Walking the `seqNo` index cannot cheaply apply a *range* on `lessonsCount` (a second range is not a point lookup). The old API therefore **rejected** the query:
+Two range filters (`<` `<=` `>` `>=`) on **two fields**. Both fields have single-field indexes. Firestore still rejects the combination: walking the `seqNo` book cannot cheaply apply a second *range* on `lessonsCount`. Creating a composite index does not make the course-era rule go away. **Run invalid query** is this shape (`fetchCoursesSeqNoAndLessonsCount`). The error is *Invalid query*, not *requires an index*:
 
 ```text
 FirebaseError: Invalid query.
@@ -229,14 +231,22 @@ must be on the same field. But you have inequality filters on
 'seqNo' and 'lessonsCount'.
 ```
 
-Equality next to a range is a different story. `where seqNo <= 20` plus `where url == hiragana-from-zero` plus `orderBy seqNo` is not two ranges — `url` is a point lookup. Firestore still cannot answer it from the automatic `seqNo` index alone. It needs a **composite index** (`url` then `seqNo`). Without that index:
+**Range + equality — the index that is actually missing.** `where seqNo <= 20` plus `where url == hiragana-from-zero` plus `orderBy seqNo` is not two ranges — `url` is a point lookup. `url` has an index. `seqNo` has an index. What does **not** exist until you ask: a **composite** index, a third book already sorted as `url` then `seqNo`. Firestore does not auto-create every field pair (that would be one extra index per combination, paid on every write). **Run missing-index query** is this shape (`fetchCoursesSeqNoAndUrl`). Without that pair:
 
 ```text
 FirebaseError: The query requires an index.
 You can create it here: https://console.firebase.google.com/...
 ```
 
-That is the Angular “missing index” error. The lab runs the same shape against our slug and shows the message (including the Console URL) in the UI. `firestore.indexes.json` stays empty so the button keeps failing. Do **not** click-create the index.
+In the Angular course that is the error he clicks. The Console opens **Create a composite index** already filled (`courses`, `url` ASC, `seqNo` ASC). **CREATE**, wait until it is enabled, run the same query again — the code did not change; only the pair-index exists. Then he `console.log`s the parsed documents (that is Console, not Network REST JSON).
+
+This lab keeps the fail. `firestore.indexes.json` is empty (`"indexes": []`) so the button stays red. Do **not** click-create the index if you want **Run missing-index query** to keep demonstrating the URL.
+
+| Lab button | Query | Single-field indexes exist? | What is wrong |
+|---|---|---|---|
+| Run valid query | `seqNo <= 5`, `orderBy seqNo` | yes | nothing — one field, automatic index |
+| Run invalid query | `seqNo <= 5` **and** `lessonsCount <= 10` | yes | two ranges — rule, not a missing index |
+| Run missing-index query | `seqNo <= 20` **and** `url == hiragana-from-zero` | yes | **composite** `url` + `seqNo` was never created |
 
 **What changed for two inequalities.** Since 2024 Firestore *can* run range filters on multiple fields, but only with a composite index and with `orderBy` covering those fields. Without that index the backend returns `failed-precondition` (same `InvalidQueryFailure` as the missing-index case). The two-inequality button still sends the course query as-is.
 
@@ -303,7 +313,7 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules --project fir-in-depth-
 `test/` mirrors `lib/`. A test file belongs to one source file (`landing_screen.dart` → `landing_screen_test.dart`). No Flutter-template `widget_test.dart`.
 
 <!-- coverage-percent:start -->
-**64.4%** line coverage (344 of 534 lines).
+**64.2%** line coverage (343 of 534 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
