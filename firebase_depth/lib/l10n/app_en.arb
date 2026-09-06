@@ -1,0 +1,14 @@
+{
+  "@@locale": "en",
+  "title": "Firebase in Depth",
+  "items": "Items",
+  "itemDetail": "Item",
+  "retry": "Retry",
+  "two": "Two",
+  "three": "Three",
+  "missing": "Missing",
+  "back": "Back",
+  "errorOccurred": "Unfortunately, an error occurred.",
+  "errorNetwork": "Could not reach the server. Check your connection.",
+  "errorNotFound": "That item was not found."
+}

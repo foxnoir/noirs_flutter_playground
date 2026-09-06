@@ -3,7 +3,8 @@
   "dart.flutterSdkPaths": [
     "riverpod_basics/.fvm/flutter_sdk",
     "app_starters/riverpod_basic_starter/.fvm/flutter_sdk",
-    "advanced_concepts/.fvm/flutter_sdk"
+    "advanced_concepts/.fvm/flutter_sdk",
+    "firebase_depth/.fvm/flutter_sdk"
   ],
   "dart.projectSearchDepth": 5,
   "coverage-gutters.coverageFileNames": ["lcov.info"],

@@ -13,7 +13,7 @@
   <img src="assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Noir's Flutter Playground</h1>
   <p>
-     Practice projects for Flutter — Riverpod, navigation, layout, mixins, sealed classes, generics, lists, and architecture.
+     Practice projects for Flutter — Riverpod, navigation, layout, mixins, sealed classes, generics, lists, Firebase, and architecture.
   </p>
 </div>
 
@@ -33,6 +33,7 @@
 [![FVM](assets/badges/fvm.svg)](https://fvm.app)
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
+[![Firebase](assets/badges/firebase.svg)](https://firebase.google.com/)
 
 </div>
 
@@ -66,12 +67,12 @@
 
 This repository is a playground for practicing Flutter.
 
-Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **mixins**, **sealed classes**, **generics**, **lists**, and architecture — without mixing everything into one project.
+Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **mixins**, **sealed classes**, **generics**, **lists**, **Firebase**, and architecture — without mixing everything into one project.
 
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts and the Riverpod starter also run on **web**.
+Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**.
 
 Copyable starters live in [app_starters](app_starters/).
 
@@ -205,6 +206,15 @@ Practice project covering, among other things, **layout**, **mixins**, **sealed 
 
 [README »](advanced_concepts/README.md)
 
+<h3>
+  <a href="firebase_depth/">Firebase in Depth »</a>
+  <a href="firebase_depth/README.md#test-coverage"><img align="right" src="firebase_depth/assets/coverage/badge.svg" alt="Coverage"></a>
+</h3>
+
+A deep dive into **Firebase**, using **Flutter**. Firestore, emulator, Storage. Details live in that app’s [README](firebase_depth/README.md#about).
+
+[README »](firebase_depth/README.md)
+
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ---
@@ -331,6 +341,7 @@ One app:
 ./coverage_pipeline/update_coverage.sh riverpod_basics
 ./coverage_pipeline/update_coverage.sh app_starters/riverpod_basic_starter
 ./coverage_pipeline/update_coverage.sh advanced_concepts
+./coverage_pipeline/update_coverage.sh firebase_depth
 ```
 
 ### Cursor Source Control

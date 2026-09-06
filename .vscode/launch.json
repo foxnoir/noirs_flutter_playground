@@ -45,6 +45,29 @@
       "cwd": "${workspaceFolder}/advanced_concepts",
       "program": "lib/main.dart",
       "deviceId": "chrome"
+    },
+    {
+      "name": "Firebase in Depth",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}/firebase_depth",
+      "program": "lib/main.dart",
+      "templateFor": "firebase_depth",
+      "codeLens": {
+        "for": ["run-file", "debug-file"],
+        "path": "firebase_depth",
+        "title": "${debugType} Firebase in Depth"
+      },
+      "emulatorId": "apple_ios_simulator",
+      "preLaunchTask": "Boot iPhone 17 Pro Simulator"
+    },
+    {
+      "name": "Firebase in Depth (Chrome)",
+      "request": "launch",
+      "type": "dart",
+      "cwd": "${workspaceFolder}/firebase_depth",
+      "program": "lib/main.dart",
+      "deviceId": "chrome"
     }
   ]
 }
