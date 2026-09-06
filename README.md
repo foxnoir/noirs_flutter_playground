@@ -164,6 +164,7 @@ Packages currently used in the playground apps. Not every app uses every row. Up
 
 | Package | Reason |
 | --- | --- |
+| [firebase_core](https://pub.dev/packages/firebase_core) | Firebase app init. iOS options from FlutterFire (`DefaultFirebaseOptions`). |
 | [flutter_riverpod](https://pub.dev/packages/flutter_riverpod) | State and dependency injection. `ProviderScope`, `ref.watch` / `ref.read`. |
 | [riverpod_annotation](https://pub.dev/packages/riverpod_annotation) | `@riverpod` annotations for `riverpod_generator`. |
 | [freezed_annotation](https://pub.dev/packages/freezed_annotation) | Annotations for immutable Freezed models. |

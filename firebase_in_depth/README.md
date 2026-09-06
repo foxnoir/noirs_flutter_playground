@@ -31,6 +31,7 @@
 [![Flutter Localizations](../assets/badges/flutter_localizations.svg)](https://docs.flutter.dev/ui/internationalization)
 [![Intl](../assets/badges/intl.svg)](https://pub.dev/packages/intl)
 [![Firebase](../assets/badges/firebase.svg)](https://firebase.google.com/)
+[![Firestore](../assets/badges/firestore.svg)](https://firebase.google.com/docs/firestore)
 [![Very Good Analysis](../assets/badges/very_good.svg)](https://pub.dev/packages/very_good_analysis)
 [![FVM](../assets/badges/fvm.svg)](https://fvm.app)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
@@ -82,6 +83,7 @@ Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**.
 - Sealed `AppException` / `AppFailure` with l10n mapping
 - Material 3 seed theme
 - [Firebase](https://firebase.google.com/) (`firebase_core`, iOS app on `fir-in-depth-813e4`)
+- [FVM](https://fvm.app) pin
 - Coverage badge and card
 
 Coming: Firestore (CRUD, collection groups, performance), emulator, Storage / photo upload.
