@@ -6,12 +6,12 @@ import 'package:advanced_concepts/features/sealed_lab/domain/repositories/sealed
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final sealedLabRepositoryProvider = Provider<SealedLabRepository>((ref) {
-  return InMemorySealedLabRepository(ref.watch(sealedLabDataSourceProvider));
+  return SealedLabRepositoryImpl(ref.watch(sealedLabDataSourceProvider));
 });
 
 /// Maps models → entities and AppException → AppFailure.
-class InMemorySealedLabRepository implements SealedLabRepository {
-  const InMemorySealedLabRepository(this._dataSource);
+class SealedLabRepositoryImpl implements SealedLabRepository {
+  const SealedLabRepositoryImpl(this._dataSource);
 
   final SealedLabDataSource _dataSource;
 

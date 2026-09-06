@@ -87,9 +87,8 @@ class _ApiHttpLabScreenState extends ConsumerState<ApiHttpLabScreen> {
                                   .read(apiHttpLabProvider.notifier)
                                   .deleteBook(id);
                               if (dialogContext.mounted) {
-                                Navigator.of(
-                                  dialogContext,
-                                ).pop((deleted: true, error: null));
+                                Navigator.of(dialogContext)
+                                    .pop((deleted: true, error: null));
                               }
                             } catch (error) {
                               if (!dialogContext.mounted) return;
@@ -100,9 +99,8 @@ class _ApiHttpLabScreenState extends ConsumerState<ApiHttpLabScreen> {
                               )) {
                                 return;
                               }
-                              Navigator.of(
-                                dialogContext,
-                              ).pop((deleted: false, error: error));
+                              Navigator.of(dialogContext)
+                                  .pop((deleted: false, error: error));
                             }
                           },
                     child: loading

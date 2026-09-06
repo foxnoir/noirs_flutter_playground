@@ -158,7 +158,7 @@ void main() {
     await tester.pumpAndSettle();
 
     String quoteOn(Key key) {
-      return InMemoryQuoteDataSource.quotes
+      return QuoteDataSourceImpl.quotes
           .map((quote) => quote.text)
           .firstWhere(
             (text) => find

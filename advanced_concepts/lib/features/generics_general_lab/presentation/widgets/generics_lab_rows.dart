@@ -9,10 +9,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract final class GenericsLabIcons {
-  static const userSelected = 'assets/user_avatars/2.png';
-  static const userIdle = 'assets/user_avatars/5.png';
-  static const bookSelected = 'assets/img/icons/books/book_purple.png';
-  static const bookIdle = 'assets/img/icons/books/book_black.png';
+  static const userSelected = 'assets/icons/user_avatars/2.png';
+  static const userIdle = 'assets/icons/user_avatars/5.png';
+  static const bookSelected = 'assets/icons/books/book_purple.png';
+  static const bookIdle = 'assets/icons/books/book_black.png';
 }
 
 class GenericsLabRows extends ConsumerWidget {

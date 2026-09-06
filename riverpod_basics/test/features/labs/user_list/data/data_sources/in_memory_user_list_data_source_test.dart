@@ -3,7 +3,7 @@ import 'package:riverpod_basics/features/labs/user_list/data/data_sources/in_mem
 
 void main() {
   test('fetchUsers returns JSON models, not entities', () async {
-    const source = InMemoryUserListDataSource(delay: Duration.zero);
+    const source = UserListDataSourceImpl(delay: Duration.zero);
 
     final models = await source.fetchUsers();
 

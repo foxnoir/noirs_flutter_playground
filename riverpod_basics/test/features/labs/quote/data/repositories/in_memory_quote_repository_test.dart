@@ -8,7 +8,7 @@ import '../../fake_quote_data_source.dart';
 
 void main() {
   test('maps a model to a Quote entity', () async {
-    final repository = InMemoryQuoteRepository(
+    final repository = QuoteRepositoryImpl(
       FakeQuoteDataSource(
         model: const QuoteModel(text: 'Hello', author: 'Ada'),
       ),
@@ -21,7 +21,7 @@ void main() {
   });
 
   test('maps NetworkException to NetworkFailure', () async {
-    final repository = InMemoryQuoteRepository(
+    final repository = QuoteRepositoryImpl(
       FakeQuoteDataSource(error: const NetworkException()),
     );
 

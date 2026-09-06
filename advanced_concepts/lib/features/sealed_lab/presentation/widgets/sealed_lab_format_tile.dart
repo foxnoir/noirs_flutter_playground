@@ -4,8 +4,8 @@ import 'package:advanced_concepts/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 abstract final class SealedLabBookIcons {
-  static const selected = 'assets/img/icons/books/book_purple.png';
-  static const idle = 'assets/img/icons/books/book_black.png';
+  static const selected = 'assets/icons/books/book_purple.png';
+  static const idle = 'assets/icons/books/book_black.png';
 }
 
 class SealedLabFormatTile extends StatelessWidget {

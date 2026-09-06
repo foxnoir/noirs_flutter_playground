@@ -6,12 +6,12 @@ import 'package:advanced_concepts/features/user_list/domain/repositories/user_li
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userListRepositoryProvider = Provider<UserListRepository>((ref) {
-  return InMemoryUserListRepository(ref.watch(userListDataSourceProvider));
+  return UserListRepositoryImpl(ref.watch(userListDataSourceProvider));
 });
 
 /// Maps models → entities and AppException → AppFailure.
-class InMemoryUserListRepository implements UserListRepository {
-  const InMemoryUserListRepository(this._dataSource);
+class UserListRepositoryImpl implements UserListRepository {
+  const UserListRepositoryImpl(this._dataSource);
 
   final UserListDataSource _dataSource;
 

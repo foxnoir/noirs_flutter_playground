@@ -4,7 +4,7 @@ import 'package:riverpod_basics/features/labs/tick/data/data_sources/in_memory_t
 
 void main() {
   test('emits incrementing ticks', () async {
-    final source = InMemoryTickDataSource(
+    final source = TickDataSourceImpl(
       interval: const Duration(milliseconds: 1),
     );
 
@@ -14,7 +14,7 @@ void main() {
   });
 
   test('failCall throws NetworkException on the next tick', () async {
-    final source = InMemoryTickDataSource(
+    final source = TickDataSourceImpl(
       interval: const Duration(milliseconds: 1),
     );
     final events = <Object>[];
@@ -33,7 +33,7 @@ void main() {
 
   test('interval must be greater than zero', () {
     expect(
-      () => InMemoryTickDataSource(interval: Duration.zero),
+      () => TickDataSourceImpl(interval: Duration.zero),
       throwsArgumentError,
     );
   });

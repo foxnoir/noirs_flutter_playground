@@ -14,6 +14,14 @@ void main() {
     );
     expect(const NotFoundFailure().message(l10n), 'That item was not found.');
     expect(
+      const InvalidQueryFailure().message(l10n),
+      'This query is not valid for Firestore.',
+    );
+    expect(
+      const InvalidQueryFailure(detail: 'two inequalities').message(l10n),
+      'two inequalities',
+    );
+    expect(
       const UnknownFailure().message(l10n),
       'Unfortunately, an error occurred.',
     );

@@ -42,12 +42,12 @@ final apiClientProvider = Provider<ApiClient>((ref) {
 });
 
 final apiHttpLabDataSourceProvider = Provider<ApiHttpLabDataSource>((ref) {
-  return HttpApiHttpLabDataSource(ref.watch(apiClientProvider));
+  return ApiHttpLabDataSourceImpl(ref.watch(apiClientProvider));
 });
 
 /// Talks only to [ApiClient] (`package:http`). Throws AppException, never AppFailure.
-class HttpApiHttpLabDataSource implements ApiHttpLabDataSource {
-  const HttpApiHttpLabDataSource(this._client);
+class ApiHttpLabDataSourceImpl implements ApiHttpLabDataSource {
+  const ApiHttpLabDataSourceImpl(this._client);
 
   final ApiClient _client;
 

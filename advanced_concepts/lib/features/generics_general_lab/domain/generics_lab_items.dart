@@ -7,7 +7,7 @@ const genericsLabAda = User(
   nickname: 'Ada',
   email: 'ada@example.com',
   age: 36,
-  imageUrl: 'assets/user_avatars/1.png',
+  imageUrl: 'assets/icons/user_avatars/1.png',
 );
 
 /// Same Fourth Wing as Example HTTP.

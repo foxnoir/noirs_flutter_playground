@@ -14,7 +14,7 @@ class PageNotFoundScreen extends StatelessWidget {
       appBar: AppBar(title: Text(l10n.missing)),
       body: Center(
         child: FilledButton(
-          onPressed: () => context.goNamed(AppRouteNames.home),
+          onPressed: () => context.goNamed(AppRouteNames.landing),
           child: Text(l10n.back),
         ),
       ),

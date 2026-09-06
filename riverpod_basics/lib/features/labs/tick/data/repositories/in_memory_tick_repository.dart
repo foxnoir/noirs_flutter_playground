@@ -6,12 +6,12 @@ import 'package:riverpod_basics/features/labs/tick/domain/entities/tick.dart';
 import 'package:riverpod_basics/features/labs/tick/domain/repositories/tick_repository.dart';
 
 final tickRepositoryProvider = Provider<TickRepository>((ref) {
-  return InMemoryTickRepository(ref.watch(tickDataSourceProvider));
+  return TickRepositoryImpl(ref.watch(tickDataSourceProvider));
 });
 
 /// Maps models → entities and AppException → AppFailure.
-class InMemoryTickRepository implements TickRepository {
-  const InMemoryTickRepository(this._dataSource);
+class TickRepositoryImpl implements TickRepository {
+  const TickRepositoryImpl(this._dataSource);
 
   final TickDataSource _dataSource;
 

@@ -11,9 +11,9 @@ String apiHttpLabStatusLabel(AppLocalizations l10n, BookStatus status) {
 }
 
 abstract final class ApiHttpLabIcons {
-  static const book = 'assets/img/icons/books/book_turquise.png';
-  static const edit = 'assets/img/icons/edit.png';
-  static const delete = 'assets/img/icons/delete.png';
+  static const book = 'assets/icons/books/book_turquise.png';
+  static const edit = 'assets/icons/edit.png';
+  static const delete = 'assets/icons/delete.png';
 }
 
 class ApiHttpLabAssetIcon extends StatelessWidget {

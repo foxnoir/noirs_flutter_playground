@@ -16,10 +16,8 @@ final tickIntervalProvider = Provider<Duration>((ref) {
   return const Duration(milliseconds: 800);
 });
 
-final tickDataSourceProvider = Provider<InMemoryTickDataSource>((ref) {
-  final source = InMemoryTickDataSource(
-    interval: ref.watch(tickIntervalProvider),
-  );
+final tickDataSourceProvider = Provider<TickDataSource>((ref) {
+  final source = TickDataSourceImpl(interval: ref.watch(tickIntervalProvider));
   ref.onDispose(source.dispose);
   return source;
 });
@@ -28,8 +26,8 @@ final tickDataSourceProvider = Provider<InMemoryTickDataSource>((ref) {
 /// [Timer.periodic] lives on this instance so [dispose] / stream cancel
 /// can stop it. autoDispose on the StreamProvider is not enough by itself
 /// if the repository wraps the stream in `async*`.
-class InMemoryTickDataSource implements TickDataSource {
-  InMemoryTickDataSource({required Duration interval}) : _interval = interval {
+class TickDataSourceImpl implements TickDataSource {
+  TickDataSourceImpl({required Duration interval}) : _interval = interval {
     if (interval <= Duration.zero) {
       throw ArgumentError.value(
         interval,

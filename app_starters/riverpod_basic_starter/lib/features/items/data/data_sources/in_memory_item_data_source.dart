@@ -9,14 +9,12 @@ abstract interface class ItemDataSource {
 }
 
 final itemDataSourceProvider = Provider<ItemDataSource>((ref) {
-  return const InMemoryItemDataSource();
+  return const ItemDataSourceImpl();
 });
 
 /// Fake GET. Throws AppException, never AppFailure.
-class InMemoryItemDataSource implements ItemDataSource {
-  const InMemoryItemDataSource({
-    this.delay = const Duration(milliseconds: 300),
-  });
+class ItemDataSourceImpl implements ItemDataSource {
+  const ItemDataSourceImpl({this.delay = const Duration(milliseconds: 300)});
 
   final Duration delay;
 

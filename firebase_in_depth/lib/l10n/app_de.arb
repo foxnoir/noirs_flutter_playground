@@ -1,14 +1,37 @@
 {
   "@@locale": "de",
   "title": "Firebase in Depth",
-  "items": "Einträge",
-  "itemDetail": "Eintrag",
   "retry": "Erneut versuchen",
-  "two": "Zwei",
-  "three": "Drei",
+  "fundamentals": "Firebase-Grundlagen",
   "missing": "Fehlt",
   "back": "Zurück",
   "errorOccurred": "Es ist leider ein Fehler aufgetreten.",
   "errorNetwork": "Der Server ist nicht erreichbar. Prüfe die Verbindung.",
-  "errorNotFound": "Dieser Eintrag wurde nicht gefunden."
+  "errorNotFound": "Dieser Eintrag wurde nicht gefunden.",
+  "errorInvalidQuery": "Diese Abfrage ist für Firestore nicht gültig.",
+  "fundamentalsDevtoolsHint": "Starte dieses Lab in Chrome. Öffne die DevTools (Ansicht → Entwickler → Entwicklertools, oder Cmd+Option+I) → Network → Filter firestore. Jeder Button unten ist ein echter Firestore-Read. Schau dir Request und Response dort an. Die Firebase Console ist zum Lesen der Felder; DevTools zeigt, dass ein Call passiert ist.",
+  "fundamentalsReadTitle": "Dokument und Collection lesen",
+  "fundamentalsReadHint": "Ein Dokument ist ein Kurs (hiragana-from-zero). Eine Collection sind alle Kurse, sortiert nach seqNo.",
+  "fundamentalsReadDocument": "Dokument lesen",
+  "fundamentalsReadCollection": "Collection lesen",
+  "fundamentalsIdle": "Noch nicht ausgeführt. Erst DevTools öffnen, dann einen Button tippen.",
+  "fundamentalsEmpty": "Keine Dokumente gefunden.",
+  "fundamentalsCourseMeta": "seqNo {seqNo} · {lessonsCount} Lektionen",
+  "@fundamentalsCourseMeta": {
+    "placeholders": {
+      "seqNo": {"type": "int"},
+      "lessonsCount": {"type": "int"}
+    }
+  },
+  "fundamentalsQueryTitle": "Performance-Garantien und Indexes",
+  "fundamentalsQueryHint": "Firestore antwortet aus Indexes, nicht durch Scannen der Collection. Das ist die Performance-Garantie: die Query-Kosten bleiben vorhersagbar, wenn die Daten wachsen. Ein Range-Filter plus orderBy auf demselben Feld nutzt den automatischen Single-Field-Index. Zwei Range-Filter auf verschiedenen Feldern können das nicht. Gleichheit auf einem Feld plus Range auf einem anderen braucht einen Composite Index — Firestore antwortet mit einer Console-URL. Dieses Lab legt den Index nicht an.",
+  "fundamentalsQueryValidTitle": "where seqNo <= 5, orderBy seqNo",
+  "fundamentalsQueryValidHint": "Inequality und orderBy auf demselben Feld. Firestore läuft einen Index ab. Das ist die Query, die funktioniert.",
+  "fundamentalsQueryInvalidTitle": "where seqNo <= 5 and lessonsCount <= 10",
+  "fundamentalsQueryInvalidHint": "Zwei Inequalities auf verschiedenen Feldern. Das Angular-Beispiel scheiterte mit: alle Inequality-Filter müssen auf demselben Feld liegen. Ausführen und den FirebaseError hier und in den DevTools lesen.",
+  "fundamentalsQueryIndexTitle": "where seqNo <= 20 and url == hiragana-from-zero",
+  "fundamentalsQueryIndexHint": "Range auf seqNo plus Gleichheit auf url. Dafür gibt es keinen Composite Index. Der Fehler enthält eine Console-URL zum Anlegen — nicht klicken, wenn der Button weiter scheitern soll.",
+  "fundamentalsRunValidQuery": "Gültige Query ausführen",
+  "fundamentalsRunInvalidQuery": "Ungültige Query ausführen",
+  "fundamentalsRunIndexQuery": "Missing-Index-Query ausführen"
 }

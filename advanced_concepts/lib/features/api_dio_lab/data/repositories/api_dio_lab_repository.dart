@@ -7,12 +7,12 @@ import 'package:advanced_concepts/features/api_dio_lab/domain/repositories/api_d
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final apiDioLabRepositoryProvider = Provider<ApiDioLabRepository>((ref) {
-  return DioApiDioLabRepository(ref.watch(apiDioLabDataSourceProvider));
+  return ApiDioLabRepositoryImpl(ref.watch(apiDioLabDataSourceProvider));
 });
 
 /// Maps models → entities and AppException → AppFailure.
-class DioApiDioLabRepository implements ApiDioLabRepository {
-  const DioApiDioLabRepository(this._dataSource);
+class ApiDioLabRepositoryImpl implements ApiDioLabRepository {
+  const ApiDioLabRepositoryImpl(this._dataSource);
 
   final ApiDioLabDataSource _dataSource;
 

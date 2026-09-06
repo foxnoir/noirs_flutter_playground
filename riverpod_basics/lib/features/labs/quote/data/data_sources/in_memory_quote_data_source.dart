@@ -10,13 +10,13 @@ abstract interface class QuoteDataSource {
   void failCall();
 }
 
-final quoteDataSourceProvider = Provider<InMemoryQuoteDataSource>((ref) {
-  return InMemoryQuoteDataSource();
+final quoteDataSourceProvider = Provider<QuoteDataSource>((ref) {
+  return QuoteDataSourceImpl();
 });
 
 /// Fake GET /quote. Throws AppException, never AppFailure.
-class InMemoryQuoteDataSource implements QuoteDataSource {
-  InMemoryQuoteDataSource({Random? random}) : _random = random ?? Random();
+class QuoteDataSourceImpl implements QuoteDataSource {
+  QuoteDataSourceImpl({Random? random}) : _random = random ?? Random();
 
   final Random _random;
   var _failCall = false;

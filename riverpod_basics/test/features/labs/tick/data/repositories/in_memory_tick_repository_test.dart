@@ -10,7 +10,7 @@ void main() {
   final emittedAt = DateTime(2026, 1, 1, 12);
 
   test('maps models to Tick entities', () async {
-    final repository = InMemoryTickRepository(
+    final repository = TickRepositoryImpl(
       FakeTickDataSource(models: [TickModel(n: 1, emittedAt: emittedAt)]),
     );
 
@@ -22,7 +22,7 @@ void main() {
   });
 
   test('maps NetworkException to NetworkFailure', () async {
-    final repository = InMemoryTickRepository(
+    final repository = TickRepositoryImpl(
       FakeTickDataSource(error: const NetworkException()),
     );
 

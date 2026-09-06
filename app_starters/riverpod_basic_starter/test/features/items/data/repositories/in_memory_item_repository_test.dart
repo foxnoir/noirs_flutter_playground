@@ -12,8 +12,8 @@ void main() {
   const alpha = Item(id: 1, title: 'Alpha', subtitle: 'First sample item');
 
   test('fetchItems maps models to entities', () async {
-    const repository = InMemoryItemRepository(
-      InMemoryItemDataSource(delay: Duration.zero),
+    const repository = ItemRepositoryImpl(
+      ItemDataSourceImpl(delay: Duration.zero),
     );
 
     final items = await repository.fetchItems();
@@ -23,7 +23,7 @@ void main() {
   });
 
   test('fetchItems maps a data-source exception to AppFailure', () async {
-    const repository = InMemoryItemRepository(
+    const repository = ItemRepositoryImpl(
       FakeItemDataSource(error: NetworkException()),
     );
 
@@ -31,7 +31,7 @@ void main() {
   });
 
   test('fetchItem maps NotFoundException to NotFoundFailure', () async {
-    const repository = InMemoryItemRepository(
+    const repository = ItemRepositoryImpl(
       FakeItemDataSource(
         models: [
           ItemModel(id: 1, title: 'Alpha', subtitle: 'First sample item'),

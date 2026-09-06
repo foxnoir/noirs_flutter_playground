@@ -6,12 +6,12 @@ import 'package:riverpod_basic_starter/features/items/domain/entities/item.dart'
 import 'package:riverpod_basic_starter/features/items/domain/repositories/item_repository.dart';
 
 final itemRepositoryProvider = Provider<ItemRepository>((ref) {
-  return InMemoryItemRepository(ref.watch(itemDataSourceProvider));
+  return ItemRepositoryImpl(ref.watch(itemDataSourceProvider));
 });
 
 /// Maps models → entities and AppException → AppFailure.
-class InMemoryItemRepository implements ItemRepository {
-  const InMemoryItemRepository(this._dataSource);
+class ItemRepositoryImpl implements ItemRepository {
+  const ItemRepositoryImpl(this._dataSource);
 
   final ItemDataSource _dataSource;
 

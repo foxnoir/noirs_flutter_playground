@@ -1,7 +1,9 @@
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
+import 'package:meta/meta.dart';
 
 /// Thrown by repositories after mapping. What state and AsyncError hold.
 /// No user-facing strings.
+@immutable
 sealed class AppFailure implements Exception {
   const AppFailure();
 
@@ -10,6 +12,9 @@ sealed class AppFailure implements Exception {
     return switch (exception) {
       NetworkException() => const NetworkFailure(),
       NotFoundException() => const NotFoundFailure(),
+      InvalidQueryException(:final detail) => InvalidQueryFailure(
+        detail: detail,
+      ),
     };
   }
 
@@ -30,6 +35,20 @@ final class NetworkFailure extends AppFailure {
 
 final class NotFoundFailure extends AppFailure {
   const NotFoundFailure();
+}
+
+final class InvalidQueryFailure extends AppFailure {
+  const InvalidQueryFailure({this.detail});
+
+  final String? detail;
+
+  @override
+  bool operator ==(Object other) {
+    return other is InvalidQueryFailure && other.detail == detail;
+  }
+
+  @override
+  int get hashCode => detail.hashCode;
 }
 
 final class UnknownFailure extends AppFailure {

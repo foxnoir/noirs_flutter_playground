@@ -4,7 +4,7 @@ import 'package:riverpod_basic_starter/features/items/data/data_sources/in_memor
 
 void main() {
   test('fetchItems returns JSON models', () async {
-    const source = InMemoryItemDataSource(delay: Duration.zero);
+    const source = ItemDataSourceImpl(delay: Duration.zero);
 
     final models = await source.fetchItems();
 
@@ -13,7 +13,7 @@ void main() {
   });
 
   test('fetchItem throws NotFoundException for a missing id', () async {
-    const source = InMemoryItemDataSource(delay: Duration.zero);
+    const source = ItemDataSourceImpl(delay: Duration.zero);
 
     await expectLater(source.fetchItem(99), throwsA(isA<NotFoundException>()));
   });

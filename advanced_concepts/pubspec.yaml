@@ -30,7 +30,7 @@ flutter:
   generate: true
   uses-material-design: true
   assets:
-    - assets/user_avatars/
     - assets/img/
-    - assets/img/icons/
-    - assets/img/icons/books/
+    - assets/icons/
+    - assets/icons/books/
+    - assets/icons/user_avatars/

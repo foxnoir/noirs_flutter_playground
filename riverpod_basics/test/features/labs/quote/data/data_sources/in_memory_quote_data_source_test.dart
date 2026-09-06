@@ -7,13 +7,13 @@ import 'package:riverpod_basics/features/labs/quote/data/models/quote_model.dart
 
 void main() {
   bool isKnown(QuoteModel model) {
-    return InMemoryQuoteDataSource.quotes.any(
+    return QuoteDataSourceImpl.quotes.any(
       (quote) => quote.text == model.text && quote.author == model.author,
     );
   }
 
   test('returns a quote from the list', () async {
-    final source = InMemoryQuoteDataSource(random: Random(42));
+    final source = QuoteDataSourceImpl(random: Random(42));
 
     final model = await source.fetchQuote();
 
@@ -21,7 +21,7 @@ void main() {
   });
 
   test('a second GET is a different quote', () async {
-    final source = InMemoryQuoteDataSource(random: Random(42));
+    final source = QuoteDataSourceImpl(random: Random(42));
 
     final first = await source.fetchQuote();
     final second = await source.fetchQuote();
@@ -31,7 +31,7 @@ void main() {
   });
 
   test('failCall throws NetworkException once', () async {
-    final source = InMemoryQuoteDataSource(random: Random(42))..failCall();
+    final source = QuoteDataSourceImpl(random: Random(42))..failCall();
 
     await expectLater(source.fetchQuote(), throwsA(isA<NetworkException>()));
 

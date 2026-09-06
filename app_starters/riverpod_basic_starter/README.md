@@ -112,6 +112,8 @@ This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor 
 
 ### Test coverage
 
+`test/` mirrors `lib/`. A test file belongs to one source file (`home_screen.dart` → `home_screen_test.dart`). No Flutter-template `widget_test.dart`.
+
 <!-- coverage-percent:start -->
 **81.2%** line coverage (208 of 256 lines).
 <!-- coverage-percent:end -->
@@ -144,7 +146,7 @@ Thrown objects and UI copy are different types. No extra package: Dart 3 **`seal
 
 Files: `lib/core/errors/`. Copy lives in ARB (`errorNetwork`, `errorNotFound`, `errorOccurred`). **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`) is the shared error screen (icon + message + optional retry). Import material with `hide ErrorWidget`.
 
-**Items** and **Item Details** are the working example: `InMemoryItemDataSource` throws `AppException`; `InMemoryItemRepository` maps to `AppFailure`; the list and details notifiers store `AsyncError`; the UI calls `localizedError`.
+**Items** and **Item Details** are the working example: `ItemDataSourceImpl` throws `AppException`; `ItemRepositoryImpl` maps to `AppFailure`; the list and details notifiers store `AsyncError`; the UI calls `localizedError`.
 
 Form validation is not a fetch failure. Keep those as field/form strings.
 
@@ -154,7 +156,7 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 ## Items and Item Details
 
-**Items** is the list. **Item Details** is its own feature — same idea as User Details in Advanced Concepts. Data stays in Items (`InMemoryItemDataSource` → `InMemoryItemRepository`). Details watches `itemDetailsProvider` and reads that repository. Screens are `ItemsScreen` / `ItemDetailsScreen`. Feature-local UI lives in `presentation/widgets/` (`ItemsRow`, `ItemDetailsMetadata`, `ItemDetailsData`).
+**Items** is the list. **Item Details** is its own feature — same idea as User Details in Advanced Concepts. Data stays in Items (`ItemDataSourceImpl` → `ItemRepositoryImpl`). Details watches `itemDetailsProvider` and reads that repository. Screens are `ItemsScreen` / `ItemDetailsScreen`. Feature-local UI lives in `presentation/widgets/` (`ItemsRow`, `ItemDetailsMetadata`, `ItemDetailsData`).
 
 Layers match the playground [folder structure](../../README.md#app-architecture-and-folder-structure).
 

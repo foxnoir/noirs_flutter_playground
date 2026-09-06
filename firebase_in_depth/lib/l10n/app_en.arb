@@ -1,14 +1,37 @@
 {
   "@@locale": "en",
   "title": "Firebase in Depth",
-  "items": "Items",
-  "itemDetail": "Item",
   "retry": "Retry",
-  "two": "Two",
-  "three": "Three",
+  "fundamentals": "Firebase Fundamentals",
   "missing": "Missing",
   "back": "Back",
   "errorOccurred": "Unfortunately, an error occurred.",
   "errorNetwork": "Could not reach the server. Check your connection.",
-  "errorNotFound": "That item was not found."
+  "errorNotFound": "That item was not found.",
+  "errorInvalidQuery": "This query is not valid for Firestore.",
+  "fundamentalsDevtoolsHint": "Start this lab in Chrome. Open DevTools (View → Developer → Developer Tools, or Cmd+Option+I) → Network → filter firestore. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.",
+  "fundamentalsReadTitle": "Read a document and a collection",
+  "fundamentalsReadHint": "A document is one course (hiragana-from-zero). A collection is every course, ordered by seqNo.",
+  "fundamentalsReadDocument": "Read document",
+  "fundamentalsReadCollection": "Read collection",
+  "fundamentalsIdle": "Not run yet. Open DevTools first, then tap a button.",
+  "fundamentalsEmpty": "No documents matched.",
+  "fundamentalsCourseMeta": "seqNo {seqNo} · {lessonsCount} lessons",
+  "@fundamentalsCourseMeta": {
+    "placeholders": {
+      "seqNo": {"type": "int"},
+      "lessonsCount": {"type": "int"}
+    }
+  },
+  "fundamentalsQueryTitle": "Performance guarantees and indexes",
+  "fundamentalsQueryHint": "Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index — Firestore answers with a Console URL. This lab does not create that index.",
+  "fundamentalsQueryValidTitle": "where seqNo <= 5, orderBy seqNo",
+  "fundamentalsQueryValidHint": "Inequality and orderBy on the same field. Firestore walks one index. This is the query that works.",
+  "fundamentalsQueryInvalidTitle": "where seqNo <= 5 and lessonsCount <= 10",
+  "fundamentalsQueryInvalidHint": "Two inequalities on different fields. The Angular sample failed with: all inequality filters must be on the same field. Run it and read the FirebaseError here and in DevTools.",
+  "fundamentalsQueryIndexTitle": "where seqNo <= 20 and url == hiragana-from-zero",
+  "fundamentalsQueryIndexHint": "Range on seqNo plus equality on url. Firestore has no composite index for that pair. The error includes a Console URL to create one — do not click it if you want this button to keep failing.",
+  "fundamentalsRunValidQuery": "Run valid query",
+  "fundamentalsRunInvalidQuery": "Run invalid query",
+  "fundamentalsRunIndexQuery": "Run missing-index query"
 }

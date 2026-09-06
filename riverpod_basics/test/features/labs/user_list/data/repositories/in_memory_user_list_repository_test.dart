@@ -9,8 +9,8 @@ import '../../fake_user_list_data_source.dart';
 
 void main() {
   test('fetchUsers maps JSON models to domain users', () async {
-    const repository = InMemoryUserListRepository(
-      InMemoryUserListDataSource(delay: Duration.zero),
+    const repository = UserListRepositoryImpl(
+      UserListDataSourceImpl(delay: Duration.zero),
     );
 
     final users = await repository.fetchUsers();
@@ -27,7 +27,7 @@ void main() {
   });
 
   test('fetchUsers maps a data-source exception to AppFailure', () async {
-    const repository = InMemoryUserListRepository(
+    const repository = UserListRepositoryImpl(
       FakeUserListDataSource(error: NetworkException()),
     );
 

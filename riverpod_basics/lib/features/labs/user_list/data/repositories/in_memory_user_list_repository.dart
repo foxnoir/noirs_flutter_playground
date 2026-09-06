@@ -7,13 +7,13 @@ import 'package:riverpod_basics/features/labs/user_list/domain/entities/user.dar
 import 'package:riverpod_basics/features/labs/user_list/domain/repositories/user_list_repository.dart';
 
 final userListRepositoryProvider = Provider<UserListRepository>((ref) {
-  return InMemoryUserListRepository(ref.watch(userListDataSourceProvider));
+  return UserListRepositoryImpl(ref.watch(userListDataSourceProvider));
 });
 
 /// Maps models → entities and AppException → AppFailure.
 /// Throwing AppFailure stands in for dartz `Left` — no extra package.
-class InMemoryUserListRepository implements UserListRepository {
-  const InMemoryUserListRepository(this._dataSource);
+class UserListRepositoryImpl implements UserListRepository {
+  const UserListRepositoryImpl(this._dataSource);
 
   final UserListDataSource _dataSource;
 

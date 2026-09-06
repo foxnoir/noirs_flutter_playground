@@ -23,8 +23,8 @@ class _ThrowingUserListDataSource implements UserListDataSource {
 
 void main() {
   test('maps models to entities', () async {
-    const repository = InMemoryUserListRepository(
-      InMemoryUserListDataSource(delay: Duration.zero),
+    const repository = UserListRepositoryImpl(
+      UserListDataSourceImpl(delay: Duration.zero),
     );
 
     final users = await repository.fetchUsers();
@@ -34,7 +34,7 @@ void main() {
   });
 
   test('maps NotFoundException to NotFoundFailure', () async {
-    const repository = InMemoryUserListRepository(
+    const repository = UserListRepositoryImpl(
       _ThrowingUserListDataSource(NotFoundException()),
     );
 

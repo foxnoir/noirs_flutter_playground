@@ -4,7 +4,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 void main() {
   test('fetchFormats returns three Fourth Wing models', () async {
-    const source = InMemorySealedLabDataSource();
+    const source = SealedLabDataSourceImpl();
 
     final models = await source.fetchFormats();
 

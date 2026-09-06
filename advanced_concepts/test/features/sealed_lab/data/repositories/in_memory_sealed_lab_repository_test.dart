@@ -19,9 +19,7 @@ class _ThrowingSealedLabDataSource implements SealedLabDataSource {
 
 void main() {
   test('maps models to entities', () async {
-    const repository = InMemorySealedLabRepository(
-      InMemorySealedLabDataSource(),
-    );
+    const repository = SealedLabRepositoryImpl(SealedLabDataSourceImpl());
 
     final formats = await repository.fetchFormats();
 
@@ -31,7 +29,7 @@ void main() {
   });
 
   test('maps NetworkException to NetworkFailure', () async {
-    const repository = InMemorySealedLabRepository(
+    const repository = SealedLabRepositoryImpl(
       _ThrowingSealedLabDataSource(NetworkException()),
     );
 

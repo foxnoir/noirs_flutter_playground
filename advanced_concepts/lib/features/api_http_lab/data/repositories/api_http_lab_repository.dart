@@ -7,12 +7,12 @@ import 'package:advanced_concepts/features/api_http_lab/domain/repositories/api_
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final apiHttpLabRepositoryProvider = Provider<ApiHttpLabRepository>((ref) {
-  return HttpApiHttpLabRepository(ref.watch(apiHttpLabDataSourceProvider));
+  return ApiHttpLabRepositoryImpl(ref.watch(apiHttpLabDataSourceProvider));
 });
 
 /// Maps models → entities and AppException → AppFailure.
-class HttpApiHttpLabRepository implements ApiHttpLabRepository {
-  const HttpApiHttpLabRepository(this._dataSource);
+class ApiHttpLabRepositoryImpl implements ApiHttpLabRepository {
+  const ApiHttpLabRepositoryImpl(this._dataSource);
 
   final ApiHttpLabDataSource _dataSource;
 

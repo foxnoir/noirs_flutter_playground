@@ -6,12 +6,12 @@ import 'package:riverpod_basics/features/labs/quote/domain/entities/quote.dart';
 import 'package:riverpod_basics/features/labs/quote/domain/repositories/quote_repository.dart';
 
 final quoteRepositoryProvider = Provider<QuoteRepository>((ref) {
-  return InMemoryQuoteRepository(ref.watch(quoteDataSourceProvider));
+  return QuoteRepositoryImpl(ref.watch(quoteDataSourceProvider));
 });
 
 /// Maps models → entities and AppException → AppFailure.
-class InMemoryQuoteRepository implements QuoteRepository {
-  const InMemoryQuoteRepository(this._dataSource);
+class QuoteRepositoryImpl implements QuoteRepository {
+  const QuoteRepositoryImpl(this._dataSource);
 
   final QuoteDataSource _dataSource;
 

@@ -104,35 +104,17 @@ abstract class AppLocalizations {
   /// **'Firebase in Depth'**
   String get title;
 
-  /// No description provided for @items.
-  ///
-  /// In en, this message translates to:
-  /// **'Items'**
-  String get items;
-
-  /// No description provided for @itemDetail.
-  ///
-  /// In en, this message translates to:
-  /// **'Item'**
-  String get itemDetail;
-
   /// No description provided for @retry.
   ///
   /// In en, this message translates to:
   /// **'Retry'**
   String get retry;
 
-  /// No description provided for @two.
+  /// No description provided for @fundamentals.
   ///
   /// In en, this message translates to:
-  /// **'Two'**
-  String get two;
-
-  /// No description provided for @three.
-  ///
-  /// In en, this message translates to:
-  /// **'Three'**
-  String get three;
+  /// **'Firebase Fundamentals'**
+  String get fundamentals;
 
   /// No description provided for @missing.
   ///
@@ -163,6 +145,126 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'That item was not found.'**
   String get errorNotFound;
+
+  /// No description provided for @errorInvalidQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'This query is not valid for Firestore.'**
+  String get errorInvalidQuery;
+
+  /// No description provided for @fundamentalsDevtoolsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Start this lab in Chrome. Open DevTools (View → Developer → Developer Tools, or Cmd+Option+I) → Network → filter firestore. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.'**
+  String get fundamentalsDevtoolsHint;
+
+  /// No description provided for @fundamentalsReadTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Read a document and a collection'**
+  String get fundamentalsReadTitle;
+
+  /// No description provided for @fundamentalsReadHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A document is one course (hiragana-from-zero). A collection is every course, ordered by seqNo.'**
+  String get fundamentalsReadHint;
+
+  /// No description provided for @fundamentalsReadDocument.
+  ///
+  /// In en, this message translates to:
+  /// **'Read document'**
+  String get fundamentalsReadDocument;
+
+  /// No description provided for @fundamentalsReadCollection.
+  ///
+  /// In en, this message translates to:
+  /// **'Read collection'**
+  String get fundamentalsReadCollection;
+
+  /// No description provided for @fundamentalsIdle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not run yet. Open DevTools first, then tap a button.'**
+  String get fundamentalsIdle;
+
+  /// No description provided for @fundamentalsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No documents matched.'**
+  String get fundamentalsEmpty;
+
+  /// No description provided for @fundamentalsCourseMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'seqNo {seqNo} · {lessonsCount} lessons'**
+  String fundamentalsCourseMeta(int seqNo, int lessonsCount);
+
+  /// No description provided for @fundamentalsQueryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Performance guarantees and indexes'**
+  String get fundamentalsQueryTitle;
+
+  /// No description provided for @fundamentalsQueryHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index — Firestore answers with a Console URL. This lab does not create that index.'**
+  String get fundamentalsQueryHint;
+
+  /// No description provided for @fundamentalsQueryValidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'where seqNo <= 5, orderBy seqNo'**
+  String get fundamentalsQueryValidTitle;
+
+  /// No description provided for @fundamentalsQueryValidHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Inequality and orderBy on the same field. Firestore walks one index. This is the query that works.'**
+  String get fundamentalsQueryValidHint;
+
+  /// No description provided for @fundamentalsQueryInvalidTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'where seqNo <= 5 and lessonsCount <= 10'**
+  String get fundamentalsQueryInvalidTitle;
+
+  /// No description provided for @fundamentalsQueryInvalidHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Two inequalities on different fields. The Angular sample failed with: all inequality filters must be on the same field. Run it and read the FirebaseError here and in DevTools.'**
+  String get fundamentalsQueryInvalidHint;
+
+  /// No description provided for @fundamentalsQueryIndexTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'where seqNo <= 20 and url == hiragana-from-zero'**
+  String get fundamentalsQueryIndexTitle;
+
+  /// No description provided for @fundamentalsQueryIndexHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Range on seqNo plus equality on url. Firestore has no composite index for that pair. The error includes a Console URL to create one — do not click it if you want this button to keep failing.'**
+  String get fundamentalsQueryIndexHint;
+
+  /// No description provided for @fundamentalsRunValidQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Run valid query'**
+  String get fundamentalsRunValidQuery;
+
+  /// No description provided for @fundamentalsRunInvalidQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Run invalid query'**
+  String get fundamentalsRunInvalidQuery;
+
+  /// No description provided for @fundamentalsRunIndexQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Run missing-index query'**
+  String get fundamentalsRunIndexQuery;
 }
 
 class _AppLocalizationsDelegate

@@ -95,8 +95,8 @@ app/
 ├── web/
 ├── assets/
 │   ├── coverage/
-│   ├── img/
-│   └── logo.png
+│   ├── img/              # photos, dragons, backgrounds, README screenshots
+│   └── icons/            # edit/delete; packs: books/, courses/, user_avatars/
 ├── lib/
 │   ├── core/
 │   │   ├── router/
@@ -123,9 +123,11 @@ app/
 │   ├── shared_widgets/
 │   ├── l10n/
 │   └── main.dart
-├── test/
+├── test/                  # mirrors lib/: landing_screen.dart → test/.../landing_screen_test.dart
 └── pubspec.yaml
 ```
+
+Not every app has every asset folder. When it does, the names stay the same: **`img/`** for photos, dragons, `bg.webp`, and README screenshots; **`icons/`** for `edit` / `delete` and themed packs (`books/`, `courses/`, `user_avatars/`). Flutter does not recurse — list each subfolder in that app’s `pubspec.yaml`.
 
 ### Feature-first
 
@@ -153,7 +155,11 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 
 `shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both practice projects). Advanced Concepts also has `CodeSnippet` (monospace Dart), `NavStackPreview` (stack diagram on User List / User Details), `LabCompareFrame` (wrong vs works), `LabErrorStripes` (Flutter-style overflow paint without crashing the page), `LabScreenBody` (`LayoutBuilder` caps width at 840 for web), and API chrome (`ApiLabBackground`, `ApiLabDivider`). The DELETE lab session is a small feature (`api_lab_session`), not chrome. The HTTP and Dio **bookshelf** widgets stay in their own features — sharing them would mix the two clients. `core/` holds app-wide routing, theme, and similar infrastructure. Breakpoints are `AppBreakpoint` in `core/theme/` (Material 3: compact below 600, medium 600, expanded 840, large 1200, extra-large 1600) — not AdaptiveScaffold. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
 
-Data sources and repositories are named after the feature: `InMemoryUserListDataSource`, `InMemoryUserListRepository`, `InMemorySealedLabDataSource`, `InMemorySealedLabRepository` (not a generic `UserRepository`).
+Contracts are named after the feature: `UserListDataSource`, `UserListRepository` (not a generic `UserRepository`). The class in `data/` is the public implementation: `UserListDataSourceImpl`, `UserListRepositoryImpl`. Tests construct `*Impl(fake)` or swap the provider. `HardWiredUserListRepository` is the Riverpod Basics anti-example — not an `Impl`.
+
+### Tests
+
+`test/` mirrors `lib/`. A test file belongs to one source file: same folders, same name plus `_test.dart`. Example: `lib/features/landing/presentation/landing_screen.dart` → `test/features/landing/presentation/landing_screen_test.dart`. Fakes used by several tests in that feature sit next to them (`fake_*_repository.dart`). Do not add a Flutter-template `test/widget_test.dart`. `test/main_test.dart` exists only when it tests `lib/main.dart`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

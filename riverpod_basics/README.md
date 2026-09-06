@@ -562,7 +562,7 @@ Or the Cursor / VS Code task **Build Runner** (Command Palette → **Tasks: Run 
 
 Do not edit `*.freezed.dart` or `*.g.dart`. `analysis_options.yaml` excludes them. `invalid_annotation_target` is ignored so `@JsonKey` on Freezed fields does not warn.
 
-The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. **`InMemoryUserListDataSource`** returns models and throws `AppException`. **`InMemoryUserListRepository`** maps models → entities and exceptions → `AppFailure`. **`UserListState`** is the list snapshot: `users`, `isLoading`, and `error` (`AppFailure?`, not a raw string). **`UserState`** on Add User is only `isAdded` and `error`. **`UserSearchState`** is the Notifier search snapshot; Family search uses `AsyncValue`. Screens hold `User` entities, not `UserModel`. Add User and User Search import User List; there is no shared users folder.
+The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. **`UserListDataSourceImpl`** returns models and throws `AppException`. **`UserListRepositoryImpl`** maps models → entities and exceptions → `AppFailure`. **`UserListState`** is the list snapshot: `users`, `isLoading`, and `error` (`AppFailure?`, not a raw string). **`UserState`** on Add User is only `isAdded` and `error`. **`UserSearchState`** is the Notifier search snapshot; Family search uses `AsyncValue`. Screens hold `User` entities, not `UserModel`. Add User and User Search import User List; there is no shared users folder.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -593,7 +593,7 @@ Thrown objects and UI copy are different types. There is no extra package: Dart 
 
 Never show `error.toString()`. Never store a magic string like `'fetchUsers'` on state.
 
-User List has that split: `InMemoryUserListDataSource` throws `AppException`; `InMemoryUserListRepository` maps. A **repository fake** in tests throws `AppFailure` already — it stands in for the repository, not the data source.
+User List has that split: `UserListDataSourceImpl` throws `AppException`; `UserListRepositoryImpl` maps. A **repository fake** in tests throws `AppFailure` already — it stands in for the repository, not the data source.
 
 `AsyncNotifier` / `FutureProvider` put the thrown object on `AsyncError`. If the repository did its job, that object is already `AppFailure`. **`localizedError`** still runs `AppFailure.from` so demo notifiers without a repository stay safe.
 
@@ -664,7 +664,7 @@ Keep tests deterministic. One test, one claim. Do not depend on the order of oth
 - **`pumpAndSettle`** — wait until animations and `go_router` finish. Do not use it on **Tick** while the live stream is subscribed — periodic ticks never go idle.
 - **`addTearDown`** — cleanup after **this** test, pass or fail. Do not put `dispose()` only at the bottom of the happy path: a failing `expect` would skip it.
 
-`test/` mirrors `lib/`. Each source file has a matching `*_test.dart` in the same folders (`features/providers/`, `presentation/`, `core/router/`, `shared_widgets/`).
+`test/` mirrors `lib/`. Each source file has a matching `*_test.dart` in the same folders (`features/providers/`, `presentation/`, `core/router/`, `shared_widgets/`). Do not add a Flutter-template `widget_test.dart`. `test/main_test.dart` is only for `lib/main.dart`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -709,8 +709,10 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **
 
 ### Test coverage
 
+`test/` mirrors `lib/`. A test file belongs to one source file (`landing_page.dart` → `landing_page_test.dart`). No Flutter-template `widget_test.dart`. `test/main_test.dart` is only for `lib/main.dart`.
+
 <!-- coverage-percent:start -->
-**88.5%** line coverage (1826 of 2064 lines).
+**88.5%** line coverage (1825 of 2063 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

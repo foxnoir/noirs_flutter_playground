@@ -17,7 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class GenericsExampleLabScreen extends ConsumerWidget {
   const GenericsExampleLabScreen({super.key});
 
-  static const bookIcon = 'assets/img/icons/books/book_turquise.png';
+  static const bookIcon = 'assets/icons/books/book_turquise.png';
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

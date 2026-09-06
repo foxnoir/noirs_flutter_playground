@@ -8,12 +8,12 @@ abstract interface class SealedLabDataSource {
 }
 
 final sealedLabDataSourceProvider = Provider<SealedLabDataSource>((ref) {
-  return const InMemorySealedLabDataSource();
+  return const SealedLabDataSourceImpl();
 });
 
 /// Fake GET. Throws AppException, never AppFailure.
-class InMemorySealedLabDataSource implements SealedLabDataSource {
-  const InMemorySealedLabDataSource({this.delay = Duration.zero});
+class SealedLabDataSourceImpl implements SealedLabDataSource {
+  const SealedLabDataSourceImpl({this.delay = Duration.zero});
 
   final Duration delay;
 

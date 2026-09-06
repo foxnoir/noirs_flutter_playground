@@ -8,13 +8,13 @@ abstract interface class UserListDataSource {
 }
 
 final userListDataSourceProvider = Provider<UserListDataSource>((ref) {
-  return const InMemoryUserListDataSource();
+  return const UserListDataSourceImpl();
 });
 
 /// Fake GET. Throws AppException, never AppFailure. Mapping is the
 /// repository's job.
-class InMemoryUserListDataSource implements UserListDataSource {
-  const InMemoryUserListDataSource({
+class UserListDataSourceImpl implements UserListDataSource {
+  const UserListDataSourceImpl({
     this.delay = const Duration(milliseconds: 300),
   });
 

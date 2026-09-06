@@ -36,12 +36,12 @@ final dioApiClientProvider = Provider<DioApiClient>((ref) {
 });
 
 final apiDioLabDataSourceProvider = Provider<ApiDioLabDataSource>((ref) {
-  return DioApiDioLabDataSource(ref.watch(dioApiClientProvider));
+  return ApiDioLabDataSourceImpl(ref.watch(dioApiClientProvider));
 });
 
 /// Talks only to [DioApiClient]. Throws AppException, never AppFailure.
-class DioApiDioLabDataSource implements ApiDioLabDataSource {
-  const DioApiDioLabDataSource(this._client);
+class ApiDioLabDataSourceImpl implements ApiDioLabDataSource {
+  const ApiDioLabDataSourceImpl(this._client);
 
   final DioApiClient _client;
 

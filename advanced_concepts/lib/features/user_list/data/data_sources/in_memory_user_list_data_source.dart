@@ -9,12 +9,12 @@ abstract interface class UserListDataSource {
 }
 
 final userListDataSourceProvider = Provider<UserListDataSource>((ref) {
-  return const InMemoryUserListDataSource();
+  return const UserListDataSourceImpl();
 });
 
 /// Fake GET. Throws AppException, never AppFailure.
-class InMemoryUserListDataSource implements UserListDataSource {
-  const InMemoryUserListDataSource({
+class UserListDataSourceImpl implements UserListDataSource {
+  const UserListDataSourceImpl({
     this.delay = const Duration(milliseconds: 300),
   });
 
@@ -26,35 +26,35 @@ class InMemoryUserListDataSource implements UserListDataSource {
       'nickname': 'Ada',
       'email': 'ada@example.com',
       'age': 36,
-      'imageUrl': 'assets/user_avatars/1.png',
+      'imageUrl': 'assets/icons/user_avatars/1.png',
     },
     {
       'id': 2,
       'nickname': 'Bob',
       'email': 'bob@example.com',
       'age': 29,
-      'imageUrl': 'assets/user_avatars/2.png',
+      'imageUrl': 'assets/icons/user_avatars/2.png',
     },
     {
       'id': 3,
       'nickname': 'Cyd',
       'email': 'cyd@example.com',
       'age': 41,
-      'imageUrl': 'assets/user_avatars/3.png',
+      'imageUrl': 'assets/icons/user_avatars/3.png',
     },
     {
       'id': 4,
       'nickname': 'Dee',
       'email': 'dee@example.com',
       'age': 33,
-      'imageUrl': 'assets/user_avatars/4.png',
+      'imageUrl': 'assets/icons/user_avatars/4.png',
     },
     {
       'id': 5,
       'nickname': 'Eli',
       'email': 'eli@example.com',
       'age': 47,
-      'imageUrl': 'assets/user_avatars/1.png',
+      'imageUrl': 'assets/icons/user_avatars/1.png',
     },
   ];
 
