@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="94" height="28" role="img" aria-label="Firestore">
+  <title>Firestore</title>
+  <defs>
+    <linearGradient id="fill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#014B73"/>
+      <stop offset="50%" stop-color="#0288D1"/>
+      <stop offset="100%" stop-color="#7BC1E7"/>
+    </linearGradient>
+  </defs>
+  <rect width="94" height="28" fill="url(#fill)"/>
+  <text x="47.0" y="18" text-anchor="middle" fill="#fff" font-family="Verdana,Geneva,DejaVu Sans,sans-serif" font-size="11" font-weight="700">Firestore</text>
+</svg>

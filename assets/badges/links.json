@@ -94,5 +94,11 @@
     "file": "firebase.svg",
     "url": "firebase-url",
     "href": "https://firebase.google.com/"
+  },
+  {
+    "image": "firestore",
+    "file": "firestore.svg",
+    "url": "firestore-url",
+    "href": "https://firebase.google.com/docs/firestore"
   }
 ]

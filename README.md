@@ -34,6 +34,7 @@
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 [![Firebase](assets/badges/firebase.svg)](https://firebase.google.com/)
+[![Firestore](assets/badges/firestore.svg)](https://firebase.google.com/docs/firestore)
 
 </div>
 
@@ -267,6 +268,7 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 | `instagram.svg` | `#4C3469` → `#8B5FBF` → `#C3ACDE` | lilac |
 | `x.svg` | `#456576` → `#7EB8D6` → `#BCDAEA` | pastel light blue |
 | `firebase.svg` | `#02557E` → `#039BE5` → `#7CCBF1` | Firebase blue (replaces yellow/orange) |
+| `firestore.svg` | `#014B73` → `#0288D1` → `#7BC1E7` | Firestore blue (replaces yellow/orange) |
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
