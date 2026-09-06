@@ -394,7 +394,7 @@ GenericsLabTile<Book>(item: fourthWing, titleOf: (b) => b.title)
 
 The Generics hub (`lib/features/generics_lab/`) is **General** then **Example**, like API Handling.
 
-**General** (`lib/features/generics_general_lab/`) is Layout-style **wrong vs works**. Wrong: `UserTile` and `BookTile` — the same `ListTile` twice. Works: tap **Ada** (`User`, User List) or **Fourth Wing** (`Book`, Example HTTP). Both are `GenericsLabTile<T>`. Selected: purple avatar (`2.png`) / purple book. Idle: gray avatar (`5.png`) / black book. Ada and Fourth Wing live in **domain** as consts. The generic is the **widget**. The Dart on screen is `GenericsLabCodeSnippets` in `presentation/widgets/`. Book PNGs live in `assets/img/icons/books/` — list that folder in `pubspec.yaml`; Flutter does not recurse from `assets/img/icons/`.
+**General** (`lib/features/generics_general_lab/`) is Layout-style **wrong vs works**. Wrong: `UserTile` and `BookTile` — the same `ListTile` twice. Works: tap **Ada** (`User`, User List) or **Fourth Wing** (`Book`, Example HTTP). Both are `GenericsLabTile<T>`. Selected: purple avatar (`2.png`) / purple book. Idle: gray avatar (`5.png`) / black book. Ada and Fourth Wing live in **domain** as consts. The generic is the **widget**. The Dart on screen is `GenericsLabCodeSnippets` in `presentation/widgets/`. Book PNGs live in `assets/icons/books/`, avatars in `assets/icons/user_avatars/` — list those folders in `pubspec.yaml`; Flutter does not recurse from `assets/icons/`.
 
 ### T is a type blank
 
@@ -640,7 +640,7 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**80.9%** line coverage (3406 of 4209 lines).
+**80.9%** line coverage (3405 of 4209 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
