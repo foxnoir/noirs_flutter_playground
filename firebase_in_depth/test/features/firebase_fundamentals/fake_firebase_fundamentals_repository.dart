@@ -65,11 +65,24 @@ class FakeFirebaseFundamentalsRepository
     required int seqNo,
     required String url,
   }) async {
-    final thrown = missingIndexError ?? error;
+    final thrown = error;
     if (thrown != null) throw thrown;
     return [
       for (final course in courses)
         if (course.seqNo <= seqNo && course.url == url) course,
+    ];
+  }
+
+  @override
+  Future<List<Course>> fetchCoursesSeqNoAndPrice({
+    required int seqNo,
+    required int price,
+  }) async {
+    final thrown = missingIndexError ?? error;
+    if (thrown != null) throw thrown;
+    return [
+      for (final course in courses)
+        if (course.seqNo <= seqNo && course.price == price) course,
     ];
   }
 }

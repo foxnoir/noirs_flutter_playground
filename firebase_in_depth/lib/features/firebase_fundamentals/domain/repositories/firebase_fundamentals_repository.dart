@@ -16,4 +16,9 @@ abstract interface class FirebaseFundamentalsRepository {
     required int seqNo,
     required String url,
   });
+
+  Future<List<Course>> fetchCoursesSeqNoAndPrice({
+    required int seqNo,
+    required int price,
+  });
 }

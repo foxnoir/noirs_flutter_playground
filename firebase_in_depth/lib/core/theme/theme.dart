@@ -1,6 +1,7 @@
 import 'package:firebase_in_depth/core/theme/app_color.dart';
 import 'package:flutter/material.dart';
 
+export 'package:firebase_in_depth/core/theme/app_breakpoint.dart';
 export 'package:firebase_in_depth/core/theme/app_color.dart';
 
 ThemeData getLightTheme() {
@@ -10,11 +11,7 @@ ThemeData getLightTheme() {
 ThemeData _buildTheme(ColorScheme colorScheme) {
   const textTheme = TextTheme(
     /// Section titles.
-    titleLarge: TextStyle(
-      fontSize: 22,
-      fontWeight: FontWeight.w600,
-      color: AppColor.teal,
-    ),
+    titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
 
     /// Subsection titles.
     titleSmall: TextStyle(fontSize: 14, fontWeight: FontWeight.w700),
@@ -37,7 +34,9 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
 
   return ThemeData(
     colorScheme: colorScheme,
-    textTheme: textTheme,
+    textTheme: textTheme.copyWith(
+      titleLarge: textTheme.titleLarge?.copyWith(color: AppColor.purple),
+    ),
     appBarTheme: AppBarTheme(
       backgroundColor: colorScheme.primaryContainer,
       foregroundColor: colorScheme.onPrimaryContainer,
@@ -54,6 +53,11 @@ ColorScheme _getColorScheme() {
     primaryContainer: AppColor.primaryContainer,
     secondary: AppColor.secondary,
     secondaryContainer: AppColor.secondaryContainer,
+    onSecondary: AppColor.teal,
     tertiary: AppColor.tertiary,
+    error: AppColor.error,
+    errorContainer: AppColor.errorContainer,
+    onError: AppColor.onError,
+    onErrorContainer: AppColor.onErrorContainer,
   );
 }

@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Advanced Concepts</h1>
   <p>
-     Practice project covering, among other things, layout, mixins, sealed classes, and generics.
+     Layout, mixins, sealed classes, generics, lists, GoRouter, and API labs.
   </p>
 </div>
 
@@ -120,14 +120,19 @@
 
 This project is the **navigation**, **layout**, **mixins**, **sealed classes**, **generics**, **lists**, and **API integration** practice project in [Noir's Flutter Playground](../README.md).
 
-The **Landing Screen** is a list of labs. **Navigation** opens the Routing Lab (`RoutingLabScreen`; AppBar **Navigation**). **Layout** opens the Layout Lab (`LayoutLabScreen`): **Flexible** vs **Expanded**, **PreferredSize**, **LayoutBuilder** vs **MediaQuery**, and **Breakpoints**. **Mixins** opens the Mixins Lab (`MixinsLabScreen`): illegal two-`extends` vs `with MixinsLabBusyMixin`; Save is a button, Reload is a card; tap one, only that widget is busy. **Sealed (plus extends)** opens the Sealed Lab (`SealedLabScreen`): Fourth Wing as Hardcover / Paperback / Ebook — formats that extend `BookMetadata` (title, author), not an API subclass. **Generics** opens a hub (`GenericsLabScreen`), tiles **General** then **Example**. **General** (`GenericsGeneralLabScreen`) is two copied tiles vs `class GenericsLabTile<T>` — Ada from User List, Fourth Wing from Example HTTP. **Example** (`GenericsExampleLabScreen`) is one shelf list switched between User List and Books. **Lists** opens the Lists Lab (`ListsLabScreen`): ListView, GridView, and slivers, plus eager vs lazy build counts and the usual layout traps. **API Handling** opens a hub (`ApiHandlingScreen`), tiles in this order: **General**, **Example HTTP**, **Example Dio**, **HTTP vs Dio** last. **General** (`ApiGeneralLabScreen`) is concepts only: **CRUD**, **interceptors** vs `package:http`, and a unified API class — no live buttons. **Example HTTP** (`ApiHttpLabScreen`) and **Example Dio** (`ApiDioLabScreen`) are the same bookshelf twice — GET /books, scenario chips (including every-third-fail **Unstable**), Search, add / edit / delete. The list slot is one `when` (loading / error / data): refresh and every chip go through `load()`, so a spinner **replaces** the list — not an overlay. Tapping a book opens a placeholder details page (`BookDetailsScreen`) with the title and the reading dragon. Edit stays the sheet. Delete stays the confirm dialog, then `DELETE /books/:id`; 401 opens the login warning (see [Authorized vs not](#authorized-vs-not-lab-only)). The two features are **copied on purpose** so each lab stays a complete `package:http` or Dio stack. Sharing the shelf widgets would mix the clients; that is not best practice in a real app, and not the point here. Both labs' data layers talk to the same **Firebase** Cloud Functions + Firestore backend of romantasy **books** (`package:http` / `ApiClient` vs **Dio** / `DioApiClient`). Two stacks in one project is the lesson, not a production pattern — ship **http** or **dio**, never both. **HTTP vs Dio** (`ApiCompareLabScreen`) is a debugger: GET, DELETE, Unstable, Slow, Offline, Server error; HTTP on top, Dio below; **Next** steps `_send` vs interceptors until the request fires — still no live call. POST / PUT chips are not in this lab yet. The Routing Lab has short rules for **go**, **push**, **pop**, **replace**, **Named**, and **BuildContext**, then the exact Dart calls to **User List**. A banner prints the call after the tap (under the AppBar). User List draws the **stack** (that frame is still **Routing Lab**), offers **pop** (no-op after **go**), and `pushNamed`s every row into **User Details**. **Go to Landing Screen** always `goNamed('landing')`, so `go` never traps you.
+The **Landing Screen** is a list of labs:
 
-Screens are `LandingScreen`, `RoutingLabScreen`, `LayoutLabScreen`, `MixinsLabScreen`, `SealedLabScreen`, `GenericsLabScreen`, `GenericsGeneralLabScreen`, `GenericsExampleLabScreen`, `ListsLabScreen`, `ApiHandlingScreen`, `ApiGeneralLabScreen`, `ApiHttpLabScreen`, `ApiDioLabScreen`, `ApiCompareLabScreen`, `BookDetailsScreen`, `UserListScreen`, `UserDetailsScreen`, `NotFoundScreen`. Book Details is its own feature (`lib/features/book_details/`), like User Details — both labs `pushNamed` into it. User List data is `UserListDataSourceImpl` → `UserListRepositoryImpl`. Sealed Lab: `SealedLabDataSourceImpl` → `SealedLabRepositoryImpl`. HTTP books: Firebase emulator → `package:http` → `ApiClient` → `ApiHttpLabDataSourceImpl` → `ApiHttpLabRepositoryImpl`. Dio books: same emulator → `Dio` → `DioApiClient` → `ApiDioLabDataSourceImpl` → `ApiDioLabRepositoryImpl`. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure).
+- **Routing** — GoRouter (`go`, `push`, `pop`, `replace`, named routes) and a stack preview on User List
+- **Layout** — Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery, Material 3 breakpoints
+- **Mixins**, **Sealed** (book formats), **Generics**, **Lists** — each its own screen
+- **API Handling** — concepts, the same bookshelf twice (`package:http` and Dio against a Firebase emulator), then a compare debugger. Two HTTP clients in one app is the lesson, not a production pattern.
+
+Layout is **mobile first**: compact, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. No AdaptiveScaffold. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure). Screen-by-screen notes are in the sections below.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**. Layout is **mobile first** everywhere: compact is the default, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. There is no AdaptiveScaffold — breakpoints are the `AppBreakpoint` enum.
+Runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5) and **web**.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -633,13 +638,21 @@ Packages live in `pubspec.yaml` (do not copy versions from this README; they mov
 
 ## Testing
 
-`test/` mirrors `lib/`. A test file belongs to one source file: same folders, same name plus `_test.dart`. Do not add a Flutter-template `widget_test.dart`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`. The landing test opens **Navigation**, then checks that `pushNamed` keeps Routing Lab on the stack and `goNamed` does not, and that **Go to Landing Screen** still returns to the hub. **Layout** opens Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery child overflows a 120 parent; LayoutBuilder child fits), and Breakpoints (compact stacks). **Mixins** opens two-`extends` vs `with MixinsLabBusyMixin` (Save busy, Reload idle). **Sealed (plus extends)** is Fourth Wing formats (Hardcover / Paperback / Ebook) extending `BookMetadata` (`switch` must cover each). Data-layer tests parse `format` JSON and map `BookFormatModel` → entities. **Generics** opens the hub. **General** is two copied tiles vs `class GenericsLabTile<T>` (tap Fourth Wing → `T = Book`). **Example** is one list switched User List / Books. **Lists** opens the Lists Lab preview (ListView / GridView / Sliver). **API Handling** opens the hub. **General** is concept-only (CRUD, interceptors, unified client — no buttons). **Example HTTP** and **Example Dio** each open a bookshelf (repository faked in tests). Refresh replaces the list with a spinner until the fake GET completes. DELETE without `Bearer lab` is 401 (the book stays). A valid login form writes the token; the next confirm actually deletes. **HTTP vs Dio** steps `_send` vs interceptors until GET or DELETE fires (no live call). A book tap opens `BookDetailsScreen`.
+`test/` mirrors `lib/` (same folders, `*_test.dart`). No Flutter-template `widget_test.dart`. Provider tests fake the **repository**. Widget tests wrap `ProviderScope`.
+
+| Lab | What the tests check |
+| --- | --- |
+| Navigation | `pushNamed` keeps Routing Lab on the stack; `goNamed` does not; **Go to Landing Screen** returns to the hub |
+| Layout | Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery (MediaQuery overflows a 120 parent), compact breakpoints stack |
+| Mixins | two-`extends` vs `with MixinsLabBusyMixin` (Save busy, Reload idle) |
+| Sealed | Fourth Wing formats; `switch` must cover each; JSON → `BookFormatModel` → entities |
+| Generics | hub; copied tiles vs `GenericsLabTile<T>`; Example list User List / Books |
+| Lists | ListView / GridView / Sliver preview |
+| API Handling | General is concepts only; HTTP and Dio bookshelves (faked repo); spinner replaces the list; 401 without `Bearer lab`; HTTP vs Dio stepper; book tap → `BookDetailsScreen` |
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
-
-`test/` mirrors `lib/`. A test file belongs to one source file (`landing_screen.dart` → `landing_screen_test.dart`). No Flutter-template `widget_test.dart`.
 
 <!-- coverage-percent:start -->
 **80.9%** line coverage (3407 of 4209 lines).

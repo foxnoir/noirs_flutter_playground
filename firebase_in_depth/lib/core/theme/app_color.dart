@@ -8,8 +8,11 @@ abstract final class AppColor {
   static const secondaryContainer = Color(0xFFA8E2DC);
   static const tertiary = Color(0xFFC7EFFB);
 
-  /// Web-badge teal. Landing section titles (`titleLarge`).
+  /// Web-badge teal. Text on secondary (teal) fills.
   static const teal = Color(0xFF0E6971);
+
+  /// Dark purple. Section titles (`titleLarge`).
+  static const purple = Color(0xFF4C3469);
 
   /// Dusty rose. [ColorScheme.error].
   static const error = Color(0xFFC18388);

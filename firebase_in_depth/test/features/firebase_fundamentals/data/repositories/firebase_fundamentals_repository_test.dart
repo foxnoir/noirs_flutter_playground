@@ -57,7 +57,7 @@ void main() {
     );
 
     await expectLater(
-      repository.fetchCoursesSeqNoAndUrl(seqNo: 20, url: 'hiragana-from-zero'),
+      repository.fetchCoursesSeqNoAndPrice(seqNo: 20, price: 15),
       throwsA(
         const InvalidQueryFailure(detail: 'The query requires an index.'),
       ),

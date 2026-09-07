@@ -63,6 +63,20 @@ void main() {
     );
   });
 
+  test('runCompositeQuery stores matching courses', () async {
+    final container = containerWith(
+      const FakeFirebaseFundamentalsRepository(courses: [sampleCourse]),
+    );
+    final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container
+        .read(firebaseFundamentalsProvider.notifier)
+        .runCompositeQuery();
+
+    expect(sub.read().compositeQuery?.value, [sampleCourse]);
+  });
+
   test('runMissingIndexQuery stores the index error', () async {
     final container = containerWith(
       const FakeFirebaseFundamentalsRepository(

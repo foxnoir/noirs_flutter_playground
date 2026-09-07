@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$FirebaseFundamentalsState {
 
- AsyncValue<Course>? get document; AsyncValue<List<Course>>? get collection; AsyncValue<List<Course>>? get validQuery; AsyncValue<List<Course>>? get invalidQuery; AsyncValue<List<Course>>? get missingIndexQuery;
+ AsyncValue<Course>? get document; AsyncValue<List<Course>>? get collection; AsyncValue<List<Course>>? get validQuery; AsyncValue<List<Course>>? get invalidQuery; AsyncValue<List<Course>>? get compositeQuery; AsyncValue<List<Course>>? get missingIndexQuery;
 /// Create a copy of FirebaseFundamentalsState
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $FirebaseFundamentalsStateCopyWith<FirebaseFundamentalsState> get copyWith => _$
 @override
 bool operator ==(Object other) {
   final _this = this as FirebaseFundamentalsState;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is FirebaseFundamentalsState&&(identical(other.document, _this.document) || other.document == _this.document)&&(identical(other.collection, _this.collection) || other.collection == _this.collection)&&(identical(other.validQuery, _this.validQuery) || other.validQuery == _this.validQuery)&&(identical(other.invalidQuery, _this.invalidQuery) || other.invalidQuery == _this.invalidQuery)&&(identical(other.missingIndexQuery, _this.missingIndexQuery) || other.missingIndexQuery == _this.missingIndexQuery));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is FirebaseFundamentalsState&&(identical(other.document, _this.document) || other.document == _this.document)&&(identical(other.collection, _this.collection) || other.collection == _this.collection)&&(identical(other.validQuery, _this.validQuery) || other.validQuery == _this.validQuery)&&(identical(other.invalidQuery, _this.invalidQuery) || other.invalidQuery == _this.invalidQuery)&&(identical(other.compositeQuery, _this.compositeQuery) || other.compositeQuery == _this.compositeQuery)&&(identical(other.missingIndexQuery, _this.missingIndexQuery) || other.missingIndexQuery == _this.missingIndexQuery));
 }
 
 
 @override
 int get hashCode {
   final _this = this as FirebaseFundamentalsState;
-  return Object.hash(runtimeType,_this.document,_this.collection,_this.validQuery,_this.invalidQuery,_this.missingIndexQuery);
+  return Object.hash(runtimeType,_this.document,_this.collection,_this.validQuery,_this.invalidQuery,_this.compositeQuery,_this.missingIndexQuery);
 }
 
 @override
 String toString() {
   final _this = this as FirebaseFundamentalsState;
-  return 'FirebaseFundamentalsState(document: ${_this.document}, collection: ${_this.collection}, validQuery: ${_this.validQuery}, invalidQuery: ${_this.invalidQuery}, missingIndexQuery: ${_this.missingIndexQuery})';
+  return 'FirebaseFundamentalsState(document: ${_this.document}, collection: ${_this.collection}, validQuery: ${_this.validQuery}, invalidQuery: ${_this.invalidQuery}, compositeQuery: ${_this.compositeQuery}, missingIndexQuery: ${_this.missingIndexQuery})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $FirebaseFundamentalsStateCopyWith<$Res>  {
   factory $FirebaseFundamentalsStateCopyWith(FirebaseFundamentalsState value, $Res Function(FirebaseFundamentalsState) _then) = _$FirebaseFundamentalsStateCopyWithImpl;
 @useResult
 $Res call({
- AsyncValue<Course>? document, AsyncValue<List<Course>>? collection, AsyncValue<List<Course>>? validQuery, AsyncValue<List<Course>>? invalidQuery, AsyncValue<List<Course>>? missingIndexQuery
+ AsyncValue<Course>? document, AsyncValue<List<Course>>? collection, AsyncValue<List<Course>>? validQuery, AsyncValue<List<Course>>? invalidQuery, AsyncValue<List<Course>>? compositeQuery, AsyncValue<List<Course>>? missingIndexQuery
 });
 
 
@@ -68,12 +68,13 @@ class _$FirebaseFundamentalsStateCopyWithImpl<$Res>
 
 /// Create a copy of FirebaseFundamentalsState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? document = freezed,Object? collection = freezed,Object? validQuery = freezed,Object? invalidQuery = freezed,Object? missingIndexQuery = freezed,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? document = freezed,Object? collection = freezed,Object? validQuery = freezed,Object? invalidQuery = freezed,Object? compositeQuery = freezed,Object? missingIndexQuery = freezed,}) {
   return _then(FirebaseFundamentalsState(
 document: freezed == document ? _self.document : document // ignore: cast_nullable_to_non_nullable
 as AsyncValue<Course>?,collection: freezed == collection ? _self.collection : collection // ignore: cast_nullable_to_non_nullable
 as AsyncValue<List<Course>>?,validQuery: freezed == validQuery ? _self.validQuery : validQuery // ignore: cast_nullable_to_non_nullable
 as AsyncValue<List<Course>>?,invalidQuery: freezed == invalidQuery ? _self.invalidQuery : invalidQuery // ignore: cast_nullable_to_non_nullable
+as AsyncValue<List<Course>>?,compositeQuery: freezed == compositeQuery ? _self.compositeQuery : compositeQuery // ignore: cast_nullable_to_non_nullable
 as AsyncValue<List<Course>>?,missingIndexQuery: freezed == missingIndexQuery ? _self.missingIndexQuery : missingIndexQuery // ignore: cast_nullable_to_non_nullable
 as AsyncValue<List<Course>>?,
   ));
@@ -160,10 +161,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AsyncValue<Course>? document,  AsyncValue<List<Course>>? collection,  AsyncValue<List<Course>>? validQuery,  AsyncValue<List<Course>>? invalidQuery,  AsyncValue<List<Course>>? missingIndexQuery)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( AsyncValue<Course>? document,  AsyncValue<List<Course>>? collection,  AsyncValue<List<Course>>? validQuery,  AsyncValue<List<Course>>? invalidQuery,  AsyncValue<List<Course>>? compositeQuery,  AsyncValue<List<Course>>? missingIndexQuery)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _FirebaseFundamentalsState() when $default != null:
-return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQuery,_that.missingIndexQuery);case _:
+return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQuery,_that.compositeQuery,_that.missingIndexQuery);case _:
   return orElse();
 
 }
@@ -181,10 +182,10 @@ return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQu
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AsyncValue<Course>? document,  AsyncValue<List<Course>>? collection,  AsyncValue<List<Course>>? validQuery,  AsyncValue<List<Course>>? invalidQuery,  AsyncValue<List<Course>>? missingIndexQuery)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( AsyncValue<Course>? document,  AsyncValue<List<Course>>? collection,  AsyncValue<List<Course>>? validQuery,  AsyncValue<List<Course>>? invalidQuery,  AsyncValue<List<Course>>? compositeQuery,  AsyncValue<List<Course>>? missingIndexQuery)  $default,) {final _that = this;
 switch (_that) {
 case _FirebaseFundamentalsState():
-return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQuery,_that.missingIndexQuery);case _:
+return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQuery,_that.compositeQuery,_that.missingIndexQuery);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -201,10 +202,10 @@ return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQu
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AsyncValue<Course>? document,  AsyncValue<List<Course>>? collection,  AsyncValue<List<Course>>? validQuery,  AsyncValue<List<Course>>? invalidQuery,  AsyncValue<List<Course>>? missingIndexQuery)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( AsyncValue<Course>? document,  AsyncValue<List<Course>>? collection,  AsyncValue<List<Course>>? validQuery,  AsyncValue<List<Course>>? invalidQuery,  AsyncValue<List<Course>>? compositeQuery,  AsyncValue<List<Course>>? missingIndexQuery)?  $default,) {final _that = this;
 switch (_that) {
 case _FirebaseFundamentalsState() when $default != null:
-return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQuery,_that.missingIndexQuery);case _:
+return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQuery,_that.compositeQuery,_that.missingIndexQuery);case _:
   return null;
 
 }
@@ -216,13 +217,14 @@ return $default(_that.document,_that.collection,_that.validQuery,_that.invalidQu
 
 
 class _FirebaseFundamentalsState implements FirebaseFundamentalsState {
-  const _FirebaseFundamentalsState({this.document, this.collection, this.validQuery, this.invalidQuery, this.missingIndexQuery});
+  const _FirebaseFundamentalsState({this.document, this.collection, this.validQuery, this.invalidQuery, this.compositeQuery, this.missingIndexQuery});
   
 
 @override final  AsyncValue<Course>? document;
 @override final  AsyncValue<List<Course>>? collection;
 @override final  AsyncValue<List<Course>>? validQuery;
 @override final  AsyncValue<List<Course>>? invalidQuery;
+@override final  AsyncValue<List<Course>>? compositeQuery;
 @override final  AsyncValue<List<Course>>? missingIndexQuery;
 
 /// Create a copy of FirebaseFundamentalsState
@@ -235,18 +237,18 @@ _$FirebaseFundamentalsStateCopyWith<_FirebaseFundamentalsState> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FirebaseFundamentalsState&&(identical(other.document, document) || other.document == document)&&(identical(other.collection, collection) || other.collection == collection)&&(identical(other.validQuery, validQuery) || other.validQuery == validQuery)&&(identical(other.invalidQuery, invalidQuery) || other.invalidQuery == invalidQuery)&&(identical(other.missingIndexQuery, missingIndexQuery) || other.missingIndexQuery == missingIndexQuery));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _FirebaseFundamentalsState&&(identical(other.document, document) || other.document == document)&&(identical(other.collection, collection) || other.collection == collection)&&(identical(other.validQuery, validQuery) || other.validQuery == validQuery)&&(identical(other.invalidQuery, invalidQuery) || other.invalidQuery == invalidQuery)&&(identical(other.compositeQuery, compositeQuery) || other.compositeQuery == compositeQuery)&&(identical(other.missingIndexQuery, missingIndexQuery) || other.missingIndexQuery == missingIndexQuery));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,document,collection,validQuery,invalidQuery,missingIndexQuery);
+    return Object.hash(runtimeType,document,collection,validQuery,invalidQuery,compositeQuery,missingIndexQuery);
 }
 
 @override
 String toString() {
-    return 'FirebaseFundamentalsState(document: $document, collection: $collection, validQuery: $validQuery, invalidQuery: $invalidQuery, missingIndexQuery: $missingIndexQuery)';
+    return 'FirebaseFundamentalsState(document: $document, collection: $collection, validQuery: $validQuery, invalidQuery: $invalidQuery, compositeQuery: $compositeQuery, missingIndexQuery: $missingIndexQuery)';
 }
 
 
@@ -257,7 +259,7 @@ abstract mixin class _$FirebaseFundamentalsStateCopyWith<$Res> implements $Fireb
   factory _$FirebaseFundamentalsStateCopyWith(_FirebaseFundamentalsState value, $Res Function(_FirebaseFundamentalsState) _then) = __$FirebaseFundamentalsStateCopyWithImpl;
 @override @useResult
 $Res call({
- AsyncValue<Course>? document, AsyncValue<List<Course>>? collection, AsyncValue<List<Course>>? validQuery, AsyncValue<List<Course>>? invalidQuery, AsyncValue<List<Course>>? missingIndexQuery
+ AsyncValue<Course>? document, AsyncValue<List<Course>>? collection, AsyncValue<List<Course>>? validQuery, AsyncValue<List<Course>>? invalidQuery, AsyncValue<List<Course>>? compositeQuery, AsyncValue<List<Course>>? missingIndexQuery
 });
 
 
@@ -274,12 +276,13 @@ class __$FirebaseFundamentalsStateCopyWithImpl<$Res>
 
 /// Create a copy of FirebaseFundamentalsState
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? document = freezed,Object? collection = freezed,Object? validQuery = freezed,Object? invalidQuery = freezed,Object? missingIndexQuery = freezed,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? document = freezed,Object? collection = freezed,Object? validQuery = freezed,Object? invalidQuery = freezed,Object? compositeQuery = freezed,Object? missingIndexQuery = freezed,}) {
   return _then(_FirebaseFundamentalsState(
 document: freezed == document ? _self.document : document // ignore: cast_nullable_to_non_nullable
 as AsyncValue<Course>?,collection: freezed == collection ? _self.collection : collection // ignore: cast_nullable_to_non_nullable
 as AsyncValue<List<Course>>?,validQuery: freezed == validQuery ? _self.validQuery : validQuery // ignore: cast_nullable_to_non_nullable
 as AsyncValue<List<Course>>?,invalidQuery: freezed == invalidQuery ? _self.invalidQuery : invalidQuery // ignore: cast_nullable_to_non_nullable
+as AsyncValue<List<Course>>?,compositeQuery: freezed == compositeQuery ? _self.compositeQuery : compositeQuery // ignore: cast_nullable_to_non_nullable
 as AsyncValue<List<Course>>?,missingIndexQuery: freezed == missingIndexQuery ? _self.missingIndexQuery : missingIndexQuery // ignore: cast_nullable_to_non_nullable
 as AsyncValue<List<Course>>?,
   ));

@@ -7,6 +7,7 @@ const sampleCourseId = 'hiragana-from-zero';
 const querySeqNoAtMost = 5;
 const queryLessonsCountAtMost = 10;
 const queryIndexSeqNoAtMost = 20;
+const queryIndexPrice = 15;
 
 final firebaseFundamentalsProvider =
     NotifierProvider.autoDispose<
@@ -53,12 +54,22 @@ class FirebaseFundamentalsNotifier extends Notifier<FirebaseFundamentalsState> {
     );
   }
 
-  Future<void> runMissingIndexQuery() {
+  Future<void> runCompositeQuery() {
     return _run(
-      setValue: (value) => state = state.copyWith(missingIndexQuery: value),
+      setValue: (value) => state = state.copyWith(compositeQuery: value),
       run: () => _repository.fetchCoursesSeqNoAndUrl(
         seqNo: queryIndexSeqNoAtMost,
         url: sampleCourseId,
+      ),
+    );
+  }
+
+  Future<void> runMissingIndexQuery() {
+    return _run(
+      setValue: (value) => state = state.copyWith(missingIndexQuery: value),
+      run: () => _repository.fetchCoursesSeqNoAndPrice(
+        seqNo: queryIndexSeqNoAtMost,
+        price: queryIndexPrice,
       ),
     );
   }

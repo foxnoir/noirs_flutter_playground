@@ -106,4 +106,88 @@ void main() {
       findsOneWidget,
     );
   });
+
+  testWidgets('places reads and queries in two columns when wide', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(800, 2400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(),
+          ),
+        ],
+        child: const MaterialApp(
+          locale: Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: FirebaseFundamentalsScreen(),
+        ),
+      ),
+    );
+
+    final collection = tester.getTopLeft(
+      find.byKey(const Key('fundamentals-read-collection')),
+    );
+    final document = tester.getTopLeft(
+      find.byKey(const Key('fundamentals-read-document')),
+    );
+    expect(document.dx, greaterThan(collection.dx));
+    expect(document.dy, closeTo(collection.dy, 1));
+
+    final valid = tester.getTopLeft(
+      find.byKey(const Key('fundamentals-valid-query')),
+    );
+    final composite = tester.getTopLeft(
+      find.byKey(const Key('fundamentals-composite-query')),
+    );
+    final invalid = tester.getTopLeft(
+      find.byKey(const Key('fundamentals-invalid-query')),
+    );
+    final missing = tester.getTopLeft(
+      find.byKey(const Key('fundamentals-missing-index-query')),
+    );
+    expect(invalid.dx, greaterThan(valid.dx));
+    expect(composite.dx, closeTo(valid.dx, 1));
+    expect(composite.dy, greaterThan(valid.dy));
+    expect(missing.dx, closeTo(invalid.dx, 1));
+    expect(missing.dy, greaterThan(invalid.dy));
+  });
+
+  testWidgets('stacks reads when compact', (tester) async {
+    tester.view.physicalSize = const Size(400, 1200);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(),
+          ),
+        ],
+        child: const MaterialApp(
+          locale: Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: FirebaseFundamentalsScreen(),
+        ),
+      ),
+    );
+
+    final collection = tester.getTopLeft(
+      find.byKey(const Key('fundamentals-read-collection')),
+    );
+    final document = tester.getTopLeft(
+      find.byKey(const Key('fundamentals-read-document')),
+    );
+    expect(document.dy, greaterThan(collection.dy));
+    expect(document.dx, closeTo(collection.dx, 1));
+  });
 }

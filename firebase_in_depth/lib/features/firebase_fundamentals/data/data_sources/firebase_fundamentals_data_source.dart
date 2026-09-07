@@ -19,6 +19,11 @@ abstract interface class FirebaseFundamentalsDataSource {
     required int seqNo,
     required String url,
   });
+
+  Future<List<CourseModel>> fetchCoursesSeqNoAndPrice({
+    required int seqNo,
+    required int price,
+  });
 }
 
 final firebaseFundamentalsDataSourceProvider =
@@ -89,6 +94,21 @@ class FirebaseFundamentalsDataSourceImpl
         _collection
             .where('seqNo', isLessThanOrEqualTo: seqNo)
             .where('url', isEqualTo: url)
+            .orderBy('seqNo'),
+      );
+    });
+  }
+
+  @override
+  Future<List<CourseModel>> fetchCoursesSeqNoAndPrice({
+    required int seqNo,
+    required int price,
+  }) {
+    return _guard(() {
+      return _mapQuery(
+        _collection
+            .where('seqNo', isLessThanOrEqualTo: seqNo)
+            .where('price', isEqualTo: price)
             .orderBy('seqNo'),
       );
     });

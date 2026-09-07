@@ -57,6 +57,16 @@ class FirebaseFundamentalsRepositoryImpl
     );
   }
 
+  @override
+  Future<List<Course>> fetchCoursesSeqNoAndPrice({
+    required int seqNo,
+    required int price,
+  }) {
+    return _mapList(
+      () => _dataSource.fetchCoursesSeqNoAndPrice(seqNo: seqNo, price: price),
+    );
+  }
+
   Future<Course> _map(Future<CourseModel> Function() run) async {
     try {
       final model = await run();

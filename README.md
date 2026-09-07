@@ -73,7 +73,7 @@ Each folder is a standalone practice project. Topics include **Riverpod**, **nav
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**. Firebase in Depth is **web-first** (Chrome DevTools for Firestore traffic).
+Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**. Firebase in Depth is **web-first** (Chrome DevTools for Firestore traffic). **Firebase Fundamentals** (document vs collection, index queries) is the last lab in this playground for now.
 
 Copyable starters live in [app_starters](app_starters/).
 
@@ -153,13 +153,43 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 - **widgets/** — feature-local UI. Lab Dart strings (`*CodeSnippets`) live here, next to the tiles. `CodeSnippet` (the monospace widget) is in `shared_widgets/`.
 - **feature_screen.dart** — the screen for that feature (`*Screen`). Riverpod Basics landing is still `LandingPage`. Detail is its own feature (`item_details`, `user_details`, `book_details`) — it reuses the list repository and does not copy `data/` / `domain/`.
 
-`shared_widgets/` holds UI used by more than one feature. `ErrorWidget` is the async-error UI (illustration or icon, message, optional retry). `LabInfoText` renders `**bold**` paragraphs from ARB copy (both practice projects). Advanced Concepts also has `CodeSnippet` (monospace Dart), `NavStackPreview` (stack diagram on User List / User Details), `LabCompareFrame` (wrong vs works), `LabErrorStripes` (Flutter-style overflow paint without crashing the page), `LabScreenBody` (`LayoutBuilder` caps width at 840 for web), and API chrome (`ApiLabBackground`, `ApiLabDivider`). The DELETE lab session is a small feature (`api_lab_session`), not chrome. The HTTP and Dio **bookshelf** widgets stay in their own features — sharing them would mix the two clients. `core/` holds app-wide routing, theme, and similar infrastructure. Breakpoints are `AppBreakpoint` in `core/theme/` (Material 3: compact below 600, medium 600, expanded 840, large 1200, extra-large 1600) — not AdaptiveScaffold. `core/errors/` is sealed `AppException` / `AppFailure`, the mapper, and l10n message helpers — not Equatable failure classes.
+### Shared widgets and `core/`
 
-Contracts are named after the feature: `UserListDataSource`, `UserListRepository` (not a generic `UserRepository`). The class in `data/` is the public implementation: `UserListDataSourceImpl`, `UserListRepositoryImpl`. Tests construct `*Impl(fake)` or swap the provider. `HardWiredUserListRepository` is the Riverpod Basics anti-example — not an `Impl`.
+`shared_widgets/` is UI used by more than one feature.
+
+| Widget | Where | Role |
+| --- | --- | --- |
+| `ErrorWidget` | both practice apps | async error: illustration, message, retry |
+| `LabInfoText` | both practice apps | ARB copy with `**bold**` |
+| `CodeSnippet` | Advanced Concepts | monospace Dart |
+| `NavStackPreview` | Advanced Concepts | stack diagram on User List / User Details |
+| `LabCompareFrame` | Advanced Concepts | wrong vs works |
+| `LabErrorStripes` | Advanced Concepts | overflow paint without crashing the page |
+| `LabScreenBody` | Advanced Concepts | `LayoutBuilder` caps width at 840 |
+| `ApiLabBackground` / `ApiLabDivider` | Advanced Concepts | API lab chrome |
+
+The DELETE lab session is a feature (`api_lab_session`), not chrome. HTTP and Dio bookshelf widgets stay in their own features — sharing them would mix the two clients.
+
+`core/` is app-wide routing, theme, and similar infrastructure.
+
+- **Breakpoints** — `AppBreakpoint` in `core/theme/`. Compact below 600, medium 600, expanded 840, large 1200, extra-large 1600. Not AdaptiveScaffold.
+- **Errors** — sealed `AppException` / `AppFailure`, the mapper, and l10n helpers. Not Equatable failure classes.
+
+### Naming
+
+- Contracts follow the feature: `UserListDataSource`, `UserListRepository` — not a generic `UserRepository`.
+- The class in `data/` is the public implementation: `UserListDataSourceImpl`, `UserListRepositoryImpl`.
+- Tests construct `*Impl(fake)` or override the provider.
+- `HardWiredUserListRepository` is the Riverpod Basics anti-example — not an `Impl`.
 
 ### Tests
 
-`test/` mirrors `lib/`. A test file belongs to one source file: same folders, same name plus `_test.dart`. Example: `lib/features/landing/presentation/landing_screen.dart` → `test/features/landing/presentation/landing_screen_test.dart`. Fakes used by several tests in that feature sit next to them (`fake_*_repository.dart`). Do not add a Flutter-template `test/widget_test.dart`. `test/main_test.dart` exists only when it tests `lib/main.dart`.
+- `test/` mirrors `lib/`.
+- One source file → one `*_test.dart` in the same folders.
+- Example: `lib/features/landing/presentation/landing_screen.dart` → `test/features/landing/presentation/landing_screen_test.dart`.
+- Shared fakes sit next to those tests (`fake_*_repository.dart`).
+- Do not add a Flutter-template `widget_test.dart`.
+- `test/main_test.dart` exists only when it tests `lib/main.dart`.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -201,7 +231,7 @@ Packages currently used in the playground apps. Not every app uses every row. Up
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project for **Riverpod**: provider types, labs (listen, ConsumerWidget, Quote, Tick, Auth, refresh / invalidate, AutoDispose lifetimes, User List with data source + repository, Add User, User Search), Freezed, and sealed error mapping.
+Practice project for **Riverpod**: the same counter as five provider types, then labs (listen, Quote, Tick, Auth, User List / Add User / Search, Freezed, sealed errors).
 
 [README »](riverpod_basics/README.md)
 
@@ -210,7 +240,7 @@ Practice project for **Riverpod**: provider types, labs (listen, ConsumerWidget,
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project covering, among other things, **layout**, **mixins**, **sealed classes**, and **generics**. Details live in that app’s [README](advanced_concepts/README.md#about).
+Practice project for **GoRouter**, **layout**, **mixins**, **sealed classes**, **generics**, **lists**, and **API** (the same bookshelf on `package:http` and Dio).
 
 [README »](advanced_concepts/README.md)
 
@@ -219,7 +249,7 @@ Practice project covering, among other things, **layout**, **mixins**, **sealed 
   <a href="firebase_in_depth/README.md#test-coverage"><img align="right" src="firebase_in_depth/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-A deep dive into **Firebase**, using **Flutter**. **Web first** (Chrome). Firestore, emulator, Storage. Fundamentals live in that app’s [README](firebase_in_depth/README.md#firestore). [Web first / DevTools](firebase_in_depth/README.md#web-first).
+**Web first** (Chrome). Firestore lab **Firebase Fundamentals**: seeded `courses`, collection vs one document, then the index queries (automatic, two inequalities, composite, missing). Last practice app in this playground for now.
 
 [README »](firebase_in_depth/README.md)
 
@@ -306,6 +336,8 @@ On commit (when tests pass):
 
 `.git/hooks/` is **not** committed. After a fresh clone, install the links again.
 
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 ### Files
 
 | Path | Role |
@@ -326,6 +358,8 @@ On commit (when tests pass):
 | `<app>/assets/coverage/badge.svg` | Small header badge. |
 | `<app>/assets/coverage/card.svg` | README card. |
 | `<app>/README.md` | Percent block between HTML comments (see [Wire an app](#wire-an-app)). |
+
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Install in this playground
 
@@ -357,6 +391,8 @@ One app:
 ./coverage_pipeline/update_coverage.sh firebase_in_depth
 ```
 
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 ### Cursor Source Control
 
 Cursor Source Control injects `core.hooksPath=/dev/null`, so hooks never run from the **Changes** panel. Cursor also **ignores** `git.path` in workspace `.vscode/settings.json`.
@@ -368,6 +404,8 @@ Set **User** Settings:
 ```
 
 Then **Developer: Reload Window**. A terminal `git commit` / `git push` always runs the hooks. The wrapper strips Cursor’s override and, on `git push`, runs `pre-push` itself so a test failure shows `pre-push blocked — tests failed in …` instead of Cursor’s “Try running Pull first”. GitLens still may open a retry terminal with only `git push`; the failing test is in that hook output and in `.git/pre-push-test.log`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Wire an app
 
@@ -391,12 +429,16 @@ Each app that should get badges needs:
 <a href="#test-coverage"><img align="right" src="assets/coverage/badge.svg" alt="Coverage"></a>
 ```
 
+<p align="right"><a href="#readme-top">back to top</a></p>
+
 ### Add another playground app
 
 1. Put the app somewhere under this repo (for example `my_app/`).
 2. Wire its README as above.
 3. Append the relative path to [`coverage_pipeline/playground_apps`](coverage_pipeline/playground_apps) (one path per line, no leading `./`).
 4. Commit. The playground `pre-commit` hook will test that app and stage its SVGs with the rest.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Copy an app into its own repo
 

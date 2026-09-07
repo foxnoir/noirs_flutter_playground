@@ -161,13 +161,13 @@ abstract class AppLocalizations {
   /// No description provided for @fundamentalsReadTitle.
   ///
   /// In en, this message translates to:
-  /// **'Read a document and a collection'**
+  /// **'Read a collection and a document'**
   String get fundamentalsReadTitle;
 
   /// No description provided for @fundamentalsReadHint.
   ///
   /// In en, this message translates to:
-  /// **'A document is one course (hiragana-from-zero). A collection is every course, ordered by seqNo.'**
+  /// **'A collection is every course, ordered by seqNo. A document is one course by id (hiragana-from-zero) — not the first row of the list.'**
   String get fundamentalsReadHint;
 
   /// No description provided for @fundamentalsReadDocument.
@@ -209,7 +209,7 @@ abstract class AppLocalizations {
   /// No description provided for @fundamentalsQueryHint.
   ///
   /// In en, this message translates to:
-  /// **'Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index — Firestore answers with a Console URL. This lab does not create that index.'**
+  /// **'Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.'**
   String get fundamentalsQueryHint;
 
   /// No description provided for @fundamentalsQueryValidTitle.
@@ -236,16 +236,28 @@ abstract class AppLocalizations {
   /// **'Two inequalities on different fields. The Angular sample failed with: all inequality filters must be on the same field. Run it and read the FirebaseError here and in DevTools.'**
   String get fundamentalsQueryInvalidHint;
 
-  /// No description provided for @fundamentalsQueryIndexTitle.
+  /// No description provided for @fundamentalsQueryCompositeTitle.
   ///
   /// In en, this message translates to:
   /// **'where seqNo <= 20 and url == hiragana-from-zero'**
+  String get fundamentalsQueryCompositeTitle;
+
+  /// No description provided for @fundamentalsQueryCompositeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Range on seqNo plus equality on url. That pair has a composite index in firestore.indexes.json (`url` then `seqNo`). Same shape as the missing-index button, except the index exists.'**
+  String get fundamentalsQueryCompositeHint;
+
+  /// No description provided for @fundamentalsQueryIndexTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'where seqNo <= 20 and price == 15'**
   String get fundamentalsQueryIndexTitle;
 
   /// No description provided for @fundamentalsQueryIndexHint.
   ///
   /// In en, this message translates to:
-  /// **'Range on seqNo plus equality on url. Firestore has no composite index for that pair. The error includes a Console URL to create one — do not click it if you want this button to keep failing.'**
+  /// **'Same shape as the composite button, different field pair. There is no composite for `price` + `seqNo`. The error includes a Console URL — do not click it if you want this button to keep failing.'**
   String get fundamentalsQueryIndexHint;
 
   /// No description provided for @fundamentalsRunValidQuery.
@@ -259,6 +271,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Run invalid query'**
   String get fundamentalsRunInvalidQuery;
+
+  /// No description provided for @fundamentalsRunCompositeQuery.
+  ///
+  /// In en, this message translates to:
+  /// **'Run composite-index query'**
+  String get fundamentalsRunCompositeQuery;
 
   /// No description provided for @fundamentalsRunIndexQuery.
   ///

@@ -49,7 +49,7 @@
 
 This folder holds copyable Flutter app skeletons. Copy a starter when you begin a new project, then rename the Dart package.
 
-The first starter is **Riverpod Basic Starter**: Riverpod, GoRouter, l10n, feature folders, sealed errors, and sample **Items** + **Item Details** so you start from a known shape. More starters can land here later.
+The first starter is **Riverpod Basic Starter**: Riverpod, GoRouter, l10n, feature folders, sealed errors, and sample **Items** + **Item Details** so you start from a known shape.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)

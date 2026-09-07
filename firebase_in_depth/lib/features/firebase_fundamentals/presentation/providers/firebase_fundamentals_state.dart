@@ -11,6 +11,7 @@ abstract class FirebaseFundamentalsState with _$FirebaseFundamentalsState {
     AsyncValue<List<Course>>? collection,
     AsyncValue<List<Course>>? validQuery,
     AsyncValue<List<Course>>? invalidQuery,
+    AsyncValue<List<Course>>? compositeQuery,
     AsyncValue<List<Course>>? missingIndexQuery,
   }) = _FirebaseFundamentalsState;
 }

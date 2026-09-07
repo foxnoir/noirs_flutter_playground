@@ -41,11 +41,11 @@ class AppLocalizationsEn extends AppLocalizations {
       'Start this lab in Chrome. Open DevTools (View → Developer → Developer Tools, or Cmd+Option+I) → Network → filter firestore. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.';
 
   @override
-  String get fundamentalsReadTitle => 'Read a document and a collection';
+  String get fundamentalsReadTitle => 'Read a collection and a document';
 
   @override
   String get fundamentalsReadHint =>
-      'A document is one course (hiragana-from-zero). A collection is every course, ordered by seqNo.';
+      'A collection is every course, ordered by seqNo. A document is one course by id (hiragana-from-zero) — not the first row of the list.';
 
   @override
   String get fundamentalsReadDocument => 'Read document';
@@ -70,7 +70,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fundamentalsQueryHint =>
-      'Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index — Firestore answers with a Console URL. This lab does not create that index.';
+      'Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.';
 
   @override
   String get fundamentalsQueryValidTitle => 'where seqNo <= 5, orderBy seqNo';
@@ -88,18 +88,28 @@ class AppLocalizationsEn extends AppLocalizations {
       'Two inequalities on different fields. The Angular sample failed with: all inequality filters must be on the same field. Run it and read the FirebaseError here and in DevTools.';
 
   @override
-  String get fundamentalsQueryIndexTitle =>
+  String get fundamentalsQueryCompositeTitle =>
       'where seqNo <= 20 and url == hiragana-from-zero';
 
   @override
+  String get fundamentalsQueryCompositeHint =>
+      'Range on seqNo plus equality on url. That pair has a composite index in firestore.indexes.json (`url` then `seqNo`). Same shape as the missing-index button, except the index exists.';
+
+  @override
+  String get fundamentalsQueryIndexTitle => 'where seqNo <= 20 and price == 15';
+
+  @override
   String get fundamentalsQueryIndexHint =>
-      'Range on seqNo plus equality on url. Firestore has no composite index for that pair. The error includes a Console URL to create one — do not click it if you want this button to keep failing.';
+      'Same shape as the composite button, different field pair. There is no composite for `price` + `seqNo`. The error includes a Console URL — do not click it if you want this button to keep failing.';
 
   @override
   String get fundamentalsRunValidQuery => 'Run valid query';
 
   @override
   String get fundamentalsRunInvalidQuery => 'Run invalid query';
+
+  @override
+  String get fundamentalsRunCompositeQuery => 'Run composite-index query';
 
   @override
   String get fundamentalsRunIndexQuery => 'Run missing-index query';

@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Firebase in Depth</h1>
   <p>
-     A deep dive into Firebase, using Flutter.
+     Web-first Firestore lab: documents, collections, and indexes.
   </p>
 </div>
 
@@ -56,12 +56,14 @@
         <li><a href="#courses-in-this-project">Courses in this project</a></li>
         <li><a href="#freezed">Freezed</a></li>
         <li><a href="#performance-guarantees-and-indexes">Performance guarantees and indexes</a></li>
+        <li><a href="#single-field-exemptions">Single-field exemptions</a></li>
       </ul>
     </li>
     <li>
       <a href="#web-first">Web first</a>
       <ul>
         <li><a href="#inspecting-responses">Inspecting responses</a></li>
+        <li><a href="#postman">Postman</a></li>
       </ul>
     </li>
     <li>
@@ -79,14 +81,22 @@
 
 ## About
 
-This project is the **Firebase** practice project in [Noir's Flutter Playground](../README.md). A deep dive into Firebase, using Flutter. State is [Riverpod](https://pub.dev/packages/flutter_riverpod). The app started from the [Riverpod Basic Starter](../app_starters/riverpod_basic_starter/README.md) shape: GoRouter, l10n, feature folders, sealed errors.
+This project is the **Firebase** practice project in [Noir's Flutter Playground](../README.md). **Web first** (Chrome). State is [Riverpod](https://pub.dev/packages/flutter_riverpod). The app started from the [Riverpod Basic Starter](../app_starters/riverpod_basic_starter/README.md): GoRouter, l10n, feature folders, sealed errors.
 
-The Firestore collection [`courses`](https://console.firebase.google.com/project/fir-in-depth-813e4/firestore/databases/-default-/data/~2Fcourses) is seeded (Japanese courses, nested `tutor` map). **Firebase Fundamentals** is the first Firestore lab: read a document, read a collection, and compare a valid index query with queries Firestore rejects. Flutter CRUD, collection group queries, offline cache, the **local emulator**, and **Storage** (photo upload) are not wired yet.
+The Firestore collection [`courses`](https://console.firebase.google.com/project/fir-in-depth-813e4/firestore/databases/-default-/data/~2Fcourses) is seeded (Japanese courses, nested `tutor` map). **Firebase Fundamentals** is the lab in this app:
+
+- read the collection
+- read one document by id
+- four queries: automatic index, two inequalities, composite `url` + `seqNo`, missing `price` + `seqNo`
+
+Last practice app in the playground for now.
+
+Flutter CRUD, collection group queries, offline cache, the **local emulator**, and **Storage** are not wired yet.
 
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
-**Web first** (Chrome). iOS Simulator still runs. The browser document title is **Firebase in Depth** (`web/index.html` `<title>`, `onGenerateTitle`).
+iOS Simulator still runs. The browser document title is **Firebase in Depth** (`web/index.html` `<title>`, `onGenerateTitle`).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -100,7 +110,7 @@ The Firestore collection [`courses`](https://console.firebase.google.com/project
 - l10n (English / German)
 - Feature folders (`presentation` / `data` / `domain`)
 - **Landing Screen** (`LandingScreen`) — GoRouter hub, same idea as Advanced Concepts
-- **Firebase Fundamentals** — document / collection reads and the index lab
+- **Firebase Fundamentals** — collection / document reads and the index lab (valid, invalid, composite, missing index)
 - Sealed `AppException` / `AppFailure` with l10n mapping
 - [Freezed](https://pub.dev/packages/freezed) for Firestore models and entities (`Course` / `Tutor`)
 - Material 3 seed theme
@@ -210,9 +220,17 @@ Use it for document shapes and for UI state that is more than one field. Do not 
 
 Firestore does not scan a collection to answer a query. It walks an **index** — a sorted list of field values plus document IDs. That is the performance guarantee: the work stays proportional to the result, not to how many courses you stored. Allowed queries are the ones an index can answer without a collection scan.
 
+**Rule of thumb (this lab).** `<` `<=` `>` `>=` only **once**, on **one** field, in the same query — and `orderBy` on that same field. A second field is allowed only with `==`. Two range filters on two fields is the invalid query, not a missing index.
+
 This is **not** about index size. `seqNo` and `lessonsCount` each already have an index. The rules are about **operators** (`==` vs `<=`) and whether Firestore has a **combined** register for two fields together.
 
 **Automatic single-field indexes.** Every field gets one (Console → Indexes → Single field). Think of a phone book per field: look up `seqNo`, or look up `url`, not both at once. `where('seqNo', isLessThanOrEqualTo: 5).orderBy('seqNo')` uses only the `seqNo` book. Inequality and `orderBy` must start on **the same field**, because that is the sort order of that index. This is **Run valid query** (and the Angular sample that works without CREATE).
+
+### Single-field exemptions
+
+Automatic indexing is the default. An **exemption** turns it off for one field in one collection (Console → Indexes → Single field → **Add exemption**, or `fieldOverrides` in `firestore.indexes.json`). Use it when a field will never appear in a `where` / `orderBy` — you save a bit of write cost and index storage.
+
+You almost never need one. This lab has none (`fieldOverrides` is `[]`). Leave Arrays enabled. Do not exempt `seqNo`, `url`, or `price`, or the Fundamentals buttons stop matching the story above.
 
 **Two inequalities on different fields.** Not a missing index. The course query is:
 
@@ -231,22 +249,23 @@ must be on the same field. But you have inequality filters on
 'seqNo' and 'lessonsCount'.
 ```
 
-**Range + equality — the index that is actually missing.** `where seqNo <= 20` plus `where url == hiragana-from-zero` plus `orderBy seqNo` is not two ranges — `url` is a point lookup. `url` has an index. `seqNo` has an index. What does **not** exist until you ask: a **composite** index, a third book already sorted as `url` then `seqNo`. Firestore does not auto-create every field pair (that would be one extra index per combination, paid on every write). **Run missing-index query** is this shape (`fetchCoursesSeqNoAndUrl`). Without that pair:
+**Range + equality.** `where seqNo <= 20` plus `where url == hiragana-from-zero` plus `orderBy seqNo` is not two ranges — `url` is a point lookup. That pair needs a **composite** index (`url` then `seqNo`). **Run composite-index query** is this shape (`fetchCoursesSeqNoAndUrl`). The index lives in `firestore.indexes.json` and in the Console (CREATE from the error URL, or `firebase deploy --only firestore:indexes`).
+
+**Run missing-index query** is the same *shape* on a pair that is **not** in that file: `seqNo <= 20` plus `price == 15` (`fetchCoursesSeqNoAndPrice`). Without that composite:
 
 ```text
 FirebaseError: The query requires an index.
 You can create it here: https://console.firebase.google.com/...
 ```
 
-In the Angular course that is the error he clicks. The Console opens **Create a composite index** already filled (`courses`, `url` ASC, `seqNo` ASC). **CREATE**, wait until it is enabled, run the same query again — the code did not change; only the pair-index exists. Then he `console.log`s the parsed documents (that is Console, not Network REST JSON).
-
-This lab keeps the fail. `firestore.indexes.json` is empty (`"indexes": []`) so the button stays red. Do **not** click-create the index if you want **Run missing-index query** to keep demonstrating the URL.
+In the Angular course that is the error he clicks. Do **not** click-create `price` + `seqNo` if you want **Run missing-index query** to keep demonstrating the URL.
 
 | Lab button | Query | Single-field indexes exist? | What is wrong |
 |---|---|---|---|
 | Run valid query | `seqNo <= 5`, `orderBy seqNo` | yes | nothing — one field, automatic index |
 | Run invalid query | `seqNo <= 5` **and** `lessonsCount <= 10` | yes | two ranges — rule, not a missing index |
-| Run missing-index query | `seqNo <= 20` **and** `url == hiragana-from-zero` | yes | **composite** `url` + `seqNo` was never created |
+| Run composite-index query | `seqNo <= 20` **and** `url == hiragana-from-zero` | yes | nothing — composite `url` + `seqNo` exists |
+| Run missing-index query | `seqNo <= 20` **and** `price == 15` | yes | **composite** `price` + `seqNo` was never created |
 
 **What changed for two inequalities.** Since 2024 Firestore *can* run range filters on multiple fields, but only with a composite index and with `orderBy` covering those fields. Without that index the backend returns `failed-precondition` (same `InvalidQueryFailure` as the missing-index case). The two-inequality button still sends the course query as-is.
 
@@ -274,6 +293,76 @@ Or the VS Code / Cursor launch config **Firebase in Depth** (Chrome). **Firebase
 **iOS Simulator.** The native SDK uses gRPC, not the browser. Safari Web Inspector and Flutter DevTools Network do not show those calls. A proxy (Proxyman / Charles) can, with TLS hassle. For watching Firestore, stay on web.
 
 Widget tests skip `Firebase.initializeApp` (VM is neither web nor iOS).
+
+### Postman
+
+The Flutter SDK does not speak REST. Firestore still has a REST API. `courses` is **public read** in `firestore.rules` (`allow read: if true`). No Auth, no API key, no Bearer. Do **not** paste `apiKey` from `firebase_options.dart`.
+
+Skip “Connect a local project folder” on first launch. New → **HTTP**. Authorization stays **No Auth**.
+
+**GET one document**
+
+```
+https://firestore.googleapis.com/v1/projects/fir-in-depth-813e4/databases/(default)/documents/courses/hiragana-from-zero
+```
+
+**GET the collection**
+
+```
+https://firestore.googleapis.com/v1/projects/fir-in-depth-813e4/databases/(default)/documents/courses
+```
+
+`(default)` is the database id, including the parentheses. The JSON is REST typed (`integerValue`, `stringValue`), not `snap.data()`. Use it to check field names (`icon`, nested `tutor`). `CourseModel.fromJson` still needs the SDK map.
+
+**Environment** (values, not secrets). Create environment **Firebase in Depth**, pick it in the top-right dropdown (not **No environment**), then put `{{…}}` in the URLs:
+
+| Variable | Value |
+|---|---|
+| `projectId` | `fir-in-depth-813e4` |
+| `database` | `(default)` |
+| `collection` | `courses` |
+| `docId` | `hiragana-from-zero` |
+
+```
+https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/{{database}}/documents/{{collection}}/{{docId}}
+```
+
+```
+https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/{{database}}/documents/{{collection}}
+```
+
+Collection **Firestore courses** → folder **reads** → save those two GETs. Change `docId` in the environment to hit another course; leave the requests as they are.
+
+**POST query** (same shape as **Run valid query**). URL:
+
+```
+https://firestore.googleapis.com/v1/projects/{{projectId}}/databases/{{database}}/documents:runQuery
+```
+
+Body → raw JSON:
+
+```json
+{
+  "structuredQuery": {
+    "from": [{ "collectionId": "courses" }],
+    "where": {
+      "fieldFilter": {
+        "field": { "fieldPath": "seqNo" },
+        "op": "LESS_THAN_OR_EQUAL",
+        "value": { "integerValue": "5" }
+      }
+    },
+    "orderBy": [
+      {
+        "field": { "fieldPath": "seqNo" },
+        "direction": "ASCENDING"
+      }
+    ]
+  }
+}
+```
+
+The missing-index and two-range queries fail here the same way as in the app. If rules later deny unauthenticated reads, this GET returns 403 — then you would need a token. Today you do not.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -310,10 +399,8 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules --project fir-in-depth-
 
 ### Test coverage
 
-`test/` mirrors `lib/`. A test file belongs to one source file (`landing_screen.dart` → `landing_screen_test.dart`). No Flutter-template `widget_test.dart`.
-
 <!-- coverage-percent:start -->
-**64.2%** line coverage (343 of 534 lines).
+**65.4%** line coverage (389 of 595 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -356,15 +443,16 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 **Landing Screen** → **Firebase Fundamentals** (`pushNamed`). Run in **Chrome**. Open DevTools → Network → filter `firestore` *before* tapping buttons, or you miss the call.
 
-The screen does not fetch on load. Each button is one read:
+The screen does not fetch on load. Each button is one read. From **600px** (Material medium) **Read collection** and **Read document** sit in a row; below that working queries are on the left and the two that fail are stacked on the right. Buttons use teal when the read should succeed and the error rose when it should fail — they do not stretch full width.
 
 | Button | What it does |
 |---|---|
-| Read document | `courses/hiragana-from-zero` |
 | Read collection | `courses` ordered by `seqNo` |
+| Read document | `courses/hiragana-from-zero` — one id, not “the first course in the list” |
 | Run valid query | `seqNo <= 5`, `orderBy seqNo` — automatic index |
 | Run invalid query | `seqNo <= 5` **and** `lessonsCount <= 10` — two inequalities |
-| Run missing-index query | `seqNo <= 20` **and** `url == hiragana-from-zero` — Console URL |
+| Run composite-index query | `seqNo <= 20` **and** `url == hiragana-from-zero` — composite in `firestore.indexes.json` |
+| Run missing-index query | `seqNo <= 20` **and** `price == 15` — Console URL |
 
 Names follow the feature, like Sealed Lab: `FirebaseFundamentalsDataSource` / `FirebaseFundamentalsDataSourceImpl`, `FirebaseFundamentalsRepository` / `FirebaseFundamentalsRepositoryImpl`. No extra `Firestore` / `Course` prefix — this lab talks to Firestore, but the types are named after the feature. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course` and `Tutor` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
 

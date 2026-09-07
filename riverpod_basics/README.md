@@ -15,7 +15,7 @@
   <img src="../assets/logo.png" alt="Logo" width="179" height="179">
   <h1 align="center">Riverpod Basics</h1>
   <p>
-     Practice project for Riverpod: provider types, labs (listen, ConsumerWidget, Quote, Tick, Auth, refresh / invalidate, AutoDispose lifetimes, User List, Add User, User Search), Freezed, and sealed errors.
+     Riverpod practice: provider types, labs, Freezed, and sealed errors.
   </p>
 </div>
 
@@ -113,11 +113,12 @@
 
 This project is the **Riverpod** practice project in [Noir's Flutter Playground](../README.md).
 
-The landing page has two sections: **Providers** and **Labs**.
+The landing page has two sections:
 
-**Providers** is the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` with persistent and autoDispose lifetime. Details are under [Providers](#providers).
+- **Providers** — the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` (persistent and autoDispose). Details under [Providers](#providers).
+- **Labs** — listen vs `listenManual`, Consumer vs ConsumerWidget, Quote / Tick / Refresh, Auth + GoRouter, AutoDispose lifetimes, User List / Add User / User Search. How each lab works is in the sections below.
 
-**Labs** go further. **AutoDispose Provider Lifetimes** compares persistent, autoDispose, and keep-alive on one screen. **User List** owns the `User` entity, `UserModel`, the data source, the repository, and `UserListState`. The body is `isLoading ? spinner : ListView` — `fetchUsers` and retry are the same branch. **Add User** is a form that writes into that list — it imports User List directly (feature-first, no shared folder). **User Search** is one field, two providers: a **Notifier** `search()` command and a codegen **Family** `userSearchFamilyProvider(query)`. The handwritten `.family` twin is `user_search_family_provider_manual.dart` (not imported). **LabInfoText** renders lab info (`**bold**`, paragraphs); User Search is left-aligned so it does not read as a justified block. A miss shows a spinner in both panels, then one `not_found_dragon.png` (empty filter, not `NotFoundFailure`). **Listen Manual** puts `listen` in `build` next to `listenManual` in `initState`, so you can see which one runs when an error is already stored. **Consumer Widget** shows the same list twice: `StatelessWidget` + `Consumer` versus `ConsumerWidget`. **Quote** compares two handwritten fake GETs /quote: **FutureProvider** (reload is `invalidate`, **Fail call** sets a data-source flag then `invalidate`s) and **FutureProvider + input** (**Increment number** re-runs because a watched quote number changed; the other cache stays). **Tick** is a handwritten `StreamProvider<Tick>`: fake stream /tick with `Timer.periodic`, **Fail call** errors the next event with no `invalidate`, **Invalidate** starts a new stream at tick 1. **Auth** is a **Notifier** session plus a read-only **`Provider<GoRouter>`**: `login()` / `logout()` do not call `go()`; `redirect` + `refreshListenable` move you. The hub is public so other labs are not behind a wall. **Refresh** is a fake GET /ping: `ref.refresh` is `invalidate` + `read`; `invalidate` is void. Folder layout follows the [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI lives in `shared_widgets/`. The UI locale is English; German ARBs stay for tests. See [Freezed](#freezed) for models, entities, and screen state. See [Errors](#errors) for sealed exceptions, failures, and l10n mapping.
+Folder layout: [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI in `shared_widgets/`. UI locale English; German ARBs stay for tests. See [Freezed](#freezed) and [Errors](#errors).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -682,7 +683,14 @@ Two shapes:
 
 Lifetime tests (AutoDispose Provider Lifetimes) still use a `ProviderContainer`. Close the last listener and the autoDispose provider is gone. A persistent one is still there. Keep Alive uses `fakeAsync` so 5 seconds pass without a real wait.
 
-User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **repository fake** throws `NetworkFailure` (already mapped); a **data-source fake** throws `NetworkException` and the real repository maps it. The widget test checks the dialog shows `errorNetwork`, not `toString()`. Mapper tests live in `test/core/errors/`. Add User provider tests cover writing through that list and a duplicate id. User Search tests cover match-by-name, match-by-id, and a spinner then one shared not-found illustration (not in both panels). Family provider tests check two queries are two mailboxes. **Quote** tests cover the quote GET, a repository fake that throws `NetworkFailure`, a data-source fake that throws `NetworkException` (real repository maps it), two spinners then two quotes, **Increment number** re-running only the input Future, and **Fail call** on the no-input Future through the real data source. Widget tests fake the repository with `overrideWith` so nothing hits a delay or the in-memory quotes. They override `userSearchDelayProvider` / `quoteDelayProvider` to `Duration.zero` except the spinner tests. **Tick** tests cover incrementing ticks, a repository fake that throws `NetworkFailure`, a data-source fake that throws `NetworkException` (real repository maps it), a spinner then Tick 1 then Tick 2, **Stop** dropping the watch and **Start** opening a new stream, **Fail call** erroring the next event without `invalidate`, and **Invalidate** starting a new stream. Do not `pumpAndSettle` while the live /tick stream is subscribed — it never goes idle. Use `pump()` / `pump(duration)` or a finite `StreamController` / `Stream.fromIterable` fake. The Listen Manual widget test seeds the stored error with `overrideWith` so `fireImmediately` can show the dialog without a tap.
+What the feature tests cover:
+
+- **User List** — `fetchUsers`, `ensureLoaded`, `addUser`. A repository fake throws `NetworkFailure`; a data-source fake throws `NetworkException` and the real repository maps it. Widget test: dialog shows `errorNetwork`, not `toString()`. Mapper tests live in `test/core/errors/`.
+- **Add User** — write through that list; duplicate id.
+- **User Search** — match by name or id; spinner then one shared not-found illustration. Family: two queries are two mailboxes. Override `userSearchDelayProvider` to `Duration.zero` except spinner tests.
+- **Quote** — quote GET, both fake layers, two spinners then two quotes, **Increment number** re-runs only the input Future, **Fail call** on the no-input Future. Widget tests fake the repository; `quoteDelayProvider` is `Duration.zero` except spinner tests.
+- **Tick** — incrementing ticks, both fake layers, Stop / Start, **Fail call** without `invalidate`, **Invalidate** starts a new stream. Do not `pumpAndSettle` while live `/tick` is subscribed — use `pump()` / `pump(duration)` or a finite stream fake.
+- **Listen Manual** — seed the stored error with `overrideWith` so `fireImmediately` shows the dialog without a tap.
 
 `addTearDown(container.dispose)` drops listeners and cached state so the next test starts clean.
 
@@ -708,8 +716,6 @@ User List provider tests cover `fetchUsers`, `ensureLoaded`, and `addUser`. A **
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Test coverage
-
-`test/` mirrors `lib/`. A test file belongs to one source file (`landing_page.dart` → `landing_page_test.dart`). No Flutter-template `widget_test.dart`. `test/main_test.dart` is only for `lib/main.dart`.
 
 <!-- coverage-percent:start -->
 **88.5%** line coverage (1825 of 2063 lines).
