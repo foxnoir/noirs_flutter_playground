@@ -63,4 +63,22 @@ void main() {
       ),
     );
   });
+
+  test('fetchLessonsCollectionGroup maps models to entities', () async {
+    const repository = FirebaseFundamentalsRepositoryImpl(
+      FakeFirebaseFundamentalsDataSource(lessons: [sampleLessonModel]),
+    );
+
+    expect(await repository.fetchLessonsCollectionGroup(), [sampleLesson]);
+  });
+
+  test('fetchLessonsForCourse maps models to entities', () async {
+    const repository = FirebaseFundamentalsRepositoryImpl(
+      FakeFirebaseFundamentalsDataSource(lessons: [sampleLessonModel]),
+    );
+
+    expect(await repository.fetchLessonsForCourse(sampleLesson.courseId), [
+      sampleLesson,
+    ]);
+  });
 }

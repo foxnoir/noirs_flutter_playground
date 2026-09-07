@@ -1,5 +1,6 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
 
 class FakeFirebaseFundamentalsRepository
@@ -10,6 +11,7 @@ class FakeFirebaseFundamentalsRepository
     this.error,
     this.invalidQueryError,
     this.missingIndexError,
+    this.lessons = const [],
   });
 
   final Course? course;
@@ -17,6 +19,7 @@ class FakeFirebaseFundamentalsRepository
   final AppFailure? error;
   final AppFailure? invalidQueryError;
   final AppFailure? missingIndexError;
+  final List<Lesson> lessons;
 
   @override
   Future<Course> fetchCourse(String id) async {
@@ -84,5 +87,22 @@ class FakeFirebaseFundamentalsRepository
       for (final course in courses)
         if (course.seqNo <= seqNo && course.price == price) course,
     ];
+  }
+
+  @override
+  Future<List<Lesson>> fetchLessonsForCourse(String courseId) async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
+    return [
+      for (final lesson in lessons)
+        if (lesson.courseId == courseId) lesson,
+    ];
+  }
+
+  @override
+  Future<List<Lesson>> fetchLessonsCollectionGroup() async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
+    return lessons;
   }
 }

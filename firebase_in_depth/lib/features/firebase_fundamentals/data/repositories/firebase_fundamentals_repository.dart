@@ -2,7 +2,9 @@ import 'package:firebase_in_depth/core/errors/app_exception.dart';
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sources/firebase_fundamentals_data_source.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -67,6 +69,16 @@ class FirebaseFundamentalsRepositoryImpl
     );
   }
 
+  @override
+  Future<List<Lesson>> fetchLessonsForCourse(String courseId) {
+    return _mapLessonList(() => _dataSource.fetchLessonsForCourse(courseId));
+  }
+
+  @override
+  Future<List<Lesson>> fetchLessonsCollectionGroup() {
+    return _mapLessonList(_dataSource.fetchLessonsCollectionGroup);
+  }
+
   Future<Course> _map(Future<CourseModel> Function() run) async {
     try {
       final model = await run();
@@ -78,6 +90,17 @@ class FirebaseFundamentalsRepositoryImpl
 
   Future<List<Course>> _mapList(
     Future<List<CourseModel>> Function() run,
+  ) async {
+    try {
+      final models = await run();
+      return [for (final model in models) model.toEntity()];
+    } on AppException catch (e) {
+      throw AppFailure.fromException(e);
+    }
+  }
+
+  Future<List<Lesson>> _mapLessonList(
+    Future<List<LessonModel>> Function() run,
   ) async {
     try {
       final models = await run();

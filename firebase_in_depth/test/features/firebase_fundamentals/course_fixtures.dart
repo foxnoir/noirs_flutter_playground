@@ -1,6 +1,8 @@
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/tutor_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/tutor.dart';
 
 const sampleCourseJson = {
@@ -43,4 +45,28 @@ const sampleCourseModel = CourseModel(
   categories: ['BEGINNER'],
   icon: 'purple',
   tutor: TutorModel(name: 'Noir', employedSince: [2020, 4, 1]),
+);
+
+const sampleLessonJson = {
+  'id': 'lesson-vowels',
+  'courseId': 'hiragana-from-zero',
+  'description': 'Vowels',
+  'duration': '06:05',
+  'seqNo': 1,
+};
+
+const sampleLesson = Lesson(
+  id: 'lesson-vowels',
+  courseId: 'hiragana-from-zero',
+  description: 'Vowels',
+  duration: '06:05',
+  seqNo: 1,
+);
+
+const sampleLessonModel = LessonModel(
+  id: 'lesson-vowels',
+  courseId: 'hiragana-from-zero',
+  description: 'Vowels',
+  duration: '06:05',
+  seqNo: 1,
 );

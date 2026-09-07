@@ -283,6 +283,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Run missing-index query'**
   String get fundamentalsRunIndexQuery;
+
+  /// No description provided for @fundamentalsLessonsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nested collection vs collection group'**
+  String get fundamentalsLessonsTitle;
+
+  /// No description provided for @fundamentalsLessonsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'A nested query stays under one course. A collection group query walks every lessons subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on lessons. orderBy seqNo needs a COLLECTION_GROUP index.'**
+  String get fundamentalsLessonsHint;
+
+  /// No description provided for @fundamentalsLessonsNestedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'courses/hiragana-from-zero/lessons orderBy seqNo'**
+  String get fundamentalsLessonsNestedTitle;
+
+  /// No description provided for @fundamentalsLessonsNestedHint.
+  ///
+  /// In en, this message translates to:
+  /// **'One parent path. Automatic single-field index. Only Hiragana lessons.'**
+  String get fundamentalsLessonsNestedHint;
+
+  /// No description provided for @fundamentalsLessonsGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'collectionGroup(\'lessons\') orderBy seqNo'**
+  String get fundamentalsLessonsGroupTitle;
+
+  /// No description provided for @fundamentalsLessonsGroupHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Same collection id under every course. Parent is not in the path. courseId comes from the snapshot parent. CREATE the collection-group index if Firestore returns a URL — this one you do want.'**
+  String get fundamentalsLessonsGroupHint;
+
+  /// No description provided for @fundamentalsReadNestedLessons.
+  ///
+  /// In en, this message translates to:
+  /// **'Read nested lessons'**
+  String get fundamentalsReadNestedLessons;
+
+  /// No description provided for @fundamentalsRunCollectionGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Run collection-group query'**
+  String get fundamentalsRunCollectionGroup;
+
+  /// No description provided for @fundamentalsLessonMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'{courseId} · seqNo {seqNo} · {duration}'**
+  String fundamentalsLessonMeta(String courseId, int seqNo, String duration);
 }
 
 class _AppLocalizationsDelegate

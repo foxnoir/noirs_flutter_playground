@@ -190,4 +190,37 @@ void main() {
     expect(document.dy, greaterThan(collection.dy));
     expect(document.dx, closeTo(collection.dx, 1));
   });
+
+  testWidgets('reads a collection-group lesson from the repository', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(800, 3200);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(lessons: [sampleLesson]),
+          ),
+        ],
+        child: const MaterialApp(
+          locale: Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: FirebaseFundamentalsScreen(),
+        ),
+      ),
+    );
+
+    await tester.ensureVisible(
+      find.byKey(const Key('fundamentals-collection-group')),
+    );
+    await tester.tap(find.byKey(const Key('fundamentals-collection-group')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Vowels'), findsOneWidget);
+  });
 }

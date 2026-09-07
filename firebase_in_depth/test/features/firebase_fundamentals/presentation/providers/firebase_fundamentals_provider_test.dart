@@ -97,4 +97,32 @@ void main() {
       const InvalidQueryFailure(detail: 'The query requires an index.'),
     );
   });
+
+  test('runCollectionGroupQuery stores lessons', () async {
+    final container = containerWith(
+      const FakeFirebaseFundamentalsRepository(lessons: [sampleLesson]),
+    );
+    final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container
+        .read(firebaseFundamentalsProvider.notifier)
+        .runCollectionGroupQuery();
+
+    expect(sub.read().collectionGroupLessons?.value, [sampleLesson]);
+  });
+
+  test('readNestedLessons stores lessons for the sample course', () async {
+    final container = containerWith(
+      const FakeFirebaseFundamentalsRepository(lessons: [sampleLesson]),
+    );
+    final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container
+        .read(firebaseFundamentalsProvider.notifier)
+        .readNestedLessons();
+
+    expect(sub.read().nestedLessons?.value, [sampleLesson]);
+  });
 }

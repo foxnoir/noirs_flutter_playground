@@ -1,4 +1,5 @@
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
 
 abstract interface class FirebaseFundamentalsRepository {
   Future<Course> fetchCourse(String id);
@@ -21,4 +22,8 @@ abstract interface class FirebaseFundamentalsRepository {
     required int seqNo,
     required int price,
   });
+
+  Future<List<Lesson>> fetchLessonsForCourse(String courseId);
+
+  Future<List<Lesson>> fetchLessonsCollectionGroup();
 }

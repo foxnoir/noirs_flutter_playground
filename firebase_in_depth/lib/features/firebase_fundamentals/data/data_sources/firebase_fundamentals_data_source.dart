@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 abstract interface class FirebaseFundamentalsDataSource {
@@ -24,6 +25,10 @@ abstract interface class FirebaseFundamentalsDataSource {
     required int seqNo,
     required int price,
   });
+
+  Future<List<LessonModel>> fetchLessonsForCourse(String courseId);
+
+  Future<List<LessonModel>> fetchLessonsCollectionGroup();
 }
 
 final firebaseFundamentalsDataSourceProvider =
@@ -36,6 +41,7 @@ class FirebaseFundamentalsDataSourceImpl
   FirebaseFundamentalsDataSourceImpl(this._firestore);
 
   static const _courses = 'courses';
+  static const _lessons = 'lessons';
 
   final FirebaseFirestore _firestore;
 
@@ -114,11 +120,41 @@ class FirebaseFundamentalsDataSourceImpl
     });
   }
 
+  @override
+  Future<List<LessonModel>> fetchLessonsForCourse(String courseId) {
+    return _guard(() {
+      return _mapLessons(
+        _collection.doc(courseId).collection(_lessons).orderBy('seqNo'),
+      );
+    });
+  }
+
+  @override
+  Future<List<LessonModel>> fetchLessonsCollectionGroup() {
+    return _guard(() {
+      return _mapLessons(_firestore.collectionGroup(_lessons).orderBy('seqNo'));
+    });
+  }
+
   Future<List<CourseModel>> _mapQuery(Query<Map<String, dynamic>> query) async {
     final snaps = await query.get();
     return [
       for (final snap in snaps.docs)
         CourseModel.fromJson({...snap.data(), 'id': snap.id}),
+    ];
+  }
+
+  Future<List<LessonModel>> _mapLessons(
+    Query<Map<String, dynamic>> query,
+  ) async {
+    final snaps = await query.get();
+    return [
+      for (final snap in snaps.docs)
+        LessonModel.fromJson({
+          ...snap.data(),
+          'id': snap.id,
+          'courseId': snap.reference.parent.parent?.id ?? '',
+        }),
     ];
   }
 

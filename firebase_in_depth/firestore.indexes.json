@@ -13,6 +13,16 @@
           "order": "ASCENDING"
         }
       ]
+    },
+    {
+      "collectionGroup": "lessons",
+      "queryScope": "COLLECTION_GROUP",
+      "fields": [
+        {
+          "fieldPath": "seqNo",
+          "order": "ASCENDING"
+        }
+      ]
     }
   ],
   "fieldOverrides": []

@@ -1,4 +1,5 @@
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_devtools_hint.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_lessons_lab.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_query_lab.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_read_section.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
@@ -21,6 +22,8 @@ class FirebaseFundamentalsScreen extends StatelessWidget {
           const FirebaseFundamentalsReadSection(),
           const SizedBox(height: 24),
           const FirebaseFundamentalsQueryLab(),
+          const SizedBox(height: 24),
+          const FirebaseFundamentalsLessonsLab(),
         ],
       ),
     );

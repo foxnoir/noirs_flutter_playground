@@ -249,7 +249,7 @@ Practice project for **GoRouter**, **layout**, **mixins**, **sealed classes**, *
   <a href="firebase_in_depth/README.md#test-coverage"><img align="right" src="firebase_in_depth/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-**Web first** (Chrome). Firestore lab **Firebase Fundamentals**: seeded `courses`, collection vs one document, then the index queries (automatic, two inequalities, composite, missing). Last practice app in this playground for now.
+**Web first** (Chrome). Firestore lab **Firebase Fundamentals**: seeded `courses`, collection vs one document, index queries, nested `lessons` vs `collectionGroup('lessons')`. Last practice app in this playground for now.
 
 [README »](firebase_in_depth/README.md)
 

@@ -36,5 +36,21 @@
   "fundamentalsRunValidQuery": "Gültige Query ausführen",
   "fundamentalsRunInvalidQuery": "Ungültige Query ausführen",
   "fundamentalsRunCompositeQuery": "Composite-Index-Query ausführen",
-  "fundamentalsRunIndexQuery": "Missing-Index-Query ausführen"
+  "fundamentalsRunIndexQuery": "Missing-Index-Query ausführen",
+  "fundamentalsLessonsTitle": "Nested Collection vs Collection Group",
+  "fundamentalsLessonsHint": "Eine nested Query bleibt unter einem Kurs. Eine Collection-Group-Query läuft jede lessons-Subcollection im Projekt ab. So listest du alle Lektionen, ohne jede Kurs-id zu kennen. Rules brauchen ein rekursives Match auf lessons. orderBy seqNo braucht einen COLLECTION_GROUP-Index.",
+  "fundamentalsLessonsNestedTitle": "courses/hiragana-from-zero/lessons orderBy seqNo",
+  "fundamentalsLessonsNestedHint": "Ein Parent-Pfad. Automatischer Single-Field-Index. Nur Hiragana-Lektionen.",
+  "fundamentalsLessonsGroupTitle": "collectionGroup('lessons') orderBy seqNo",
+  "fundamentalsLessonsGroupHint": "Dieselbe Collection-id unter jedem Kurs. Der Parent steht nicht im Query-Pfad. courseId kommt vom Snapshot-Parent. CREATE den Collection-Group-Index, wenn Firestore eine URL liefert — diesen Index willst du.",
+  "fundamentalsReadNestedLessons": "Nested Lessons lesen",
+  "fundamentalsRunCollectionGroup": "Collection-Group-Query ausführen",
+  "fundamentalsLessonMeta": "{courseId} · seqNo {seqNo} · {duration}",
+  "@fundamentalsLessonMeta": {
+    "placeholders": {
+      "courseId": {"type": "String"},
+      "seqNo": {"type": "int"},
+      "duration": {"type": "String"}
+    }
+  }
 }

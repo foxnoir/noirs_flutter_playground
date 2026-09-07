@@ -114,4 +114,40 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get fundamentalsRunIndexQuery => 'Missing-Index-Query ausführen';
+
+  @override
+  String get fundamentalsLessonsTitle =>
+      'Nested Collection vs Collection Group';
+
+  @override
+  String get fundamentalsLessonsHint =>
+      'Eine nested Query bleibt unter einem Kurs. Eine Collection-Group-Query läuft jede lessons-Subcollection im Projekt ab. So listest du alle Lektionen, ohne jede Kurs-id zu kennen. Rules brauchen ein rekursives Match auf lessons. orderBy seqNo braucht einen COLLECTION_GROUP-Index.';
+
+  @override
+  String get fundamentalsLessonsNestedTitle =>
+      'courses/hiragana-from-zero/lessons orderBy seqNo';
+
+  @override
+  String get fundamentalsLessonsNestedHint =>
+      'Ein Parent-Pfad. Automatischer Single-Field-Index. Nur Hiragana-Lektionen.';
+
+  @override
+  String get fundamentalsLessonsGroupTitle =>
+      'collectionGroup(\'lessons\') orderBy seqNo';
+
+  @override
+  String get fundamentalsLessonsGroupHint =>
+      'Dieselbe Collection-id unter jedem Kurs. Der Parent steht nicht im Query-Pfad. courseId kommt vom Snapshot-Parent. CREATE den Collection-Group-Index, wenn Firestore eine URL liefert — diesen Index willst du.';
+
+  @override
+  String get fundamentalsReadNestedLessons => 'Nested Lessons lesen';
+
+  @override
+  String get fundamentalsRunCollectionGroup =>
+      'Collection-Group-Query ausführen';
+
+  @override
+  String fundamentalsLessonMeta(String courseId, int seqNo, String duration) {
+    return '$courseId · seqNo $seqNo · $duration';
+  }
 }

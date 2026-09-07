@@ -74,6 +74,21 @@ class FirebaseFundamentalsNotifier extends Notifier<FirebaseFundamentalsState> {
     );
   }
 
+  Future<void> readNestedLessons() {
+    return _run(
+      setValue: (value) => state = state.copyWith(nestedLessons: value),
+      run: () => _repository.fetchLessonsForCourse(sampleCourseId),
+    );
+  }
+
+  Future<void> runCollectionGroupQuery() {
+    return _run(
+      setValue: (value) =>
+          state = state.copyWith(collectionGroupLessons: value),
+      run: _repository.fetchLessonsCollectionGroup,
+    );
+  }
+
   Future<void> _run<T>({
     required void Function(AsyncValue<T> value) setValue,
     required Future<T> Function() run,

@@ -53,6 +53,7 @@
         <li><a href="#large-collection-of-small-documents">Large collection of small documents</a></li>
         <li><a href="#nested-collections">Nested collections</a></li>
         <li><a href="#nested-versus-two-root-collections">Nested versus two root collections</a></li>
+        <li><a href="#collection-group-queries">Collection group queries</a></li>
         <li><a href="#courses-in-this-project">Courses in this project</a></li>
         <li><a href="#freezed">Freezed</a></li>
         <li><a href="#performance-guarantees-and-indexes">Performance guarantees and indexes</a></li>
@@ -88,10 +89,11 @@ The Firestore collection [`courses`](https://console.firebase.google.com/project
 - read the collection
 - read one document by id
 - four queries: automatic index, two inequalities, composite `url` + `seqNo`, missing `price` + `seqNo`
+- nested `lessons` under one course vs `collectionGroup('lessons')` for every lesson
 
 Last practice app in the playground for now.
 
-Flutter CRUD, collection group queries, offline cache, the **local emulator**, and **Storage** are not wired yet.
+Flutter CRUD, offline cache, the **local emulator**, and **Storage** are not wired yet.
 
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
@@ -110,16 +112,16 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - l10n (English / German)
 - Feature folders (`presentation` / `data` / `domain`)
 - **Landing Screen** (`LandingScreen`) — GoRouter hub, same idea as Advanced Concepts
-- **Firebase Fundamentals** — collection / document reads and the index lab (valid, invalid, composite, missing index)
+- **Firebase Fundamentals** — collection / document reads, index lab, nested lessons vs collection group
 - Sealed `AppException` / `AppFailure` with l10n mapping
-- [Freezed](https://pub.dev/packages/freezed) for Firestore models and entities (`Course` / `Tutor`)
+- [Freezed](https://pub.dev/packages/freezed) for Firestore models and entities (`Course` / `Tutor` / `Lesson`)
 - Material 3 seed theme
 - [Firebase](https://firebase.google.com/) (`firebase_core`, web + iOS on `fir-in-depth-813e4`)
 - [Firestore](https://firebase.google.com/docs/firestore) collection `courses` (seeded; Fundamentals reads it)
 - [FVM](https://fvm.app) pin
 - Coverage badge and card
 
-Coming: Firestore CRUD in the app, collection groups, emulator, Storage / photo upload.
+Coming: Firestore CRUD in the app, emulator, Storage / photo upload.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -166,7 +168,7 @@ courses / hiragana-from-zero / lessons / {autoId}
 
 Course IDs are slugs (`hiragana-from-zero`) — a natural unique identifier. Lesson IDs are **auto-generated**. A lesson has no stable unique key of its own; `seqNo` is only order inside that course, not an ID. Click the lesson in the console to open the **fourth** column (`description`, `duration`, `seqNo`). The collection list shows IDs only.
 
-Some courses have a `lessons` subcollection (Hiragana, Kanji, Keigo). The others do not — a missing nested collection is normal, not an error. `lessonsCount` on the course matches the seeded lesson docs. Deleting the course document does **not** delete `lessons`. Collection group queries (`collectionGroup('lessons')`) are the later lab: one query across every course's `lessons`.
+Some courses have a `lessons` subcollection (Hiragana, Kanji, Keigo). The others do not — a missing nested collection is normal, not an error. `lessonsCount` on the course matches the seeded lesson docs. Deleting the course document does **not** delete `lessons`.
 
 ### Nested versus two root collections
 
@@ -175,6 +177,35 @@ Nest when the child **cannot exist without** the parent. A lesson is not a stand
 Use **two root collections** when both entities have their own life. `users` and `courses` stay siblings: a user is not deleted with a course. Same if you mostly list *all* lessons in the project with no course in hand — that is either a [collection group](https://firebase.google.com/docs/firestore/query-data/queries#collection-group-query) or a root `lessons` collection plus `courseId`. Do not nest only to make the console look tidy.
 
 “Cannot exist without” is a **domain** rule. Firestore has no foreign key and no cascade delete. If you remove a course, delete its `lessons` yourself (or with a Function).
+
+### Collection group queries
+
+A nested read stays under one parent:
+
+```text
+courses / hiragana-from-zero / lessons   →   orderBy seqNo
+```
+
+That is **Read nested lessons**. Automatic single-field index. Only that course.
+
+**Run collection-group query** is one query across every `lessons` subcollection, whatever the parent:
+
+```dart
+FirebaseFirestore.instance.collectionGroup('lessons').orderBy('seqNo')
+```
+
+There is no `courseId` field on the document. The lab reads it from `snapshot.reference.parent.parent` (the course doc). `orderBy seqNo` then mixes courses: every seqNo 1, then every seqNo 2.
+
+Two extra pieces, or the button fails:
+
+| Piece | Why |
+| --- | --- |
+| Rule `match /{path=**}/lessons/{id}` | Nested `match /courses/{id}/lessons/{id}` is not enough for a collection group |
+| Index `queryScope: COLLECTION_GROUP` on `lessons.seqNo` | Single-field indexes are per collection path, not across parents |
+
+Both are in this repo (`firestore.rules`, `firestore.indexes.json`). Deploy, or tap the button and CREATE from the Console URL. Unlike **Run missing-index query**, this index you **do** want.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Courses in this project
 
@@ -391,16 +422,16 @@ fvm flutter run -d chrome
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Firestore **rules** in this folder allow client **reads** on `courses` (and nested `lessons`) and deny writes. Deploy them once if the lab returns a permission error:
+Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). Writes stay denied. Collection-group reads fail until those rules are deployed:
 
 ```
-npx firebase-tools@13.35.1 deploy --only firestore:rules --project fir-in-depth-813e4
+npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --project fir-in-depth-813e4
 ```
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**65.4%** line coverage (389 of 595 lines).
+**65.5%** line coverage (485 of 740 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -453,9 +484,11 @@ The screen does not fetch on load. Each button is one read. From **600px** (Mate
 | Run invalid query | `seqNo <= 5` **and** `lessonsCount <= 10` — two inequalities |
 | Run composite-index query | `seqNo <= 20` **and** `url == hiragana-from-zero` — composite in `firestore.indexes.json` |
 | Run missing-index query | `seqNo <= 20` **and** `price == 15` — Console URL |
+| Read nested lessons | `courses/hiragana-from-zero/lessons` ordered by `seqNo` |
+| Run collection-group query | `collectionGroup('lessons')` ordered by `seqNo` — needs COLLECTION_GROUP index + recursive rule |
 
-Names follow the feature, like Sealed Lab: `FirebaseFundamentalsDataSource` / `FirebaseFundamentalsDataSourceImpl`, `FirebaseFundamentalsRepository` / `FirebaseFundamentalsRepositoryImpl`. No extra `Firestore` / `Course` prefix — this lab talks to Firestore, but the types are named after the feature. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course` and `Tutor` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
+Names follow the feature, like Sealed Lab: `FirebaseFundamentalsDataSource` / `FirebaseFundamentalsDataSourceImpl`, `FirebaseFundamentalsRepository` / `FirebaseFundamentalsRepositoryImpl`. No extra `Firestore` / `Course` prefix — this lab talks to Firestore, but the types are named after the feature. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course`, `Tutor`, and `Lesson` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
 
-Why the failing queries fail: [Performance guarantees and indexes](#performance-guarantees-and-indexes).
+Why the failing queries fail: [Performance guarantees and indexes](#performance-guarantees-and-indexes). Nested vs all lessons: [Collection group queries](#collection-group-queries).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
