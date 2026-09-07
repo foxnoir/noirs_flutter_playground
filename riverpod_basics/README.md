@@ -118,7 +118,7 @@ The landing page has two sections:
 - **Providers** — the same counter five ways: local `setState`, `StateProvider`, `NotifierProvider`, then `AsyncNotifierProvider` (persistent and autoDispose). Details under [Providers](#providers).
 - **Labs** — listen vs `listenManual`, Consumer vs ConsumerWidget, Quote / Tick / Refresh, Auth + GoRouter, AutoDispose lifetimes, User List / Add User / User Search. How each lab works is in the sections below.
 
-Folder layout: [playground architecture](../README.md#app-architecture-and-folder-structure). Shared UI in `shared_widgets/`. UI locale English; German ARBs stay for tests. See [Freezed](#freezed) and [Errors](#errors).
+Folder layout: [playground architecture](../README.md#app-architecture-and-folder-structure) (class name matches the file; `*Impl` → `*_impl.dart` when the impl is its own file). Shared UI in `shared_widgets/`. UI locale English; German ARBs stay for tests. See [Freezed](#freezed) and [Errors](#errors).
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 
@@ -563,7 +563,7 @@ Or the Cursor / VS Code task **Build Runner** (Command Palette → **Tasks: Run 
 
 Do not edit `*.freezed.dart` or `*.g.dart`. `analysis_options.yaml` excludes them. `invalid_annotation_target` is ignored so `@JsonKey` on Freezed fields does not warn.
 
-The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. **`UserListDataSourceImpl`** returns models and throws `AppException`. **`UserListRepositoryImpl`** maps models → entities and exceptions → `AppFailure`. **`UserListState`** is the list snapshot: `users`, `isLoading`, and `error` (`AppFailure?`, not a raw string). **`UserState`** on Add User is only `isAdded` and `error`. **`UserSearchState`** is the Notifier search snapshot; Family search uses `AsyncValue`. Screens hold `User` entities, not `UserModel`. Add User and User Search import User List; there is no shared users folder.
+The User List lab splits that shape in two, then both labs add a [custom state class](#custom-state-classes). **`User`** is the domain entity (`lib/features/labs/user_list/domain/entities/user.dart`) — no JSON. **`UserModel`** is the data model (`lib/features/labs/user_list/data/models/user_model.dart`) — `fromJson` / `toJson`, plus `toEntity()` / `toModel()`. **`UserListDataSourceImpl`** (`in_memory_user_list_data_source.dart`, contract in the same file) returns models and throws `AppException`. **`UserListRepositoryImpl`** (`in_memory_user_list_repository.dart`) maps models → entities and exceptions → `AppFailure`. The domain contract is `user_list_repository.dart`. **`UserListState`** is the list snapshot: `users`, `isLoading`, and `error` (`AppFailure?`, not a raw string). **`UserState`** on Add User is only `isAdded` and `error`. **`UserSearchState`** is the Notifier search snapshot; Family search uses `AsyncValue`. Screens hold `User` entities, not `UserModel`. Add User and User Search import User List; there is no shared users folder.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

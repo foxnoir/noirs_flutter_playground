@@ -127,7 +127,7 @@ The **Landing Screen** is a list of labs:
 - **Mixins**, **Sealed** (book formats), **Generics**, **Lists** — each its own screen
 - **API Handling** — concepts, the same bookshelf twice (`package:http` and Dio against a Firebase emulator), then a compare debugger. Two HTTP clients in one app is the lesson, not a production pattern.
 
-Layout is **mobile first**: compact, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. No AdaptiveScaffold. Layers match [Riverpod Basics](../README.md#app-architecture-and-folder-structure). Screen-by-screen notes are in the sections below.
+Layout is **mobile first**: compact, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. No AdaptiveScaffold. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure) (class name matches the file; `*Impl` → `*_impl.dart` when the impl is its own file). Screen-by-screen notes are in the sections below.
 
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)

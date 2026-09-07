@@ -47,7 +47,7 @@
 
 ## About
 
-This folder holds copyable Flutter app skeletons. Copy a starter when you begin a new project, then rename the Dart package.
+This folder holds copyable Flutter app skeletons. Copy a starter when you begin a new project, then rename the Dart package. Folder layout and naming (`*Impl` → `*_impl.dart` when the impl is its own file) follow the playground [architecture](../README.md#app-architecture-and-folder-structure).
 
 The first starter is **Riverpod Basic Starter**: Riverpod, GoRouter, l10n, feature folders, sealed errors, and sample **Items** + **Item Details** so you start from a known shape.
 

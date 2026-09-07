@@ -158,7 +158,7 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 **Items** is the list. **Item Details** is its own feature — same idea as User Details in Advanced Concepts. Data stays in Items (`ItemDataSourceImpl` → `ItemRepositoryImpl`). Details watches `itemDetailsProvider` and reads that repository. Screens are `ItemsScreen` / `ItemDetailsScreen`. Feature-local UI lives in `presentation/widgets/` (`ItemsRow`, `ItemDetailsMetadata`, `ItemDetailsData`).
 
-Layers match the playground [folder structure](../../README.md#app-architecture-and-folder-structure).
+Layers match the playground [folder structure](../../README.md#app-architecture-and-folder-structure) (class name matches the file; `*Impl` → `*_impl.dart` when the impl is its own file). Data source and repository still colocate the contract with `ItemDataSourceImpl` / `ItemRepositoryImpl` in `in_memory_item_*.dart`.
 
 - **Data source** — fake GET. Returns `ItemModel`. Throws `NetworkException` / `NotFoundException`.
 - **Repository** — `on AppException` → `AppFailure.fromException`. Models → `Item` entities. Throws `AppFailure`.

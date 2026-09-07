@@ -73,7 +73,7 @@ Each folder is a standalone practice project. Topics include **Riverpod**, **nav
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**. Firebase in Depth is **web-first** (Chrome DevTools for Firestore traffic). **Firebase Fundamentals** (document vs collection, index queries) is the last lab in this playground for now.
+Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**. Firebase in Depth is **web-first** (Chrome DevTools for Firestore traffic). **Firebase Fundamentals** (document vs collection, index queries, nested `lessons` vs `collectionGroup('lessons')`) is the last lab in this playground for now.
 
 Copyable starters live in [app_starters](app_starters/).
 
@@ -109,12 +109,12 @@ app/
 │   │   └── feature_name/
 │   │       ├── data/
 │   │       │   ├── models/
-│   │       │   ├── data_sources/   # or remote_services/ — throw AppException
+│   │       │   ├── data_sources/   # contract + *_impl.dart — throw AppException
 │   │       │   ├── remote_services/
-│   │       │   └── repositories/   # map AppException → AppFailure, models → entities
+│   │       │   └── repositories/   # *Impl in *_impl.dart; map AppException → AppFailure
 │   │       ├── domain/
 │   │       │   ├── entities/
-│   │       │   ├── repositories/
+│   │       │   ├── repositories/   # contracts only — no _impl
 │   │       │   └── use_cases/
 │   │       └── presentation/
 │   │           ├── providers/
@@ -138,8 +138,8 @@ Code is grouped by **feature**, not by technical layer at the app root. A change
 #### Data
 
 - **models/** — API, JSON, or local shapes.
-- **data_sources/** / **remote_services/** — GET, prefs, Firebase. Throw `AppException`. Return models, not entities.
-- **repositories/** — implementations of the domain repository contracts. Map models to entities. Catch `on AppException` and `throw AppFailure.fromException(e)` (dartz equivalent: `Left(ApiFailure.fromException(e))`).
+- **data_sources/** / **remote_services/** — GET, prefs, Firebase. Throw `AppException`. Return models, not entities. Contract and `*Impl` are separate files when the impl is its own class (`foo_data_source.dart` / `foo_data_source_impl.dart`).
+- **repositories/** — implementations of the domain repository contracts (`foo_repository_impl.dart`). Map models to entities. Catch `on AppException` and `throw AppFailure.fromException(e)` (dartz equivalent: `Left(ApiFailure.fromException(e))`).
 
 #### Domain
 
@@ -177,8 +177,10 @@ The DELETE lab session is a feature (`api_lab_session`), not chrome. HTTP and Di
 
 ### Naming
 
-- Contracts follow the feature: `UserListDataSource`, `UserListRepository` — not a generic `UserRepository`.
-- The class in `data/` is the public implementation: `UserListDataSourceImpl`, `UserListRepositoryImpl`.
+- Class name and file name match: `FirebaseFundamentalsScreen` → `firebase_fundamentals_screen.dart`.
+- Contracts follow the feature: `UserListDataSource`, `UserListRepository` — not a generic `UserRepository`. Domain contract file has **no** `_impl`: `firebase_fundamentals_repository.dart`.
+- The class in `data/` is the public implementation: `UserListDataSourceImpl`, `UserListRepositoryImpl`. When that class is its own file, the file is `*_impl.dart` (`firebase_fundamentals_repository_impl.dart`). Tests follow (`*_impl_test.dart`).
+- Older labs may still colocate a data-source contract and `*Impl` in `in_memory_*.dart`. New splits use the `_impl` file.
 - Tests construct `*Impl(fake)` or override the provider.
 - `HardWiredUserListRepository` is the Riverpod Basics anti-example — not an `Impl`.
 
