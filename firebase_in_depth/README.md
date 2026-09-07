@@ -74,7 +74,8 @@
         <li><a href="#test-coverage">Test coverage</a></li>
       </ul>
     </li>
-    <li><a href="#firebase-fundamentals">Firebase Fundamentals</a></li>
+        <li><a href="#firebase-course-lab">Firebase Course Lab</a></li>
+        <li><a href="#firebase-fundamentals">Firebase Fundamentals</a></li>
     <li><a href="#errors">Errors</a></li>
   </ol>
 </details>
@@ -113,7 +114,9 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - [GoRouter](https://pub.dev/packages/go_router)
 - l10n (English / German)
 - Feature folders (`presentation` / `data` / `domain`)
-- **Landing Screen** (`LandingScreen`) — GoRouter hub, same idea as Advanced Concepts
+- **Landing Screen** (`LandingScreen`) — website header + cards, GoRouter hub
+- **Firebase Course Lab** — Home with `PageView` (beginner / advanced)
+- `assets/img/bg.webp` behind every page (`AppBackground`)
 - **Firebase Fundamentals** — collection / document reads, index lab, nested lessons vs collection group, realtime snapshots
 - Sealed `AppException` / `AppFailure` with l10n mapping
 - [Freezed](https://pub.dev/packages/freezed) for Firestore models and entities (`Course` / `Tutor` / `Lesson`)
@@ -454,7 +457,7 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --pro
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**65.2%** line coverage (646 of 991 lines).
+**69.8%** line coverage (849 of 1216 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -493,9 +496,17 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 ---
 
+## Firebase Course Lab
+
+**Landing Screen** → **Firebase Course Lab** (`goNamed` `home`). Home is a **PageView**: **Beginner course** / **Advanced course** slide left and right (tap the links or swipe). Both pages share the same height. The track is local UI state for now — Firestore lists come next. Background is `assets/img/bg.webp` on every `SiteScaffold` page. The chrome is a website header (`SiteHeader`): **Home** (landing), then **Fundamentals**, then **Lab** (course catalog). Landing cards put Fundamentals on the left and Course Lab on the right.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
 ## Firebase Fundamentals
 
-**Landing Screen** → **Firebase Fundamentals** (`pushNamed`). Run in **Chrome**. Open DevTools → Network → filter `firestore` *before* tapping buttons, or you miss the call.
+**Landing Screen** → **Firebase Fundamentals** (`goNamed`). Run in **Chrome**. Open DevTools → Network → filter `firestore` *before* tapping buttons, or you miss the call.
 
 The screen does not fetch on load. Each button is one read, except **Listen** which opens `snapshots()` until **Stop**. Leave **DevTools** → **Network** (filter `firestore`) open: **Listen** dumps the first channel payload; **Increment** should add a **new** call. From **600px** (Material medium) **Read collection** and **Read document** sit in a row; below that working queries are on the left and the two that fail are stacked on the right. Realtime is listen + change log. Buttons use teal when the read should succeed and the error rose when it should fail — they do not stretch full width.
 

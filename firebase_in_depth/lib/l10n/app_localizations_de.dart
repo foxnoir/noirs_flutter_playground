@@ -24,6 +24,30 @@ class AppLocalizationsDe extends AppLocalizations {
   String get back => 'Zurück';
 
   @override
+  String get navHome => 'Home';
+
+  @override
+  String get navFundamentals => 'Grundlagen';
+
+  @override
+  String get navLab => 'Lab';
+
+  @override
+  String get landingHeadline => 'Ein Kurskatalog auf Firestore.';
+
+  @override
+  String get landingLead =>
+      'Home ist der Katalog. Grundlagen ist das Query-Lab. Ein Projekt, zwei Seiten.';
+
+  @override
+  String get courseLabCardBody =>
+      'Beginner und Fortgeschrittene. Link tippen oder die Seiten wischen.';
+
+  @override
+  String get fundamentalsCardBody =>
+      'Collection-Reads, Indexes, nested Lessons und Realtime Snapshots.';
+
+  @override
   String get errorOccurred => 'Es ist leider ein Fehler aufgetreten.';
 
   @override
@@ -223,4 +247,30 @@ class AppLocalizationsDe extends AppLocalizations {
   ) {
     return 'seqNo $seqNo · $lessonsCount Lektionen · $participants Teilnehmer';
   }
+
+  @override
+  String get courseLab => 'Firebase Kurs Lab';
+
+  @override
+  String get courseLabHome => 'Home';
+
+  @override
+  String get courseLabBeginner => 'Beginnerkurs';
+
+  @override
+  String get courseLabAdvanced => 'Fortgeschrittenenkurs';
+
+  @override
+  String get courseLabBeginnerHeadline => 'Mit den Kana anfangen.';
+
+  @override
+  String get courseLabBeginnerBody =>
+      'Hiragana, Katakana und die ersten Grammatikmuster. Kurze Lektionen für einen Abend.';
+
+  @override
+  String get courseLabAdvancedHeadline => 'Keigo, Kanji und Nuancen.';
+
+  @override
+  String get courseLabAdvancedBody =>
+      'Keigo, Kanji-Komposita und Kurse, die Kana schon voraussetzen.';
 }

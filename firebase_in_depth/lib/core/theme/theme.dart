@@ -10,6 +10,13 @@ ThemeData getLightTheme() {
 
 ThemeData _buildTheme(ColorScheme colorScheme) {
   const textTheme = TextTheme(
+    /// Page titles on the website chrome.
+    displaySmall: TextStyle(
+      fontSize: 32,
+      fontWeight: FontWeight.w600,
+      height: 1.2,
+    ),
+
     /// Section titles.
     titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w600),
 
@@ -35,6 +42,7 @@ ThemeData _buildTheme(ColorScheme colorScheme) {
   return ThemeData(
     colorScheme: colorScheme,
     textTheme: textTheme.copyWith(
+      displaySmall: textTheme.displaySmall?.copyWith(color: AppColor.purple),
       titleLarge: textTheme.titleLarge?.copyWith(color: AppColor.purple),
     ),
     appBarTheme: AppBarTheme(

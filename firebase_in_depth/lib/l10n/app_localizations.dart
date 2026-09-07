@@ -128,6 +128,48 @@ abstract class AppLocalizations {
   /// **'Back'**
   String get back;
 
+  /// Header brand link back to the landing page.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get navHome;
+
+  /// Header link to the Firestore query lab.
+  ///
+  /// In en, this message translates to:
+  /// **'Fundamentals'**
+  String get navFundamentals;
+
+  /// Header link to the course catalog home.
+  ///
+  /// In en, this message translates to:
+  /// **'Lab'**
+  String get navLab;
+
+  /// Landing page headline.
+  ///
+  /// In en, this message translates to:
+  /// **'A course catalog on Firestore.'**
+  String get landingHeadline;
+
+  /// Landing page lead copy.
+  ///
+  /// In en, this message translates to:
+  /// **'Home is the catalog. Fundamentals is the query lab. Same project, two pages.'**
+  String get landingLead;
+
+  /// Landing card copy for Course Lab.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner and advanced tracks. Tap a link or swipe the pages.'**
+  String get courseLabCardBody;
+
+  /// Landing card copy for Firebase Fundamentals.
+  ///
+  /// In en, this message translates to:
+  /// **'Collection reads, indexes, nested lessons, and realtime snapshots.'**
+  String get fundamentalsCardBody;
+
   /// Generic error fallback.
   ///
   /// In en, this message translates to:
@@ -453,6 +495,54 @@ abstract class AppLocalizations {
     int lessonsCount,
     int participants,
   );
+
+  /// Landing tile for the course catalog home.
+  ///
+  /// In en, this message translates to:
+  /// **'Firebase Course Lab'**
+  String get courseLab;
+
+  /// Course Lab home heading and header link.
+  ///
+  /// In en, this message translates to:
+  /// **'Home'**
+  String get courseLabHome;
+
+  /// Home swap segment for beginner courses.
+  ///
+  /// In en, this message translates to:
+  /// **'Beginner course'**
+  String get courseLabBeginner;
+
+  /// Home swap segment for advanced courses.
+  ///
+  /// In en, this message translates to:
+  /// **'Advanced course'**
+  String get courseLabAdvanced;
+
+  /// Beginner panel headline on Course Lab Home.
+  ///
+  /// In en, this message translates to:
+  /// **'Start with the kana.'**
+  String get courseLabBeginnerHeadline;
+
+  /// Beginner panel body on Course Lab Home.
+  ///
+  /// In en, this message translates to:
+  /// **'Hiragana, katakana, and the first grammar patterns. Short lessons you can finish in an evening.'**
+  String get courseLabBeginnerBody;
+
+  /// Advanced panel headline on Course Lab Home.
+  ///
+  /// In en, this message translates to:
+  /// **'Keigo, kanji, and nuance.'**
+  String get courseLabAdvancedHeadline;
+
+  /// Advanced panel body on Course Lab Home.
+  ///
+  /// In en, this message translates to:
+  /// **'Keigo, kanji compounds, and the courses that assume you already read kana.'**
+  String get courseLabAdvancedBody;
 }
 
 class _AppLocalizationsDelegate

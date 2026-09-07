@@ -20,6 +20,34 @@
   "@back": {
     "description": "Navigate back."
   },
+  "navHome": "Home",
+  "@navHome": {
+    "description": "Header brand link back to the landing page."
+  },
+  "navFundamentals": "Grundlagen",
+  "@navFundamentals": {
+    "description": "Header link to the Firestore query lab."
+  },
+  "navLab": "Lab",
+  "@navLab": {
+    "description": "Header link to the course catalog home."
+  },
+  "landingHeadline": "Ein Kurskatalog auf Firestore.",
+  "@landingHeadline": {
+    "description": "Landing page headline."
+  },
+  "landingLead": "Home ist der Katalog. Grundlagen ist das Query-Lab. Ein Projekt, zwei Seiten.",
+  "@landingLead": {
+    "description": "Landing page lead copy."
+  },
+  "courseLabCardBody": "Beginner und Fortgeschrittene. Link tippen oder die Seiten wischen.",
+  "@courseLabCardBody": {
+    "description": "Landing card copy for Course Lab."
+  },
+  "fundamentalsCardBody": "Collection-Reads, Indexes, nested Lessons und Realtime Snapshots.",
+  "@fundamentalsCardBody": {
+    "description": "Landing card copy for Firebase Fundamentals."
+  },
   "errorOccurred": "Es ist leider ein Fehler aufgetreten.",
   "@errorOccurred": {
     "description": "Generic error fallback."
@@ -250,5 +278,37 @@
       "lessonsCount": {"type": "int"},
       "participants": {"type": "int"}
     }
+  },
+  "courseLab": "Firebase Kurs Lab",
+  "@courseLab": {
+    "description": "Landing tile for the course catalog home."
+  },
+  "courseLabHome": "Home",
+  "@courseLabHome": {
+    "description": "Course Lab home heading and header link."
+  },
+  "courseLabBeginner": "Beginnerkurs",
+  "@courseLabBeginner": {
+    "description": "Home swap segment for beginner courses."
+  },
+  "courseLabAdvanced": "Fortgeschrittenenkurs",
+  "@courseLabAdvanced": {
+    "description": "Home swap segment for advanced courses."
+  },
+  "courseLabBeginnerHeadline": "Mit den Kana anfangen.",
+  "@courseLabBeginnerHeadline": {
+    "description": "Beginner panel headline on Course Lab Home."
+  },
+  "courseLabBeginnerBody": "Hiragana, Katakana und die ersten Grammatikmuster. Kurze Lektionen für einen Abend.",
+  "@courseLabBeginnerBody": {
+    "description": "Beginner panel body on Course Lab Home."
+  },
+  "courseLabAdvancedHeadline": "Keigo, Kanji und Nuancen.",
+  "@courseLabAdvancedHeadline": {
+    "description": "Advanced panel headline on Course Lab Home."
+  },
+  "courseLabAdvancedBody": "Keigo, Kanji-Komposita und Kurse, die Kana schon voraussetzen.",
+  "@courseLabAdvancedBody": {
+    "description": "Advanced panel body on Course Lab Home."
   }
 }
