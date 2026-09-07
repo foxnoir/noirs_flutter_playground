@@ -431,7 +431,7 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --pro
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**65.7%** line coverage (486 of 740 lines).
+**65.6%** line coverage (484 of 738 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

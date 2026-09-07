@@ -1,5 +1,4 @@
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_lesson_tile.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
@@ -18,10 +17,31 @@ class FirebaseFundamentalsLessonList extends StatelessWidget {
     }
 
     return Column(
-      children: [
-        for (final lesson in lessons)
-          FirebaseFundamentalsLessonTile(lesson: lesson),
-      ],
+      children: [for (final lesson in lessons) _LessonTile(lesson: lesson)],
+    );
+  }
+}
+
+class _LessonTile extends StatelessWidget {
+  const _LessonTile({required this.lesson});
+
+  final Lesson lesson;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+
+    return ListTile(
+      contentPadding: EdgeInsets.zero,
+      leading: const Icon(Icons.play_lesson_outlined),
+      title: Text(lesson.description),
+      subtitle: Text(
+        l10n.fundamentalsLessonMeta(
+          lesson.courseId,
+          lesson.seqNo,
+          lesson.duration,
+        ),
+      ),
     );
   }
 }
