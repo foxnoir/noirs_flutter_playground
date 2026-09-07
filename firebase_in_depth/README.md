@@ -122,7 +122,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - [Freezed](https://pub.dev/packages/freezed) for Firestore models and entities (`Course` / `Tutor` / `Lesson`)
 - Material 3 seed theme
 - [Firebase](https://firebase.google.com/) (`firebase_core`, web + iOS on `fir-in-depth-813e4`)
-- [Firestore](https://firebase.google.com/docs/firestore) collection `courses` (seeded; Fundamentals reads it)
+- [Firestore](https://firebase.google.com/docs/firestore) collection `courses` (seeded; Course Lab owns the data layer, Fundamentals uses it)
 - [FVM](https://fvm.app) pin
 - Coverage badge and card
 
@@ -244,7 +244,7 @@ This playground still keeps **the same fields on every course**. Firestore is **
 | `seqNo` | number | List order / pagination cursor. Keep it a number, not `"1"`. |
 | `lessonsCount` | number | Denormalized. Do not count a subcollection on every list read. |
 | `price` | number | |
-| `categories` | array of string | Small and bounded, e.g. `BEGINNER` |
+| `categories` | array of string | Small and bounded. Seed: `BEGINNER` or `INTERMEDIATE`. Home `array-contains` those strings. Angular’s sample used `ADVANCE` (typo) — we do not. |
 | `icon` | string | `purple` / `light_purple` / `green` / `turquoise` → `assets/icons/courses/course_$icon.png` |
 | `tutor` | map | Nested object: `name` (string), `employedSince` (array `[year, month, day]`) |
 | `participants` | number | Optional. Missing reads as `0`. Realtime lab increments this field. |
@@ -457,7 +457,7 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --pro
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**70.1%** line coverage (853 of 1216 lines).
+**70.9%** line coverage (895 of 1263 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -488,7 +488,7 @@ Thrown objects and UI copy are different types. No extra package: Dart 3 **`seal
 
 Files: `lib/core/errors/`. Copy lives in ARB (`errorNetwork`, `errorNotFound`, `errorPermission`, `errorInvalidQuery`, `errorOccurred`). **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`) is the shared error screen (icon + message + optional retry). Import material with `hide ErrorWidget`. `InvalidQueryFailure` may show the Firestore `message` (index URL / “two inequality fields”) when the backend sent one.
 
-**Firebase Fundamentals** is the working Firestore example: `FirebaseFundamentalsDataSourceImpl` throws `AppException` (`AppException.fromFirebase` on the sealed class in `core/errors/`); `FirebaseFundamentalsRepositoryImpl` maps to `AppFailure`; the lab notifier stores `AsyncValue`s; the UI calls `localizedError`.
+**Firebase Fundamentals** is the working Firestore example: `CourseLabDataSourceImpl` throws `AppException` (`AppException.fromFirebase` on the sealed class in `core/errors/`); `CourseLabRepositoryImpl` maps to `AppFailure`; the lab notifier stores `AsyncValue`s; the UI calls `localizedError`.
 
 Form validation is not a fetch failure. Keep those as field/form strings.
 
@@ -498,7 +498,17 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 ## Firebase Course Lab
 
-**Landing Screen** → **Firebase Course Lab** (`goNamed` `home`). Home is a **PageView**: **Beginner course** / **Advanced course** slide left and right (tap the links or swipe). Both pages share the same height. The track is local UI state for now — Firestore lists come next. Background is `assets/img/bg.webp` on every `SiteScaffold` page. The chrome is a website header (`SiteHeader`): **Home** (landing), then **Fundamentals**, then **Lab** (course catalog). Landing cards put Fundamentals on the left and Course Lab on the right.
+**Landing Screen** → **Firebase Course Lab** (`goNamed` `home`). Home is a **PageView**: **Beginner course** / **Advanced course** slide left and right (tap the links or swipe). Both pages share the same height. Background is `assets/img/bg.webp` on every `SiteScaffold` page. The chrome is a website header (`SiteHeader`): **Home** (landing), then **Fundamentals**, then **Lab** (course catalog). Landing cards put Fundamentals on the left and Course Lab on the right.
+
+Opening Home loads **both** tracks at once: two `array-contains` queries on `categories` (`BEGINNER` and `INTERMEDIATE`) in parallel, then each panel lists the matching courses. That is a lab choice — the point here is to try `array-contains`. In a product it can be smarter to fetch Advanced only after that page is selected. Decide per project.
+
+The Advanced page queries **`INTERMEDIATE`**, because that is what the seed actually stored (Keigo, counters, onomatopoeia). Angular’s sample used `ADVANCE` (typo). There is no `ADVANCED` value in these documents — `array-contains` is an exact string match, so a wrong token returns an empty list, not an error. The query has no `orderBy` (no extra composite index); Home sorts by `seqNo` in Dart.
+
+Course Lab owns **data + domain** for `courses`: `CourseLabDataSource`, `CourseLabRepository`, models, entities. Home is presentation (`PageView`, notifier) and reads through that repository (`fetchCoursesByCategory`).
+
+**Firebase Fundamentals** is the small query/index/realtime workbench. It has **no** data layer of its own. Its notifier calls `CourseLabRepository` — Fundamentals → Course Lab, not the other way around.
+
+Either direction breaks strict **feature-first**. Copying the Firestore stack into both features would be worse. A shared `core` data layer would also be valid; this playground does **not** extract one, and the rest of the repo is not all wired the same way. Here Course Lab is the main lab (the catalog), Fundamentals is a testing area, so the data lives under Course Lab.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -524,7 +534,7 @@ The screen does not fetch on load. Each button is one read, except **Listen** wh
 | Stop | Cancel the subscription |
 | Increment participants | `FieldValue.increment(1)` on `hiragana-from-zero.participants` — or set the number in the Console |
 
-Names follow the feature, like Sealed Lab — no extra `Firestore` / `Course` prefix. **Contracts** (`FirebaseFundamentalsDataSource`, `FirebaseFundamentalsRepository`) live in `firebase_fundamentals_data_source.dart` and `domain/.../firebase_fundamentals_repository.dart`. **`*Impl`** lives in `*_impl.dart` (`firebase_fundamentals_data_source_impl.dart`, `firebase_fundamentals_repository_impl.dart`); the repository test is `*_impl_test.dart`. The lab is the **screen**; the blocks are `ReadSection`, `QuerySection`, `LessonsSection`, `RealtimeSection`. Collection group is `collectionGroup('lessons').orderBy('seqNo')` in the data source impl. Realtime is `snapshots()` + `docChanges`; increment is `FieldValue.increment`. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course`, `Tutor`, and `Lesson` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
+Names follow the feature, like Sealed Lab — no extra `Firestore` / `Course` prefix. **Contracts** (`CourseLabDataSource`, `CourseLabRepository`) live under **Course Lab** (`course_lab/data`, `course_lab/domain`). Fundamentals is presentation only and **uses that repository**. **`*Impl`** lives in `*_impl.dart`; the repository test is `*_impl_test.dart`. The lab is the **screen**; the blocks are `ReadSection`, `QuerySection`, `LessonsSection`, `RealtimeSection`. Collection group is `collectionGroup('lessons').orderBy('seqNo')` in the data source impl. Realtime is `snapshots()` + `docChanges`; increment is `FieldValue.increment`. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course`, `Tutor`, and `Lesson` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
 
 Why the failing queries fail: [Performance guarantees and indexes](#performance-guarantees-and-indexes). Nested vs all lessons: [Collection group queries](#collection-group-queries). Live updates: [Realtime snapshots](#realtime-snapshots) — **Listen**, then increment or edit `participants` in the Console. `first` / `take(n)` are in that section.
 
