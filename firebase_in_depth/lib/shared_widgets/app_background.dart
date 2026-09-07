@@ -1,3 +1,4 @@
+import 'package:firebase_in_depth/shared_widgets/site_scaffold.dart';
 import 'package:flutter/material.dart';
 
 /// Full-bleed `bg.webp` behind every [SiteScaffold].
