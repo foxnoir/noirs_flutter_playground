@@ -1,6 +1,6 @@
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../course_fixtures.dart';

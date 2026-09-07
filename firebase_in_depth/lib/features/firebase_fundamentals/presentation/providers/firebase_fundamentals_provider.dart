@@ -1,4 +1,4 @@
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/providers/firebase_fundamentals_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

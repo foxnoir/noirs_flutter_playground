@@ -1,5 +1,5 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';

@@ -1,35 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sources/firebase_fundamentals_data_source.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-
-abstract interface class FirebaseFundamentalsDataSource {
-  Future<CourseModel> fetchCourse(String id);
-
-  Future<List<CourseModel>> fetchCourses();
-
-  Future<List<CourseModel>> fetchCoursesSeqNoAtMost(int seqNo);
-
-  Future<List<CourseModel>> fetchCoursesSeqNoAndLessonsCount({
-    required int seqNo,
-    required int lessonsCount,
-  });
-
-  Future<List<CourseModel>> fetchCoursesSeqNoAndUrl({
-    required int seqNo,
-    required String url,
-  });
-
-  Future<List<CourseModel>> fetchCoursesSeqNoAndPrice({
-    required int seqNo,
-    required int price,
-  });
-
-  Future<List<LessonModel>> fetchLessonsForCourse(String courseId);
-
-  Future<List<LessonModel>> fetchLessonsCollectionGroup();
-}
 
 final firebaseFundamentalsDataSourceProvider =
     Provider<FirebaseFundamentalsDataSource>((ref) {
