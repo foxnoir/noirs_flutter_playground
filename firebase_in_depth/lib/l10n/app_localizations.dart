@@ -98,241 +98,241 @@ abstract class AppLocalizations {
     Locale('en'),
   ];
 
-  /// No description provided for @title.
+  /// App and document title.
   ///
   /// In en, this message translates to:
   /// **'Firebase in Depth'**
   String get title;
 
-  /// No description provided for @retry.
+  /// Retry button on error UI.
   ///
   /// In en, this message translates to:
   /// **'Retry'**
   String get retry;
 
-  /// No description provided for @fundamentals.
+  /// Lab screen title and landing tile.
   ///
   /// In en, this message translates to:
   /// **'Firebase Fundamentals'**
   String get fundamentals;
 
-  /// No description provided for @missing.
+  /// Placeholder for a missing value.
   ///
   /// In en, this message translates to:
   /// **'Missing'**
   String get missing;
 
-  /// No description provided for @back.
+  /// Navigate back.
   ///
   /// In en, this message translates to:
   /// **'Back'**
   String get back;
 
-  /// No description provided for @errorOccurred.
+  /// Generic error fallback.
   ///
   /// In en, this message translates to:
   /// **'Unfortunately, an error occurred.'**
   String get errorOccurred;
 
-  /// No description provided for @errorNetwork.
+  /// Network failure message.
   ///
   /// In en, this message translates to:
   /// **'Could not reach the server. Check your connection.'**
   String get errorNetwork;
 
-  /// No description provided for @errorNotFound.
+  /// Not-found failure message.
   ///
   /// In en, this message translates to:
   /// **'That item was not found.'**
   String get errorNotFound;
 
-  /// No description provided for @errorInvalidQuery.
+  /// Invalid query fallback when Firestore sent no detail.
   ///
   /// In en, this message translates to:
   /// **'This query is not valid for Firestore.'**
   String get errorInvalidQuery;
 
-  /// No description provided for @fundamentalsDevtoolsHint.
+  /// How to watch Firestore traffic in Chrome DevTools.
   ///
   /// In en, this message translates to:
   /// **'Start this lab in Chrome. Open DevTools (View → Developer → Developer Tools, or Cmd+Option+I) → Network → filter firestore. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.'**
   String get fundamentalsDevtoolsHint;
 
-  /// No description provided for @fundamentalsReadTitle.
+  /// Section title for collection vs document reads.
   ///
   /// In en, this message translates to:
   /// **'Read a collection and a document'**
   String get fundamentalsReadTitle;
 
-  /// No description provided for @fundamentalsReadHint.
+  /// Explains collection vs one document by id.
   ///
   /// In en, this message translates to:
   /// **'A collection is every course, ordered by seqNo. A document is one course by id (hiragana-from-zero) — not the first row of the list.'**
   String get fundamentalsReadHint;
 
-  /// No description provided for @fundamentalsReadDocument.
+  /// Button to fetch one course document.
   ///
   /// In en, this message translates to:
   /// **'Read document'**
   String get fundamentalsReadDocument;
 
-  /// No description provided for @fundamentalsReadCollection.
+  /// Button to fetch all courses.
   ///
   /// In en, this message translates to:
   /// **'Read collection'**
   String get fundamentalsReadCollection;
 
-  /// No description provided for @fundamentalsIdle.
+  /// Idle label before a lab button is tapped.
   ///
   /// In en, this message translates to:
   /// **'Not run yet. Open DevTools first, then tap a button.'**
   String get fundamentalsIdle;
 
-  /// No description provided for @fundamentalsEmpty.
+  /// Empty query result.
   ///
   /// In en, this message translates to:
   /// **'No documents matched.'**
   String get fundamentalsEmpty;
 
-  /// No description provided for @fundamentalsCourseMeta.
+  /// Course tile subtitle.
   ///
   /// In en, this message translates to:
   /// **'seqNo {seqNo} · {lessonsCount} lessons'**
   String fundamentalsCourseMeta(int seqNo, int lessonsCount);
 
-  /// No description provided for @fundamentalsQueryTitle.
+  /// Section title for the index lab.
   ///
   /// In en, this message translates to:
   /// **'Performance guarantees and indexes'**
   String get fundamentalsQueryTitle;
 
-  /// No description provided for @fundamentalsQueryHint.
+  /// Explains indexes and the four query buttons.
   ///
   /// In en, this message translates to:
   /// **'Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.'**
   String get fundamentalsQueryHint;
 
-  /// No description provided for @fundamentalsQueryValidTitle.
+  /// Monospace title for the valid query card.
   ///
   /// In en, this message translates to:
   /// **'where seqNo <= 5, orderBy seqNo'**
   String get fundamentalsQueryValidTitle;
 
-  /// No description provided for @fundamentalsQueryValidHint.
+  /// Hint under the valid seqNo query.
   ///
   /// In en, this message translates to:
   /// **'Inequality and orderBy on the same field. Firestore walks one index. This is the query that works.'**
   String get fundamentalsQueryValidHint;
 
-  /// No description provided for @fundamentalsQueryInvalidTitle.
+  /// Monospace title for the two-inequality query card.
   ///
   /// In en, this message translates to:
   /// **'where seqNo <= 5 and lessonsCount <= 10'**
   String get fundamentalsQueryInvalidTitle;
 
-  /// No description provided for @fundamentalsQueryInvalidHint.
+  /// Hint under the invalid two-inequality query.
   ///
   /// In en, this message translates to:
   /// **'Two inequalities on different fields. The Angular sample failed with: all inequality filters must be on the same field. Run it and read the FirebaseError here and in DevTools.'**
   String get fundamentalsQueryInvalidHint;
 
-  /// No description provided for @fundamentalsQueryCompositeTitle.
+  /// Monospace title for the composite-index query card.
   ///
   /// In en, this message translates to:
   /// **'where seqNo <= 20 and url == hiragana-from-zero'**
   String get fundamentalsQueryCompositeTitle;
 
-  /// No description provided for @fundamentalsQueryCompositeHint.
+  /// Hint under the composite url plus seqNo query.
   ///
   /// In en, this message translates to:
   /// **'Range on seqNo plus equality on url. That pair has a composite index in firestore.indexes.json (`url` then `seqNo`). Same shape as the missing-index button, except the index exists.'**
   String get fundamentalsQueryCompositeHint;
 
-  /// No description provided for @fundamentalsQueryIndexTitle.
+  /// Monospace title for the missing-index query card.
   ///
   /// In en, this message translates to:
   /// **'where seqNo <= 20 and price == 15'**
   String get fundamentalsQueryIndexTitle;
 
-  /// No description provided for @fundamentalsQueryIndexHint.
+  /// Hint under the missing price plus seqNo index query.
   ///
   /// In en, this message translates to:
   /// **'Same shape as the composite button, different field pair. There is no composite for `price` + `seqNo`. The error includes a Console URL — do not click it if you want this button to keep failing.'**
   String get fundamentalsQueryIndexHint;
 
-  /// No description provided for @fundamentalsRunValidQuery.
+  /// Button for the valid seqNo query.
   ///
   /// In en, this message translates to:
   /// **'Run valid query'**
   String get fundamentalsRunValidQuery;
 
-  /// No description provided for @fundamentalsRunInvalidQuery.
+  /// Button for the two-inequality query.
   ///
   /// In en, this message translates to:
   /// **'Run invalid query'**
   String get fundamentalsRunInvalidQuery;
 
-  /// No description provided for @fundamentalsRunCompositeQuery.
+  /// Button for the composite url plus seqNo query.
   ///
   /// In en, this message translates to:
   /// **'Run composite-index query'**
   String get fundamentalsRunCompositeQuery;
 
-  /// No description provided for @fundamentalsRunIndexQuery.
+  /// Button for the missing price plus seqNo index query.
   ///
   /// In en, this message translates to:
   /// **'Run missing-index query'**
   String get fundamentalsRunIndexQuery;
 
-  /// No description provided for @fundamentalsLessonsTitle.
+  /// Section title for nested lessons vs collection group.
   ///
   /// In en, this message translates to:
   /// **'Nested collection vs collection group'**
   String get fundamentalsLessonsTitle;
 
-  /// No description provided for @fundamentalsLessonsHint.
+  /// Explains nested lessons vs collectionGroup.
   ///
   /// In en, this message translates to:
   /// **'A nested query stays under one course. A collection group query walks every lessons subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on lessons. orderBy seqNo needs a COLLECTION_GROUP index.'**
   String get fundamentalsLessonsHint;
 
-  /// No description provided for @fundamentalsLessonsNestedTitle.
+  /// Monospace title for the nested lessons card.
   ///
   /// In en, this message translates to:
   /// **'courses/hiragana-from-zero/lessons orderBy seqNo'**
   String get fundamentalsLessonsNestedTitle;
 
-  /// No description provided for @fundamentalsLessonsNestedHint.
+  /// Hint under the nested lessons query.
   ///
   /// In en, this message translates to:
   /// **'One parent path. Automatic single-field index. Only Hiragana lessons.'**
   String get fundamentalsLessonsNestedHint;
 
-  /// No description provided for @fundamentalsLessonsGroupTitle.
+  /// Monospace title for the collection-group card.
   ///
   /// In en, this message translates to:
   /// **'collectionGroup(\'lessons\') orderBy seqNo'**
   String get fundamentalsLessonsGroupTitle;
 
-  /// No description provided for @fundamentalsLessonsGroupHint.
+  /// Hint under the collection-group query.
   ///
   /// In en, this message translates to:
   /// **'Same collection id under every course. Parent is not in the path. courseId comes from the snapshot parent. CREATE the collection-group index if Firestore returns a URL — this one you do want.'**
   String get fundamentalsLessonsGroupHint;
 
-  /// No description provided for @fundamentalsReadNestedLessons.
+  /// Button to fetch lessons under one course.
   ///
   /// In en, this message translates to:
   /// **'Read nested lessons'**
   String get fundamentalsReadNestedLessons;
 
-  /// No description provided for @fundamentalsRunCollectionGroup.
+  /// Button to fetch all lessons via collectionGroup.
   ///
   /// In en, this message translates to:
   /// **'Run collection-group query'**
   String get fundamentalsRunCollectionGroup;
 
-  /// No description provided for @fundamentalsLessonMeta.
+  /// Lesson tile subtitle.
   ///
   /// In en, this message translates to:
   /// **'{courseId} · seqNo {seqNo} · {duration}'**

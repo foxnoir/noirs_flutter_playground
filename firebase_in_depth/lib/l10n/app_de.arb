@@ -1,52 +1,168 @@
 {
   "@@locale": "de",
   "title": "Firebase in Depth",
+  "@title": {
+    "description": "App and document title."
+  },
   "retry": "Erneut versuchen",
+  "@retry": {
+    "description": "Retry button on error UI."
+  },
   "fundamentals": "Firebase-Grundlagen",
+  "@fundamentals": {
+    "description": "Lab screen title and landing tile."
+  },
   "missing": "Fehlt",
+  "@missing": {
+    "description": "Placeholder for a missing value."
+  },
   "back": "Zurück",
+  "@back": {
+    "description": "Navigate back."
+  },
   "errorOccurred": "Es ist leider ein Fehler aufgetreten.",
+  "@errorOccurred": {
+    "description": "Generic error fallback."
+  },
   "errorNetwork": "Der Server ist nicht erreichbar. Prüfe die Verbindung.",
+  "@errorNetwork": {
+    "description": "Network failure message."
+  },
   "errorNotFound": "Dieser Eintrag wurde nicht gefunden.",
+  "@errorNotFound": {
+    "description": "Not-found failure message."
+  },
   "errorInvalidQuery": "Diese Abfrage ist für Firestore nicht gültig.",
+  "@errorInvalidQuery": {
+    "description": "Invalid query fallback when Firestore sent no detail."
+  },
   "fundamentalsDevtoolsHint": "Starte dieses Lab in Chrome. Öffne die DevTools (Ansicht → Entwickler → Entwicklertools, oder Cmd+Option+I) → Network → Filter firestore. Jeder Button unten ist ein echter Firestore-Read. Schau dir Request und Response dort an. Die Firebase Console ist zum Lesen der Felder; DevTools zeigt, dass ein Call passiert ist.",
+  "@fundamentalsDevtoolsHint": {
+    "description": "How to watch Firestore traffic in Chrome DevTools."
+  },
   "fundamentalsReadTitle": "Collection und Dokument lesen",
+  "@fundamentalsReadTitle": {
+    "description": "Section title for collection vs document reads."
+  },
   "fundamentalsReadHint": "Eine Collection sind alle Kurse, sortiert nach seqNo. Ein Dokument ist ein Kurs per id (hiragana-from-zero) — nicht die erste Zeile der Liste.",
+  "@fundamentalsReadHint": {
+    "description": "Explains collection vs one document by id."
+  },
   "fundamentalsReadDocument": "Dokument lesen",
+  "@fundamentalsReadDocument": {
+    "description": "Button to fetch one course document."
+  },
   "fundamentalsReadCollection": "Collection lesen",
+  "@fundamentalsReadCollection": {
+    "description": "Button to fetch all courses."
+  },
   "fundamentalsIdle": "Noch nicht ausgeführt. Erst DevTools öffnen, dann einen Button tippen.",
+  "@fundamentalsIdle": {
+    "description": "Idle label before a lab button is tapped."
+  },
   "fundamentalsEmpty": "Keine Dokumente gefunden.",
+  "@fundamentalsEmpty": {
+    "description": "Empty query result."
+  },
   "fundamentalsCourseMeta": "seqNo {seqNo} · {lessonsCount} Lektionen",
   "@fundamentalsCourseMeta": {
+    "description": "Course tile subtitle.",
     "placeholders": {
       "seqNo": {"type": "int"},
       "lessonsCount": {"type": "int"}
     }
   },
   "fundamentalsQueryTitle": "Performance-Garantien und Indexes",
+  "@fundamentalsQueryTitle": {
+    "description": "Section title for the index lab."
+  },
   "fundamentalsQueryHint": "Firestore antwortet aus Indexes, nicht durch Scannen der Collection. Das ist die Performance-Garantie: die Query-Kosten bleiben vorhersagbar, wenn die Daten wachsen. Ein Range-Filter plus orderBy auf demselben Feld nutzt den automatischen Single-Field-Index. Zwei Range-Filter auf verschiedenen Feldern können das nicht. Gleichheit auf einem Feld plus Range auf einem anderen braucht einen Composite Index. Dieses Lab hat einen Composite (`url` + `seqNo`) und lässt `price` + `seqNo` ohne.",
+  "@fundamentalsQueryHint": {
+    "description": "Explains indexes and the four query buttons."
+  },
   "fundamentalsQueryValidTitle": "where seqNo <= 5, orderBy seqNo",
+  "@fundamentalsQueryValidTitle": {
+    "description": "Monospace title for the valid query card."
+  },
   "fundamentalsQueryValidHint": "Inequality und orderBy auf demselben Feld. Firestore läuft einen Index ab. Das ist die Query, die funktioniert.",
+  "@fundamentalsQueryValidHint": {
+    "description": "Hint under the valid seqNo query."
+  },
   "fundamentalsQueryInvalidTitle": "where seqNo <= 5 and lessonsCount <= 10",
+  "@fundamentalsQueryInvalidTitle": {
+    "description": "Monospace title for the two-inequality query card."
+  },
   "fundamentalsQueryInvalidHint": "Zwei Inequalities auf verschiedenen Feldern. Das Angular-Beispiel scheiterte mit: alle Inequality-Filter müssen auf demselben Feld liegen. Ausführen und den FirebaseError hier und in den DevTools lesen.",
+  "@fundamentalsQueryInvalidHint": {
+    "description": "Hint under the invalid two-inequality query."
+  },
   "fundamentalsQueryCompositeTitle": "where seqNo <= 20 and url == hiragana-from-zero",
+  "@fundamentalsQueryCompositeTitle": {
+    "description": "Monospace title for the composite-index query card."
+  },
   "fundamentalsQueryCompositeHint": "Range auf seqNo plus Gleichheit auf url. Für dieses Paar steht ein Composite in firestore.indexes.json (`url` dann `seqNo`). Gleiche Form wie der Missing-Index-Button, nur dass der Index existiert.",
+  "@fundamentalsQueryCompositeHint": {
+    "description": "Hint under the composite url plus seqNo query."
+  },
   "fundamentalsQueryIndexTitle": "where seqNo <= 20 and price == 15",
+  "@fundamentalsQueryIndexTitle": {
+    "description": "Monospace title for the missing-index query card."
+  },
   "fundamentalsQueryIndexHint": "Gleiche Form wie der Composite-Button, anderes Feldpaar. Für `price` + `seqNo` gibt es keinen Composite. Der Fehler enthält eine Console-URL — nicht klicken, wenn der Button weiter scheitern soll.",
+  "@fundamentalsQueryIndexHint": {
+    "description": "Hint under the missing price plus seqNo index query."
+  },
   "fundamentalsRunValidQuery": "Gültige Query ausführen",
+  "@fundamentalsRunValidQuery": {
+    "description": "Button for the valid seqNo query."
+  },
   "fundamentalsRunInvalidQuery": "Ungültige Query ausführen",
+  "@fundamentalsRunInvalidQuery": {
+    "description": "Button for the two-inequality query."
+  },
   "fundamentalsRunCompositeQuery": "Composite-Index-Query ausführen",
+  "@fundamentalsRunCompositeQuery": {
+    "description": "Button for the composite url plus seqNo query."
+  },
   "fundamentalsRunIndexQuery": "Missing-Index-Query ausführen",
+  "@fundamentalsRunIndexQuery": {
+    "description": "Button for the missing price plus seqNo index query."
+  },
   "fundamentalsLessonsTitle": "Nested Collection vs Collection Group",
+  "@fundamentalsLessonsTitle": {
+    "description": "Section title for nested lessons vs collection group."
+  },
   "fundamentalsLessonsHint": "Eine nested Query bleibt unter einem Kurs. Eine Collection-Group-Query läuft jede lessons-Subcollection im Projekt ab. So listest du alle Lektionen, ohne jede Kurs-id zu kennen. Rules brauchen ein rekursives Match auf lessons. orderBy seqNo braucht einen COLLECTION_GROUP-Index.",
+  "@fundamentalsLessonsHint": {
+    "description": "Explains nested lessons vs collectionGroup."
+  },
   "fundamentalsLessonsNestedTitle": "courses/hiragana-from-zero/lessons orderBy seqNo",
+  "@fundamentalsLessonsNestedTitle": {
+    "description": "Monospace title for the nested lessons card."
+  },
   "fundamentalsLessonsNestedHint": "Ein Parent-Pfad. Automatischer Single-Field-Index. Nur Hiragana-Lektionen.",
+  "@fundamentalsLessonsNestedHint": {
+    "description": "Hint under the nested lessons query."
+  },
   "fundamentalsLessonsGroupTitle": "collectionGroup('lessons') orderBy seqNo",
+  "@fundamentalsLessonsGroupTitle": {
+    "description": "Monospace title for the collection-group card."
+  },
   "fundamentalsLessonsGroupHint": "Dieselbe Collection-id unter jedem Kurs. Der Parent steht nicht im Query-Pfad. courseId kommt vom Snapshot-Parent. CREATE den Collection-Group-Index, wenn Firestore eine URL liefert — diesen Index willst du.",
+  "@fundamentalsLessonsGroupHint": {
+    "description": "Hint under the collection-group query."
+  },
   "fundamentalsReadNestedLessons": "Nested Lessons lesen",
+  "@fundamentalsReadNestedLessons": {
+    "description": "Button to fetch lessons under one course."
+  },
   "fundamentalsRunCollectionGroup": "Collection-Group-Query ausführen",
+  "@fundamentalsRunCollectionGroup": {
+    "description": "Button to fetch all lessons via collectionGroup."
+  },
   "fundamentalsLessonMeta": "{courseId} · seqNo {seqNo} · {duration}",
   "@fundamentalsLessonMeta": {
+    "description": "Lesson tile subtitle.",
     "placeholders": {
       "courseId": {"type": "String"},
       "seqNo": {"type": "int"},

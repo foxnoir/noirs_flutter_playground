@@ -1,52 +1,168 @@
 {
   "@@locale": "en",
   "title": "Firebase in Depth",
+  "@title": {
+    "description": "App and document title."
+  },
   "retry": "Retry",
+  "@retry": {
+    "description": "Retry button on error UI."
+  },
   "fundamentals": "Firebase Fundamentals",
+  "@fundamentals": {
+    "description": "Lab screen title and landing tile."
+  },
   "missing": "Missing",
+  "@missing": {
+    "description": "Placeholder for a missing value."
+  },
   "back": "Back",
+  "@back": {
+    "description": "Navigate back."
+  },
   "errorOccurred": "Unfortunately, an error occurred.",
+  "@errorOccurred": {
+    "description": "Generic error fallback."
+  },
   "errorNetwork": "Could not reach the server. Check your connection.",
+  "@errorNetwork": {
+    "description": "Network failure message."
+  },
   "errorNotFound": "That item was not found.",
+  "@errorNotFound": {
+    "description": "Not-found failure message."
+  },
   "errorInvalidQuery": "This query is not valid for Firestore.",
+  "@errorInvalidQuery": {
+    "description": "Invalid query fallback when Firestore sent no detail."
+  },
   "fundamentalsDevtoolsHint": "Start this lab in Chrome. Open DevTools (View → Developer → Developer Tools, or Cmd+Option+I) → Network → filter firestore. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.",
+  "@fundamentalsDevtoolsHint": {
+    "description": "How to watch Firestore traffic in Chrome DevTools."
+  },
   "fundamentalsReadTitle": "Read a collection and a document",
+  "@fundamentalsReadTitle": {
+    "description": "Section title for collection vs document reads."
+  },
   "fundamentalsReadHint": "A collection is every course, ordered by seqNo. A document is one course by id (hiragana-from-zero) — not the first row of the list.",
+  "@fundamentalsReadHint": {
+    "description": "Explains collection vs one document by id."
+  },
   "fundamentalsReadDocument": "Read document",
+  "@fundamentalsReadDocument": {
+    "description": "Button to fetch one course document."
+  },
   "fundamentalsReadCollection": "Read collection",
+  "@fundamentalsReadCollection": {
+    "description": "Button to fetch all courses."
+  },
   "fundamentalsIdle": "Not run yet. Open DevTools first, then tap a button.",
+  "@fundamentalsIdle": {
+    "description": "Idle label before a lab button is tapped."
+  },
   "fundamentalsEmpty": "No documents matched.",
+  "@fundamentalsEmpty": {
+    "description": "Empty query result."
+  },
   "fundamentalsCourseMeta": "seqNo {seqNo} · {lessonsCount} lessons",
   "@fundamentalsCourseMeta": {
+    "description": "Course tile subtitle.",
     "placeholders": {
       "seqNo": {"type": "int"},
       "lessonsCount": {"type": "int"}
     }
   },
   "fundamentalsQueryTitle": "Performance guarantees and indexes",
+  "@fundamentalsQueryTitle": {
+    "description": "Section title for the index lab."
+  },
   "fundamentalsQueryHint": "Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.",
+  "@fundamentalsQueryHint": {
+    "description": "Explains indexes and the four query buttons."
+  },
   "fundamentalsQueryValidTitle": "where seqNo <= 5, orderBy seqNo",
+  "@fundamentalsQueryValidTitle": {
+    "description": "Monospace title for the valid query card."
+  },
   "fundamentalsQueryValidHint": "Inequality and orderBy on the same field. Firestore walks one index. This is the query that works.",
+  "@fundamentalsQueryValidHint": {
+    "description": "Hint under the valid seqNo query."
+  },
   "fundamentalsQueryInvalidTitle": "where seqNo <= 5 and lessonsCount <= 10",
+  "@fundamentalsQueryInvalidTitle": {
+    "description": "Monospace title for the two-inequality query card."
+  },
   "fundamentalsQueryInvalidHint": "Two inequalities on different fields. The Angular sample failed with: all inequality filters must be on the same field. Run it and read the FirebaseError here and in DevTools.",
+  "@fundamentalsQueryInvalidHint": {
+    "description": "Hint under the invalid two-inequality query."
+  },
   "fundamentalsQueryCompositeTitle": "where seqNo <= 20 and url == hiragana-from-zero",
+  "@fundamentalsQueryCompositeTitle": {
+    "description": "Monospace title for the composite-index query card."
+  },
   "fundamentalsQueryCompositeHint": "Range on seqNo plus equality on url. That pair has a composite index in firestore.indexes.json (`url` then `seqNo`). Same shape as the missing-index button, except the index exists.",
+  "@fundamentalsQueryCompositeHint": {
+    "description": "Hint under the composite url plus seqNo query."
+  },
   "fundamentalsQueryIndexTitle": "where seqNo <= 20 and price == 15",
+  "@fundamentalsQueryIndexTitle": {
+    "description": "Monospace title for the missing-index query card."
+  },
   "fundamentalsQueryIndexHint": "Same shape as the composite button, different field pair. There is no composite for `price` + `seqNo`. The error includes a Console URL — do not click it if you want this button to keep failing.",
+  "@fundamentalsQueryIndexHint": {
+    "description": "Hint under the missing price plus seqNo index query."
+  },
   "fundamentalsRunValidQuery": "Run valid query",
+  "@fundamentalsRunValidQuery": {
+    "description": "Button for the valid seqNo query."
+  },
   "fundamentalsRunInvalidQuery": "Run invalid query",
+  "@fundamentalsRunInvalidQuery": {
+    "description": "Button for the two-inequality query."
+  },
   "fundamentalsRunCompositeQuery": "Run composite-index query",
+  "@fundamentalsRunCompositeQuery": {
+    "description": "Button for the composite url plus seqNo query."
+  },
   "fundamentalsRunIndexQuery": "Run missing-index query",
+  "@fundamentalsRunIndexQuery": {
+    "description": "Button for the missing price plus seqNo index query."
+  },
   "fundamentalsLessonsTitle": "Nested collection vs collection group",
+  "@fundamentalsLessonsTitle": {
+    "description": "Section title for nested lessons vs collection group."
+  },
   "fundamentalsLessonsHint": "A nested query stays under one course. A collection group query walks every lessons subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on lessons. orderBy seqNo needs a COLLECTION_GROUP index.",
+  "@fundamentalsLessonsHint": {
+    "description": "Explains nested lessons vs collectionGroup."
+  },
   "fundamentalsLessonsNestedTitle": "courses/hiragana-from-zero/lessons orderBy seqNo",
+  "@fundamentalsLessonsNestedTitle": {
+    "description": "Monospace title for the nested lessons card."
+  },
   "fundamentalsLessonsNestedHint": "One parent path. Automatic single-field index. Only Hiragana lessons.",
+  "@fundamentalsLessonsNestedHint": {
+    "description": "Hint under the nested lessons query."
+  },
   "fundamentalsLessonsGroupTitle": "collectionGroup('lessons') orderBy seqNo",
+  "@fundamentalsLessonsGroupTitle": {
+    "description": "Monospace title for the collection-group card."
+  },
   "fundamentalsLessonsGroupHint": "Same collection id under every course. Parent is not in the path. courseId comes from the snapshot parent. CREATE the collection-group index if Firestore returns a URL — this one you do want.",
+  "@fundamentalsLessonsGroupHint": {
+    "description": "Hint under the collection-group query."
+  },
   "fundamentalsReadNestedLessons": "Read nested lessons",
+  "@fundamentalsReadNestedLessons": {
+    "description": "Button to fetch lessons under one course."
+  },
   "fundamentalsRunCollectionGroup": "Run collection-group query",
+  "@fundamentalsRunCollectionGroup": {
+    "description": "Button to fetch all lessons via collectionGroup."
+  },
   "fundamentalsLessonMeta": "{courseId} · seqNo {seqNo} · {duration}",
   "@fundamentalsLessonMeta": {
+    "description": "Lesson tile subtitle.",
     "placeholders": {
       "courseId": {"type": "String"},
       "seqNo": {"type": "int"},
