@@ -1,7 +1,9 @@
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sources/firebase_fundamentals_data_source.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/courses_snapshot_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
 
 class FakeFirebaseFundamentalsDataSource
     implements FirebaseFundamentalsDataSource {
@@ -100,5 +102,26 @@ class FakeFirebaseFundamentalsDataSource
     final thrown = error;
     if (thrown != null) throw thrown;
     return lessons;
+  }
+
+  @override
+  Stream<CoursesSnapshotModel> watchCourses() {
+    final thrown = error;
+    if (thrown != null) return Stream.error(thrown);
+    return Stream.value(
+      CoursesSnapshotModel(
+        courses: models,
+        changes: [
+          for (final model in models)
+            CourseChangeModel(type: CourseChangeType.added, course: model),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Future<void> incrementParticipants(String courseId) async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
   }
 }

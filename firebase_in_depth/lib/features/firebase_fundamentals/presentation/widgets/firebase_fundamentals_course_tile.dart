@@ -3,9 +3,14 @@ import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseFundamentalsCourseTile extends StatelessWidget {
-  const FirebaseFundamentalsCourseTile({required this.course, super.key});
+  const FirebaseFundamentalsCourseTile({
+    required this.course,
+    this.showParticipants = false,
+    super.key,
+  });
 
   final Course course;
+  final bool showParticipants;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +28,13 @@ class FirebaseFundamentalsCourseTile extends StatelessWidget {
       ),
       title: Text(course.description),
       subtitle: Text(
-        l10n.fundamentalsCourseMeta(course.seqNo, course.lessonsCount),
+        showParticipants
+            ? l10n.fundamentalsRealtimeCourseMeta(
+                course.seqNo,
+                course.lessonsCount,
+                course.participants,
+              )
+            : l10n.fundamentalsCourseMeta(course.seqNo, course.lessonsCount),
       ),
     );
   }

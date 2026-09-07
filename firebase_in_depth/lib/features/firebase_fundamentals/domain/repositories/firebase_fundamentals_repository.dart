@@ -1,4 +1,5 @@
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
 
 abstract interface class FirebaseFundamentalsRepository {
@@ -26,4 +27,8 @@ abstract interface class FirebaseFundamentalsRepository {
   Future<List<Lesson>> fetchLessonsForCourse(String courseId);
 
   Future<List<Lesson>> fetchLessonsCollectionGroup();
+
+  Stream<CoursesSnapshot> watchCourses();
+
+  Future<void> incrementParticipants(String courseId);
 }

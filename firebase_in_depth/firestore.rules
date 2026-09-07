@@ -4,7 +4,13 @@ service cloud.firestore {
   match /databases/{database}/documents {
     match /courses/{courseId} {
       allow read: if true;
-      allow write: if false;
+      allow create, delete: if false;
+      allow update: if request.resource.data
+              .diff(resource.data)
+              .affectedKeys()
+              .hasOnly(['participants']) &&
+        request.resource.data.participants is int &&
+        request.resource.data.participants >= 0;
 
       match /lessons/{lessonId} {
         allow read: if true;

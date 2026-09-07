@@ -6,13 +6,13 @@ import 'package:flutter/material.dart';
 class FirebaseFundamentalsLabButton extends StatelessWidget {
   const FirebaseFundamentalsLabButton({
     required this.valid,
-    required this.onPressed,
     required this.label,
+    this.onPressed,
     super.key,
   });
 
   final bool valid;
-  final VoidCallback onPressed;
+  final VoidCallback? onPressed;
   final String label;
 
   @override

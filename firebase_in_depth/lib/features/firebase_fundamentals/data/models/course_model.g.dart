@@ -19,6 +19,7 @@ _CourseModel _$CourseModelFromJson(Map<String, dynamic> json) => _CourseModel(
       .toList(),
   icon: json['icon'] as String,
   tutor: TutorModel.fromJson(json['tutor'] as Map<String, dynamic>),
+  participants: (json['participants'] as num?)?.toInt() ?? 0,
 );
 
 Map<String, dynamic> _$CourseModelToJson(_CourseModel instance) =>
@@ -33,4 +34,5 @@ Map<String, dynamic> _$CourseModelToJson(_CourseModel instance) =>
       'categories': instance.categories,
       'icon': instance.icon,
       'tutor': instance.tutor,
+      'participants': instance.participants,
     };

@@ -125,4 +125,30 @@ void main() {
 
     expect(sub.read().nestedLessons?.value, [sampleLesson]);
   });
+
+  test('startRealtime stores the snapshot', () async {
+    final container = containerWith(
+      const FakeFirebaseFundamentalsRepository(courses: [sampleCourse]),
+    );
+    final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    container.read(firebaseFundamentalsProvider.notifier).startRealtime();
+    await Future<void>.delayed(Duration.zero);
+
+    expect(sub.read().listening, isTrue);
+    expect(sub.read().realtime?.value?.courses, [sampleCourse]);
+  });
+
+  test('incrementParticipants stores AsyncData', () async {
+    final container = containerWith(const FakeFirebaseFundamentalsRepository());
+    final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container
+        .read(firebaseFundamentalsProvider.notifier)
+        .incrementParticipants();
+
+    expect(sub.read().increment?.hasValue, isTrue);
+  });
 }

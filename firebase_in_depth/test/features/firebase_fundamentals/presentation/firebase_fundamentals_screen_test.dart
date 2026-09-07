@@ -223,4 +223,37 @@ void main() {
 
     expect(find.text('Vowels'), findsOneWidget);
   });
+
+  testWidgets('listens to courses in realtime', (tester) async {
+    tester.view.physicalSize = const Size(800, 3600);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(courses: [sampleCourse]),
+          ),
+        ],
+        child: const MaterialApp(
+          locale: Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: FirebaseFundamentalsScreen(),
+        ),
+      ),
+    );
+
+    await tester.ensureVisible(
+      find.byKey(const Key('fundamentals-realtime-listen')),
+    );
+    await tester.tap(find.byKey(const Key('fundamentals-realtime-listen')));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Hiragana from Zero'), findsWidgets);
+    expect(find.textContaining('participants'), findsWidgets);
+    expect(find.textContaining('new call'), findsWidgets);
+  });
 }

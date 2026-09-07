@@ -16,5 +16,6 @@ abstract class Course with _$Course {
     required List<String> categories,
     required String icon,
     required Tutor tutor,
+    @Default(0) int participants,
   }) = _Course;
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_hint_text.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseFundamentalsDevtoolsHint extends StatelessWidget {
@@ -7,6 +8,9 @@ class FirebaseFundamentalsDevtoolsHint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(body, style: Theme.of(context).textTheme.bodyMedium);
+    return FirebaseFundamentalsHintText(
+      text: body,
+      style: Theme.of(context).textTheme.bodyMedium,
+    );
   }
 }

@@ -1,4 +1,5 @@
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
@@ -16,5 +17,8 @@ abstract class FirebaseFundamentalsState with _$FirebaseFundamentalsState {
     AsyncValue<List<Course>>? missingIndexQuery,
     AsyncValue<List<Lesson>>? nestedLessons,
     AsyncValue<List<Lesson>>? collectionGroupLessons,
+    AsyncValue<CoursesSnapshot>? realtime,
+    @Default(false) bool listening,
+    AsyncValue<void>? increment,
   }) = _FirebaseFundamentalsState;
 }

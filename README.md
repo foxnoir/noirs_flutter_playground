@@ -73,7 +73,7 @@ Each folder is a standalone practice project. Topics include **Riverpod**, **nav
 [![iOS](assets/badges/ios.svg)](https://developer.apple.com/ios/)
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 
-Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**. Firebase in Depth is **web-first** (Chrome DevTools for Firestore traffic). **Firebase Fundamentals** (document vs collection, index queries, nested `lessons` vs `collectionGroup('lessons')`) is the last lab in this playground for now.
+Every app runs on **iOS** (Simulator: **iPhone 17 Pro**, iOS 26.5). Advanced Concepts, Firebase in Depth, and the Riverpod starter also run on **web**. Firebase in Depth is **web-first** (Chrome DevTools for Firestore traffic). **Firebase Fundamentals** (document vs collection, index queries, nested `lessons` vs `collectionGroup('lessons')`, realtime snapshots) is the last lab in this playground for now.
 
 Copyable starters live in [app_starters](app_starters/).
 
@@ -251,7 +251,7 @@ Practice project for **GoRouter**, **layout**, **mixins**, **sealed classes**, *
   <a href="firebase_in_depth/README.md#test-coverage"><img align="right" src="firebase_in_depth/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-**Web first** (Chrome). Firestore lab **Firebase Fundamentals**: seeded `courses`, collection vs one document, index queries, nested `lessons` vs `collectionGroup('lessons')`. Last practice app in this playground for now.
+**Web first** (Chrome). Firestore lab **Firebase Fundamentals**: seeded `courses`, collection vs one document, index queries, nested `lessons` vs `collectionGroup('lessons')`, realtime `snapshots()` + `participants` increment. Last practice app in this playground for now.
 
 [README »](firebase_in_depth/README.md)
 

@@ -15,7 +15,7 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$Course {
 
- String get id; String get description; String get longDescription; String get url; int get seqNo; int get lessonsCount; int get price; List<String> get categories; String get icon; Tutor get tutor;
+ String get id; String get description; String get longDescription; String get url; int get seqNo; int get lessonsCount; int get price; List<String> get categories; String get icon; Tutor get tutor; int get participants;
 /// Create a copy of Course
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -27,20 +27,20 @@ $CourseCopyWith<Course> get copyWith => _$CourseCopyWithImpl<Course>(this as Cou
 @override
 bool operator ==(Object other) {
   final _this = this as Course;
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is Course&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.longDescription, _this.longDescription) || other.longDescription == _this.longDescription)&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.seqNo, _this.seqNo) || other.seqNo == _this.seqNo)&&(identical(other.lessonsCount, _this.lessonsCount) || other.lessonsCount == _this.lessonsCount)&&(identical(other.price, _this.price) || other.price == _this.price)&&const DeepCollectionEquality().equals(other.categories, _this.categories)&&(identical(other.icon, _this.icon) || other.icon == _this.icon)&&(identical(other.tutor, _this.tutor) || other.tutor == _this.tutor));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is Course&&(identical(other.id, _this.id) || other.id == _this.id)&&(identical(other.description, _this.description) || other.description == _this.description)&&(identical(other.longDescription, _this.longDescription) || other.longDescription == _this.longDescription)&&(identical(other.url, _this.url) || other.url == _this.url)&&(identical(other.seqNo, _this.seqNo) || other.seqNo == _this.seqNo)&&(identical(other.lessonsCount, _this.lessonsCount) || other.lessonsCount == _this.lessonsCount)&&(identical(other.price, _this.price) || other.price == _this.price)&&const DeepCollectionEquality().equals(other.categories, _this.categories)&&(identical(other.icon, _this.icon) || other.icon == _this.icon)&&(identical(other.tutor, _this.tutor) || other.tutor == _this.tutor)&&(identical(other.participants, _this.participants) || other.participants == _this.participants));
 }
 
 
 @override
 int get hashCode {
   final _this = this as Course;
-  return Object.hash(runtimeType,_this.id,_this.description,_this.longDescription,_this.url,_this.seqNo,_this.lessonsCount,_this.price,const DeepCollectionEquality().hash(_this.categories),_this.icon,_this.tutor);
+  return Object.hash(runtimeType,_this.id,_this.description,_this.longDescription,_this.url,_this.seqNo,_this.lessonsCount,_this.price,const DeepCollectionEquality().hash(_this.categories),_this.icon,_this.tutor,_this.participants);
 }
 
 @override
 String toString() {
   final _this = this as Course;
-  return 'Course(id: ${_this.id}, description: ${_this.description}, longDescription: ${_this.longDescription}, url: ${_this.url}, seqNo: ${_this.seqNo}, lessonsCount: ${_this.lessonsCount}, price: ${_this.price}, categories: ${_this.categories}, icon: ${_this.icon}, tutor: ${_this.tutor})';
+  return 'Course(id: ${_this.id}, description: ${_this.description}, longDescription: ${_this.longDescription}, url: ${_this.url}, seqNo: ${_this.seqNo}, lessonsCount: ${_this.lessonsCount}, price: ${_this.price}, categories: ${_this.categories}, icon: ${_this.icon}, tutor: ${_this.tutor}, participants: ${_this.participants})';
 }
 
 
@@ -51,7 +51,7 @@ abstract mixin class $CourseCopyWith<$Res>  {
   factory $CourseCopyWith(Course value, $Res Function(Course) _then) = _$CourseCopyWithImpl;
 @useResult
 $Res call({
- String id, String description, String longDescription, String url, int seqNo, int lessonsCount, int price, List<String> categories, String icon, Tutor tutor
+ String id, String description, String longDescription, String url, int seqNo, int lessonsCount, int price, List<String> categories, String icon, Tutor tutor, int participants
 });
 
 
@@ -68,7 +68,7 @@ class _$CourseCopyWithImpl<$Res>
 
 /// Create a copy of Course
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? description = null,Object? longDescription = null,Object? url = null,Object? seqNo = null,Object? lessonsCount = null,Object? price = null,Object? categories = null,Object? icon = null,Object? tutor = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? description = null,Object? longDescription = null,Object? url = null,Object? seqNo = null,Object? lessonsCount = null,Object? price = null,Object? categories = null,Object? icon = null,Object? tutor = null,Object? participants = null,}) {
   return _then(Course(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -80,7 +80,8 @@ as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_no
 as int,categories: null == categories ? _self.categories : categories // ignore: cast_nullable_to_non_nullable
 as List<String>,icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
 as String,tutor: null == tutor ? _self.tutor : tutor // ignore: cast_nullable_to_non_nullable
-as Tutor,
+as Tutor,participants: null == participants ? _self.participants : participants // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 /// Create a copy of Course
@@ -174,10 +175,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String description,  String longDescription,  String url,  int seqNo,  int lessonsCount,  int price,  List<String> categories,  String icon,  Tutor tutor)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String description,  String longDescription,  String url,  int seqNo,  int lessonsCount,  int price,  List<String> categories,  String icon,  Tutor tutor,  int participants)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _Course() when $default != null:
-return $default(_that.id,_that.description,_that.longDescription,_that.url,_that.seqNo,_that.lessonsCount,_that.price,_that.categories,_that.icon,_that.tutor);case _:
+return $default(_that.id,_that.description,_that.longDescription,_that.url,_that.seqNo,_that.lessonsCount,_that.price,_that.categories,_that.icon,_that.tutor,_that.participants);case _:
   return orElse();
 
 }
@@ -195,10 +196,10 @@ return $default(_that.id,_that.description,_that.longDescription,_that.url,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String description,  String longDescription,  String url,  int seqNo,  int lessonsCount,  int price,  List<String> categories,  String icon,  Tutor tutor)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String description,  String longDescription,  String url,  int seqNo,  int lessonsCount,  int price,  List<String> categories,  String icon,  Tutor tutor,  int participants)  $default,) {final _that = this;
 switch (_that) {
 case _Course():
-return $default(_that.id,_that.description,_that.longDescription,_that.url,_that.seqNo,_that.lessonsCount,_that.price,_that.categories,_that.icon,_that.tutor);case _:
+return $default(_that.id,_that.description,_that.longDescription,_that.url,_that.seqNo,_that.lessonsCount,_that.price,_that.categories,_that.icon,_that.tutor,_that.participants);case _:
   throw StateError('Unexpected subclass');
 
 }
@@ -215,10 +216,10 @@ return $default(_that.id,_that.description,_that.longDescription,_that.url,_that
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String description,  String longDescription,  String url,  int seqNo,  int lessonsCount,  int price,  List<String> categories,  String icon,  Tutor tutor)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String description,  String longDescription,  String url,  int seqNo,  int lessonsCount,  int price,  List<String> categories,  String icon,  Tutor tutor,  int participants)?  $default,) {final _that = this;
 switch (_that) {
 case _Course() when $default != null:
-return $default(_that.id,_that.description,_that.longDescription,_that.url,_that.seqNo,_that.lessonsCount,_that.price,_that.categories,_that.icon,_that.tutor);case _:
+return $default(_that.id,_that.description,_that.longDescription,_that.url,_that.seqNo,_that.lessonsCount,_that.price,_that.categories,_that.icon,_that.tutor,_that.participants);case _:
   return null;
 
 }
@@ -230,7 +231,7 @@ return $default(_that.id,_that.description,_that.longDescription,_that.url,_that
 
 
 class _Course implements Course {
-  const _Course({required this.id, required this.description, required this.longDescription, required this.url, required this.seqNo, required this.lessonsCount, required this.price, required  List<String> categories, required this.icon, required this.tutor}): _categories = categories;
+  const _Course({required this.id, required this.description, required this.longDescription, required this.url, required this.seqNo, required this.lessonsCount, required this.price, required  List<String> categories, required this.icon, required this.tutor, this.participants = 0}): _categories = categories;
   
 
 @override final  String id;
@@ -249,6 +250,7 @@ class _Course implements Course {
 
 @override final  String icon;
 @override final  Tutor tutor;
+@override@JsonKey() final  int participants;
 
 /// Create a copy of Course
 /// with the given fields replaced by the non-null parameter values.
@@ -260,18 +262,18 @@ _$CourseCopyWith<_Course> get copyWith => __$CourseCopyWithImpl<_Course>(this, _
 
 @override
 bool operator ==(Object other) {
-    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Course&&(identical(other.id, id) || other.id == id)&&(identical(other.description, description) || other.description == description)&&(identical(other.longDescription, longDescription) || other.longDescription == longDescription)&&(identical(other.url, url) || other.url == url)&&(identical(other.seqNo, seqNo) || other.seqNo == seqNo)&&(identical(other.lessonsCount, lessonsCount) || other.lessonsCount == lessonsCount)&&(identical(other.price, price) || other.price == price)&&const DeepCollectionEquality().equals(other.categories, _categories)&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.tutor, tutor) || other.tutor == tutor));
+    return identical(this, other) || (other.runtimeType == runtimeType&&other is _Course&&(identical(other.id, id) || other.id == id)&&(identical(other.description, description) || other.description == description)&&(identical(other.longDescription, longDescription) || other.longDescription == longDescription)&&(identical(other.url, url) || other.url == url)&&(identical(other.seqNo, seqNo) || other.seqNo == seqNo)&&(identical(other.lessonsCount, lessonsCount) || other.lessonsCount == lessonsCount)&&(identical(other.price, price) || other.price == price)&&const DeepCollectionEquality().equals(other.categories, _categories)&&(identical(other.icon, icon) || other.icon == icon)&&(identical(other.tutor, tutor) || other.tutor == tutor)&&(identical(other.participants, participants) || other.participants == participants));
 }
 
 
 @override
 int get hashCode {
-    return Object.hash(runtimeType,id,description,longDescription,url,seqNo,lessonsCount,price,const DeepCollectionEquality().hash(_categories),icon,tutor);
+    return Object.hash(runtimeType,id,description,longDescription,url,seqNo,lessonsCount,price,const DeepCollectionEquality().hash(_categories),icon,tutor,participants);
 }
 
 @override
 String toString() {
-    return 'Course(id: $id, description: $description, longDescription: $longDescription, url: $url, seqNo: $seqNo, lessonsCount: $lessonsCount, price: $price, categories: $categories, icon: $icon, tutor: $tutor)';
+    return 'Course(id: $id, description: $description, longDescription: $longDescription, url: $url, seqNo: $seqNo, lessonsCount: $lessonsCount, price: $price, categories: $categories, icon: $icon, tutor: $tutor, participants: $participants)';
 }
 
 
@@ -282,7 +284,7 @@ abstract mixin class _$CourseCopyWith<$Res> implements $CourseCopyWith<$Res> {
   factory _$CourseCopyWith(_Course value, $Res Function(_Course) _then) = __$CourseCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String description, String longDescription, String url, int seqNo, int lessonsCount, int price, List<String> categories, String icon, Tutor tutor
+ String id, String description, String longDescription, String url, int seqNo, int lessonsCount, int price, List<String> categories, String icon, Tutor tutor, int participants
 });
 
 
@@ -299,7 +301,7 @@ class __$CourseCopyWithImpl<$Res>
 
 /// Create a copy of Course
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? description = null,Object? longDescription = null,Object? url = null,Object? seqNo = null,Object? lessonsCount = null,Object? price = null,Object? categories = null,Object? icon = null,Object? tutor = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? description = null,Object? longDescription = null,Object? url = null,Object? seqNo = null,Object? lessonsCount = null,Object? price = null,Object? categories = null,Object? icon = null,Object? tutor = null,Object? participants = null,}) {
   return _then(_Course(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,description: null == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
@@ -311,7 +313,8 @@ as int,price: null == price ? _self.price : price // ignore: cast_nullable_to_no
 as int,categories: null == categories ? _self._categories : categories // ignore: cast_nullable_to_non_nullable
 as List<String>,icon: null == icon ? _self.icon : icon // ignore: cast_nullable_to_non_nullable
 as String,tutor: null == tutor ? _self.tutor : tutor // ignore: cast_nullable_to_non_nullable
-as Tutor,
+as Tutor,participants: null == participants ? _self.participants : participants // ignore: cast_nullable_to_non_nullable
+as int,
   ));
 }
 

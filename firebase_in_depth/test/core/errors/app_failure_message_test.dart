@@ -14,6 +14,11 @@ void main() {
     );
     expect(const NotFoundFailure().message(l10n), 'That item was not found.');
     expect(
+      const PermissionFailure().message(l10n),
+      'This write is not allowed. Deploy firestore.rules '
+      '(only participants on a course), then tap Increment again.',
+    );
+    expect(
       const InvalidQueryFailure().message(l10n),
       'This query is not valid for Firestore.',
     );

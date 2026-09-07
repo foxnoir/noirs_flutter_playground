@@ -34,7 +34,7 @@ void main() {
       AppException.fromFirebase(
         FirebaseException(plugin: 'cloud_firestore', code: 'permission-denied'),
       ),
-      const NetworkException(),
+      const PermissionException(),
     );
   });
 }

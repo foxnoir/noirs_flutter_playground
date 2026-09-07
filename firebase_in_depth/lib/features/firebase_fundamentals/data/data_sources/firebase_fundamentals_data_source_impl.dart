@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sources/firebase_fundamentals_data_source.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/courses_snapshot_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final firebaseFundamentalsDataSourceProvider =
@@ -110,6 +112,26 @@ class FirebaseFundamentalsDataSourceImpl
     });
   }
 
+  @override
+  Stream<CoursesSnapshotModel> watchCourses() {
+    return _collection
+        .orderBy('seqNo')
+        .snapshots()
+        .map(_mapCoursesSnapshot)
+        .handleError((Object error, StackTrace stack) {
+          Error.throwWithStackTrace(_toAppException(error), stack);
+        });
+  }
+
+  @override
+  Future<void> incrementParticipants(String courseId) {
+    return _guard(() {
+      return _collection.doc(courseId).update({
+        'participants': FieldValue.increment(1),
+      });
+    });
+  }
+
   Future<List<CourseModel>> _mapQuery(Query<Map<String, dynamic>> query) async {
     final snaps = await query.get();
     return [
@@ -130,6 +152,44 @@ class FirebaseFundamentalsDataSourceImpl
           'courseId': snap.reference.parent.parent?.id ?? '',
         }),
     ];
+  }
+
+  CoursesSnapshotModel _mapCoursesSnapshot(
+    QuerySnapshot<Map<String, dynamic>> snap,
+  ) {
+    return CoursesSnapshotModel(
+      courses: [
+        for (final doc in snap.docs)
+          CourseModel.fromJson({...doc.data(), 'id': doc.id}),
+      ],
+      changes: [
+        for (final change in snap.docChanges)
+          if (change.doc.data() != null)
+            CourseChangeModel(
+              type: _changeType(change.type),
+              course: CourseModel.fromJson({
+                ...change.doc.data()!,
+                'id': change.doc.id,
+              }),
+            ),
+      ],
+    );
+  }
+
+  CourseChangeType _changeType(DocumentChangeType type) {
+    return switch (type) {
+      DocumentChangeType.added => CourseChangeType.added,
+      DocumentChangeType.modified => CourseChangeType.modified,
+      DocumentChangeType.removed => CourseChangeType.removed,
+    };
+  }
+
+  AppException _toAppException(Object error) {
+    return switch (error) {
+      AppException() => error,
+      FirebaseException() => AppException.fromFirebase(error),
+      _ => const NetworkException(),
+    };
   }
 
   Future<T> _guard<T>(Future<T> Function() run) async {

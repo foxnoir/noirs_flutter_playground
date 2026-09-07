@@ -2,6 +2,7 @@ import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/providers/firebase_fundamentals_provider.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_async_result.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_compare_frame.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_hint_text.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_lab_button.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_lesson_list.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_wide_split.dart';
@@ -24,7 +25,7 @@ class FirebaseFundamentalsLessonsSection extends ConsumerWidget {
       children: [
         Text(l10n.fundamentalsLessonsTitle, style: textTheme.titleLarge),
         const SizedBox(height: 8),
-        Text(l10n.fundamentalsLessonsHint, style: textTheme.bodySmall),
+        FirebaseFundamentalsHintText(text: l10n.fundamentalsLessonsHint),
         const SizedBox(height: 12),
         FirebaseFundamentalsWideSplit(
           key: const Key('fundamentals-lessons-split'),

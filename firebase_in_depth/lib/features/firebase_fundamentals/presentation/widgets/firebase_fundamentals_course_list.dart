@@ -4,9 +4,14 @@ import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseFundamentalsCourseList extends StatelessWidget {
-  const FirebaseFundamentalsCourseList({required this.courses, super.key});
+  const FirebaseFundamentalsCourseList({
+    required this.courses,
+    this.showParticipants = false,
+    super.key,
+  });
 
   final List<Course> courses;
+  final bool showParticipants;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,10 @@ class FirebaseFundamentalsCourseList extends StatelessWidget {
     return Column(
       children: [
         for (final course in courses)
-          FirebaseFundamentalsCourseTile(course: course),
+          FirebaseFundamentalsCourseTile(
+            course: course,
+            showParticipants: showParticipants,
+          ),
       ],
     );
   }

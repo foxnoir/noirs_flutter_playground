@@ -146,6 +146,12 @@ abstract class AppLocalizations {
   /// **'That item was not found.'**
   String get errorNotFound;
 
+  /// Permission-denied write, usually undeployed rules.
+  ///
+  /// In en, this message translates to:
+  /// **'This write is not allowed. Deploy firestore.rules (only participants on a course), then tap Increment again.'**
+  String get errorPermission;
+
   /// Invalid query fallback when Firestore sent no detail.
   ///
   /// In en, this message translates to:
@@ -155,7 +161,7 @@ abstract class AppLocalizations {
   /// How to watch Firestore traffic in Chrome DevTools.
   ///
   /// In en, this message translates to:
-  /// **'Start this lab in Chrome. Open DevTools (View → Developer → Developer Tools, or Cmd+Option+I) → Network → filter firestore. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.'**
+  /// **'Start this lab in **Chrome**. Open **DevTools** (View → Developer → Developer Tools, or Cmd+Option+I) → **Network** → filter `firestore`. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.'**
   String get fundamentalsDevtoolsHint;
 
   /// Section title for collection vs document reads.
@@ -167,7 +173,7 @@ abstract class AppLocalizations {
   /// Explains collection vs one document by id.
   ///
   /// In en, this message translates to:
-  /// **'A collection is every course, ordered by seqNo. A document is one course by id (hiragana-from-zero) — not the first row of the list.'**
+  /// **'A **collection** is every course, ordered by `seqNo`. A **document** is one course by id (`hiragana-from-zero`) — not the first row of the list.'**
   String get fundamentalsReadHint;
 
   /// Button to fetch one course document.
@@ -209,7 +215,7 @@ abstract class AppLocalizations {
   /// Explains indexes and the four query buttons.
   ///
   /// In en, this message translates to:
-  /// **'Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.'**
+  /// **'Firestore answers from **indexes**, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One **range** filter plus `orderBy` on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a **composite** index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.'**
   String get fundamentalsQueryHint;
 
   /// Monospace title for the valid query card.
@@ -293,7 +299,7 @@ abstract class AppLocalizations {
   /// Explains nested lessons vs collectionGroup.
   ///
   /// In en, this message translates to:
-  /// **'A nested query stays under one course. A collection group query walks every lessons subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on lessons. orderBy seqNo needs a COLLECTION_GROUP index.'**
+  /// **'A **nested** query stays under one course. A **collection group** query walks every `lessons` subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on `lessons`. `orderBy seqNo` needs a `COLLECTION_GROUP` index.'**
   String get fundamentalsLessonsHint;
 
   /// Monospace title for the nested lessons card.
@@ -337,6 +343,116 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{courseId} · seqNo {seqNo} · {duration}'**
   String fundamentalsLessonMeta(String courseId, int seqNo, String duration);
+
+  /// Section title for the snapshots lab.
+  ///
+  /// In en, this message translates to:
+  /// **'Realtime snapshots'**
+  String get fundamentalsRealtimeTitle;
+
+  /// Explains snapshots vs get and the participants increment.
+  ///
+  /// In en, this message translates to:
+  /// **'AngularFire **snapshotChanges** is Flutter `snapshots()` plus `docChanges`. `get()` is one answer. `snapshots()` stays open: the first event is every course as **added**, then **added** / **modified** / **removed**.\n\n**Increment** writes `FieldValue.increment(1)` on `hiragana-from-zero.participants` — two clients cannot overwrite each other. Change the same number in the Console; the listen updates. Rules allow only that field. Publish `firestore.rules` (Console or CLI) or increment fails.\n\nOpen **DevTools** → **Network** → filter `firestore` before you tap. **Listen** dumps the first Listen/`channel` payload (the full current list). **Increment** should add a **new** call — the write, then the live snapshot. Tiny pings while listening are keepalives, not new course dumps.'**
+  String get fundamentalsRealtimeHint;
+
+  /// Monospace title for the live course list.
+  ///
+  /// In en, this message translates to:
+  /// **'courses orderBy seqNo — snapshots()'**
+  String get fundamentalsRealtimeListenTitle;
+
+  /// Hint under the listen card.
+  ///
+  /// In en, this message translates to:
+  /// **'**Listen** opens the stream. **Stop** unsubscribes; the last list stays on screen but no longer updates. In **DevTools** → **Network** (filter `firestore`) the first **Listen** dump is the full list, not a one-shot `get()`.'**
+  String get fundamentalsRealtimeListenHint;
+
+  /// Monospace title for the change log and increment.
+  ///
+  /// In en, this message translates to:
+  /// **'docChanges + increment participants'**
+  String get fundamentalsRealtimeChangesTitle;
+
+  /// Hint under the docChanges card.
+  ///
+  /// In en, this message translates to:
+  /// **'This batch of diffs, not the full history. **Increment** `hiragana-from-zero` in the app or set `participants` in the Console — both should show **modified**. Watch **Network**: **Increment** should add a new `firestore` call.'**
+  String get fundamentalsRealtimeChangesHint;
+
+  /// Start the courses snapshots stream.
+  ///
+  /// In en, this message translates to:
+  /// **'Listen'**
+  String get fundamentalsRealtimeListen;
+
+  /// Cancel the snapshots subscription.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get fundamentalsRealtimeStop;
+
+  /// Add one participant on hiragana-from-zero.
+  ///
+  /// In en, this message translates to:
+  /// **'Increment participants'**
+  String get fundamentalsRealtimeIncrement;
+
+  /// Idle label before Listen is tapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Not listening. Tap Listen, then increment or edit the Console.'**
+  String get fundamentalsRealtimeIdle;
+
+  /// Idle label before increment is tapped.
+  ///
+  /// In en, this message translates to:
+  /// **'Not incremented yet.'**
+  String get fundamentalsRealtimeIncrementIdle;
+
+  /// Idle label for the change log.
+  ///
+  /// In en, this message translates to:
+  /// **'No snapshot yet.'**
+  String get fundamentalsRealtimeChangesIdle;
+
+  /// docChanges type added.
+  ///
+  /// In en, this message translates to:
+  /// **'added'**
+  String get fundamentalsChangeAdded;
+
+  /// docChanges type modified.
+  ///
+  /// In en, this message translates to:
+  /// **'modified'**
+  String get fundamentalsChangeModified;
+
+  /// docChanges type removed.
+  ///
+  /// In en, this message translates to:
+  /// **'removed'**
+  String get fundamentalsChangeRemoved;
+
+  /// One docChange row.
+  ///
+  /// In en, this message translates to:
+  /// **'{type} · {description} · {participants} participants'**
+  String fundamentalsRealtimeChange(
+    String type,
+    String description,
+    int participants,
+  );
+
+  /// Course tile subtitle in the realtime list.
+  ///
+  /// In en, this message translates to:
+  /// **'seqNo {seqNo} · {lessonsCount} lessons · {participants} participants'**
+  String fundamentalsRealtimeCourseMeta(
+    int seqNo,
+    int lessonsCount,
+    int participants,
+  );
 }
 
 class _AppLocalizationsDelegate

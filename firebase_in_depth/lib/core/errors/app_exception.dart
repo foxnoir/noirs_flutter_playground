@@ -9,6 +9,7 @@ sealed class AppException implements Exception {
   factory AppException.fromFirebase(FirebaseException exception) {
     return switch (exception.code) {
       'not-found' => const NotFoundException(),
+      'permission-denied' => const PermissionException(),
       'invalid-argument' ||
       'failed-precondition' => InvalidQueryException(exception.message),
       _ => const NetworkException(),
@@ -22,6 +23,10 @@ final class NetworkException extends AppException {
 
 final class NotFoundException extends AppException {
   const NotFoundException();
+}
+
+final class PermissionException extends AppException {
+  const PermissionException();
 }
 
 /// Firestore refused the query (two inequalities, missing index, …).

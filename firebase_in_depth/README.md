@@ -54,6 +54,7 @@
         <li><a href="#nested-collections">Nested collections</a></li>
         <li><a href="#nested-versus-two-root-collections">Nested versus two root collections</a></li>
         <li><a href="#collection-group-queries">Collection group queries</a></li>
+        <li><a href="#realtime-snapshots">Realtime snapshots</a></li>
         <li><a href="#courses-in-this-project">Courses in this project</a></li>
         <li><a href="#freezed">Freezed</a></li>
         <li><a href="#performance-guarantees-and-indexes">Performance guarantees and indexes</a></li>
@@ -90,6 +91,7 @@ The Firestore collection [`courses`](https://console.firebase.google.com/project
 - read one document by id
 - four queries: automatic index, two inequalities, composite `url` + `seqNo`, missing `price` + `seqNo`
 - nested `lessons` under one course vs `collectionGroup('lessons')` for every lesson
+- realtime `snapshots()` on `courses` plus `FieldValue.increment` on `participants`
 
 Last practice app in the playground for now.
 
@@ -112,7 +114,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - l10n (English / German)
 - Feature folders (`presentation` / `data` / `domain`)
 - **Landing Screen** (`LandingScreen`) — GoRouter hub, same idea as Advanced Concepts
-- **Firebase Fundamentals** — collection / document reads, index lab, nested lessons vs collection group
+- **Firebase Fundamentals** — collection / document reads, index lab, nested lessons vs collection group, realtime snapshots
 - Sealed `AppException` / `AppFailure` with l10n mapping
 - [Freezed](https://pub.dev/packages/freezed) for Firestore models and entities (`Course` / `Tutor` / `Lesson`)
 - Material 3 seed theme
@@ -205,6 +207,26 @@ Two extra pieces, or the button fails:
 
 Both are in this repo (`firestore.rules`, `firestore.indexes.json`). Deploy, or tap the button and CREATE from the Console URL. Unlike **Run missing-index query**, this index you **do** want.
 
+### Realtime snapshots
+
+**Listen** is `orderBy('seqNo').snapshots()` — AngularFire `snapshotChanges()`. The stream stays open. First event: every current course as `added`. Later: `added` / `modified` / `removed` in `docChanges`. **Stop** cancels the subscription.
+
+**Increment** writes `FieldValue.increment(1)` on `hiragana-from-zero.participants`. Two clients cannot overwrite each other. The same number in the Console also pushes a `modified` event. Rules allow only that field — publish `firestore.rules` (Console or CLI) or the write fails.
+
+**Watch it in DevTools.** Open Chrome **DevTools** → **Network** → filter `firestore` *before* you tap. **Listen** dumps the first Listen/`channel` payload (the full current query). After that, keepalives stay tiny until something changes. **Increment** should show a **new** call: the write, then the snapshot update. No new dump = the write did not land (usually undeployed rules).
+
+The Angular course uses RxJS **`first()`** and **`take(n)`** on that Observable. Dart’s `Stream` has the same operators:
+
+| Operator | What it does |
+| --- | --- |
+| `snapshots().first` | `Future` of the first snapshot, then unsubscribe |
+| `snapshots().take(n)` | emit **n** snapshots, then close (unsubscribe) |
+| `snapshots().take(1)` | same idea as `first` — one emission, then done |
+
+`get()` is still the one-shot read. `first` / `take(1)` *look* like `get()` from the app, but they open a **Listen** and cancel after the first snapshot. Cost and DevTools traffic are not identical to `get()`.
+
+This lab does not call `first` / `take`. **Listen** + **Stop** is the same idea by hand: stay subscribed, or cancel. Use `take(n)` when you want a finite stream without a Stop button.
+
 <p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Courses in this project
@@ -222,6 +244,7 @@ This playground still keeps **the same fields on every course**. Firestore is **
 | `categories` | array of string | Small and bounded, e.g. `BEGINNER` |
 | `icon` | string | `purple` / `light_purple` / `green` / `turquoise` → `assets/icons/courses/course_$icon.png` |
 | `tutor` | map | Nested object: `name` (string), `employedSince` (array `[year, month, day]`) |
+| `participants` | number | Optional. Missing reads as `0`. Realtime lab increments this field. |
 
 Lesson documents (where the subcollection exists) — three fields only, same shape as a typical Firestore course sample:
 
@@ -422,7 +445,7 @@ fvm flutter run -d chrome
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). Writes stay denied. Collection-group reads fail until those rules are deployed:
+Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). The only client **write** is updating `participants` on a course (`FieldValue.increment`). Everything else stays denied. Collection-group reads and the increment fail until those rules are deployed:
 
 ```
 npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --project fir-in-depth-813e4
@@ -431,7 +454,7 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --pro
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**63.9%** line coverage (483 of 756 lines).
+**65.2%** line coverage (646 of 991 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -455,12 +478,12 @@ How the badges are produced: playground [coverage pipeline](../README.md#coverag
 
 Thrown objects and UI copy are different types. No extra package: Dart 3 **`sealed class`** is enough.
 
-- Data sources throw **`AppException`**: `NetworkException`, `NotFoundException`, `InvalidQueryException`. Unknown errors are wrapped here.
+- Data sources throw **`AppException`**: `NetworkException`, `NotFoundException`, `PermissionException`, `InvalidQueryException`. Unknown errors are wrapped here.
 - Repositories catch **`on AppException`** and `throw AppFailure.fromException(e)`. No dartz — throwing the failure is `Left`.
 - Notifiers store that `AppFailure`. They do not map.
 - UI calls **`failure.message(l10n)`** or **`localizedError(l10n, error)`**. Never `toString()`.
 
-Files: `lib/core/errors/`. Copy lives in ARB (`errorNetwork`, `errorNotFound`, `errorInvalidQuery`, `errorOccurred`). **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`) is the shared error screen (icon + message + optional retry). Import material with `hide ErrorWidget`. `InvalidQueryFailure` may show the Firestore `message` (index URL / “two inequality fields”) when the backend sent one.
+Files: `lib/core/errors/`. Copy lives in ARB (`errorNetwork`, `errorNotFound`, `errorPermission`, `errorInvalidQuery`, `errorOccurred`). **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`) is the shared error screen (icon + message + optional retry). Import material with `hide ErrorWidget`. `InvalidQueryFailure` may show the Firestore `message` (index URL / “two inequality fields”) when the backend sent one.
 
 **Firebase Fundamentals** is the working Firestore example: `FirebaseFundamentalsDataSourceImpl` throws `AppException` (`AppException.fromFirebase` on the sealed class in `core/errors/`); `FirebaseFundamentalsRepositoryImpl` maps to `AppFailure`; the lab notifier stores `AsyncValue`s; the UI calls `localizedError`.
 
@@ -474,7 +497,7 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 **Landing Screen** → **Firebase Fundamentals** (`pushNamed`). Run in **Chrome**. Open DevTools → Network → filter `firestore` *before* tapping buttons, or you miss the call.
 
-The screen does not fetch on load. Each button is one read. From **600px** (Material medium) **Read collection** and **Read document** sit in a row; below that working queries are on the left and the two that fail are stacked on the right. Buttons use teal when the read should succeed and the error rose when it should fail — they do not stretch full width.
+The screen does not fetch on load. Each button is one read, except **Listen** which opens `snapshots()` until **Stop**. Leave **DevTools** → **Network** (filter `firestore`) open: **Listen** dumps the first channel payload; **Increment** should add a **new** call. From **600px** (Material medium) **Read collection** and **Read document** sit in a row; below that working queries are on the left and the two that fail are stacked on the right. Realtime is listen + change log. Buttons use teal when the read should succeed and the error rose when it should fail — they do not stretch full width.
 
 | Button | What it does |
 |---|---|
@@ -486,9 +509,12 @@ The screen does not fetch on load. Each button is one read. From **600px** (Mate
 | Run missing-index query | `seqNo <= 20` **and** `price == 15` — Console URL |
 | Read nested lessons | `courses/hiragana-from-zero/lessons` ordered by `seqNo` |
 | Run collection-group query | `collectionGroup('lessons')` ordered by `seqNo` — needs COLLECTION_GROUP index + recursive rule |
+| Listen | `courses.orderBy('seqNo').snapshots()` — AngularFire `snapshotChanges` is this stream plus `docChanges` |
+| Stop | Cancel the subscription |
+| Increment participants | `FieldValue.increment(1)` on `hiragana-from-zero.participants` — or set the number in the Console |
 
-Names follow the feature, like Sealed Lab — no extra `Firestore` / `Course` prefix. **Contracts** (`FirebaseFundamentalsDataSource`, `FirebaseFundamentalsRepository`) live in `firebase_fundamentals_data_source.dart` and `domain/.../firebase_fundamentals_repository.dart`. **`*Impl`** lives in `*_impl.dart` (`firebase_fundamentals_data_source_impl.dart`, `firebase_fundamentals_repository_impl.dart`); the repository test is `*_impl_test.dart`. The lab is the **screen**; the three blocks are `ReadSection`, `QuerySection`, `LessonsSection`. Collection group is `collectionGroup('lessons').orderBy('seqNo')` in the data source impl. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course`, `Tutor`, and `Lesson` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
+Names follow the feature, like Sealed Lab — no extra `Firestore` / `Course` prefix. **Contracts** (`FirebaseFundamentalsDataSource`, `FirebaseFundamentalsRepository`) live in `firebase_fundamentals_data_source.dart` and `domain/.../firebase_fundamentals_repository.dart`. **`*Impl`** lives in `*_impl.dart` (`firebase_fundamentals_data_source_impl.dart`, `firebase_fundamentals_repository_impl.dart`); the repository test is `*_impl_test.dart`. The lab is the **screen**; the blocks are `ReadSection`, `QuerySection`, `LessonsSection`, `RealtimeSection`. Collection group is `collectionGroup('lessons').orderBy('seqNo')` in the data source impl. Realtime is `snapshots()` + `docChanges`; increment is `FieldValue.increment`. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course`, `Tutor`, and `Lesson` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
 
-Why the failing queries fail: [Performance guarantees and indexes](#performance-guarantees-and-indexes). Nested vs all lessons: [Collection group queries](#collection-group-queries).
+Why the failing queries fail: [Performance guarantees and indexes](#performance-guarantees-and-indexes). Nested vs all lessons: [Collection group queries](#collection-group-queries). Live updates: [Realtime snapshots](#realtime-snapshots) — **Listen**, then increment or edit `participants` in the Console. `first` / `take(n)` are in that section.
 
 <p align="right"><a href="#readme-top">back to top</a></p>

@@ -5,6 +5,7 @@ import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sourc
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -80,6 +81,24 @@ class FirebaseFundamentalsRepositoryImpl
     return _mapLessonList(_dataSource.fetchLessonsCollectionGroup);
   }
 
+  @override
+  Stream<CoursesSnapshot> watchCourses() {
+    return _dataSource
+        .watchCourses()
+        .map((model) => model.toEntity())
+        .handleError((Object error, StackTrace stack) {
+          Error.throwWithStackTrace(
+            error is AppException ? AppFailure.fromException(error) : error,
+            stack,
+          );
+        });
+  }
+
+  @override
+  Future<void> incrementParticipants(String courseId) {
+    return _mapVoid(() => _dataSource.incrementParticipants(courseId));
+  }
+
   Future<Course> _map(Future<CourseModel> Function() run) async {
     try {
       final model = await run();
@@ -106,6 +125,14 @@ class FirebaseFundamentalsRepositoryImpl
     try {
       final models = await run();
       return [for (final model in models) model.toEntity()];
+    } on AppException catch (e) {
+      throw AppFailure.fromException(e);
+    }
+  }
+
+  Future<void> _mapVoid(Future<void> Function() run) async {
+    try {
+      await run();
     } on AppException catch (e) {
       throw AppFailure.fromException(e);
     }

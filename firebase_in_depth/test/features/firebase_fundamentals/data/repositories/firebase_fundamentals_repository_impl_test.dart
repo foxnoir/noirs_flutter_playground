@@ -1,6 +1,7 @@
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../course_fixtures.dart';
@@ -80,5 +81,43 @@ void main() {
     expect(await repository.fetchLessonsForCourse(sampleLesson.courseId), [
       sampleLesson,
     ]);
+  });
+
+  test('watchCourses maps a snapshot to entities', () async {
+    const repository = FirebaseFundamentalsRepositoryImpl(
+      FakeFirebaseFundamentalsDataSource(models: [sampleCourseModel]),
+    );
+
+    expect(
+      await repository.watchCourses().first,
+      const CoursesSnapshot(
+        courses: [sampleCourse],
+        changes: [
+          CourseChange(type: CourseChangeType.added, course: sampleCourse),
+        ],
+      ),
+    );
+  });
+
+  test('watchCourses maps a data-source exception to AppFailure', () async {
+    const repository = FirebaseFundamentalsRepositoryImpl(
+      FakeFirebaseFundamentalsDataSource(error: NetworkException()),
+    );
+
+    await expectLater(
+      repository.watchCourses().first,
+      throwsA(const NetworkFailure()),
+    );
+  });
+
+  test('incrementParticipants maps an exception to AppFailure', () async {
+    const repository = FirebaseFundamentalsRepositoryImpl(
+      FakeFirebaseFundamentalsDataSource(error: NetworkException()),
+    );
+
+    await expectLater(
+      repository.incrementParticipants(sampleCourse.id),
+      throwsA(const NetworkFailure()),
+    );
   });
 }

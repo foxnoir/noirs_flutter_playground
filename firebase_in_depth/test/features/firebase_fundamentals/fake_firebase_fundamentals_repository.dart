@@ -1,5 +1,6 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
 
@@ -12,6 +13,7 @@ class FakeFirebaseFundamentalsRepository
     this.invalidQueryError,
     this.missingIndexError,
     this.lessons = const [],
+    this.realtime,
   });
 
   final Course? course;
@@ -20,6 +22,7 @@ class FakeFirebaseFundamentalsRepository
   final AppFailure? invalidQueryError;
   final AppFailure? missingIndexError;
   final List<Lesson> lessons;
+  final Stream<CoursesSnapshot>? realtime;
 
   @override
   Future<Course> fetchCourse(String id) async {
@@ -104,5 +107,28 @@ class FakeFirebaseFundamentalsRepository
     final thrown = error;
     if (thrown != null) throw thrown;
     return lessons;
+  }
+
+  @override
+  Stream<CoursesSnapshot> watchCourses() {
+    final thrown = error;
+    if (thrown != null) return Stream.error(thrown);
+    final realtime = this.realtime;
+    if (realtime != null) return realtime;
+    return Stream.value(
+      CoursesSnapshot(
+        courses: courses,
+        changes: [
+          for (final course in courses)
+            CourseChange(type: CourseChangeType.added, course: course),
+        ],
+      ),
+    );
+  }
+
+  @override
+  Future<void> incrementParticipants(String courseId) async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
   }
 }

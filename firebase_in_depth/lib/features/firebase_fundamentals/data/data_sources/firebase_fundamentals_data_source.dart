@@ -1,4 +1,5 @@
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/courses_snapshot_model.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
 
 abstract interface class FirebaseFundamentalsDataSource {
@@ -26,4 +27,8 @@ abstract interface class FirebaseFundamentalsDataSource {
   Future<List<LessonModel>> fetchLessonsForCourse(String courseId);
 
   Future<List<LessonModel>> fetchLessonsCollectionGroup();
+
+  Stream<CoursesSnapshotModel> watchCourses();
+
+  Future<void> incrementParticipants(String courseId);
 }

@@ -32,11 +32,15 @@
   "@errorNotFound": {
     "description": "Not-found failure message."
   },
+  "errorPermission": "Dieser Write ist nicht erlaubt. Deploy firestore.rules (nur participants auf einem Kurs), dann Increment erneut.",
+  "@errorPermission": {
+    "description": "Permission-denied write, usually undeployed rules."
+  },
   "errorInvalidQuery": "Diese Abfrage ist für Firestore nicht gültig.",
   "@errorInvalidQuery": {
     "description": "Invalid query fallback when Firestore sent no detail."
   },
-  "fundamentalsDevtoolsHint": "Starte dieses Lab in Chrome. Öffne die DevTools (Ansicht → Entwickler → Entwicklertools, oder Cmd+Option+I) → Network → Filter firestore. Jeder Button unten ist ein echter Firestore-Read. Schau dir Request und Response dort an. Die Firebase Console ist zum Lesen der Felder; DevTools zeigt, dass ein Call passiert ist.",
+  "fundamentalsDevtoolsHint": "Starte dieses Lab in **Chrome**. Öffne die **DevTools** (Ansicht → Entwickler → Entwicklertools, oder Cmd+Option+I) → **Network** → Filter `firestore`. Jeder Button unten ist ein echter Firestore-Read. Schau dir Request und Response dort an. Die Firebase Console ist zum Lesen der Felder; DevTools zeigt, dass ein Call passiert ist.",
   "@fundamentalsDevtoolsHint": {
     "description": "How to watch Firestore traffic in Chrome DevTools."
   },
@@ -44,7 +48,7 @@
   "@fundamentalsReadTitle": {
     "description": "Section title for collection vs document reads."
   },
-  "fundamentalsReadHint": "Eine Collection sind alle Kurse, sortiert nach seqNo. Ein Dokument ist ein Kurs per id (hiragana-from-zero) — nicht die erste Zeile der Liste.",
+  "fundamentalsReadHint": "Eine **Collection** sind alle Kurse, sortiert nach `seqNo`. Ein **Dokument** ist ein Kurs per id (`hiragana-from-zero`) — nicht die erste Zeile der Liste.",
   "@fundamentalsReadHint": {
     "description": "Explains collection vs one document by id."
   },
@@ -76,7 +80,7 @@
   "@fundamentalsQueryTitle": {
     "description": "Section title for the index lab."
   },
-  "fundamentalsQueryHint": "Firestore antwortet aus Indexes, nicht durch Scannen der Collection. Das ist die Performance-Garantie: die Query-Kosten bleiben vorhersagbar, wenn die Daten wachsen. Ein Range-Filter plus orderBy auf demselben Feld nutzt den automatischen Single-Field-Index. Zwei Range-Filter auf verschiedenen Feldern können das nicht. Gleichheit auf einem Feld plus Range auf einem anderen braucht einen Composite Index. Dieses Lab hat einen Composite (`url` + `seqNo`) und lässt `price` + `seqNo` ohne.",
+  "fundamentalsQueryHint": "Firestore antwortet aus **Indexes**, nicht durch Scannen der Collection. Das ist die Performance-Garantie: die Query-Kosten bleiben vorhersagbar, wenn die Daten wachsen. Ein **Range**-Filter plus `orderBy` auf demselben Feld nutzt den automatischen Single-Field-Index. Zwei Range-Filter auf verschiedenen Feldern können das nicht. Gleichheit auf einem Feld plus Range auf einem anderen braucht einen **Composite** Index. Dieses Lab hat einen Composite (`url` + `seqNo`) und lässt `price` + `seqNo` ohne.",
   "@fundamentalsQueryHint": {
     "description": "Explains indexes and the four query buttons."
   },
@@ -132,7 +136,7 @@
   "@fundamentalsLessonsTitle": {
     "description": "Section title for nested lessons vs collection group."
   },
-  "fundamentalsLessonsHint": "Eine nested Query bleibt unter einem Kurs. Eine Collection-Group-Query läuft jede lessons-Subcollection im Projekt ab. So listest du alle Lektionen, ohne jede Kurs-id zu kennen. Rules brauchen ein rekursives Match auf lessons. orderBy seqNo braucht einen COLLECTION_GROUP-Index.",
+  "fundamentalsLessonsHint": "Eine **nested** Query bleibt unter einem Kurs. Eine **Collection-Group**-Query läuft jede `lessons`-Subcollection im Projekt ab. So listest du alle Lektionen, ohne jede Kurs-id zu kennen. Rules brauchen ein rekursives Match auf `lessons`. `orderBy seqNo` braucht einen `COLLECTION_GROUP`-Index.",
   "@fundamentalsLessonsHint": {
     "description": "Explains nested lessons vs collectionGroup."
   },
@@ -167,6 +171,84 @@
       "courseId": {"type": "String"},
       "seqNo": {"type": "int"},
       "duration": {"type": "String"}
+    }
+  },
+  "fundamentalsRealtimeTitle": "Realtime Snapshots",
+  "@fundamentalsRealtimeTitle": {
+    "description": "Section title for the snapshots lab."
+  },
+  "fundamentalsRealtimeHint": "AngularFire **snapshotChanges** ist in Flutter `snapshots()` plus `docChanges`. `get()` ist eine Antwort. `snapshots()` bleibt offen: das erste Event sind alle Kurse als **added**, danach **added** / **modified** / **removed**.\n\n**Increment** schreibt `FieldValue.increment(1)` auf `hiragana-from-zero.participants` — zwei Clients überschreiben sich nicht. Dieselbe Zahl in der Console ändern; der Listen aktualisiert. Rules erlauben nur dieses Feld. `firestore.rules` publishen (Console oder CLI), sonst scheitert Increment.\n\n**DevTools** → **Network** → Filter `firestore` öffnen, bevor du tippst. **Listen** liefert den ersten Listen/`channel`-Payload (die volle aktuelle Liste). **Increment** sollte einen **neuen** Call bringen — den Write, dann den Live-Snapshot. Kleine Pings während des Listen sind Keepalives, keine neuen Kurs-Dumps.",
+  "@fundamentalsRealtimeHint": {
+    "description": "Explains snapshots vs get and the participants increment."
+  },
+  "fundamentalsRealtimeListenTitle": "courses orderBy seqNo — snapshots()",
+  "@fundamentalsRealtimeListenTitle": {
+    "description": "Monospace title for the live course list."
+  },
+  "fundamentalsRealtimeListenHint": "**Listen** öffnet den Stream. **Stop** kündigt ab; die letzte Liste bleibt stehen, aktualisiert aber nicht mehr. In **DevTools** → **Network** (Filter `firestore`) ist der erste **Listen**-Dump die volle Liste, kein einmaliges `get()`.",
+  "@fundamentalsRealtimeListenHint": {
+    "description": "Hint under the listen card."
+  },
+  "fundamentalsRealtimeChangesTitle": "docChanges + increment participants",
+  "@fundamentalsRealtimeChangesTitle": {
+    "description": "Monospace title for the change log and increment."
+  },
+  "fundamentalsRealtimeChangesHint": "Dieser Diff-Batch, nicht die ganze History. **Increment** auf `hiragana-from-zero` in der App oder `participants` in der Console setzen — beides sollte **modified** zeigen. **Network** beobachten: **Increment** sollte einen neuen `firestore`-Call bringen.",
+  "@fundamentalsRealtimeChangesHint": {
+    "description": "Hint under the docChanges card."
+  },
+  "fundamentalsRealtimeListen": "Listen",
+  "@fundamentalsRealtimeListen": {
+    "description": "Start the courses snapshots stream."
+  },
+  "fundamentalsRealtimeStop": "Stop",
+  "@fundamentalsRealtimeStop": {
+    "description": "Cancel the snapshots subscription."
+  },
+  "fundamentalsRealtimeIncrement": "Teilnehmer +1",
+  "@fundamentalsRealtimeIncrement": {
+    "description": "Add one participant on hiragana-from-zero."
+  },
+  "fundamentalsRealtimeIdle": "Kein Listen. Listen tippen, dann Increment oder in der Console ändern.",
+  "@fundamentalsRealtimeIdle": {
+    "description": "Idle label before Listen is tapped."
+  },
+  "fundamentalsRealtimeIncrementIdle": "Noch nicht erhöht.",
+  "@fundamentalsRealtimeIncrementIdle": {
+    "description": "Idle label before increment is tapped."
+  },
+  "fundamentalsRealtimeChangesIdle": "Noch kein Snapshot.",
+  "@fundamentalsRealtimeChangesIdle": {
+    "description": "Idle label for the change log."
+  },
+  "fundamentalsChangeAdded": "added",
+  "@fundamentalsChangeAdded": {
+    "description": "docChanges type added."
+  },
+  "fundamentalsChangeModified": "modified",
+  "@fundamentalsChangeModified": {
+    "description": "docChanges type modified."
+  },
+  "fundamentalsChangeRemoved": "removed",
+  "@fundamentalsChangeRemoved": {
+    "description": "docChanges type removed."
+  },
+  "fundamentalsRealtimeChange": "{type} · {description} · {participants} Teilnehmer",
+  "@fundamentalsRealtimeChange": {
+    "description": "One docChange row.",
+    "placeholders": {
+      "type": {"type": "String"},
+      "description": {"type": "String"},
+      "participants": {"type": "int"}
+    }
+  },
+  "fundamentalsRealtimeCourseMeta": "seqNo {seqNo} · {lessonsCount} Lektionen · {participants} Teilnehmer",
+  "@fundamentalsRealtimeCourseMeta": {
+    "description": "Course tile subtitle in the realtime list.",
+    "placeholders": {
+      "seqNo": {"type": "int"},
+      "lessonsCount": {"type": "int"},
+      "participants": {"type": "int"}
     }
   }
 }

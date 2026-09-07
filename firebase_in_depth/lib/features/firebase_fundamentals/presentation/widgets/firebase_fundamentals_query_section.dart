@@ -3,6 +3,7 @@ import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/pr
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_async_result.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_compare_frame.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_course_list.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_hint_text.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_lab_button.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_wide_split.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
@@ -24,7 +25,7 @@ class FirebaseFundamentalsQuerySection extends ConsumerWidget {
       children: [
         Text(l10n.fundamentalsQueryTitle, style: textTheme.titleLarge),
         const SizedBox(height: 8),
-        Text(l10n.fundamentalsQueryHint, style: textTheme.bodySmall),
+        FirebaseFundamentalsHintText(text: l10n.fundamentalsQueryHint),
         const SizedBox(height: 12),
         FirebaseFundamentalsWideSplit(
           key: const Key('fundamentals-query-split'),

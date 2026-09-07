@@ -1,3 +1,4 @@
+import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_hint_text.dart';
 import 'package:flutter/material.dart';
 
 class FirebaseFundamentalsCompareFrame extends StatelessWidget {
@@ -51,8 +52,8 @@ class FirebaseFundamentalsCompareFrame extends StatelessWidget {
               ],
             ),
             const SizedBox(height: 8),
-            Text(
-              hint,
+            FirebaseFundamentalsHintText(
+              text: hint,
               style: textTheme.bodySmall?.copyWith(
                 color: scheme.onSurfaceVariant,
               ),

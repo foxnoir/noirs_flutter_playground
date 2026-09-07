@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/providers/firebase_fundamentals_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,8 +19,13 @@ final firebaseFundamentalsProvider =
     >(FirebaseFundamentalsNotifier.new);
 
 class FirebaseFundamentalsNotifier extends Notifier<FirebaseFundamentalsState> {
+  StreamSubscription<CoursesSnapshot>? _realtime;
+
   @override
-  FirebaseFundamentalsState build() => const FirebaseFundamentalsState();
+  FirebaseFundamentalsState build() {
+    ref.onDispose(() => _realtime?.cancel());
+    return const FirebaseFundamentalsState();
+  }
 
   FirebaseFundamentalsRepository get _repository {
     return ref.read(firebaseFundamentalsRepositoryProvider);
@@ -86,6 +94,35 @@ class FirebaseFundamentalsNotifier extends Notifier<FirebaseFundamentalsState> {
       setValue: (value) =>
           state = state.copyWith(collectionGroupLessons: value),
       run: _repository.fetchLessonsCollectionGroup,
+    );
+  }
+
+  void startRealtime() {
+    unawaited(_realtime?.cancel());
+    state = state.copyWith(listening: true, realtime: const AsyncLoading());
+    _realtime = _repository.watchCourses().listen(
+      (snapshot) {
+        state = state.copyWith(listening: true, realtime: AsyncData(snapshot));
+      },
+      onError: (Object error, StackTrace stackTrace) {
+        state = state.copyWith(
+          listening: true,
+          realtime: AsyncError<CoursesSnapshot>(error, stackTrace),
+        );
+      },
+    );
+  }
+
+  void stopRealtime() {
+    unawaited(_realtime?.cancel());
+    _realtime = null;
+    state = state.copyWith(listening: false);
+  }
+
+  Future<void> incrementParticipants() {
+    return _run(
+      setValue: (value) => state = state.copyWith(increment: value),
+      run: () => _repository.incrementParticipants(sampleCourseId),
     );
   }
 

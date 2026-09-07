@@ -18,6 +18,7 @@ abstract class CourseModel with _$CourseModel {
     required List<String> categories,
     required String icon,
     required TutorModel tutor,
+    @Default(0) int participants,
   }) = _CourseModel;
 
   factory CourseModel.fromJson(Map<String, dynamic> json) =>
@@ -37,6 +38,7 @@ extension CourseModelX on CourseModel {
       categories: categories,
       icon: icon,
       tutor: tutor.toEntity(),
+      participants: participants,
     );
   }
 }

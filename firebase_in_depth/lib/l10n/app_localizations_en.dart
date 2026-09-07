@@ -34,18 +34,22 @@ class AppLocalizationsEn extends AppLocalizations {
   String get errorNotFound => 'That item was not found.';
 
   @override
+  String get errorPermission =>
+      'This write is not allowed. Deploy firestore.rules (only participants on a course), then tap Increment again.';
+
+  @override
   String get errorInvalidQuery => 'This query is not valid for Firestore.';
 
   @override
   String get fundamentalsDevtoolsHint =>
-      'Start this lab in Chrome. Open DevTools (View → Developer → Developer Tools, or Cmd+Option+I) → Network → filter firestore. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.';
+      'Start this lab in **Chrome**. Open **DevTools** (View → Developer → Developer Tools, or Cmd+Option+I) → **Network** → filter `firestore`. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.';
 
   @override
   String get fundamentalsReadTitle => 'Read a collection and a document';
 
   @override
   String get fundamentalsReadHint =>
-      'A collection is every course, ordered by seqNo. A document is one course by id (hiragana-from-zero) — not the first row of the list.';
+      'A **collection** is every course, ordered by `seqNo`. A **document** is one course by id (`hiragana-from-zero`) — not the first row of the list.';
 
   @override
   String get fundamentalsReadDocument => 'Read document';
@@ -70,7 +74,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fundamentalsQueryHint =>
-      'Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.';
+      'Firestore answers from **indexes**, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One **range** filter plus `orderBy` on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a **composite** index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.';
 
   @override
   String get fundamentalsQueryValidTitle => 'where seqNo <= 5, orderBy seqNo';
@@ -120,7 +124,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fundamentalsLessonsHint =>
-      'A nested query stays under one course. A collection group query walks every lessons subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on lessons. orderBy seqNo needs a COLLECTION_GROUP index.';
+      'A **nested** query stays under one course. A **collection group** query walks every `lessons` subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on `lessons`. `orderBy seqNo` needs a `COLLECTION_GROUP` index.';
 
   @override
   String get fundamentalsLessonsNestedTitle =>
@@ -147,5 +151,74 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String fundamentalsLessonMeta(String courseId, int seqNo, String duration) {
     return '$courseId · seqNo $seqNo · $duration';
+  }
+
+  @override
+  String get fundamentalsRealtimeTitle => 'Realtime snapshots';
+
+  @override
+  String get fundamentalsRealtimeHint =>
+      'AngularFire **snapshotChanges** is Flutter `snapshots()` plus `docChanges`. `get()` is one answer. `snapshots()` stays open: the first event is every course as **added**, then **added** / **modified** / **removed**.\n\n**Increment** writes `FieldValue.increment(1)` on `hiragana-from-zero.participants` — two clients cannot overwrite each other. Change the same number in the Console; the listen updates. Rules allow only that field. Publish `firestore.rules` (Console or CLI) or increment fails.\n\nOpen **DevTools** → **Network** → filter `firestore` before you tap. **Listen** dumps the first Listen/`channel` payload (the full current list). **Increment** should add a **new** call — the write, then the live snapshot. Tiny pings while listening are keepalives, not new course dumps.';
+
+  @override
+  String get fundamentalsRealtimeListenTitle =>
+      'courses orderBy seqNo — snapshots()';
+
+  @override
+  String get fundamentalsRealtimeListenHint =>
+      '**Listen** opens the stream. **Stop** unsubscribes; the last list stays on screen but no longer updates. In **DevTools** → **Network** (filter `firestore`) the first **Listen** dump is the full list, not a one-shot `get()`.';
+
+  @override
+  String get fundamentalsRealtimeChangesTitle =>
+      'docChanges + increment participants';
+
+  @override
+  String get fundamentalsRealtimeChangesHint =>
+      'This batch of diffs, not the full history. **Increment** `hiragana-from-zero` in the app or set `participants` in the Console — both should show **modified**. Watch **Network**: **Increment** should add a new `firestore` call.';
+
+  @override
+  String get fundamentalsRealtimeListen => 'Listen';
+
+  @override
+  String get fundamentalsRealtimeStop => 'Stop';
+
+  @override
+  String get fundamentalsRealtimeIncrement => 'Increment participants';
+
+  @override
+  String get fundamentalsRealtimeIdle =>
+      'Not listening. Tap Listen, then increment or edit the Console.';
+
+  @override
+  String get fundamentalsRealtimeIncrementIdle => 'Not incremented yet.';
+
+  @override
+  String get fundamentalsRealtimeChangesIdle => 'No snapshot yet.';
+
+  @override
+  String get fundamentalsChangeAdded => 'added';
+
+  @override
+  String get fundamentalsChangeModified => 'modified';
+
+  @override
+  String get fundamentalsChangeRemoved => 'removed';
+
+  @override
+  String fundamentalsRealtimeChange(
+    String type,
+    String description,
+    int participants,
+  ) {
+    return '$type · $description · $participants participants';
+  }
+
+  @override
+  String fundamentalsRealtimeCourseMeta(
+    int seqNo,
+    int lessonsCount,
+    int participants,
+  ) {
+    return 'seqNo $seqNo · $lessonsCount lessons · $participants participants';
   }
 }

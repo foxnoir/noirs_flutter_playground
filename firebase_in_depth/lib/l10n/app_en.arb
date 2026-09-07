@@ -32,11 +32,15 @@
   "@errorNotFound": {
     "description": "Not-found failure message."
   },
+  "errorPermission": "This write is not allowed. Deploy firestore.rules (only participants on a course), then tap Increment again.",
+  "@errorPermission": {
+    "description": "Permission-denied write, usually undeployed rules."
+  },
   "errorInvalidQuery": "This query is not valid for Firestore.",
   "@errorInvalidQuery": {
     "description": "Invalid query fallback when Firestore sent no detail."
   },
-  "fundamentalsDevtoolsHint": "Start this lab in Chrome. Open DevTools (View → Developer → Developer Tools, or Cmd+Option+I) → Network → filter firestore. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.",
+  "fundamentalsDevtoolsHint": "Start this lab in **Chrome**. Open **DevTools** (View → Developer → Developer Tools, or Cmd+Option+I) → **Network** → filter `firestore`. Each button below is a real Firestore read. Watch the request and the response there. The Firebase Console is for reading fields; DevTools is for seeing that a call happened.",
   "@fundamentalsDevtoolsHint": {
     "description": "How to watch Firestore traffic in Chrome DevTools."
   },
@@ -44,7 +48,7 @@
   "@fundamentalsReadTitle": {
     "description": "Section title for collection vs document reads."
   },
-  "fundamentalsReadHint": "A collection is every course, ordered by seqNo. A document is one course by id (hiragana-from-zero) — not the first row of the list.",
+  "fundamentalsReadHint": "A **collection** is every course, ordered by `seqNo`. A **document** is one course by id (`hiragana-from-zero`) — not the first row of the list.",
   "@fundamentalsReadHint": {
     "description": "Explains collection vs one document by id."
   },
@@ -76,7 +80,7 @@
   "@fundamentalsQueryTitle": {
     "description": "Section title for the index lab."
   },
-  "fundamentalsQueryHint": "Firestore answers from indexes, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One range filter plus orderBy on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a composite index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.",
+  "fundamentalsQueryHint": "Firestore answers from **indexes**, not by scanning the collection. That is the performance guarantee: query cost stays predictable as the data grows. One **range** filter plus `orderBy` on the same field can use the automatic single-field index. Two range filters on different fields cannot. Equality on one field plus a range on another needs a **composite** index. This lab has one composite (`url` + `seqNo`) and leaves `price` + `seqNo` without one.",
   "@fundamentalsQueryHint": {
     "description": "Explains indexes and the four query buttons."
   },
@@ -132,7 +136,7 @@
   "@fundamentalsLessonsTitle": {
     "description": "Section title for nested lessons vs collection group."
   },
-  "fundamentalsLessonsHint": "A nested query stays under one course. A collection group query walks every lessons subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on lessons. orderBy seqNo needs a COLLECTION_GROUP index.",
+  "fundamentalsLessonsHint": "A **nested** query stays under one course. A **collection group** query walks every `lessons` subcollection in the project. That is how you list all lessons without knowing each course id. Rules need a recursive match on `lessons`. `orderBy seqNo` needs a `COLLECTION_GROUP` index.",
   "@fundamentalsLessonsHint": {
     "description": "Explains nested lessons vs collectionGroup."
   },
@@ -167,6 +171,84 @@
       "courseId": {"type": "String"},
       "seqNo": {"type": "int"},
       "duration": {"type": "String"}
+    }
+  },
+  "fundamentalsRealtimeTitle": "Realtime snapshots",
+  "@fundamentalsRealtimeTitle": {
+    "description": "Section title for the snapshots lab."
+  },
+  "fundamentalsRealtimeHint": "AngularFire **snapshotChanges** is Flutter `snapshots()` plus `docChanges`. `get()` is one answer. `snapshots()` stays open: the first event is every course as **added**, then **added** / **modified** / **removed**.\n\n**Increment** writes `FieldValue.increment(1)` on `hiragana-from-zero.participants` — two clients cannot overwrite each other. Change the same number in the Console; the listen updates. Rules allow only that field. Publish `firestore.rules` (Console or CLI) or increment fails.\n\nOpen **DevTools** → **Network** → filter `firestore` before you tap. **Listen** dumps the first Listen/`channel` payload (the full current list). **Increment** should add a **new** call — the write, then the live snapshot. Tiny pings while listening are keepalives, not new course dumps.",
+  "@fundamentalsRealtimeHint": {
+    "description": "Explains snapshots vs get and the participants increment."
+  },
+  "fundamentalsRealtimeListenTitle": "courses orderBy seqNo — snapshots()",
+  "@fundamentalsRealtimeListenTitle": {
+    "description": "Monospace title for the live course list."
+  },
+  "fundamentalsRealtimeListenHint": "**Listen** opens the stream. **Stop** unsubscribes; the last list stays on screen but no longer updates. In **DevTools** → **Network** (filter `firestore`) the first **Listen** dump is the full list, not a one-shot `get()`.",
+  "@fundamentalsRealtimeListenHint": {
+    "description": "Hint under the listen card."
+  },
+  "fundamentalsRealtimeChangesTitle": "docChanges + increment participants",
+  "@fundamentalsRealtimeChangesTitle": {
+    "description": "Monospace title for the change log and increment."
+  },
+  "fundamentalsRealtimeChangesHint": "This batch of diffs, not the full history. **Increment** `hiragana-from-zero` in the app or set `participants` in the Console — both should show **modified**. Watch **Network**: **Increment** should add a new `firestore` call.",
+  "@fundamentalsRealtimeChangesHint": {
+    "description": "Hint under the docChanges card."
+  },
+  "fundamentalsRealtimeListen": "Listen",
+  "@fundamentalsRealtimeListen": {
+    "description": "Start the courses snapshots stream."
+  },
+  "fundamentalsRealtimeStop": "Stop",
+  "@fundamentalsRealtimeStop": {
+    "description": "Cancel the snapshots subscription."
+  },
+  "fundamentalsRealtimeIncrement": "Increment participants",
+  "@fundamentalsRealtimeIncrement": {
+    "description": "Add one participant on hiragana-from-zero."
+  },
+  "fundamentalsRealtimeIdle": "Not listening. Tap Listen, then increment or edit the Console.",
+  "@fundamentalsRealtimeIdle": {
+    "description": "Idle label before Listen is tapped."
+  },
+  "fundamentalsRealtimeIncrementIdle": "Not incremented yet.",
+  "@fundamentalsRealtimeIncrementIdle": {
+    "description": "Idle label before increment is tapped."
+  },
+  "fundamentalsRealtimeChangesIdle": "No snapshot yet.",
+  "@fundamentalsRealtimeChangesIdle": {
+    "description": "Idle label for the change log."
+  },
+  "fundamentalsChangeAdded": "added",
+  "@fundamentalsChangeAdded": {
+    "description": "docChanges type added."
+  },
+  "fundamentalsChangeModified": "modified",
+  "@fundamentalsChangeModified": {
+    "description": "docChanges type modified."
+  },
+  "fundamentalsChangeRemoved": "removed",
+  "@fundamentalsChangeRemoved": {
+    "description": "docChanges type removed."
+  },
+  "fundamentalsRealtimeChange": "{type} · {description} · {participants} participants",
+  "@fundamentalsRealtimeChange": {
+    "description": "One docChange row.",
+    "placeholders": {
+      "type": {"type": "String"},
+      "description": {"type": "String"},
+      "participants": {"type": "int"}
+    }
+  },
+  "fundamentalsRealtimeCourseMeta": "seqNo {seqNo} · {lessonsCount} lessons · {participants} participants",
+  "@fundamentalsRealtimeCourseMeta": {
+    "description": "Course tile subtitle in the realtime list.",
+    "placeholders": {
+      "seqNo": {"type": "int"},
+      "lessonsCount": {"type": "int"},
+      "participants": {"type": "int"}
     }
   }
 }

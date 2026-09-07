@@ -18,4 +18,8 @@ void main() {
 
     expect(CourseModel.fromJson(json).toEntity(), sampleCourse);
   });
+
+  test('fromJson defaults missing participants to 0', () {
+    expect(CourseModel.fromJson(sampleCourseJson).participants, 0);
+  });
 }

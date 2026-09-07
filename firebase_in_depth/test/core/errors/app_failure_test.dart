@@ -16,6 +16,10 @@ void main() {
       AppFailure.fromException(const InvalidQueryException('two inequalities')),
       const InvalidQueryFailure(detail: 'two inequalities'),
     );
+    expect(
+      AppFailure.fromException(const PermissionException()),
+      const PermissionFailure(),
+    );
   });
 
   test('from maps exceptions, failures, and unknown objects', () {
