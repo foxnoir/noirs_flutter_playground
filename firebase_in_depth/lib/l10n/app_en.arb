@@ -32,14 +32,6 @@
   "@navLab": {
     "description": "Header link to the course catalog home."
   },
-  "landingHeadline": "A course catalog on Firestore.",
-  "@landingHeadline": {
-    "description": "Landing page headline."
-  },
-  "landingLead": "Home is the catalog. Fundamentals is the query lab. Same project, two pages.",
-  "@landingLead": {
-    "description": "Landing page lead copy."
-  },
   "courseLabCardBody": "Beginner, advanced, and expert tracks. Tap a link or swipe the pages.",
   "@courseLabCardBody": {
     "description": "Landing card copy for Course Lab."
@@ -281,11 +273,7 @@
   },
   "courseLab": "Firebase Course Lab",
   "@courseLab": {
-    "description": "Landing tile for the course catalog home."
-  },
-  "courseLabHome": "Home",
-  "@courseLabHome": {
-    "description": "Course Lab home heading and header link."
+    "description": "Landing tile for the course catalog."
   },
   "courseLabBeginner": "Beginner course",
   "@courseLabBeginner": {
@@ -294,6 +282,10 @@
   "courseLabAdvanced": "Advanced course",
   "@courseLabAdvanced": {
     "description": "Home swap segment for advanced courses."
+  },
+  "courseLabExpert": "Expert course",
+  "@courseLabExpert": {
+    "description": "Home swap segment for expert courses."
   },
   "courseLabBeginnerHeadline": "Start with the kana.",
   "@courseLabBeginnerHeadline": {
@@ -310,10 +302,6 @@
   "courseLabAdvancedBody": "Keigo, kanji compounds, and the courses that assume you already read kana.",
   "@courseLabAdvancedBody": {
     "description": "Advanced panel body on Course Lab Home."
-  },
-  "courseLabExpert": "Expert course",
-  "@courseLabExpert": {
-    "description": "Home swap segment for expert courses."
   },
   "courseLabExpertHeadline": "Past the textbook.",
   "@courseLabExpertHeadline": {

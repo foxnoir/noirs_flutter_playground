@@ -33,13 +33,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navLab => 'Lab';
 
   @override
-  String get landingHeadline => 'A course catalog on Firestore.';
-
-  @override
-  String get landingLead =>
-      'Home is the catalog. Fundamentals is the query lab. Same project, two pages.';
-
-  @override
   String get courseLabCardBody =>
       'Beginner, advanced, and expert tracks. Tap a link or swipe the pages.';
 
@@ -250,13 +243,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get courseLab => 'Firebase Course Lab';
 
   @override
-  String get courseLabHome => 'Home';
-
-  @override
   String get courseLabBeginner => 'Beginner course';
 
   @override
   String get courseLabAdvanced => 'Advanced course';
+
+  @override
+  String get courseLabExpert => 'Expert course';
 
   @override
   String get courseLabBeginnerHeadline => 'Start with the kana.';
@@ -271,9 +264,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get courseLabAdvancedBody =>
       'Keigo, kanji compounds, and the courses that assume you already read kana.';
-
-  @override
-  String get courseLabExpert => 'Expert course';
 
   @override
   String get courseLabExpertHeadline => 'Past the textbook.';

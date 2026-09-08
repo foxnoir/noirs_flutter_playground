@@ -43,7 +43,7 @@ class _CourseLabHomeScreenState extends State<CourseLabHomeScreen> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
-              l10n.courseLabHome,
+              l10n.courseLab,
               style: Theme.of(context).textTheme.displaySmall,
             ),
             const SizedBox(height: 20),

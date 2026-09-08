@@ -12,8 +12,6 @@ class LandingScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final textTheme = Theme.of(context).textTheme;
-    final scheme = Theme.of(context).colorScheme;
 
     return SiteScaffold(
       currentRoute: AppRouteNames.landing,
@@ -38,16 +36,6 @@ class LandingScreen extends StatelessWidget {
           return ListView(
             padding: const EdgeInsets.fromLTRB(24, 40, 24, 48),
             children: [
-              Text(l10n.landingHeadline, style: textTheme.displaySmall),
-              const SizedBox(height: 12),
-              Text(
-                l10n.landingLead,
-                style: textTheme.bodyMedium?.copyWith(
-                  color: scheme.onSurfaceVariant,
-                  height: 1.5,
-                ),
-              ),
-              const SizedBox(height: 32),
               if (wide)
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.start,

@@ -12,6 +12,8 @@ class CourseLabTrackPanel extends ConsumerWidget {
 
   static const scheduleDragonAsset = 'assets/img/schedule_dragon.png';
   static const categoryIconSize = 72.0;
+  static const sectionGap = 16.0;
+  static const textGap = 8.0;
 
   final CourseLabTrack track;
 
@@ -57,13 +59,13 @@ class CourseLabTrackPanel extends ConsumerWidget {
                         height: categoryIconSize,
                         fit: BoxFit.contain,
                       ),
-                      const SizedBox(height: 20),
+                      const SizedBox(height: CourseLabTrackPanel.sectionGap),
                       Text(
                         track.headline(l10n),
                         textAlign: track.textAlign,
                         style: textTheme.titleLarge,
                       ),
-                      const SizedBox(height: 8),
+                      const SizedBox(height: CourseLabTrackPanel.textGap),
                       Text(
                         track.body(l10n),
                         textAlign: track.textAlign,
@@ -72,15 +74,13 @@ class CourseLabTrackPanel extends ConsumerWidget {
                           height: 1.45,
                         ),
                       ),
-                      SizedBox(height: track == CourseLabTrack.advanced ? 8 : 20),
+                      const SizedBox(height: CourseLabTrackPanel.sectionGap),
                       Expanded(
                         child: FirebaseFundamentalsAsyncResult<List<Course>>(
                           value: courses,
                           idleLabel: '',
-                          data: (courses) => _TrackCourseList(
-                            track: track,
-                            courses: courses,
-                          ),
+                          data: (courses) =>
+                              _TrackCourseList(track: track, courses: courses),
                         ),
                       ),
                     ],
@@ -115,7 +115,10 @@ class _TrackCourseList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final list = FirebaseFundamentalsCourseList(courses: courses);
+    final list = ListTileTheme(
+      data: const ListTileThemeData(minVerticalPadding: 4, dense: true),
+      child: FirebaseFundamentalsCourseList(courses: courses),
+    );
     final body = KeyedSubtree(
       key: Key('course-lab-list-${track.name}'),
       child: track == CourseLabTrack.beginner
@@ -153,9 +156,7 @@ class _ScheduleDragon extends StatelessWidget {
 
     return FractionallySizedBox(
       widthFactor: widthFactor,
-      child: ExcludeSemantics(
-        child: IgnorePointer(child: image),
-      ),
+      child: ExcludeSemantics(child: IgnorePointer(child: image)),
     );
   }
 }

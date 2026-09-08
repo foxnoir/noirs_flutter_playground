@@ -110,7 +110,8 @@ void main() {
     );
     final advancedBody = tester.getRect(
       find.text(
-        'Keigo, kanji compounds, and the courses that assume you already read kana.',
+        'Keigo, kanji compounds, and the courses '
+        'that assume you already read kana.',
       ),
     );
     expect(advancedList.top - advancedBody.bottom, lessThan(40));

@@ -30,6 +30,13 @@ void main() {
     await tester.pumpWidget(app());
 
     expect(find.byType(LandingScreen), findsOneWidget);
+    expect(find.text('A course catalog on Firestore.'), findsNothing);
+    expect(
+      find.text(
+        'Home is the catalog. Fundamentals is the query lab. Same project, two pages.',
+      ),
+      findsNothing,
+    );
     expect(find.text('Firebase Course Lab'), findsOneWidget);
     expect(find.text('Firebase Fundamentals'), findsOneWidget);
     expect(find.text('Lab'), findsOneWidget);
@@ -56,7 +63,9 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.byType(CourseLabHomeScreen), findsOneWidget);
-    expect(find.text('Home'), findsWidgets);
+    expect(find.text('Home'), findsOneWidget);
+    expect(find.text('Firebase Course Lab'), findsOneWidget);
+    expect(find.text('Lab'), findsOneWidget);
     expect(find.text('Beginner course'), findsOneWidget);
     expect(find.text('Start with the kana.'), findsOneWidget);
     expect(find.text('Hiragana from Zero'), findsOneWidget);

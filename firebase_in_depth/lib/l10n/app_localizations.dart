@@ -146,18 +146,6 @@ abstract class AppLocalizations {
   /// **'Lab'**
   String get navLab;
 
-  /// Landing page headline.
-  ///
-  /// In en, this message translates to:
-  /// **'A course catalog on Firestore.'**
-  String get landingHeadline;
-
-  /// Landing page lead copy.
-  ///
-  /// In en, this message translates to:
-  /// **'Home is the catalog. Fundamentals is the query lab. Same project, two pages.'**
-  String get landingLead;
-
   /// Landing card copy for Course Lab.
   ///
   /// In en, this message translates to:
@@ -496,17 +484,11 @@ abstract class AppLocalizations {
     int participants,
   );
 
-  /// Landing tile for the course catalog home.
+  /// Landing tile for the course catalog.
   ///
   /// In en, this message translates to:
   /// **'Firebase Course Lab'**
   String get courseLab;
-
-  /// Course Lab home heading and header link.
-  ///
-  /// In en, this message translates to:
-  /// **'Home'**
-  String get courseLabHome;
 
   /// Home swap segment for beginner courses.
   ///
@@ -519,6 +501,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Advanced course'**
   String get courseLabAdvanced;
+
+  /// Home swap segment for expert courses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expert course'**
+  String get courseLabExpert;
 
   /// Beginner panel headline on Course Lab Home.
   ///
@@ -543,12 +531,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Keigo, kanji compounds, and the courses that assume you already read kana.'**
   String get courseLabAdvancedBody;
-
-  /// Home swap segment for expert courses.
-  ///
-  /// In en, this message translates to:
-  /// **'Expert course'**
-  String get courseLabExpert;
 
   /// Expert panel headline on Course Lab Home.
   ///
