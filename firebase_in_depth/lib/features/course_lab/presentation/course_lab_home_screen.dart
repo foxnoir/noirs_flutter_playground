@@ -1,5 +1,4 @@
 import 'package:firebase_in_depth/core/router/app_router_names.dart';
-import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_track.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_panel.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';

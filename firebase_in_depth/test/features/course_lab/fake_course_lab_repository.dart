@@ -1,12 +1,11 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/lesson.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/repositories/course_lab_repository.dart';
 
-class FakeFirebaseFundamentalsRepository
-    implements FirebaseFundamentalsRepository {
-  const FakeFirebaseFundamentalsRepository({
+class FakeCourseLabRepository implements CourseLabRepository {
+  const FakeCourseLabRepository({
     this.course,
     this.courses = const [],
     this.error,
@@ -107,6 +106,16 @@ class FakeFirebaseFundamentalsRepository
     final thrown = error;
     if (thrown != null) throw thrown;
     return lessons;
+  }
+
+  @override
+  Future<List<Course>> fetchCoursesByCategory(String category) async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
+    return [
+      for (final course in courses)
+        if (course.categories.contains(category)) course,
+    ]..sort((a, b) => a.seqNo.compareTo(b.seqNo));
   }
 
   @override

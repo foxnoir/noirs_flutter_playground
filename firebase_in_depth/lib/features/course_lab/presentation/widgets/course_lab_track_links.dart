@@ -1,6 +1,17 @@
-import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_track.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
+
+enum CourseLabTrack {
+  beginner,
+  advanced;
+
+  /// Firestore `categories` value.
+  /// Seed uses `INTERMEDIATE`, not Angular's `ADVANCE`.
+  String get category => switch (this) {
+    beginner => 'BEGINNER',
+    advanced => 'INTERMEDIATE',
+  };
+}
 
 class CourseLabTrackLinks extends StatelessWidget {
   const CourseLabTrackLinks({
@@ -60,22 +71,24 @@ class _TrackLink extends StatelessWidget {
       child: GestureDetector(
         onTap: onTap,
         behavior: HitTestBehavior.opaque,
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(
-                color: selected ? scheme.primary : scheme.outlineVariant,
-                width: selected ? 2 : 1,
+        child: Align(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              border: Border(
+                bottom: BorderSide(
+                  color: selected ? scheme.primary : Colors.transparent,
+                  width: 2,
+                ),
               ),
             ),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 12),
-            child: Text(
-              label,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                color: selected ? scheme.primary : scheme.onSurfaceVariant,
+            child: Padding(
+              padding: const EdgeInsets.only(bottom: 2),
+              child: Text(
+                label,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: selected ? scheme.primary : scheme.onSurfaceVariant,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ),

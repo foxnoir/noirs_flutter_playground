@@ -1,8 +1,8 @@
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/courses_snapshot_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/courses_snapshot_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/lesson_model.dart';
 
-abstract interface class FirebaseFundamentalsDataSource {
+abstract interface class CourseLabDataSource {
   Future<CourseModel> fetchCourse(String id);
 
   Future<List<CourseModel>> fetchCourses();
@@ -27,6 +27,8 @@ abstract interface class FirebaseFundamentalsDataSource {
   Future<List<LessonModel>> fetchLessonsForCourse(String courseId);
 
   Future<List<LessonModel>> fetchLessonsCollectionGroup();
+
+  Future<List<CourseModel>> fetchCoursesByCategory(String category);
 
   Stream<CoursesSnapshotModel> watchCourses();
 

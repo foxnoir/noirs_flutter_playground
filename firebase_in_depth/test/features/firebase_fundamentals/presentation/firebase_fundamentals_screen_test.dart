@@ -1,21 +1,21 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
+import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
-import '../course_fixtures.dart';
-import '../fake_firebase_fundamentals_repository.dart';
+import '../../course_lab/course_fixtures.dart';
+import '../../course_lab/fake_course_lab_repository.dart';
 
 void main() {
   testWidgets('reads a document from the repository', (tester) async {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          firebaseFundamentalsRepositoryProvider.overrideWithValue(
-            const FakeFirebaseFundamentalsRepository(course: sampleCourse),
+          courseLabRepositoryProvider.overrideWithValue(
+            const FakeCourseLabRepository(course: sampleCourse),
           ),
         ],
         child: const MaterialApp(
@@ -45,8 +45,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          firebaseFundamentalsRepositoryProvider.overrideWithValue(
-            const FakeFirebaseFundamentalsRepository(
+          courseLabRepositoryProvider.overrideWithValue(
+            const FakeCourseLabRepository(
               invalidQueryError: InvalidQueryFailure(
                 detail: 'two inequalities',
               ),
@@ -79,8 +79,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          firebaseFundamentalsRepositoryProvider.overrideWithValue(
-            const FakeFirebaseFundamentalsRepository(
+          courseLabRepositoryProvider.overrideWithValue(
+            const FakeCourseLabRepository(
               missingIndexError: InvalidQueryFailure(
                 detail:
                     'The query requires an index. You can create it here: https://console.firebase.google.com/example',
@@ -118,8 +118,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          firebaseFundamentalsRepositoryProvider.overrideWithValue(
-            const FakeFirebaseFundamentalsRepository(),
+          courseLabRepositoryProvider.overrideWithValue(
+            const FakeCourseLabRepository(),
           ),
         ],
         child: const MaterialApp(
@@ -168,8 +168,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          firebaseFundamentalsRepositoryProvider.overrideWithValue(
-            const FakeFirebaseFundamentalsRepository(),
+          courseLabRepositoryProvider.overrideWithValue(
+            const FakeCourseLabRepository(),
           ),
         ],
         child: const MaterialApp(
@@ -202,8 +202,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          firebaseFundamentalsRepositoryProvider.overrideWithValue(
-            const FakeFirebaseFundamentalsRepository(lessons: [sampleLesson]),
+          courseLabRepositoryProvider.overrideWithValue(
+            const FakeCourseLabRepository(lessons: [sampleLesson]),
           ),
         ],
         child: const MaterialApp(
@@ -233,8 +233,8 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          firebaseFundamentalsRepositoryProvider.overrideWithValue(
-            const FakeFirebaseFundamentalsRepository(courses: [sampleCourse]),
+          courseLabRepositoryProvider.overrideWithValue(
+            const FakeCourseLabRepository(courses: [sampleCourse]),
           ),
         ],
         child: const MaterialApp(

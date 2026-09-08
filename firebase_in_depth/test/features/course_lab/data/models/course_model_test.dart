@@ -1,4 +1,4 @@
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/course_model.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../course_fixtures.dart';

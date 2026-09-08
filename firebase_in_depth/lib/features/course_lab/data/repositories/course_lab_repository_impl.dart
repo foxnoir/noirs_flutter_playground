@@ -1,27 +1,23 @@
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sources/firebase_fundamentals_data_source.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sources/firebase_fundamentals_data_source_impl.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
+import 'package:firebase_in_depth/features/course_lab/data/data_sources/course_lab_data_source.dart';
+import 'package:firebase_in_depth/features/course_lab/data/data_sources/course_lab_data_source_impl.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/lesson_model.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/lesson.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/repositories/course_lab_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final firebaseFundamentalsRepositoryProvider =
-    Provider<FirebaseFundamentalsRepository>((ref) {
-      return FirebaseFundamentalsRepositoryImpl(
-        ref.watch(firebaseFundamentalsDataSourceProvider),
-      );
-    });
+final courseLabRepositoryProvider = Provider<CourseLabRepository>((ref) {
+  return CourseLabRepositoryImpl(ref.watch(courseLabDataSourceProvider));
+});
 
-class FirebaseFundamentalsRepositoryImpl
-    implements FirebaseFundamentalsRepository {
-  const FirebaseFundamentalsRepositoryImpl(this._dataSource);
+class CourseLabRepositoryImpl implements CourseLabRepository {
+  const CourseLabRepositoryImpl(this._dataSource);
 
-  final FirebaseFundamentalsDataSource _dataSource;
+  final CourseLabDataSource _dataSource;
 
   @override
   Future<Course> fetchCourse(String id) {
@@ -79,6 +75,11 @@ class FirebaseFundamentalsRepositoryImpl
   @override
   Future<List<Lesson>> fetchLessonsCollectionGroup() {
     return _mapLessonList(_dataSource.fetchLessonsCollectionGroup);
+  }
+
+  @override
+  Future<List<Course>> fetchCoursesByCategory(String category) {
+    return _mapList(() => _dataSource.fetchCoursesByCategory(category));
   }
 
   @override

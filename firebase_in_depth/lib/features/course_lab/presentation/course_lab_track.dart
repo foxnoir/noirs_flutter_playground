@@ -1,1 +1,0 @@
-enum CourseLabTrack { beginner, advanced }

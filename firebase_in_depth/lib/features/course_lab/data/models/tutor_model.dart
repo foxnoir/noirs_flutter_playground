@@ -1,4 +1,4 @@
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/tutor.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/tutor.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'tutor_model.freezed.dart';

@@ -1,6 +1,6 @@
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/lesson.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 

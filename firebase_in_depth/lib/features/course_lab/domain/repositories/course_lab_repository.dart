@@ -1,8 +1,8 @@
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/course.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/lesson.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/lesson.dart';
 
-abstract interface class FirebaseFundamentalsRepository {
+abstract interface class CourseLabRepository {
   Future<Course> fetchCourse(String id);
 
   Future<List<Course>> fetchCourses();
@@ -27,6 +27,8 @@ abstract interface class FirebaseFundamentalsRepository {
   Future<List<Lesson>> fetchLessonsForCourse(String courseId);
 
   Future<List<Lesson>> fetchLessonsCollectionGroup();
+
+  Future<List<Course>> fetchCoursesByCategory(String category);
 
   Stream<CoursesSnapshot> watchCourses();
 

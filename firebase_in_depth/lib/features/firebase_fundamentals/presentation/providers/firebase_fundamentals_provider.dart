@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/repositories/firebase_fundamentals_repository.dart';
+import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/repositories/course_lab_repository.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/providers/firebase_fundamentals_state.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -27,8 +27,8 @@ class FirebaseFundamentalsNotifier extends Notifier<FirebaseFundamentalsState> {
     return const FirebaseFundamentalsState();
   }
 
-  FirebaseFundamentalsRepository get _repository {
-    return ref.read(firebaseFundamentalsRepositoryProvider);
+  CourseLabRepository get _repository {
+    return ref.read(courseLabRepositoryProvider);
   }
 
   Future<void> readDocument() {

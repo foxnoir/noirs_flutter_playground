@@ -66,7 +66,7 @@
 
 ## About this repository
 
-This repository is a playground for practicing Flutter.
+This repository is a playground for practicing Flutter — technical exercises and conceptual understanding, paired with personal aesthetics. That is a conscious choice: it should please me first, not necessarily meet accessibility or current standards.
 
 Each folder is a standalone practice project. Topics include **Riverpod**, **navigation**, **layout**, **mixins**, **sealed classes**, **generics**, **lists**, **Firebase**, and architecture — without mixing everything into one project.
 
@@ -233,7 +233,7 @@ Packages currently used in the playground apps. Not every app uses every row. Up
   <a href="riverpod_basics/README.md#test-coverage"><img align="right" src="riverpod_basics/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project for **Riverpod**: the same counter as five provider types, then labs (listen, Quote, Tick, Auth, User List / Add User / Search, Freezed, sealed errors).
+Practice project for **Riverpod**: provider types (one counter, five ways), `watch` / `read` / `listen`, async providers, auth, lists, Freezed, and sealed errors.
 
 [README »](riverpod_basics/README.md)
 
@@ -242,7 +242,7 @@ Practice project for **Riverpod**: the same counter as five provider types, then
   <a href="advanced_concepts/README.md#test-coverage"><img align="right" src="advanced_concepts/assets/coverage/badge.svg" alt="Coverage"></a>
 </h3>
 
-Practice project for **GoRouter**, **layout**, **mixins**, **sealed classes**, **generics**, **lists**, and **API** (the same bookshelf on `package:http` and Dio).
+Practice project for **GoRouter**, **layout**, **mixins**, **sealed classes**, **generics**, **lists**, and **API**.
 
 [README »](advanced_concepts/README.md)
 

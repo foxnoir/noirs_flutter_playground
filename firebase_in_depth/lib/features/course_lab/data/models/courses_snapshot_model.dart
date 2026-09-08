@@ -1,5 +1,5 @@
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
 import 'package:meta/meta.dart';
 
 @immutable

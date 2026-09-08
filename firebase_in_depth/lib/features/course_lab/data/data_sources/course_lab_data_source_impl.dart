@@ -1,20 +1,18 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sources/firebase_fundamentals_data_source.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/courses_snapshot_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/data/data_sources/course_lab_data_source.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/courses_snapshot_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/lesson_model.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final firebaseFundamentalsDataSourceProvider =
-    Provider<FirebaseFundamentalsDataSource>((ref) {
-      return FirebaseFundamentalsDataSourceImpl(FirebaseFirestore.instance);
-    });
+final courseLabDataSourceProvider = Provider<CourseLabDataSource>((ref) {
+  return CourseLabDataSourceImpl(FirebaseFirestore.instance);
+});
 
-class FirebaseFundamentalsDataSourceImpl
-    implements FirebaseFundamentalsDataSource {
-  FirebaseFundamentalsDataSourceImpl(this._firestore);
+class CourseLabDataSourceImpl implements CourseLabDataSource {
+  CourseLabDataSourceImpl(this._firestore);
 
   static const _courses = 'courses';
   static const _lessons = 'lessons';
@@ -109,6 +107,17 @@ class FirebaseFundamentalsDataSourceImpl
   Future<List<LessonModel>> fetchLessonsCollectionGroup() {
     return _guard(() {
       return _mapLessons(_firestore.collectionGroup(_lessons).orderBy('seqNo'));
+    });
+  }
+
+  @override
+  Future<List<CourseModel>> fetchCoursesByCategory(String category) {
+    return _guard(() async {
+      final models = await _mapQuery(
+        _collection.where('categories', arrayContains: category),
+      );
+      return List<CourseModel>.of(models)
+        ..sort((a, b) => a.seqNo.compareTo(b.seqNo));
     });
   }
 

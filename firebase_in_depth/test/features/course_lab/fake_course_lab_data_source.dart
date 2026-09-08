@@ -1,13 +1,12 @@
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/data_sources/firebase_fundamentals_data_source.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/course_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/courses_snapshot_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/models/lesson_model.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/data/data_sources/course_lab_data_source.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/course_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/courses_snapshot_model.dart';
+import 'package:firebase_in_depth/features/course_lab/data/models/lesson_model.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
 
-class FakeFirebaseFundamentalsDataSource
-    implements FirebaseFundamentalsDataSource {
-  const FakeFirebaseFundamentalsDataSource({
+class FakeCourseLabDataSource implements CourseLabDataSource {
+  const FakeCourseLabDataSource({
     this.models = const [],
     this.error,
     this.invalidQueryError,
@@ -102,6 +101,16 @@ class FakeFirebaseFundamentalsDataSource
     final thrown = error;
     if (thrown != null) throw thrown;
     return lessons;
+  }
+
+  @override
+  Future<List<CourseModel>> fetchCoursesByCategory(String category) async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
+    return [
+      for (final model in models)
+        if (model.categories.contains(category)) model,
+    ]..sort((a, b) => a.seqNo.compareTo(b.seqNo));
   }
 
   @override

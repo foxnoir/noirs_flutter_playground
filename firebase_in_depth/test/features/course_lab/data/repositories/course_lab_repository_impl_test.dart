@@ -1,32 +1,32 @@
 import 'package:firebase_in_depth/core/errors/app_exception.dart';
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
-import 'package:firebase_in_depth/features/firebase_fundamentals/domain/entities/courses_snapshot.dart';
+import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
+import 'package:firebase_in_depth/features/course_lab/domain/entities/courses_snapshot.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../course_fixtures.dart';
-import '../../fake_firebase_fundamentals_data_source.dart';
+import '../../fake_course_lab_data_source.dart';
 
 void main() {
   test('fetchCourse maps a model to an entity', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(models: [sampleCourseModel]),
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(models: [sampleCourseModel]),
     );
 
     expect(await repository.fetchCourse(sampleCourse.id), sampleCourse);
   });
 
   test('fetchCourses maps models to entities', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(models: [sampleCourseModel]),
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(models: [sampleCourseModel]),
     );
 
     expect(await repository.fetchCourses(), [sampleCourse]);
   });
 
   test('maps a data-source exception to AppFailure', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(error: NetworkException()),
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(error: NetworkException()),
     );
 
     await expectLater(
@@ -36,8 +36,8 @@ void main() {
   });
 
   test('maps InvalidQueryException to InvalidQueryFailure', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(
         invalidQueryError: InvalidQueryException('two inequalities'),
       ),
     );
@@ -49,8 +49,8 @@ void main() {
   });
 
   test('maps a missing-index exception to InvalidQueryFailure', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(
         missingIndexError: InvalidQueryException(
           'The query requires an index.',
         ),
@@ -65,17 +65,32 @@ void main() {
     );
   });
 
+  test('fetchCoursesByCategory maps matching models', () async {
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(
+        models: [sampleCourseModel, sampleAdvancedCourseModel],
+      ),
+    );
+
+    expect(await repository.fetchCoursesByCategory('BEGINNER'), [sampleCourse]);
+    expect(await repository.fetchCoursesByCategory('INTERMEDIATE'), [
+      sampleAdvancedCourse,
+    ]);
+    expect(await repository.fetchCoursesByCategory('ADVANCED'), isEmpty);
+    expect(await repository.fetchCoursesByCategory('ADVANCE'), isEmpty);
+  });
+
   test('fetchLessonsCollectionGroup maps models to entities', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(lessons: [sampleLessonModel]),
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(lessons: [sampleLessonModel]),
     );
 
     expect(await repository.fetchLessonsCollectionGroup(), [sampleLesson]);
   });
 
   test('fetchLessonsForCourse maps models to entities', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(lessons: [sampleLessonModel]),
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(lessons: [sampleLessonModel]),
     );
 
     expect(await repository.fetchLessonsForCourse(sampleLesson.courseId), [
@@ -84,8 +99,8 @@ void main() {
   });
 
   test('watchCourses maps a snapshot to entities', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(models: [sampleCourseModel]),
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(models: [sampleCourseModel]),
     );
 
     expect(
@@ -100,8 +115,8 @@ void main() {
   });
 
   test('watchCourses maps a data-source exception to AppFailure', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(error: NetworkException()),
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(error: NetworkException()),
     );
 
     await expectLater(
@@ -111,8 +126,8 @@ void main() {
   });
 
   test('incrementParticipants maps an exception to AppFailure', () async {
-    const repository = FirebaseFundamentalsRepositoryImpl(
-      FakeFirebaseFundamentalsDataSource(error: NetworkException()),
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(error: NetworkException()),
     );
 
     await expectLater(
