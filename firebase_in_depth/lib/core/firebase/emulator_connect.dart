@@ -1,0 +1,1 @@
+const kConnectFirestoreEmulator = true;

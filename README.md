@@ -35,6 +35,7 @@
 [![Web](assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 [![Firebase](assets/badges/firebase.svg)](https://firebase.google.com/)
 [![Firestore](assets/badges/firestore.svg)](https://firebase.google.com/docs/firestore)
+[![Emulator](assets/badges/emulator.svg)](https://firebase.google.com/docs/emulator-suite)
 
 </div>
 
@@ -307,6 +308,7 @@ After you copy an app into its **own** git repo, copy `assets/badges/` there and
 | `x.svg` | `#456576` → `#7EB8D6` → `#BCDAEA` | pastel light blue |
 | `firebase.svg` | `#02557E` → `#039BE5` → `#7CCBF1` | Firebase blue (replaces yellow/orange) |
 | `firestore.svg` | `#014B73` → `#0288D1` → `#7BC1E7` | Firestore blue (replaces yellow/orange) |
+| `emulator.svg` | `#0F4C57` → `#1B8A9E` → `#88C2CD` | turquoise |
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

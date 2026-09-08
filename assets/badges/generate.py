@@ -62,6 +62,7 @@ BADGES: list[tuple[str, str, str, str]] = [
     ("x", "X", "#7EB8D6", "pastel light blue (replaces black)"),
     ("firebase", "Firebase", "#039BE5", "Firebase blue (replaces yellow/orange)"),
     ("firestore", "Firestore", "#0288D1", "Firestore blue (replaces yellow/orange)"),
+    ("emulator", "Emulator", "#1B8A9E", "turquoise (no published badge color)"),
 ]
 
 

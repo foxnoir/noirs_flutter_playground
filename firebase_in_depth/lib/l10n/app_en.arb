@@ -32,6 +32,14 @@
   "@navLab": {
     "description": "Header link to the course catalog home."
   },
+  "firestoreTargetCloud": "Cloud",
+  "@firestoreTargetCloud": {
+    "description": "Header label when the app talks to live Firestore."
+  },
+  "firestoreTargetEmulator": "Emulator",
+  "@firestoreTargetEmulator": {
+    "description": "Header label when the app talks to the local Firestore emulator."
+  },
   "courseLabCardBody": "Beginner, advanced, and expert tracks. Tap a link or swipe the pages.",
   "@courseLabCardBody": {
     "description": "Landing card copy for Course Lab."

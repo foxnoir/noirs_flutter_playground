@@ -33,6 +33,12 @@ class AppLocalizationsDe extends AppLocalizations {
   String get navLab => 'Lab';
 
   @override
+  String get firestoreTargetCloud => 'Cloud';
+
+  @override
+  String get firestoreTargetEmulator => 'Emulator';
+
+  @override
   String get courseLabCardBody =>
       'Beginner, Fortgeschrittene und Experten. Link tippen oder die Seiten wischen.';
 

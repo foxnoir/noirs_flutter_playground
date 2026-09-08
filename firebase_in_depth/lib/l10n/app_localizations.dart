@@ -146,6 +146,18 @@ abstract class AppLocalizations {
   /// **'Lab'**
   String get navLab;
 
+  /// Header label when the app talks to live Firestore.
+  ///
+  /// In en, this message translates to:
+  /// **'Cloud'**
+  String get firestoreTargetCloud;
+
+  /// Header label when the app talks to the local Firestore emulator.
+  ///
+  /// In en, this message translates to:
+  /// **'Emulator'**
+  String get firestoreTargetEmulator;
+
   /// Landing card copy for Course Lab.
   ///
   /// In en, this message translates to:

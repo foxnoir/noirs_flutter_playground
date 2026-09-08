@@ -7,11 +7,13 @@ class FirebaseFundamentalsCourseList extends StatelessWidget {
   const FirebaseFundamentalsCourseList({
     required this.courses,
     this.showParticipants = false,
+    this.iconTrailing = false,
     super.key,
   });
 
   final List<Course> courses;
   final bool showParticipants;
+  final bool iconTrailing;
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,7 @@ class FirebaseFundamentalsCourseList extends StatelessWidget {
           FirebaseFundamentalsCourseTile(
             course: course,
             showParticipants: showParticipants,
+            iconTrailing: iconTrailing,
           ),
       ],
     );

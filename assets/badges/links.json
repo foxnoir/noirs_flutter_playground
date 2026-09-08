@@ -100,5 +100,11 @@
     "file": "firestore.svg",
     "url": "firestore-url",
     "href": "https://firebase.google.com/docs/firestore"
+  },
+  {
+    "image": "emulator",
+    "file": "emulator.svg",
+    "url": "emulator-url",
+    "href": "https://firebase.google.com/docs/emulator-suite"
   }
 ]

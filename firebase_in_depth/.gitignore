@@ -47,5 +47,12 @@ app.*.map.json
 # FVM Version Cache
 .fvm/
 
+# Firebase emulator
+firebase-debug.log
+firebase-debug.*.log
+firestore-debug.log
+ui-debug.log
+emulator-data/
+
 # Widget Preview related
 .widget_preview/

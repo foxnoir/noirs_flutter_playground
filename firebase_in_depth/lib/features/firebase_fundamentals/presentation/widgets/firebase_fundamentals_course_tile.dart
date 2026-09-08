@@ -6,26 +6,30 @@ class FirebaseFundamentalsCourseTile extends StatelessWidget {
   const FirebaseFundamentalsCourseTile({
     required this.course,
     this.showParticipants = false,
+    this.iconTrailing = false,
     super.key,
   });
 
   final Course course;
   final bool showParticipants;
+  final bool iconTrailing;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final icon = Image.asset(
+      'assets/icons/courses/course_${course.icon}.png',
+      width: 40,
+      height: 40,
+      errorBuilder: (context, error, stackTrace) {
+        return const Icon(Icons.menu_book_outlined);
+      },
+    );
 
     return ListTile(
       contentPadding: EdgeInsets.zero,
-      leading: Image.asset(
-        'assets/icons/courses/course_${course.icon}.png',
-        width: 40,
-        height: 40,
-        errorBuilder: (context, error, stackTrace) {
-          return const Icon(Icons.menu_book_outlined);
-        },
-      ),
+      leading: iconTrailing ? null : icon,
+      trailing: iconTrailing ? icon : null,
       title: Text(course.description),
       subtitle: Text(
         showParticipants

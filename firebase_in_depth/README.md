@@ -33,6 +33,7 @@
 [![Intl](../assets/badges/intl.svg)](https://pub.dev/packages/intl)
 [![Firebase](../assets/badges/firebase.svg)](https://firebase.google.com/)
 [![Firestore](../assets/badges/firestore.svg)](https://firebase.google.com/docs/firestore)
+[![Emulator](../assets/badges/emulator.svg)](https://firebase.google.com/docs/emulator-suite)
 [![Very Good Analysis](../assets/badges/very_good.svg)](https://pub.dev/packages/very_good_analysis)
 [![FVM](../assets/badges/fvm.svg)](https://fvm.app)
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
@@ -71,6 +72,7 @@
     <li>
       <a href="#getting-started">Getting Started</a>
       <ul>
+        <li><a href="#local-emulator">Local emulator</a></li>
         <li><a href="#test-coverage">Test coverage</a></li>
       </ul>
     </li>
@@ -96,10 +98,11 @@ The Firestore collection [`courses`](https://console.firebase.google.com/project
 
 Last practice app in the playground for now.
 
-Flutter CRUD, offline cache, the **local emulator**, and **Storage** are not wired yet.
+Flutter CRUD, offline cache, and **Storage** are not wired yet. The **local Firestore emulator** is opt-in (`./start.sh`, then `--dart-define=USE_FIRESTORE_EMULATOR=true`).
 
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
+[![Emulator](../assets/badges/emulator.svg)](#local-emulator)
 
 iOS Simulator still runs. The browser document title is **Firebase in Depth** (`web/index.html` `<title>`, `onGenerateTitle`).
 
@@ -123,10 +126,11 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - Material 3 seed theme
 - [Firebase](https://firebase.google.com/) (`firebase_core`, web + iOS on `fir-in-depth-813e4`)
 - [Firestore](https://firebase.google.com/docs/firestore) collection `courses` (seeded; Course Lab owns the data layer, Fundamentals uses it)
+- Local Firestore emulator (opt-in: `./start.sh`, then `--dart-define=USE_FIRESTORE_EMULATOR=true`)
 - [FVM](https://fvm.app) pin
 - Coverage badge and card
 
-Coming: Firestore CRUD in the app, emulator, Storage / photo upload.
+Coming: Firestore CRUD in the app, Storage / photo upload.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -341,11 +345,11 @@ cd firebase_in_depth
 fvm flutter run -d chrome
 ```
 
-Or the VS Code / Cursor launch config **Firebase in Depth** (Chrome). **Firebase in Depth (iOS)** is the Simulator.
+Or the VS Code / Cursor launch config **Firebase in Depth (Chrome)**. **Firebase in Depth (iOS)** is the Simulator. **Firebase in Depth (emulator)** is local Firestore.
 
 ### Inspecting responses
 
-**Web (use this).** Chrome DevTools → **Network**. Filter `firestore`. The web SDK talks HTTPS to `firestore.googleapis.com` (Listen / channel). You see status, timing, and payload. The payload is not a pretty REST JSON document — it is the SDK wire format. The [Console](https://console.firebase.google.com/project/fir-in-depth-813e4/firestore/databases/-default-/data/~2Fcourses) is still the place to *read* fields. DevTools is the place to see *that a request happened*.
+**Web (use this).** Chrome DevTools → **Network**. Filter `firestore`. Against the **cloud**, the web SDK talks HTTPS to `firestore.googleapis.com` (Listen / channel). Against the **emulator**, the host is `localhost:8080`. You see status, timing, and payload. The payload is not a pretty REST JSON document — it is the SDK wire format. The [Console](https://console.firebase.google.com/project/fir-in-depth-813e4/firestore/databases/-default-/data/~2Fcourses) (or the emulator UI at `http://127.0.0.1:4000`) is still the place to *read* fields. DevTools is the place to see *that a request happened*.
 
 **iOS Simulator.** The native SDK uses gRPC, not the browser. Safari Web Inspector and Flutter DevTools Network do not show those calls. A proxy (Proxyman / Charles) can, with TLS hassle. For watching Firestore, stay on web.
 
@@ -444,7 +448,7 @@ fvm flutter pub get
 fvm flutter run -d chrome
 ```
 
-**Web first.** `fvm flutter run -d chrome` initializes Firebase for web. Launch config **Firebase in Depth** is Chrome; **Firebase in Depth (iOS)** is the Simulator (**iPhone 17 Pro**, iOS 26.5). See [Web first](#web-first) for DevTools.
+**Web first.** `fvm flutter run -d chrome` initializes Firebase for web. Launch configs: **Firebase in Depth (Chrome)** (live Firestore), **Firebase in Depth (emulator)** (local), **Firebase in Depth (iOS)** (Simulator, **iPhone 17 Pro**, iOS 26.5). See [Web first](#web-first) for DevTools.
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
@@ -453,6 +457,28 @@ Firestore **rules** in this folder allow client **reads** on `courses` and on `l
 ```
 npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --project fir-in-depth-813e4
 ```
+
+### Local emulator
+
+Same rules and indexes as cloud. The app still talks to **live** Firestore unless you opt in. Java is required for the Firestore emulator.
+
+```
+cd firebase_in_depth
+./start.sh
+```
+
+Leave that Terminal open. UI: [http://127.0.0.1:4000](http://127.0.0.1:4000). When the UI is up, `start.sh` seeds `courses` (and nested `lessons` on Hiragana, Kanji, Keigo, Newspaper).
+
+**Stop:** one **Ctrl+C** in that Terminal, then wait. You want `Export complete`, then the prompt back. That writes `emulator-data/` for the next start. A second Ctrl+C (or `kill -9`) skips a clean Java shutdown and can leave Firestore on **8080**. If `./start.sh` then says the port is busy, use the kill command it prints. `kill <pid>` with “no such process” means Java already exited — 8080 is free.
+
+Then **Stop** the Flutter session if one is running. Chrome vs **Simulator** in the status bar is the **device** (browser vs iPhone), not the Firebase emulator. Pick **Firebase in Depth (emulator)** and the green play in Run and Debug. That writes `kConnectFirestoreEmulator = true` and still opens **Chrome**. Header **Emulator**. With `./start.sh` down, Home has no catalog.
+
+```
+cd firebase_in_depth
+fvm flutter run -d chrome --dart-define=USE_FIRESTORE_EMULATOR=true
+```
+
+This app starts **only Firestore** (`--only firestore`) plus the UI. Advanced Concepts starts **Functions + Firestore** in one suite. Both want Firestore **8080** and UI **4000**, so only one `start.sh` at a time. If `./start.sh` says 8080 is busy, a leftover emulator Java process is still running — it prints the kill command.
 
 ### Test coverage
 

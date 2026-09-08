@@ -117,7 +117,10 @@ class _TrackCourseList extends StatelessWidget {
   Widget build(BuildContext context) {
     final list = ListTileTheme(
       data: const ListTileThemeData(minVerticalPadding: 4, dense: true),
-      child: FirebaseFundamentalsCourseList(courses: courses),
+      child: FirebaseFundamentalsCourseList(
+        courses: courses,
+        iconTrailing: track == CourseLabTrack.expert,
+      ),
     );
     final body = KeyedSubtree(
       key: Key('course-lab-list-${track.name}'),

@@ -33,13 +33,16 @@ void main() {
     expect(find.text('A course catalog on Firestore.'), findsNothing);
     expect(
       find.text(
-        'Home is the catalog. Fundamentals is the query lab. Same project, two pages.',
+        'Home is the catalog. '
+        'Fundamentals is the query lab. Same project, two pages.',
       ),
       findsNothing,
     );
     expect(find.text('Firebase Course Lab'), findsOneWidget);
     expect(find.text('Firebase Fundamentals'), findsOneWidget);
     expect(find.text('Lab'), findsOneWidget);
+    expect(find.byKey(const Key('firestore-target')), findsOneWidget);
+    expect(find.text('Cloud'), findsOneWidget);
 
     tester.view.physicalSize = const Size(800, 1200);
     tester.view.devicePixelRatio = 1;

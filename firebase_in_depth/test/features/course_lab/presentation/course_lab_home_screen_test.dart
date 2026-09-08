@@ -121,6 +121,12 @@ void main() {
 
     expect(find.text('Past the textbook.').hitTestable(), findsOneWidget);
     expect(find.text('Newspaper Japanese').hitTestable(), findsOneWidget);
+    final expertTitle = tester.getRect(find.text('Newspaper Japanese'));
+    final expertTile = find.widgetWithText(ListTile, 'Newspaper Japanese');
+    final expertIcon = tester.getRect(
+      find.descendant(of: expertTile, matching: find.byType(Image)),
+    );
+    expect(expertIcon.center.dx, greaterThan(expertTitle.center.dx));
     expect(
       tester.widget<Text>(find.text('Expert course')).style?.color,
       AppColor.purple,

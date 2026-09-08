@@ -125,7 +125,7 @@ The **Landing Screen** is a list of labs:
 - **Routing** — GoRouter (`go`, `push`, `pop`, `replace`, named routes) and a stack preview on User List
 - **Layout** — Flexible vs Expanded, PreferredSize, LayoutBuilder vs MediaQuery, Material 3 breakpoints
 - **Mixins**, **Sealed** (book formats), **Generics**, **Lists** — each its own screen
-- **API Handling** — concepts, the same bookshelf twice (`package:http` and Dio against a Firebase emulator), then a compare debugger. Two HTTP clients in one app is the lesson, not a production pattern.
+- **API Handling** — concepts, the same bookshelf twice (`package:http` and Dio against the Firebase emulator suite: Functions + Firestore), then a compare debugger. Two HTTP clients in one app is the lesson, not a production pattern.
 
 Layout is **mobile first**: compact, then `AppBreakpoint.mediumMin` (600). Do not branch on `kIsWeb`. No AdaptiveScaffold. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure) (class name matches the file; `*Impl` → `*_impl.dart` when the impl is its own file). Screen-by-screen notes are in the sections below.
 
@@ -496,9 +496,9 @@ lib/core/network/
   dio/dio_log_interceptor.dart
 ```
 
-The backend lives in `backend/`: **Cloud Functions** (HTTP) + **Firestore** (books). Same functions as a typical Dio training server: `GET /success`, `GET /error`, `GET /timeout` (2s delay), `POST /search`, `GET /books`, plus `PUT` / `DELETE` on `/books/:id`. Content is romantasy (Maas ACOTAR / Crescent City, Yarros Empyrean, Armentrout Blood and Ash).
+The backend lives in `backend/`: **Cloud Functions** (HTTP) + **Firestore** (books). One `./start.sh` starts **both** emulators in the Firebase suite (`--only functions,firestore`) — Functions on **5001**, Firestore on **8080**, UI on **4000**. Not Auth. Not Storage. Same functions as a typical Dio training server: `GET /success`, `GET /error`, `GET /timeout` (2s delay), `POST /search`, `GET /books`, plus `PUT` / `DELETE` on `/books/:id`. Content is romantasy (Maas ACOTAR / Crescent City, Yarros Empyrean, Armentrout Blood and Ash).
 
-This is real HTTP. The emulator is a local Firebase, not an in-process fake. Client tests inject `http.MockClient` or a Dio `HttpClientAdapter`. CI does not need Java.
+This is real HTTP. The suite is a local Firebase, not an in-process fake. Client tests inject `http.MockClient` or a Dio `HttpClientAdapter`. CI does not need Java.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -607,14 +607,14 @@ fvm install
 fvm flutter pub get
 ```
 
-API lab: start the Firebase emulator **first**, leave that Terminal open, then run Flutter in a second Terminal. `./start.sh` **imports** `backend/emulator-data/` when that folder exists and **exports** Firestore there on Ctrl+C. That is the emulator backup — CRUD edits survive a clean emulator restart. A kill (`kill -9`) skips the export and can leave Java on port **8080**; `./start.sh` then stops with a kill hint. The first start with an empty Firestore seeds the romantasy list.
+API lab: start the Firebase emulator suite **first**, leave that Terminal open, then run Flutter in a second Terminal. `./start.sh` runs **Functions + Firestore** (`--only functions,firestore`). It **imports** `backend/emulator-data/` when that folder exists and **exports** Firestore there on Ctrl+C. That is the emulator backup — CRUD edits survive a clean emulator restart. A kill (`kill -9`) skips the export and can leave Java on port **8080**; `./start.sh` then stops with a kill hint. The first start with an empty Firestore seeds the romantasy list.
 
 ```
 cd backend
 ./start.sh
 ```
 
-Wait for `All emulators ready`. API: `http://127.0.0.1:5001/noirs-firebase-lab/europe-west1/api`. UI: `http://127.0.0.1:4000`. Override the app base URL with `--dart-define=API_BASE_URL=https://…/api/` after deploy.
+Wait for `All emulators ready`. Functions (API): `http://127.0.0.1:5001/noirs-firebase-lab/europe-west1/api`. Firestore: `127.0.0.1:8080`. UI: `http://127.0.0.1:4000`. Firebase in Depth also uses **8080** and **4000** — only one suite at a time. Override the app base URL with `--dart-define=API_BASE_URL=https://…/api/` after deploy.
 
 ```
 fvm flutter run
