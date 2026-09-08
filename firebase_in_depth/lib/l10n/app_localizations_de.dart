@@ -41,7 +41,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get courseLabCardBody =>
-      'Beginner und Fortgeschrittene. Link tippen oder die Seiten wischen.';
+      'Beginner, Fortgeschrittene und Experten. Link tippen oder die Seiten wischen.';
 
   @override
   String get fundamentalsCardBody =>
@@ -273,4 +273,14 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get courseLabAdvancedBody =>
       'Keigo, Kanji-Komposita und Kurse, die Kana schon voraussetzen.';
+
+  @override
+  String get courseLabExpert => 'Expertenkurs';
+
+  @override
+  String get courseLabExpertHeadline => 'Jenseits vom Lehrbuch.';
+
+  @override
+  String get courseLabExpertBody =>
+      'Zeitungen, Bungo und Hörverstehen, das Japanisch schon voraussetzt.';
 }

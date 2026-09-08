@@ -56,9 +56,12 @@ class _CourseLabHomeScreenState extends State<CourseLabHomeScreen> {
                 onPageChanged: (index) {
                   setState(() => _track = CourseLabTrack.values[index]);
                 },
-                children: const [
-                  CourseLabTrackPanel(track: CourseLabTrack.beginner),
-                  CourseLabTrackPanel(track: CourseLabTrack.advanced),
+                children: [
+                  for (final track in CourseLabTrack.values)
+                    CourseLabTrackPanel(
+                      key: Key('course-lab-panel-${track.name}'),
+                      track: track,
+                    ),
                 ],
               ),
             ),

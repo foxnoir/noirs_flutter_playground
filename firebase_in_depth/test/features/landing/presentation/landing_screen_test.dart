@@ -16,7 +16,7 @@ void main() {
       overrides: [
         courseLabRepositoryProvider.overrideWithValue(
           const FakeCourseLabRepository(
-            courses: [sampleCourse, sampleAdvancedCourse],
+            courses: [sampleCourse, sampleAdvancedCourse, sampleExpertCourse],
           ),
         ),
       ],
@@ -85,6 +85,13 @@ void main() {
     expect(pages.controller?.page, closeTo(0, 0.01));
     expect(find.text('Start with the kana.').hitTestable(), findsOneWidget);
     expect(find.text('Hiragana from Zero').hitTestable(), findsOneWidget);
+
+    await tester.tap(find.text('Expert course'));
+    await tester.pumpAndSettle();
+
+    expect(pages.controller?.page, closeTo(2, 0.01));
+    expect(find.text('Past the textbook.').hitTestable(), findsOneWidget);
+    expect(find.text('Newspaper Japanese').hitTestable(), findsOneWidget);
   });
 
   testWidgets('Landing navigates to Firebase Fundamentals', (tester) async {

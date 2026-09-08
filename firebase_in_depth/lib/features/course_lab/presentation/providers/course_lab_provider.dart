@@ -18,6 +18,7 @@ class CourseLabNotifier extends Notifier<CourseLabState> {
     return const CourseLabState(
       beginner: AsyncLoading(),
       advanced: AsyncLoading(),
+      expert: AsyncLoading(),
     );
   }
 
@@ -33,9 +34,17 @@ class CourseLabNotifier extends Notifier<CourseLabState> {
     final advancedFuture = AsyncValue.guard(
       () => repository.fetchCoursesByCategory(CourseLabTrack.advanced.category),
     );
+    final expertFuture = AsyncValue.guard(
+      () => repository.fetchCoursesByCategory(CourseLabTrack.expert.category),
+    );
     final beginner = await beginnerFuture;
     final advanced = await advancedFuture;
+    final expert = await expertFuture;
     if (!ref.mounted) return;
-    state = CourseLabState(beginner: beginner, advanced: advanced);
+    state = CourseLabState(
+      beginner: beginner,
+      advanced: advanced,
+      expert: expert,
+    );
   }
 }

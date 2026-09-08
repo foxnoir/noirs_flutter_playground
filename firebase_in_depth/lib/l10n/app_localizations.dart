@@ -161,7 +161,7 @@ abstract class AppLocalizations {
   /// Landing card copy for Course Lab.
   ///
   /// In en, this message translates to:
-  /// **'Beginner and advanced tracks. Tap a link or swipe the pages.'**
+  /// **'Beginner, advanced, and expert tracks. Tap a link or swipe the pages.'**
   String get courseLabCardBody;
 
   /// Landing card copy for Firebase Fundamentals.
@@ -543,6 +543,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Keigo, kanji compounds, and the courses that assume you already read kana.'**
   String get courseLabAdvancedBody;
+
+  /// Home swap segment for expert courses.
+  ///
+  /// In en, this message translates to:
+  /// **'Expert course'**
+  String get courseLabExpert;
+
+  /// Expert panel headline on Course Lab Home.
+  ///
+  /// In en, this message translates to:
+  /// **'Past the textbook.'**
+  String get courseLabExpertHeadline;
+
+  /// Expert panel body on Course Lab Home.
+  ///
+  /// In en, this message translates to:
+  /// **'Newspapers, bungo, and listening that already lives in Japanese.'**
+  String get courseLabExpertBody;
 }
 
 class _AppLocalizationsDelegate

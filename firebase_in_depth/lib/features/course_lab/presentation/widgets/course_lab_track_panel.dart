@@ -11,25 +11,27 @@ class CourseLabTrackPanel extends ConsumerWidget {
   const CourseLabTrackPanel({required this.track, super.key});
 
   static const scheduleDragonAsset = 'assets/img/schedule_dragon.png';
+  static const categoryIconSize = 72.0;
 
   final CourseLabTrack track;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final scheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final beginner = track == CourseLabTrack.beginner;
-    final accent = beginner ? scheme.primary : scheme.secondary;
-    final onAccent = beginner ? scheme.onPrimary : scheme.onSecondary;
+    final theme = Theme.of(context);
+    final scheme = theme.colorScheme;
+    final textTheme = theme.textTheme;
+    final accent = track.tabAccent(theme);
     final courses = ref.watch(
       courseLabProvider.select(
-        (state) => beginner ? state.beginner : state.advanced,
+        (state) => switch (track) {
+          CourseLabTrack.beginner => state.beginner,
+          CourseLabTrack.advanced => state.advanced,
+          CourseLabTrack.expert => state.expert,
+        },
       ),
     );
-
-    final align = beginner ? CrossAxisAlignment.start : CrossAxisAlignment.end;
-    final textAlign = beginner ? TextAlign.start : TextAlign.end;
+    final overlayAlign = track.overlayDragonAlign;
 
     return SizedBox.expand(
       child: DecoratedBox(
@@ -46,91 +48,113 @@ class CourseLabTrackPanel extends ConsumerWidget {
                 child: Padding(
                   padding: const EdgeInsets.fromLTRB(24, 28, 24, 28),
                   child: Column(
-                    crossAxisAlignment: align,
+                    crossAxisAlignment: track.contentAlign,
                     children: [
-                      DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: accent,
-                          shape: BoxShape.circle,
-                        ),
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: Icon(
-                            beginner
-                                ? Icons.auto_stories_outlined
-                                : Icons.school_outlined,
-                            color: onAccent,
-                          ),
-                        ),
+                      Image.asset(
+                        track.iconAsset,
+                        key: Key('course-lab-icon-${track.name}'),
+                        width: categoryIconSize,
+                        height: categoryIconSize,
+                        fit: BoxFit.contain,
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        beginner
-                            ? l10n.courseLabBeginnerHeadline
-                            : l10n.courseLabAdvancedHeadline,
-                        textAlign: textAlign,
+                        track.headline(l10n),
+                        textAlign: track.textAlign,
                         style: textTheme.titleLarge,
                       ),
                       const SizedBox(height: 8),
                       Text(
-                        beginner
-                            ? l10n.courseLabBeginnerBody
-                            : l10n.courseLabAdvancedBody,
-                        textAlign: textAlign,
+                        track.body(l10n),
+                        textAlign: track.textAlign,
                         style: textTheme.bodyMedium?.copyWith(
                           color: scheme.onSurfaceVariant,
                           height: 1.45,
                         ),
                       ),
-                      const SizedBox(height: 20),
+                      SizedBox(height: track == CourseLabTrack.advanced ? 8 : 20),
                       Expanded(
                         child: FirebaseFundamentalsAsyncResult<List<Course>>(
                           value: courses,
                           idleLabel: '',
-                          data: (courses) {
-                            final list = FirebaseFundamentalsCourseList(
-                              courses: courses,
-                            );
-                            return SingleChildScrollView(
-                              child: Align(
-                                alignment: beginner
-                                    ? Alignment.topLeft
-                                    : Alignment.topRight,
-                                child: beginner
-                                    ? list
-                                    : IntrinsicWidth(child: list),
-                              ),
-                            );
-                          },
+                          data: (courses) => _TrackCourseList(
+                            track: track,
+                            courses: courses,
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
               ),
-              Align(
-                alignment: beginner
-                    ? Alignment.bottomRight
-                    : Alignment.bottomLeft,
-                child: Padding(
-                  padding: const EdgeInsets.all(8),
-                  child: FractionallySizedBox(
-                    widthFactor: 0.48,
-                    child: ExcludeSemantics(
-                      child: IgnorePointer(
-                        child: Image.asset(
-                          scheduleDragonAsset,
-                          key: Key('schedule-dragon-${track.name}'),
-                          fit: BoxFit.contain,
-                        ),
-                      ),
+              if (overlayAlign != null)
+                Align(
+                  alignment: overlayAlign,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: _ScheduleDragon(
+                      track: track,
+                      widthFactor: 0.48,
+                      mirrored: track.overlayDragonMirrored,
                     ),
                   ),
                 ),
-              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _TrackCourseList extends StatelessWidget {
+  const _TrackCourseList({required this.track, required this.courses});
+
+  final CourseLabTrack track;
+  final List<Course> courses;
+
+  @override
+  Widget build(BuildContext context) {
+    final list = FirebaseFundamentalsCourseList(courses: courses);
+    final body = KeyedSubtree(
+      key: Key('course-lab-list-${track.name}'),
+      child: track == CourseLabTrack.beginner
+          ? list
+          : IntrinsicWidth(child: list),
+    );
+
+    return SingleChildScrollView(
+      child: Align(alignment: track.listAlign, child: body),
+    );
+  }
+}
+
+class _ScheduleDragon extends StatelessWidget {
+  const _ScheduleDragon({
+    required this.track,
+    required this.widthFactor,
+    this.mirrored = false,
+  });
+
+  final CourseLabTrack track;
+  final double widthFactor;
+  final bool mirrored;
+
+  @override
+  Widget build(BuildContext context) {
+    Widget image = Image.asset(
+      CourseLabTrackPanel.scheduleDragonAsset,
+      key: Key('schedule-dragon-${track.name}'),
+      fit: BoxFit.contain,
+    );
+    if (mirrored) {
+      image = Transform.flip(flipX: true, child: image);
+    }
+
+    return FractionallySizedBox(
+      widthFactor: widthFactor,
+      child: ExcludeSemantics(
+        child: IgnorePointer(child: image),
       ),
     );
   }

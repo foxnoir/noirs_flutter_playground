@@ -40,7 +40,7 @@
   "@landingLead": {
     "description": "Landing page lead copy."
   },
-  "courseLabCardBody": "Beginner and advanced tracks. Tap a link or swipe the pages.",
+  "courseLabCardBody": "Beginner, advanced, and expert tracks. Tap a link or swipe the pages.",
   "@courseLabCardBody": {
     "description": "Landing card copy for Course Lab."
   },
@@ -310,5 +310,17 @@
   "courseLabAdvancedBody": "Keigo, kanji compounds, and the courses that assume you already read kana.",
   "@courseLabAdvancedBody": {
     "description": "Advanced panel body on Course Lab Home."
+  },
+  "courseLabExpert": "Expert course",
+  "@courseLabExpert": {
+    "description": "Home swap segment for expert courses."
+  },
+  "courseLabExpertHeadline": "Past the textbook.",
+  "@courseLabExpertHeadline": {
+    "description": "Expert panel headline on Course Lab Home."
+  },
+  "courseLabExpertBody": "Newspapers, bungo, and listening that already lives in Japanese.",
+  "@courseLabExpertBody": {
+    "description": "Expert panel body on Course Lab Home."
   }
 }

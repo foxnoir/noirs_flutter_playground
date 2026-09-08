@@ -68,13 +68,20 @@ void main() {
   test('fetchCoursesByCategory maps matching models', () async {
     const repository = CourseLabRepositoryImpl(
       FakeCourseLabDataSource(
-        models: [sampleCourseModel, sampleAdvancedCourseModel],
+        models: [
+          sampleCourseModel,
+          sampleAdvancedCourseModel,
+          sampleExpertCourseModel,
+        ],
       ),
     );
 
     expect(await repository.fetchCoursesByCategory('BEGINNER'), [sampleCourse]);
     expect(await repository.fetchCoursesByCategory('INTERMEDIATE'), [
       sampleAdvancedCourse,
+    ]);
+    expect(await repository.fetchCoursesByCategory('EXPERTS'), [
+      sampleExpertCourse,
     ]);
     expect(await repository.fetchCoursesByCategory('ADVANCED'), isEmpty);
     expect(await repository.fetchCoursesByCategory('ADVANCE'), isEmpty);

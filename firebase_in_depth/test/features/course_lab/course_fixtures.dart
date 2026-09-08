@@ -73,6 +73,32 @@ const sampleAdvancedCourseModel = CourseModel(
   tutor: TutorModel(name: 'Noir', employedSince: [2020, 4, 1]),
 );
 
+const sampleExpertCourse = Course(
+  id: 'newspaper-japanese',
+  description: 'Newspaper Japanese',
+  longDescription: 'Headlines, keigo in print, and the grammar papers skip.',
+  url: 'newspaper-japanese',
+  seqNo: 9,
+  lessonsCount: 8,
+  price: 59,
+  categories: ['EXPERTS'],
+  icon: 'turquoise',
+  tutor: Tutor(name: 'Noir', employedSince: [2020, 4, 1]),
+);
+
+const sampleExpertCourseModel = CourseModel(
+  id: 'newspaper-japanese',
+  description: 'Newspaper Japanese',
+  longDescription: 'Headlines, keigo in print, and the grammar papers skip.',
+  url: 'newspaper-japanese',
+  seqNo: 9,
+  lessonsCount: 8,
+  price: 59,
+  categories: ['EXPERTS'],
+  icon: 'turquoise',
+  tutor: TutorModel(name: 'Noir', employedSince: [2020, 4, 1]),
+);
+
 const sampleLessonJson = {
   'id': 'lesson-vowels',
   'courseId': 'hiragana-from-zero',

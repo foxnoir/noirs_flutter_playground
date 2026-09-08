@@ -115,7 +115,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - l10n (English / German)
 - Feature folders (`presentation` / `data` / `domain`)
 - **Landing Screen** (`LandingScreen`) — website header + cards, GoRouter hub
-- **Firebase Course Lab** — Home with `PageView` (beginner / advanced)
+- **Firebase Course Lab** — Home with `PageView` (beginner / advanced / expert)
 - `assets/img/bg.webp` behind every page (`AppBackground`)
 - **Firebase Fundamentals** — collection / document reads, index lab, nested lessons vs collection group, realtime snapshots
 - Sealed `AppException` / `AppFailure` with l10n mapping
@@ -244,8 +244,8 @@ This playground still keeps **the same fields on every course**. Firestore is **
 | `seqNo` | number | List order / pagination cursor. Keep it a number, not `"1"`. |
 | `lessonsCount` | number | Denormalized. Do not count a subcollection on every list read. |
 | `price` | number | |
-| `categories` | array of string | Small and bounded. Seed: `BEGINNER` or `INTERMEDIATE`. Home `array-contains` those strings. Angular’s sample used `ADVANCE` (typo) — we do not. |
-| `icon` | string | `purple` / `light_purple` / `green` / `turquoise` → `assets/icons/courses/course_$icon.png` |
+| `categories` | array of string | Small and bounded. Seed: `BEGINNER`, `INTERMEDIATE`, or `EXPERTS`. Home `array-contains` those strings. Angular’s sample used `ADVANCE` (typo) — we do not. |
+| `icon` | string | `purple` / `light_purple` / `green` / `turquoise` → `assets/icons/courses/course_$icon.png`. Track headers use `assets/icons/categories/{beginner,advanced,expert}.png`. |
 | `tutor` | map | Nested object: `name` (string), `employedSince` (array `[year, month, day]`) |
 | `participants` | number | Optional. Missing reads as `0`. Realtime lab increments this field. |
 
@@ -457,7 +457,7 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --pro
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**70.8%** line coverage (894 of 1263 lines).
+**71.7%** line coverage (951 of 1326 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -498,11 +498,11 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 ## Firebase Course Lab
 
-**Landing Screen** → **Firebase Course Lab** (`goNamed` `home`). Home is a **PageView**: **Beginner course** / **Advanced course** slide left and right (tap the links or swipe). Both pages share the same height. Background is `assets/img/bg.webp` on every `SiteScaffold` page. The chrome is a website header (`SiteHeader`): **Home** (landing), then **Fundamentals**, then **Lab** (course catalog). Landing cards put Fundamentals on the left and Course Lab on the right.
+**Landing Screen** → **Firebase Course Lab** (`goNamed` `home`). Home is a **PageView**: **Beginner course** / **Advanced course** / **Expert course** slide left and right (tap the links or swipe). All three pages share the same height. Background is `assets/img/bg.webp` on every `SiteScaffold` page. The chrome is a website header (`SiteHeader`): **Home** (landing), then **Fundamentals**, then **Lab** (course catalog). Landing cards put Fundamentals on the left and Course Lab on the right.
 
-Opening Home loads **both** tracks at once: two `array-contains` queries on `categories` (`BEGINNER` and `INTERMEDIATE`) in parallel, then each panel lists the matching courses. That is a lab choice — the point here is to try `array-contains`. In a product it can be smarter to fetch Advanced only after that page is selected. Decide per project.
+Opening Home loads **all three** tracks at once: three `array-contains` queries on `categories` (`BEGINNER`, `INTERMEDIATE`, `EXPERTS`) in parallel, then each panel lists the matching courses. That is a lab choice — the point here is to try `array-contains`. In a product it can be smarter to fetch a track only after that page is selected. Decide per project.
 
-The Advanced page queries **`INTERMEDIATE`**, because that is what the seed actually stored (Keigo, counters, onomatopoeia). Angular’s sample used `ADVANCE` (typo). There is no `ADVANCED` value in these documents — `array-contains` is an exact string match, so a wrong token returns an empty list, not an error. The query has no `orderBy` (no extra composite index); Home sorts by `seqNo` in Dart.
+The Advanced page queries **`INTERMEDIATE`**, because that is what the seed actually stored (Keigo, counters, onomatopoeia). Angular’s sample used `ADVANCE` (typo). Expert queries **`EXPERTS`**. There is no `ADVANCED` value in these documents — `array-contains` is an exact string match, so a wrong token returns an empty list, not an error. The query has no `orderBy` (no extra composite index); Home sorts by `seqNo` in Dart.
 
 Course Lab owns **data + domain** for `courses`: `CourseLabDataSource`, `CourseLabRepository`, models, entities. Home is presentation (`PageView`, notifier) and reads through that repository (`fetchCoursesByCategory`).
 

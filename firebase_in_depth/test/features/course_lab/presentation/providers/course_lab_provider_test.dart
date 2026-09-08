@@ -16,10 +16,10 @@ void main() {
     return container;
   }
 
-  test('build loads beginner and advanced in parallel', () async {
+  test('build loads beginner, advanced, and expert in parallel', () async {
     final container = containerWith(
       const FakeCourseLabRepository(
-        courses: [sampleCourse, sampleAdvancedCourse],
+        courses: [sampleCourse, sampleAdvancedCourse, sampleExpertCourse],
       ),
     );
     final sub = container.listen(courseLabProvider, (_, __) {});
@@ -29,6 +29,7 @@ void main() {
 
     expect(sub.read().beginner.value, [sampleCourse]);
     expect(sub.read().advanced.value, [sampleAdvancedCourse]);
+    expect(sub.read().expert.value, [sampleExpertCourse]);
   });
 
   test('reload stores a failure on both tracks', () async {
@@ -42,5 +43,6 @@ void main() {
 
     expect(sub.read().beginner.error, const NetworkFailure());
     expect(sub.read().advanced.error, const NetworkFailure());
+    expect(sub.read().expert.error, const NetworkFailure());
   });
 }
