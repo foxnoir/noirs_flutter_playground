@@ -3,14 +3,11 @@ import 'dart:async';
 import 'package:firebase_in_depth/features/auth/domain/entities/auth_session.dart';
 import 'package:firebase_in_depth/features/auth/domain/repositories/auth_repository.dart';
 
-/// Used in tests and when the Auth emulator is off (no live Auth yet).
-class InMemoryAuthRepository implements AuthRepository {
-  InMemoryAuthRepository();
+class FakeAuthRepository implements AuthRepository {
+  FakeAuthRepository();
 
   AuthSession? _session;
   final _controller = StreamController<AuthSession?>.broadcast();
-
-  void dispose() => _controller.close();
 
   @override
   AuthSession? get currentSession => _session;

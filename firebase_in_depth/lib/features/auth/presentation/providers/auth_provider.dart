@@ -1,23 +1,15 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_in_depth/core/firebase/firebase_emulator.dart';
 import 'package:firebase_in_depth/features/auth/data/repositories/auth_repository_impl.dart';
-import 'package:firebase_in_depth/features/auth/data/repositories/in_memory_auth_repository.dart';
 import 'package:firebase_in_depth/features/auth/domain/entities/auth_session.dart';
 import 'package:firebase_in_depth/features/auth/domain/repositories/auth_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final authRepositoryProvider = Provider<AuthRepository>((ref) {
-  if (FirebaseEmulator.enabled && Firebase.apps.isNotEmpty) {
-    return AuthRepositoryImpl(
-      auth: FirebaseAuth.instance,
-      firestore: FirebaseFirestore.instance,
-    );
-  }
-  final repository = InMemoryAuthRepository();
-  ref.onDispose(repository.dispose);
-  return repository;
+  return AuthRepositoryImpl(
+    auth: FirebaseAuth.instance,
+    firestore: FirebaseFirestore.instance,
+  );
 });
 
 final authProvider = NotifierProvider<AuthNotifier, AuthSession?>(

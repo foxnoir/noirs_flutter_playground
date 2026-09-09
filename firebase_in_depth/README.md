@@ -463,7 +463,7 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --pro
 
 Same rules and indexes as will go to cloud later. The app still talks to **live** Firestore unless you opt in. Java is required for the Firestore emulator. The UI does not change; only the SDK host does.
 
-**Wire-up.** `FirebaseEmulator.enabled` is `bool.fromEnvironment('USE_FIREBASE_EMULATOR')` — compile-time, not a `.env`. After `Firebase.initializeApp`, if that flag is true, `main.dart` calls `useFirestoreEmulator` (web: `localhost`, iOS Simulator: `127.0.0.1`, port **8080**) and `useAuthEmulator` (port **9099**), and turns web persistence off so a previous cloud cache cannot leak in. Repositories stay the same. Without the flag, Auth stays in-memory so live Chrome does not create cloud users. Functions are not wired yet; they will hang off this same flag. Launch config **Firebase in Depth (emulator)** passes `--dart-define=USE_FIREBASE_EMULATOR=true` via `toolArgs`. **Chrome** does not, so it stays on the cloud project for Firestore and skips live Auth.
+**Wire-up.** `FirebaseEmulator.enabled` is `bool.fromEnvironment('USE_FIREBASE_EMULATOR')` — compile-time, not a `.env`. After `Firebase.initializeApp`, if that flag is true, `main.dart` calls `useFirestoreEmulator` (web: `localhost`, iOS Simulator: `127.0.0.1`, port **8080**) and `useAuthEmulator` (port **9099**), and turns web persistence off so a previous cloud cache cannot leak in. Auth always uses `AuthRepositoryImpl` (Firebase Auth + `users/{uid}`). Without the flag that is the **cloud** project — lab users live only in the emulator, so sign-in belongs on **Firebase in Depth (emulator)**. Tests override Auth with `FakeAuthRepository`, same idea as `FakeCourseLabRepository`. Functions are not wired yet; they will hang off this same flag. Launch config **Firebase in Depth (emulator)** passes `--dart-define=USE_FIREBASE_EMULATOR=true` via `toolArgs`. **Chrome** does not, so it stays on the cloud project for Firestore and Auth.
 
 ```
 cd firebase_in_depth
@@ -493,7 +493,7 @@ This app starts **Firestore + Auth** (`--only firestore,auth`) plus the UI. Adva
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**73.8%** line coverage (1318 of 1786 lines).
+**73.7%** line coverage (1299 of 1762 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

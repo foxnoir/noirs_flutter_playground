@@ -1,6 +1,7 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
 import 'package:firebase_in_depth/core/router/page_not_found_screen.dart';
 import 'package:firebase_in_depth/core/theme/theme.dart';
+import 'package:firebase_in_depth/features/auth/presentation/providers/auth_provider.dart';
 import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_screen.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
@@ -14,6 +15,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../auth/fake_auth_repository.dart';
 import '../course_fixtures.dart';
 import '../fake_course_lab_repository.dart';
 
@@ -27,7 +29,10 @@ void main() {
   }) {
     return tester.pumpWidget(
       ProviderScope(
-        overrides: [courseLabRepositoryProvider.overrideWithValue(repository)],
+        overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
+          courseLabRepositoryProvider.overrideWithValue(repository),
+        ],
         child: MaterialApp(
           locale: const Locale('en'),
           theme: getLightTheme(),
@@ -199,10 +204,7 @@ void main() {
       AppColor.secondaryContainer,
       AppColor.secondary,
     ]);
-    expect(
-      tester.widget<Text>(find.text('Retry')).style?.color,
-      AppColor.teal,
-    );
+    expect(tester.widget<Text>(find.text('Retry')).style?.color, AppColor.teal);
 
     final errorText = tester.getRect(
       find.text("Couldn't load courses. Try again later."),

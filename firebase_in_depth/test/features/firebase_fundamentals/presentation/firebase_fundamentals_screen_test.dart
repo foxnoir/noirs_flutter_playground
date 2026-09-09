@@ -1,4 +1,5 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
+import 'package:firebase_in_depth/features/auth/presentation/providers/auth_provider.dart';
 import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
+import '../../auth/fake_auth_repository.dart';
 import '../../course_lab/course_fixtures.dart';
 import '../../course_lab/fake_course_lab_repository.dart';
 
@@ -14,6 +16,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
           courseLabRepositoryProvider.overrideWithValue(
             const FakeCourseLabRepository(course: sampleCourse),
           ),
@@ -45,6 +48,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
           courseLabRepositoryProvider.overrideWithValue(
             const FakeCourseLabRepository(
               invalidQueryError: InvalidQueryFailure(
@@ -79,6 +83,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
           courseLabRepositoryProvider.overrideWithValue(
             const FakeCourseLabRepository(
               missingIndexError: InvalidQueryFailure(
@@ -118,6 +123,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
           courseLabRepositoryProvider.overrideWithValue(
             const FakeCourseLabRepository(),
           ),
@@ -168,6 +174,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
           courseLabRepositoryProvider.overrideWithValue(
             const FakeCourseLabRepository(),
           ),
@@ -202,6 +209,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
           courseLabRepositoryProvider.overrideWithValue(
             const FakeCourseLabRepository(lessons: [sampleLesson]),
           ),
@@ -233,6 +241,7 @@ void main() {
     await tester.pumpWidget(
       ProviderScope(
         overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
           courseLabRepositoryProvider.overrideWithValue(
             const FakeCourseLabRepository(courses: [sampleCourse]),
           ),

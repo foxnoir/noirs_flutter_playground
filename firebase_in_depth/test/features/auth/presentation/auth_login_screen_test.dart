@@ -1,4 +1,5 @@
 import 'package:firebase_in_depth/features/auth/presentation/auth_login_screen.dart';
+import 'package:firebase_in_depth/features/auth/presentation/providers/auth_provider.dart';
 import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
 import 'package:firebase_in_depth/features/landing/presentation/landing_screen.dart';
 import 'package:firebase_in_depth/main.dart';
@@ -9,11 +10,13 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../course_lab/course_fixtures.dart';
 import '../../course_lab/fake_course_lab_repository.dart';
+import '../fake_auth_repository.dart';
 
 void main() {
   Widget app() {
     return ProviderScope(
       overrides: [
+        authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
         courseLabRepositoryProvider.overrideWithValue(
           const FakeCourseLabRepository(
             courses: [sampleCourse, sampleAdvancedCourse, sampleExpertCourse],
