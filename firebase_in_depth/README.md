@@ -472,12 +472,12 @@ cd firebase_in_depth
 
 Leave that Terminal open. UI: [http://127.0.0.1:4000](http://127.0.0.1:4000). Auth users are in the emulator **Authentication** tab ([http://127.0.0.1:4000/auth](http://127.0.0.1:4000/auth)), not in the cloud Firebase Console. When the UI is up, `start.sh` seeds `courses` (and nested `lessons` on Hiragana, Kanji, Keigo, Newspaper), plus Auth users:
 
-- `student@lab.dev` / `` — email/password, role `student`
-- `tutor@lab.dev` / `` — email/password, role `tutor`
+- `student@lab.dev` — email/password, role `student`
+- `tutor@lab.dev` — email/password, role `tutor`
 - `student.google@lab.dev` — Google provider only, role `student`
 - `tutor.google@lab.dev` — Google provider only, role `tutor`
 
-The Auth screen signs in or signs up with the email/password pair. Google accounts show in the emulator Auth tab; the app has no Google button yet.
+Credentials for the email/password pair live in `tool/seed_emulator.dart`, not here. The Auth screen signs in or signs up with that pair. Google accounts show in the emulator Auth tab; the app has no Google button yet.
 
 **Stop:** one **Ctrl+C** in that Terminal, then wait. You want `Export complete`, then the prompt back. That writes `emulator-data/` for the next start. A second Ctrl+C (or `kill -9`) skips a clean Java shutdown and can leave Firestore on **8080** or Auth on **9099**. If `./start.sh` then says the port is busy, use the kill command it prints. `kill <pid>` with “no such process” means Java already exited — 8080 is free.
 
