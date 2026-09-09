@@ -1,6 +1,6 @@
 import 'package:firebase_in_depth/core/router/app_router_names.dart';
 import 'package:firebase_in_depth/core/theme/app_breakpoint.dart';
-import 'package:firebase_in_depth/features/auth/presentation/widgets/desktop_header_account.dart';
+import 'package:firebase_in_depth/features/auth/presentation/widgets/auth_header_desktop.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -62,7 +62,7 @@ class DesktopHeader extends StatelessWidget {
                             onTap: () => _go(context, AppRouteNames.home),
                           ),
                           const SizedBox(width: 24),
-                          DesktopHeaderAccount(currentRoute: currentRoute),
+                          AuthHeaderDesktop(currentRoute: currentRoute),
                         ],
                       ),
                     ),

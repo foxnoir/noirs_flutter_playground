@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 
-class DesktopHeaderAccount extends ConsumerWidget {
-  const DesktopHeaderAccount({this.currentRoute, super.key});
+class AuthHeaderDesktop extends ConsumerWidget {
+  const AuthHeaderDesktop({this.currentRoute, super.key});
 
   final String? currentRoute;
 
@@ -56,11 +56,16 @@ class _AccountMenu extends ConsumerWidget {
 
   final AuthSession session;
 
+  static String _roleIcon(AuthRole role) => switch (role) {
+    AuthRole.tutor => 'assets/icons/categories/advanced.png',
+    AuthRole.student => 'assets/icons/categories/beginner.png',
+  };
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
-    final scheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final iconAsset = _roleIcon(session.role);
 
     return MenuAnchor(
       builder: (context, controller, child) {
@@ -77,16 +82,12 @@ class _AccountMenu extends ConsumerWidget {
               controller.open();
             }
           },
-          icon: CircleAvatar(
-            radius: 16,
-            backgroundColor: scheme.primaryContainer,
-            foregroundColor: scheme.primary,
-            child: Text(
-              session.initials,
-              style: textTheme.labelLarge?.copyWith(
-                color: scheme.onPrimaryContainer,
-                fontWeight: FontWeight.w700,
-              ),
+          icon: ClipOval(
+            child: Image.asset(
+              iconAsset,
+              width: 32,
+              height: 32,
+              fit: BoxFit.cover,
             ),
           ),
         );

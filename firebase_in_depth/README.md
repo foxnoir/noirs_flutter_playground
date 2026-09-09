@@ -504,7 +504,7 @@ When `start.sh` sees the emulator UI, `tool/seed_emulator.dart` still writes the
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**73.9%** line coverage (1303 of 1763 lines).
+**73.9%** line coverage (1301 of 1761 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

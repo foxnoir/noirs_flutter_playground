@@ -137,6 +137,10 @@ void main() {
 
     expect(find.byType(LandingScreen), findsOneWidget);
     expect(find.byKey(const Key('header-account')), findsOneWidget);
+    expect(
+      find.image(const AssetImage('assets/icons/categories/beginner.png')),
+      findsOneWidget,
+    );
 
     await tester.tap(find.byKey(const Key('header-account')));
     await tester.pumpAndSettle();
@@ -192,5 +196,9 @@ void main() {
 
     expect(find.text('Tutor'), findsOneWidget);
     expect(find.text('Student'), findsNothing);
+    expect(
+      find.image(const AssetImage('assets/icons/categories/advanced.png')),
+      findsOneWidget,
+    );
   });
 }
