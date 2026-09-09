@@ -57,7 +57,9 @@ void main() {
     expect(AppBackground.asset, 'assets/img/bg.webp');
   });
 
-  testWidgets('Course Lab lists beginner courses and slides tracks', (tester) async {
+  testWidgets('Course Lab lists beginner courses and slides tracks', (
+    tester,
+  ) async {
     await pump(tester, const CourseLabScreen());
     await tester.pumpAndSettle();
 
@@ -190,7 +192,10 @@ void main() {
     );
     final retry = tester.getRect(find.byType(GradientButton));
     expect(retry.left, closeTo(errorText.left, 8));
-    expect(retry.top - errorText.bottom, closeTo(CourseLabTrackPanel.textGap, 2));
+    expect(
+      retry.top - errorText.bottom,
+      closeTo(CourseLabTrackPanel.textGap, 2),
+    );
     expect(find.text('The backend is not running.'), findsNothing);
     expect(
       find.text('Could not reach the server. Check your connection.'),
