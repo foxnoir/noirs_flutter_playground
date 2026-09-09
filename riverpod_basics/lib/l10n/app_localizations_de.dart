@@ -341,28 +341,32 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get authBody =>
-      'Auth ist ein **Notifier** (`login()` / `logout()`). **goRouterProvider** ist ein read-only **Provider**, der einen **GoRouter** hält. Er darf `authProvider` nicht **watch**en: sonst entsteht ein neuer **GoRouter** und der Stack ist weg. Stattdessen **listen** + **refreshListenable**.\n\n**Next Screen** macht immer **goNamed** nach **/auth/next**. Ausgeloggt **redirect** nach **/auth/login?from=/auth/next**. Submit schreibt den Notifier. **redirect** nutzt **from** — Next Screen — oder den Hub, wenn du **Log in** selbst geöffnet hast.\n\nEine **SnackBar** ist ein Debug-Print der GoRouter-Calls, nicht der Button. **Log in** / **Next Screen** wenn erlaubt → **goNamed()**. **Next Screen** ausgeloggt → **goNamed() → redirect()**. Submit → **redirect()**. Dieses Lab nutzt kein **pushNamed**.';
+      'Auth ist ein **Notifier** (`signIn()` / `signUp()` / `signOut()`). Username und Passwort werden nicht geprüft — beliebige Werte reichen. **goRouterProvider** ist ein read-only **Provider**, der einen **GoRouter** hält. Er darf `authProvider` nicht **watch**en: sonst entsteht ein neuer **GoRouter** und der Stack ist weg. Stattdessen **listen** + **refreshListenable**.\n\n**Protected** macht immer **goNamed** nach **/auth/protected**. Ausgeloggt **redirect** zurück nach **/auth?from=/auth/protected**. Submit schreibt den Notifier. **redirect** öffnet dann Protected, oder du bleibst auf Auth, wenn du selbst signed in hast.\n\nEine **SnackBar** ist ein Debug-Print der GoRouter-Calls, nicht der Button. **Protected** wenn erlaubt → **goNamed()**. **Protected** ausgeloggt → **goNamed() → redirect()**. Submit danach → **redirect()**. Dieses Lab nutzt kein **pushNamed**.';
 
   @override
-  String get authLogin => 'Log in';
+  String get signIn => 'Sign in';
 
   @override
-  String get authLogout => 'Log out';
+  String get signUp => 'Sign up';
 
   @override
-  String get authNextScreen => 'Next Screen';
+  String get signOut => 'Sign out';
 
   @override
-  String get authUnauthorized => 'Nicht autorisiert. Bitte einloggen.';
+  String get authProtected => 'Protected';
+
+  @override
+  String get authUnauthorized => 'Nicht autorisiert. Bitte Sign in.';
+
+  @override
+  String get authCredentialsHint =>
+      'Beliebiger Username und beliebiges Passwort. Dieses Lab prüft sie nicht.';
 
   @override
   String get authUsername => 'Username';
 
   @override
   String get authPassword => 'Password';
-
-  @override
-  String get authSubmit => 'Log in';
 
   @override
   String get authSnackGoNamed => 'goNamed()';

@@ -10,15 +10,23 @@ void main() {
     addTearDown(container.dispose);
   });
 
-  test('starts logged out', () {
+  test('starts signed out', () {
     expect(container.read(authProvider), isFalse);
   });
 
-  test('login then logout', () {
-    container.read(authProvider.notifier).login();
+  test('signIn then signOut', () {
+    container.read(authProvider.notifier).signIn();
     expect(container.read(authProvider), isTrue);
 
-    container.read(authProvider.notifier).logout();
+    container.read(authProvider.notifier).signOut();
+    expect(container.read(authProvider), isFalse);
+  });
+
+  test('signUp then signOut', () {
+    container.read(authProvider.notifier).signUp();
+    expect(container.read(authProvider), isTrue);
+
+    container.read(authProvider.notifier).signOut();
     expect(container.read(authProvider), isFalse);
   });
 }

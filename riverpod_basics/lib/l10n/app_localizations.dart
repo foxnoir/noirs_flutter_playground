@@ -707,32 +707,44 @@ abstract class AppLocalizations {
   /// No description provided for @authBody.
   ///
   /// In en, this message translates to:
-  /// **'Auth is a **Notifier** (`login()` / `logout()`). **goRouterProvider** is a read-only **Provider** that holds one **GoRouter**. It must not **watch** `authProvider`: that would build a new **GoRouter** and drop the stack. **listen** + **refreshListenable** instead.\n\n**Next Screen** always **goNamed**s **/auth/next**. Logged out, **redirect** sends you to **/auth/login?from=/auth/next**. Submit writes the Notifier. **redirect** then uses **from** — Next Screen — or the hub if you opened **Log in** yourself.\n\nA **SnackBar** is a debug print of the GoRouter calls, not the button. **Log in** / **Next Screen** while allowed → **goNamed()**. Logged-out **Next Screen** → **goNamed() → redirect()**. Submit → **redirect()**. This lab does not use **pushNamed**.'**
+  /// **'Auth is a **Notifier** (`signIn()` / `signUp()` / `signOut()`). Username and password are unused — any values work. **goRouterProvider** is a read-only **Provider** that holds one **GoRouter**. It must not **watch** `authProvider`: that would build a new **GoRouter** and drop the stack. **listen** + **refreshListenable** instead.\n\n**Protected** always **goNamed**s **/auth/protected**. Logged out, **redirect** sends you back to **/auth?from=/auth/protected**. Submit writes the Notifier. **redirect** then opens Protected, or you stay on Auth if you signed in yourself.\n\nA **SnackBar** is a debug print of the GoRouter calls, not the button. **Protected** while allowed → **goNamed()**. Logged-out **Protected** → **goNamed() → redirect()**. Submit after that redirect → **redirect()**. This lab does not use **pushNamed**.'**
   String get authBody;
 
-  /// No description provided for @authLogin.
+  /// No description provided for @signIn.
   ///
   /// In en, this message translates to:
-  /// **'Log in'**
-  String get authLogin;
+  /// **'Sign in'**
+  String get signIn;
 
-  /// No description provided for @authLogout.
+  /// No description provided for @signUp.
   ///
   /// In en, this message translates to:
-  /// **'Log out'**
-  String get authLogout;
+  /// **'Sign up'**
+  String get signUp;
 
-  /// No description provided for @authNextScreen.
+  /// No description provided for @signOut.
   ///
   /// In en, this message translates to:
-  /// **'Next Screen'**
-  String get authNextScreen;
+  /// **'Sign out'**
+  String get signOut;
+
+  /// No description provided for @authProtected.
+  ///
+  /// In en, this message translates to:
+  /// **'Protected'**
+  String get authProtected;
 
   /// No description provided for @authUnauthorized.
   ///
   /// In en, this message translates to:
-  /// **'Not authorized. Please log in.'**
+  /// **'Not authorized. Please sign in.'**
   String get authUnauthorized;
+
+  /// No description provided for @authCredentialsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Any username and password. This lab does not check them.'**
+  String get authCredentialsHint;
 
   /// No description provided for @authUsername.
   ///
@@ -745,12 +757,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Password'**
   String get authPassword;
-
-  /// No description provided for @authSubmit.
-  ///
-  /// In en, this message translates to:
-  /// **'Log in'**
-  String get authSubmit;
 
   /// No description provided for @authSnackGoNamed.
   ///

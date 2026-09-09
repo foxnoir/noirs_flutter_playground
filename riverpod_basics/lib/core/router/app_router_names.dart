@@ -16,8 +16,7 @@ abstract final class AppRouteNames {
   static const tick = 'tick';
   static const refresh = 'refresh';
   static const auth = 'auth';
-  static const authLogin = 'authLogin';
-  static const authNext = 'authNext';
+  static const authProtected = 'authProtected';
 }
 
 /// URL slugs stay stable across locales. Nested routes are relative.
@@ -39,14 +38,12 @@ abstract final class AppRoutePaths {
   static const tick = 'tick';
   static const refresh = 'refresh';
   static const auth = 'auth';
-  static const authLogin = 'login';
-  static const authNext = 'next';
+  static const authProtected = 'protected';
 }
 
 /// Absolute Auth URLs for redirect. Query `from` is the return path.
 abstract final class AuthLocations {
   static const hub = '/${AppRoutePaths.auth}';
-  static const login = '$hub/${AppRoutePaths.authLogin}';
-  static const next = '$hub/${AppRoutePaths.authNext}';
+  static const protected = '$hub/${AppRoutePaths.authProtected}';
   static const fromQuery = 'from';
 }

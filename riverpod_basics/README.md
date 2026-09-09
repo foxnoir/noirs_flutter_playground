@@ -306,9 +306,9 @@ No provider means the count lives in the widget with `setState`. Nothing outside
 
 Riverpod's own split is **unmodifiable** (`Provider` / `FutureProvider` / `StreamProvider`) vs **modifiable** (`Notifier` / `AsyncNotifier` / `StreamNotifier`). A `Provider` is the unmodifiable box. A `NotifierProvider` is the box **plus** a class that is allowed to write.
 
-**Use it when** the value is a dependency or a derived read: repository, data source, delay, `GoRouter`. **goRouterProvider** is this. **Auth** keeps it that way: the router **read**s `authProvider`; it does not own `login()`.
+**Use it when** the value is a dependency or a derived read: repository, data source, delay, `GoRouter`. **goRouterProvider** is this. **Auth** keeps it that way: the router **read**s `authProvider`; it does not own `signIn()`.
 
-**Do not use it when** the UI must call `login()`, `increment()`, or `addUser()`. That is a Notifier. Do not `ref.watch` `authProvider` *inside* `goRouterProvider` — that rebuilds a new `GoRouter` and drops the stack. **listen** + `refreshListenable` instead. See [Auth](#auth).
+**Do not use it when** the UI must call `signIn()`, `increment()`, or `addUser()`. That is a Notifier. Do not `ref.watch` `authProvider` *inside* `goRouterProvider` — that rebuilds a new `GoRouter` and drops the stack. **listen** + `refreshListenable` instead. See [Auth](#auth).
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -444,13 +444,13 @@ A data source that **returns** a `Stream` is still a plain `Provider` of that ob
 
 ### Auth
 
-`authProvider` is a **Notifier** (`login()` / `logout()`). **goRouterProvider** stays a read-only **Provider** that holds one `GoRouter`. [go_router 17](https://pub.dev/documentation/go_router/latest/go_router/GoRouter-class.html) re-runs `redirect` when `refreshListenable` notifies (and this app also calls `GoRouter.refresh()`). The router **listen**s to `authProvider`. It must not **watch** it — that builds a new `GoRouter` and drops the stack. `redirect` uses `ref.read`. **Log in** does not call `go()`.
+`authProvider` is a **Notifier** (`signIn()` / `signUp()` / `signOut()`). Username and password are unused. **goRouterProvider** stays a read-only **Provider** that holds one `GoRouter`. [go_router 17](https://pub.dev/documentation/go_router/latest/go_router/GoRouter-class.html) re-runs `redirect` when `refreshListenable` notifies (and this app also calls `GoRouter.refresh()`). The router **listen**s to `authProvider`. It must not **watch** it — that builds a new `GoRouter` and drops the stack. `redirect` uses `ref.read`. Submit does not call `go()`.
 
-**Log in** opens `/auth/login`. Submit writes the Notifier. **Next Screen** always `goNamed`s `/auth/next`. Logged out, **redirect** sends you to `/auth/login?from=/auth/next`. After login, **redirect** uses `from` (Next Screen) or `/auth` if you opened Log in yourself. `from` is only accepted when it is `/auth/next`. A **SnackBar** is a debug print of the GoRouter calls: `goNamed()`, `goNamed() → redirect()`, or `redirect()`. Not `pushNamed`.
+**Protected** always `goNamed`s `/auth/protected`. Logged out, **redirect** sends you to `/auth?from=/auth/protected`. Submit writes the Notifier. **redirect** then uses `from` (Protected) or you stay on `/auth` if you signed in on the hub. `from` is only accepted when it is `/auth/protected`. A **SnackBar** is a debug print of the GoRouter calls: `goNamed()`, `goNamed() → redirect()`, or `redirect()`. Not `pushNamed`.
 
 **Use it when** navigation must follow session state.
 
-**Do not use it when** every route in a playground should sit behind login.
+**Do not use it when** every route in a playground should sit behind sign-in.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -718,7 +718,7 @@ What the feature tests cover:
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**88.5%** line coverage (1825 of 2063 lines).
+**88.5%** line coverage (1844 of 2084 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)

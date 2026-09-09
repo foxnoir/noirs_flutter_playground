@@ -4,11 +4,10 @@ import 'package:go_router/go_router.dart';
 import 'package:riverpod_basics/core/router/app_router_names.dart';
 import 'package:riverpod_basics/core/router/page_not_found_screen.dart';
 import 'package:riverpod_basics/features/labs/add_user/presentation/add_user_screen.dart';
-import 'package:riverpod_basics/features/labs/auth/presentation/auth_login_screen.dart';
-import 'package:riverpod_basics/features/labs/auth/presentation/auth_next_screen.dart';
 import 'package:riverpod_basics/features/labs/auth/presentation/auth_screen.dart';
 import 'package:riverpod_basics/features/labs/auth/presentation/providers/auth_nav_snack_provider.dart';
 import 'package:riverpod_basics/features/labs/auth/presentation/providers/auth_provider.dart';
+import 'package:riverpod_basics/features/labs/auth/presentation/widgets/auth_protected.dart';
 import 'package:riverpod_basics/features/labs/consumer_widget/presentation/consumer_widget_screen.dart';
 import 'package:riverpod_basics/features/labs/listen_manual/presentation/listen_manual_screen.dart';
 import 'package:riverpod_basics/features/labs/provider_lifetimes/presentation/provider_lifetimes_screen.dart';
@@ -26,7 +25,7 @@ import 'package:riverpod_basics/features/providers/state_provider/presentation/s
 
 final goRouterProvider = Provider<GoRouter>((ref) {
   // Do not ref.watch(authProvider) here — that would build a new GoRouter
-  // on every login and drop the stack. Listen + refreshListenable re-runs
+  // on every sign-in and drop the stack. Listen + refreshListenable re-runs
   // redirect on the same instance (go_router 17).
   final refresh = ValueNotifier<int>(0);
   ref.onDispose(refresh.dispose);
@@ -120,14 +119,9 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) => const AuthScreen(),
             routes: [
               GoRoute(
-                path: AppRoutePaths.authLogin,
-                name: AppRouteNames.authLogin,
-                builder: (context, state) => const AuthLoginScreen(),
-              ),
-              GoRoute(
-                path: AppRoutePaths.authNext,
-                name: AppRouteNames.authNext,
-                builder: (context, state) => const AuthNextScreen(),
+                path: AppRoutePaths.authProtected,
+                name: AppRouteNames.authProtected,
+                builder: (context, state) => const AuthProtected(),
               ),
             ],
           ),
@@ -145,22 +139,21 @@ final goRouterProvider = Provider<GoRouter>((ref) {
 });
 
 String? _authRedirect(Ref ref, GoRouterState state) {
-  final loggedIn = ref.read(authProvider);
+  final signedIn = ref.read(authProvider);
   final location = state.uri.path;
-  if (location == AuthLocations.next && !loggedIn) {
+  if (location == AuthLocations.protected && !signedIn) {
     ref.read(authNavSnackProvider.notifier).emitRedirect();
     return Uri(
-      path: AuthLocations.login,
-      queryParameters: {AuthLocations.fromQuery: AuthLocations.next},
+      path: AuthLocations.hub,
+      queryParameters: {AuthLocations.fromQuery: AuthLocations.protected},
     ).toString();
   }
-  if (location == AuthLocations.login && loggedIn) {
-    ref.read(authNavSnackProvider.notifier).emitRedirect();
+  if (location == AuthLocations.hub && signedIn) {
     final from = state.uri.queryParameters[AuthLocations.fromQuery];
-    if (from == AuthLocations.next) {
-      return AuthLocations.next;
+    if (from == AuthLocations.protected) {
+      ref.read(authNavSnackProvider.notifier).emitRedirect();
+      return AuthLocations.protected;
     }
-    return AuthLocations.hub;
   }
   return null;
 }
