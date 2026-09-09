@@ -477,7 +477,7 @@ Leave that Terminal open. UI: [http://127.0.0.1:4000](http://127.0.0.1:4000). Au
 - `student.google@lab.dev` — Google provider only, role `student`
 - `tutor.google@lab.dev` — Google provider only, role `tutor`
 
-The login form signs in the email/password pair. Google accounts show in the emulator Auth tab; the app has no Google button yet.
+The Auth screen signs in or signs up with the email/password pair. Google accounts show in the emulator Auth tab; the app has no Google button yet.
 
 **Stop:** one **Ctrl+C** in that Terminal, then wait. You want `Export complete`, then the prompt back. That writes `emulator-data/` for the next start. A second Ctrl+C (or `kill -9`) skips a clean Java shutdown and can leave Firestore on **8080** or Auth on **9099**. If `./start.sh` then says the port is busy, use the kill command it prints. `kill <pid>` with “no such process” means Java already exited — 8080 is free.
 
@@ -493,7 +493,7 @@ This app starts **Firestore + Auth** (`--only firestore,auth`) plus the UI. Adva
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**73.7%** line coverage (1299 of 1762 lines).
+**73.9%** line coverage (1303 of 1763 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -580,6 +580,6 @@ Why the failing queries fail: [Performance guarantees and indexes](#performance-
 
 ## Credits
 
-Login / sign-up card layout (split illustration + form, the two panes swapping sides) is inspired by [Interactive Login/SignUp Page Design in Figma](https://www.youtube.com/watch?v=GT6eykcOdvU&t=43s).
+The Auth screen (split illustration + form, the two panes swapping sides) is inspired by [Interactive Login/SignUp Page Design in Figma](https://www.youtube.com/watch?v=GT6eykcOdvU&t=43s).
 
 <p align="right"><a href="#readme-top">back to top</a></p>

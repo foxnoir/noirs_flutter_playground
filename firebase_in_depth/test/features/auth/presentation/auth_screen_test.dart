@@ -1,4 +1,4 @@
-import 'package:firebase_in_depth/features/auth/presentation/auth_login_screen.dart';
+import 'package:firebase_in_depth/features/auth/presentation/auth_screen.dart';
 import 'package:firebase_in_depth/features/auth/presentation/providers/auth_provider.dart';
 import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
 import 'package:firebase_in_depth/features/landing/presentation/landing_screen.dart';
@@ -53,9 +53,9 @@ void main() {
     await tester.tap(find.byKey(const Key('header-auth')));
     await tester.pumpAndSettle();
 
-    expect(find.byType(AuthLoginScreen), findsOneWidget);
+    expect(find.byType(AuthScreen), findsOneWidget);
     expect(find.byKey(const Key('auth-card')), findsOneWidget);
-    expect(find.byKey(const Key('auth-dragon')), findsOneWidget);
+    expect(find.byKey(const Key('auth-panel')), findsOneWidget);
     expect(find.byKey(const Key('auth-email')), findsOneWidget);
     expect(find.byKey(const Key('auth-password')), findsOneWidget);
     expect(find.byKey(const Key('header-auth')), findsNothing);
@@ -63,13 +63,13 @@ void main() {
     expect(find.text('Forgot password?'), findsOneWidget);
     expect(find.widgetWithText(GradientButton, 'Sign in'), findsOneWidget);
 
-    final dragon = tester.getRect(find.byKey(const Key('auth-dragon')));
-    final frame = tester.getRect(find.byKey(const Key('auth-dragon-frame')));
+    final panel = tester.getRect(find.byKey(const Key('auth-panel')));
+    final frame = tester.getRect(find.byKey(const Key('auth-panel-frame')));
     final card = tester.getRect(find.byKey(const Key('auth-card')));
     final email = tester.getRect(find.byKey(const Key('auth-email')));
     final submit = tester.getRect(find.byKey(const Key('auth-submit')));
-    expect(dragon.left, lessThan(email.left));
-    expect(email.left, greaterThan(dragon.right - 8));
+    expect(panel.left, lessThan(email.left));
+    expect(email.left, greaterThan(panel.right - 8));
     expect(frame.height, greaterThan(card.height));
     expect(frame.width, greaterThan(card.width));
     expect(submit.width, moreOrLessEquals(email.width, epsilon: 4));
@@ -80,7 +80,7 @@ void main() {
     expect(forgot.right, moreOrLessEquals(email.right, epsilon: 12));
   });
 
-  testWidgets('sign up swaps the dragon to the right of the form', (
+  testWidgets('sign up swaps the panel to the right of the form', (
     tester,
   ) async {
     tester.view.physicalSize = const Size(1200, 900);
@@ -101,13 +101,13 @@ void main() {
     expect(find.byKey(const Key('auth-username')), findsOneWidget);
     expect(find.text('Create an account'), findsNothing);
 
-    final dragon = tester.getRect(find.byKey(const Key('auth-dragon')));
-    final frame = tester.getRect(find.byKey(const Key('auth-dragon-frame')));
+    final panel = tester.getRect(find.byKey(const Key('auth-panel')));
+    final frame = tester.getRect(find.byKey(const Key('auth-panel-frame')));
     final card = tester.getRect(find.byKey(const Key('auth-card')));
     final email = tester.getRect(find.byKey(const Key('auth-email')));
     final submit = tester.getRect(find.byKey(const Key('auth-submit')));
-    expect(email.left, lessThan(dragon.left));
-    expect(email.right, lessThan(dragon.left + 8));
+    expect(email.left, lessThan(panel.left));
+    expect(email.right, lessThan(panel.left + 8));
     expect(frame.height, greaterThan(card.height));
     expect(frame.width, greaterThan(card.width));
     expect(submit.width, moreOrLessEquals(email.width, epsilon: 4));

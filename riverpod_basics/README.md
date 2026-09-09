@@ -446,7 +446,9 @@ A data source that **returns** a `Stream` is still a plain `Provider` of that ob
 
 `authProvider` is a **Notifier** (`signIn()` / `signUp()` / `signOut()`). Username and password are unused. **goRouterProvider** stays a read-only **Provider** that holds one `GoRouter`. [go_router 17](https://pub.dev/documentation/go_router/latest/go_router/GoRouter-class.html) re-runs `redirect` when `refreshListenable` notifies (and this app also calls `GoRouter.refresh()`). The router **listen**s to `authProvider`. It must not **watch** it — that builds a new `GoRouter` and drops the stack. `redirect` uses `ref.read`. Submit does not call `go()`.
 
-**Protected** always `goNamed`s `/auth/protected`. Logged out, **redirect** sends you to `/auth?from=/auth/protected`. Submit writes the Notifier. **redirect** then uses `from` (Protected) or you stay on `/auth` if you signed in on the hub. `from` is only accepted when it is `/auth/protected`. A **SnackBar** is a debug print of the GoRouter calls: `goNamed()`, `goNamed() → redirect()`, or `redirect()`. Not `pushNamed`.
+**Protected** always `goNamed`s `/auth/protected`. Logged out, **redirect** sends you to `/auth?from=/auth/protected`. Submit writes the Notifier. **redirect** then uses `from` (Protected) or you stay on `/auth` if you signed in there. `from` is only accepted when it is `/auth/protected`. A **SnackBar** is a debug print of the GoRouter calls: `goNamed()`, `goNamed() → redirect()`, or `redirect()`. Not `pushNamed`.
+
+Auth is one **AuthScreen**. **Sign in** and **Sign up** are widgets on that screen, not extra routes. **Protected** is the redirect demo, not its own lab.
 
 **Use it when** navigation must follow session state.
 
