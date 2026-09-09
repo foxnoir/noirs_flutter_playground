@@ -1,9 +1,12 @@
+import 'package:firebase_in_depth/core/errors/app_failure.dart';
+import 'package:firebase_in_depth/core/errors/app_failure_message.dart';
 import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/providers/course_lab_provider.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_async_result.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/widgets/firebase_fundamentals_course_list.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
+import 'package:firebase_in_depth/shared_widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -34,6 +37,8 @@ class CourseLabTrackPanel extends ConsumerWidget {
       ),
     );
     final overlayAlign = track.overlayDragonAlign;
+    final emptyCatalog = courses.asData?.value.isEmpty ?? false;
+    final showNoCoursesDragon = emptyCatalog || courses.hasError;
 
     return SizedBox.expand(
       child: DecoratedBox(
@@ -76,24 +81,49 @@ class CourseLabTrackPanel extends ConsumerWidget {
                       ),
                       const SizedBox(height: CourseLabTrackPanel.sectionGap),
                       Expanded(
-                        child: FirebaseFundamentalsAsyncResult<List<Course>>(
-                          value: courses,
-                          idleLabel: '',
-                          data: (courses) =>
-                              _TrackCourseList(track: track, courses: courses),
-                        ),
+                        child: switch (courses) {
+                          AsyncError(:final error) => _TrackLoadError(
+                            track: track,
+                            error: error,
+                            onRetry: () {
+                              ref.read(courseLabProvider.notifier).reload();
+                            },
+                          ),
+                          _ => FirebaseFundamentalsAsyncResult<List<Course>>(
+                            value: courses,
+                            idleLabel: '',
+                            data: (courses) => _TrackCourseList(
+                              track: track,
+                              courses: courses,
+                            ),
+                          ),
+                        },
                       ),
                     ],
                   ),
                 ),
               ),
-              if (overlayAlign != null)
+              if (showNoCoursesDragon)
+                Align(
+                  alignment: overlayAlign ?? Alignment.bottomCenter,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: _PanelDragon(
+                      asset: track.noCoursesDragonAsset,
+                      imageKey: Key('no-courses-dragon-${track.name}'),
+                      widthFactor: 0.48,
+                      mirrored: track.overlayDragonMirrored,
+                    ),
+                  ),
+                )
+              else if (overlayAlign != null)
                 Align(
                   alignment: overlayAlign,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
-                    child: _ScheduleDragon(
-                      track: track,
+                    child: _PanelDragon(
+                      asset: CourseLabTrackPanel.scheduleDragonAsset,
+                      imageKey: Key('schedule-dragon-${track.name}'),
                       widthFactor: 0.48,
                       mirrored: track.overlayDragonMirrored,
                     ),
@@ -107,6 +137,40 @@ class CourseLabTrackPanel extends ConsumerWidget {
   }
 }
 
+class _TrackLoadError extends StatelessWidget {
+  const _TrackLoadError({
+    required this.track,
+    required this.error,
+    required this.onRetry,
+  });
+
+  final CourseLabTrack track;
+  final Object error;
+  final VoidCallback onRetry;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final message = switch (AppFailure.from(error)) {
+      NetworkFailure() => l10n.courseLabLoadError,
+      final failure => failure.message(l10n),
+    };
+
+    return Column(
+      crossAxisAlignment: track.contentAlign,
+      children: [
+        Text(
+          message,
+          textAlign: track.textAlign,
+          style: Theme.of(context).textTheme.bodySmall,
+        ),
+        const SizedBox(height: 20),
+        GradientButton(label: l10n.retry, onPressed: onRetry),
+      ],
+    );
+  }
+}
+
 class _TrackCourseList extends StatelessWidget {
   const _TrackCourseList({required this.track, required this.courses});
 
@@ -115,13 +179,19 @@ class _TrackCourseList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final list = ListTileTheme(
-      data: const ListTileThemeData(minVerticalPadding: 4, dense: true),
-      child: FirebaseFundamentalsCourseList(
-        courses: courses,
-        iconTrailing: track == CourseLabTrack.expert,
-      ),
-    );
+    final list = courses.isEmpty
+        ? Text(
+            AppLocalizations.of(context).courseLabEmpty,
+            textAlign: track.textAlign,
+            style: Theme.of(context).textTheme.bodySmall,
+          )
+        : ListTileTheme(
+            data: const ListTileThemeData(minVerticalPadding: 4, dense: true),
+            child: FirebaseFundamentalsCourseList(
+              courses: courses,
+              iconTrailing: track == CourseLabTrack.expert,
+            ),
+          );
     final body = KeyedSubtree(
       key: Key('course-lab-list-${track.name}'),
       child: track == CourseLabTrack.beginner
@@ -135,24 +205,22 @@ class _TrackCourseList extends StatelessWidget {
   }
 }
 
-class _ScheduleDragon extends StatelessWidget {
-  const _ScheduleDragon({
-    required this.track,
+class _PanelDragon extends StatelessWidget {
+  const _PanelDragon({
+    required this.asset,
+    required this.imageKey,
     required this.widthFactor,
     this.mirrored = false,
   });
 
-  final CourseLabTrack track;
+  final String asset;
+  final Key imageKey;
   final double widthFactor;
   final bool mirrored;
 
   @override
   Widget build(BuildContext context) {
-    Widget image = Image.asset(
-      CourseLabTrackPanel.scheduleDragonAsset,
-      key: Key('schedule-dragon-${track.name}'),
-      fit: BoxFit.contain,
-    );
+    Widget image = Image.asset(asset, key: imageKey, fit: BoxFit.contain);
     if (mirrored) {
       image = Transform.flip(flipX: true, child: image);
     }

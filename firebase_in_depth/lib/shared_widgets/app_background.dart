@@ -1,7 +1,6 @@
-import 'package:firebase_in_depth/shared_widgets/site_scaffold.dart';
 import 'package:flutter/material.dart';
 
-/// Full-bleed `bg.webp` behind every [SiteScaffold].
+/// Full-bleed `bg.webp` behind every DesktopScaffold.
 class AppBackground extends StatelessWidget {
   const AppBackground({required this.child, super.key});
 

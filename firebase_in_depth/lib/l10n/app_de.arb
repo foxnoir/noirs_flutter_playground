@@ -32,14 +32,6 @@
   "@navLab": {
     "description": "Header link to the course catalog home."
   },
-  "firestoreTargetCloud": "Cloud",
-  "@firestoreTargetCloud": {
-    "description": "Header label when the app talks to live Firestore."
-  },
-  "firestoreTargetEmulator": "Emulator",
-  "@firestoreTargetEmulator": {
-    "description": "Header label when the app talks to the local Firestore emulator."
-  },
   "courseLabCardBody": "Beginner, Fortgeschrittene und Experten. Link tippen oder die Seiten wischen.",
   "@courseLabCardBody": {
     "description": "Landing card copy for Course Lab."
@@ -52,9 +44,9 @@
   "@errorOccurred": {
     "description": "Generic error fallback."
   },
-  "errorNetwork": "Der Server ist nicht erreichbar. Prüfe die Verbindung.",
+  "errorNetwork": "Entschuldigung, es gibt ein Problem mit dem Dienst. Versuch es später noch einmal.",
   "@errorNetwork": {
-    "description": "Network failure message."
+    "description": "Service unreachable. No jargon, no user blame; recovery is try later."
   },
   "errorNotFound": "Dieser Eintrag wurde nicht gefunden.",
   "@errorNotFound": {
@@ -303,11 +295,11 @@
   "@courseLabBeginnerBody": {
     "description": "Beginner panel body on Course Lab Home."
   },
-  "courseLabAdvancedHeadline": "Keigo, Kanji und Nuancen.",
+  "courseLabAdvancedHeadline": "Höflichkeit, Zählwörter und mehr.",
   "@courseLabAdvancedHeadline": {
     "description": "Advanced panel headline on Course Lab Home."
   },
-  "courseLabAdvancedBody": "Keigo, Kanji-Komposita und Kurse, die Kana schon voraussetzen.",
+  "courseLabAdvancedBody": "Höflichkeitsformen für die Arbeit, Zählwörter und die Lautwörter, die im Lehrbuch nur einmal vorkommen. Kana wird vorausgesetzt.",
   "@courseLabAdvancedBody": {
     "description": "Advanced panel body on Course Lab Home."
   },
@@ -315,8 +307,16 @@
   "@courseLabExpertHeadline": {
     "description": "Expert panel headline on Course Lab Home."
   },
-  "courseLabExpertBody": "Zeitungen, Bungo und Hörverstehen, das Japanisch schon voraussetzt.",
+  "courseLabExpertBody": "Zeitungsüberschriften, klassisches Japanisch und Hörverstehen im N1-Tempo.",
   "@courseLabExpertBody": {
     "description": "Expert panel body on Course Lab Home."
+  },
+  "courseLabEmpty": "In diesem Track gibt es noch keine Kurse.",
+  "@courseLabEmpty": {
+    "description": "Empty catalog on a Course Lab track. Not a connection error."
+  },
+  "courseLabLoadError": "Die Kurse konnten nicht geladen werden. Versuch es später noch einmal.",
+  "@courseLabLoadError": {
+    "description": "Course catalog failed to load. Names the content, not the infrastructure."
   }
 }

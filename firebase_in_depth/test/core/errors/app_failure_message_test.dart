@@ -10,7 +10,7 @@ void main() {
   test('AppFailure.message uses the l10n keys', () {
     expect(
       const NetworkFailure().message(l10n),
-      'Could not reach the server. Check your connection.',
+      'Sorry, there is a problem with the service. Try again later.',
     );
     expect(const NotFoundFailure().message(l10n), 'That item was not found.');
     expect(
@@ -35,7 +35,7 @@ void main() {
   test('localizedError maps exceptions the same way', () {
     expect(
       localizedError(l10n, const NetworkException()),
-      'Could not reach the server. Check your connection.',
+      'Sorry, there is a problem with the service. Try again later.',
     );
     expect(
       localizedError(l10n, const NotFoundException()),

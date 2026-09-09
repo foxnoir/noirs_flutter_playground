@@ -51,9 +51,9 @@
       "request": "launch",
       "type": "dart",
       "cwd": "${workspaceFolder}/firebase_in_depth",
-      "program": "${workspaceFolder}/firebase_in_depth/lib/main.dart",
+      "program": "lib/main.dart",
       "deviceId": "chrome",
-      "preLaunchTask": "Firestore emulator off",
+      "templateFor": "firebase_in_depth",
       "codeLens": {
         "for": ["run-file", "debug-file"],
         "path": "firebase_in_depth",
@@ -65,18 +65,18 @@
       "request": "launch",
       "type": "dart",
       "cwd": "${workspaceFolder}/firebase_in_depth",
-      "program": "${workspaceFolder}/firebase_in_depth/lib/main.dart",
+      "program": "lib/main.dart",
       "deviceId": "chrome",
-      "preLaunchTask": "Firestore emulator on"
+      "toolArgs": ["--dart-define=USE_FIREBASE_EMULATOR=true"]
     },
     {
       "name": "Firebase in Depth (iOS)",
       "request": "launch",
       "type": "dart",
       "cwd": "${workspaceFolder}/firebase_in_depth",
-      "program": "${workspaceFolder}/firebase_in_depth/lib/main.dart",
+      "program": "lib/main.dart",
       "emulatorId": "apple_ios_simulator",
-      "preLaunchTask": "Firebase in Depth iOS prep"
+      "preLaunchTask": "Boot iPhone 17 Pro Simulator"
     }
   ]
 }

@@ -61,6 +61,11 @@ enum CourseLabTrack {
 
   bool get overlayDragonMirrored => this == expert;
 
+  String get noCoursesDragonAsset => switch (this) {
+    advanced => 'assets/img/no_courses_advanced_dragon.png',
+    beginner || expert => 'assets/img/no_courses_dragon.png',
+  };
+
   /// Beginner turquoise, Advanced light purple, Expert dark purple.
   Color tabAccent(ThemeData theme) => switch (this) {
     beginner => theme.colorScheme.secondary,

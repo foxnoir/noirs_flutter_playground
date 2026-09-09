@@ -17,6 +17,9 @@ class CourseLabDataSourceImpl implements CourseLabDataSource {
   static const _courses = 'courses';
   static const _lessons = 'lessons';
 
+  /// Default `get()` can return an empty cache when the server is down.
+  static const _server = GetOptions(source: Source.server);
+
   final FirebaseFirestore _firestore;
 
   CollectionReference<Map<String, dynamic>> get _collection {
@@ -26,7 +29,7 @@ class CourseLabDataSourceImpl implements CourseLabDataSource {
   @override
   Future<CourseModel> fetchCourse(String id) {
     return _guard(() async {
-      final snap = await _collection.doc(id).get();
+      final snap = await _collection.doc(id).get(_server);
       final data = snap.data();
       if (!snap.exists || data == null) {
         throw const NotFoundException();
@@ -142,7 +145,7 @@ class CourseLabDataSourceImpl implements CourseLabDataSource {
   }
 
   Future<List<CourseModel>> _mapQuery(Query<Map<String, dynamic>> query) async {
-    final snaps = await query.get();
+    final snaps = await query.get(_server);
     return [
       for (final snap in snaps.docs)
         CourseModel.fromJson({...snap.data(), 'id': snap.id}),
@@ -152,7 +155,7 @@ class CourseLabDataSourceImpl implements CourseLabDataSource {
   Future<List<LessonModel>> _mapLessons(
     Query<Map<String, dynamic>> query,
   ) async {
-    final snaps = await query.get();
+    final snaps = await query.get(_server);
     return [
       for (final snap in snaps.docs)
         LessonModel.fromJson({

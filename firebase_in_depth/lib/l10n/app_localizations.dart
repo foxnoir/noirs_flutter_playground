@@ -146,18 +146,6 @@ abstract class AppLocalizations {
   /// **'Lab'**
   String get navLab;
 
-  /// Header label when the app talks to live Firestore.
-  ///
-  /// In en, this message translates to:
-  /// **'Cloud'**
-  String get firestoreTargetCloud;
-
-  /// Header label when the app talks to the local Firestore emulator.
-  ///
-  /// In en, this message translates to:
-  /// **'Emulator'**
-  String get firestoreTargetEmulator;
-
   /// Landing card copy for Course Lab.
   ///
   /// In en, this message translates to:
@@ -176,10 +164,10 @@ abstract class AppLocalizations {
   /// **'Unfortunately, an error occurred.'**
   String get errorOccurred;
 
-  /// Network failure message.
+  /// Service unreachable. No jargon, no user blame; recovery is try later.
   ///
   /// In en, this message translates to:
-  /// **'Could not reach the server. Check your connection.'**
+  /// **'Sorry, there is a problem with the service. Try again later.'**
   String get errorNetwork;
 
   /// Not-found failure message.
@@ -535,13 +523,13 @@ abstract class AppLocalizations {
   /// Advanced panel headline on Course Lab Home.
   ///
   /// In en, this message translates to:
-  /// **'Keigo, kanji, and nuance.'**
+  /// **'Polite speech, counters, and more.'**
   String get courseLabAdvancedHeadline;
 
   /// Advanced panel body on Course Lab Home.
   ///
   /// In en, this message translates to:
-  /// **'Keigo, kanji compounds, and the courses that assume you already read kana.'**
+  /// **'Polite language for work, counting things, and the sound words textbooks mention once. Kana is assumed.'**
   String get courseLabAdvancedBody;
 
   /// Expert panel headline on Course Lab Home.
@@ -553,8 +541,20 @@ abstract class AppLocalizations {
   /// Expert panel body on Course Lab Home.
   ///
   /// In en, this message translates to:
-  /// **'Newspapers, bungo, and listening that already lives in Japanese.'**
+  /// **'Newspaper headlines, classical Japanese, and listening at N1 speed.'**
   String get courseLabExpertBody;
+
+  /// Empty catalog on a Course Lab track. Not a connection error.
+  ///
+  /// In en, this message translates to:
+  /// **'No courses in this track yet.'**
+  String get courseLabEmpty;
+
+  /// Course catalog failed to load. Names the content, not the infrastructure.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t load courses. Try again later.'**
+  String get courseLabLoadError;
 }
 
 class _AppLocalizationsDelegate

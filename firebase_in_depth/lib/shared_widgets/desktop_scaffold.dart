@@ -1,11 +1,11 @@
 import 'package:firebase_in_depth/core/theme/app_breakpoint.dart';
 import 'package:firebase_in_depth/shared_widgets/app_background.dart';
-import 'package:firebase_in_depth/shared_widgets/site_header.dart';
+import 'package:firebase_in_depth/shared_widgets/desktop_header.dart';
 import 'package:flutter/material.dart';
 
-/// Website chrome: top nav, `bg.webp`, capped content width.
-class SiteScaffold extends StatelessWidget {
-  const SiteScaffold({required this.body, this.currentRoute, super.key});
+/// Desktop chrome: top nav, `bg.webp`, capped content width.
+class DesktopScaffold extends StatelessWidget {
+  const DesktopScaffold({required this.body, this.currentRoute, super.key});
 
   final Widget body;
   final String? currentRoute;
@@ -20,7 +20,7 @@ class SiteScaffold extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SiteHeader(currentRoute: currentRoute),
+              DesktopHeader(currentRoute: currentRoute),
               Expanded(
                 child: Align(
                   alignment: Alignment.topCenter,

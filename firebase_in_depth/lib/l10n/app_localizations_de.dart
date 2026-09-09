@@ -33,12 +33,6 @@ class AppLocalizationsDe extends AppLocalizations {
   String get navLab => 'Lab';
 
   @override
-  String get firestoreTargetCloud => 'Cloud';
-
-  @override
-  String get firestoreTargetEmulator => 'Emulator';
-
-  @override
   String get courseLabCardBody =>
       'Beginner, Fortgeschrittene und Experten. Link tippen oder die Seiten wischen.';
 
@@ -51,7 +45,7 @@ class AppLocalizationsDe extends AppLocalizations {
 
   @override
   String get errorNetwork =>
-      'Der Server ist nicht erreichbar. Prüfe die Verbindung.';
+      'Entschuldigung, es gibt ein Problem mit dem Dienst. Versuch es später noch einmal.';
 
   @override
   String get errorNotFound => 'Dieser Eintrag wurde nicht gefunden.';
@@ -267,16 +261,23 @@ class AppLocalizationsDe extends AppLocalizations {
       'Hiragana, Katakana und die ersten Grammatikmuster. Kurze Lektionen für einen Abend.';
 
   @override
-  String get courseLabAdvancedHeadline => 'Keigo, Kanji und Nuancen.';
+  String get courseLabAdvancedHeadline => 'Höflichkeit, Zählwörter und mehr.';
 
   @override
   String get courseLabAdvancedBody =>
-      'Keigo, Kanji-Komposita und Kurse, die Kana schon voraussetzen.';
+      'Höflichkeitsformen für die Arbeit, Zählwörter und die Lautwörter, die im Lehrbuch nur einmal vorkommen. Kana wird vorausgesetzt.';
 
   @override
   String get courseLabExpertHeadline => 'Jenseits vom Lehrbuch.';
 
   @override
   String get courseLabExpertBody =>
-      'Zeitungen, Bungo und Hörverstehen, das Japanisch schon voraussetzt.';
+      'Zeitungsüberschriften, klassisches Japanisch und Hörverstehen im N1-Tempo.';
+
+  @override
+  String get courseLabEmpty => 'In diesem Track gibt es noch keine Kurse.';
+
+  @override
+  String get courseLabLoadError =>
+      'Die Kurse konnten nicht geladen werden. Versuch es später noch einmal.';
 }

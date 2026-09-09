@@ -2,7 +2,7 @@ import 'package:firebase_in_depth/core/router/app_router_names.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_panel.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
-import 'package:firebase_in_depth/shared_widgets/site_scaffold.dart';
+import 'package:firebase_in_depth/shared_widgets/desktop_scaffold.dart';
 import 'package:flutter/material.dart';
 
 class CourseLabHomeScreen extends StatefulWidget {
@@ -35,7 +35,7 @@ class _CourseLabHomeScreenState extends State<CourseLabHomeScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return SiteScaffold(
+    return DesktopScaffold(
       currentRoute: AppRouteNames.home,
       body: Padding(
         padding: const EdgeInsets.fromLTRB(24, 28, 24, 32),

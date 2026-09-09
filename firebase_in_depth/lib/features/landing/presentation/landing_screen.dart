@@ -2,7 +2,7 @@ import 'package:firebase_in_depth/core/router/app_router_names.dart';
 import 'package:firebase_in_depth/core/theme/app_breakpoint.dart';
 import 'package:firebase_in_depth/features/landing/presentation/widgets/landing_card.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
-import 'package:firebase_in_depth/shared_widgets/site_scaffold.dart';
+import 'package:firebase_in_depth/shared_widgets/desktop_scaffold.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -13,7 +13,7 @@ class LandingScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
 
-    return SiteScaffold(
+    return DesktopScaffold(
       currentRoute: AppRouteNames.landing,
       body: LayoutBuilder(
         builder: (context, constraints) {

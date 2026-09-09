@@ -33,12 +33,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navLab => 'Lab';
 
   @override
-  String get firestoreTargetCloud => 'Cloud';
-
-  @override
-  String get firestoreTargetEmulator => 'Emulator';
-
-  @override
   String get courseLabCardBody =>
       'Beginner, advanced, and expert tracks. Tap a link or swipe the pages.';
 
@@ -51,7 +45,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorNetwork =>
-      'Could not reach the server. Check your connection.';
+      'Sorry, there is a problem with the service. Try again later.';
 
   @override
   String get errorNotFound => 'That item was not found.';
@@ -265,16 +259,22 @@ class AppLocalizationsEn extends AppLocalizations {
       'Hiragana, katakana, and the first grammar patterns. Short lessons you can finish in an evening.';
 
   @override
-  String get courseLabAdvancedHeadline => 'Keigo, kanji, and nuance.';
+  String get courseLabAdvancedHeadline => 'Polite speech, counters, and more.';
 
   @override
   String get courseLabAdvancedBody =>
-      'Keigo, kanji compounds, and the courses that assume you already read kana.';
+      'Polite language for work, counting things, and the sound words textbooks mention once. Kana is assumed.';
 
   @override
   String get courseLabExpertHeadline => 'Past the textbook.';
 
   @override
   String get courseLabExpertBody =>
-      'Newspapers, bungo, and listening that already lives in Japanese.';
+      'Newspaper headlines, classical Japanese, and listening at N1 speed.';
+
+  @override
+  String get courseLabEmpty => 'No courses in this track yet.';
+
+  @override
+  String get courseLabLoadError => 'Couldn\'t load courses. Try again later.';
 }

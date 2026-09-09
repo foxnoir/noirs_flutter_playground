@@ -32,14 +32,6 @@
   "@navLab": {
     "description": "Header link to the course catalog home."
   },
-  "firestoreTargetCloud": "Cloud",
-  "@firestoreTargetCloud": {
-    "description": "Header label when the app talks to live Firestore."
-  },
-  "firestoreTargetEmulator": "Emulator",
-  "@firestoreTargetEmulator": {
-    "description": "Header label when the app talks to the local Firestore emulator."
-  },
   "courseLabCardBody": "Beginner, advanced, and expert tracks. Tap a link or swipe the pages.",
   "@courseLabCardBody": {
     "description": "Landing card copy for Course Lab."
@@ -52,9 +44,9 @@
   "@errorOccurred": {
     "description": "Generic error fallback."
   },
-  "errorNetwork": "Could not reach the server. Check your connection.",
+  "errorNetwork": "Sorry, there is a problem with the service. Try again later.",
   "@errorNetwork": {
-    "description": "Network failure message."
+    "description": "Service unreachable. No jargon, no user blame; recovery is try later."
   },
   "errorNotFound": "That item was not found.",
   "@errorNotFound": {
@@ -303,11 +295,11 @@
   "@courseLabBeginnerBody": {
     "description": "Beginner panel body on Course Lab Home."
   },
-  "courseLabAdvancedHeadline": "Keigo, kanji, and nuance.",
+  "courseLabAdvancedHeadline": "Polite speech, counters, and more.",
   "@courseLabAdvancedHeadline": {
     "description": "Advanced panel headline on Course Lab Home."
   },
-  "courseLabAdvancedBody": "Keigo, kanji compounds, and the courses that assume you already read kana.",
+  "courseLabAdvancedBody": "Polite language for work, counting things, and the sound words textbooks mention once. Kana is assumed.",
   "@courseLabAdvancedBody": {
     "description": "Advanced panel body on Course Lab Home."
   },
@@ -315,8 +307,16 @@
   "@courseLabExpertHeadline": {
     "description": "Expert panel headline on Course Lab Home."
   },
-  "courseLabExpertBody": "Newspapers, bungo, and listening that already lives in Japanese.",
+  "courseLabExpertBody": "Newspaper headlines, classical Japanese, and listening at N1 speed.",
   "@courseLabExpertBody": {
     "description": "Expert panel body on Course Lab Home."
+  },
+  "courseLabEmpty": "No courses in this track yet.",
+  "@courseLabEmpty": {
+    "description": "Empty catalog on a Course Lab track. Not a connection error."
+  },
+  "courseLabLoadError": "Couldn't load courses. Try again later.",
+  "@courseLabLoadError": {
+    "description": "Course catalog failed to load. Names the content, not the infrastructure."
   }
 }

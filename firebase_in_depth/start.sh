@@ -13,7 +13,7 @@ echo
 echo "Firestore: 127.0.0.1:8080"
 echo "UI:        http://127.0.0.1:4000"
 echo "Leave this Terminal open. Then run Flutter with"
-echo "  --dart-define=USE_FIRESTORE_EMULATOR=true"
+echo "  --dart-define=USE_FIREBASE_EMULATOR=true"
 echo "or the launch config Firebase in Depth (emulator)."
 echo "Ctrl+C exports Firestore to emulator-data/ (restored on the next start)."
 echo

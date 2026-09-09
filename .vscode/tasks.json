@@ -2,34 +2,6 @@
   "version": "2.0.0",
   "tasks": [
     {
-      "label": "Firestore emulator on",
-      "type": "shell",
-      "command": "printf '%s\\n' 'const kConnectFirestoreEmulator = true;' > '${workspaceFolder}/firebase_in_depth/lib/core/firebase/emulator_connect.dart'",
-      "presentation": {
-        "reveal": "silent",
-        "panel": "shared",
-        "showReuseMessage": false
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Firestore emulator off",
-      "type": "shell",
-      "command": "printf '%s\\n' 'const kConnectFirestoreEmulator = false;' > '${workspaceFolder}/firebase_in_depth/lib/core/firebase/emulator_connect.dart'",
-      "presentation": {
-        "reveal": "silent",
-        "panel": "shared",
-        "showReuseMessage": false
-      },
-      "problemMatcher": []
-    },
-    {
-      "label": "Firebase in Depth iOS prep",
-      "dependsOn": ["Boot iPhone 17 Pro Simulator", "Firestore emulator off"],
-      "dependsOrder": "sequence",
-      "problemMatcher": []
-    },
-    {
       "label": "Boot iPhone 17 Pro Simulator",
       "type": "shell",
       "command": "xcrun simctl boot E207ED10-9E72-4D1C-82E5-4B23BB22D09B 2>/dev/null || true; open -a Simulator",

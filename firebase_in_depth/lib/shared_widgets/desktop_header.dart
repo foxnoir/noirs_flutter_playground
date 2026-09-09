@@ -1,12 +1,11 @@
-import 'package:firebase_in_depth/core/firebase/firestore_emulator.dart';
 import 'package:firebase_in_depth/core/router/app_router_names.dart';
 import 'package:firebase_in_depth/core/theme/app_breakpoint.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-class SiteHeader extends StatelessWidget {
-  const SiteHeader({this.currentRoute, super.key});
+class DesktopHeader extends StatelessWidget {
+  const DesktopHeader({this.currentRoute, super.key});
 
   final String? currentRoute;
 
@@ -49,8 +48,6 @@ class SiteHeader extends StatelessWidget {
                   selected: currentRoute == AppRouteNames.home,
                   onTap: () => _go(context, AppRouteNames.home),
                 ),
-                const SizedBox(width: 20),
-                _FirestoreTargetLabel(l10n: l10n),
               ],
             ),
           ),
@@ -63,27 +60,6 @@ class SiteHeader extends StatelessWidget {
     final router = GoRouter.maybeOf(context);
     if (router == null) return;
     context.goNamed(name);
-  }
-}
-
-class _FirestoreTargetLabel extends StatelessWidget {
-  const _FirestoreTargetLabel({required this.l10n});
-
-  final AppLocalizations l10n;
-
-  @override
-  Widget build(BuildContext context) {
-    final emulator = FirestoreEmulator.connect;
-    final scheme = Theme.of(context).colorScheme;
-
-    return Text(
-      emulator ? l10n.firestoreTargetEmulator : l10n.firestoreTargetCloud,
-      key: const Key('firestore-target'),
-      style: Theme.of(context).textTheme.labelSmall?.copyWith(
-        color: emulator ? scheme.secondary : scheme.onSurfaceVariant,
-        fontWeight: FontWeight.w700,
-      ),
-    );
   }
 }
 

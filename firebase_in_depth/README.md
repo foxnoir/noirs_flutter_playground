@@ -98,7 +98,7 @@ The Firestore collection [`courses`](https://console.firebase.google.com/project
 
 Last practice app in the playground for now.
 
-Flutter CRUD, offline cache, and **Storage** are not wired yet. The **local Firestore emulator** is opt-in (`./start.sh`, then `--dart-define=USE_FIRESTORE_EMULATOR=true`).
+Flutter CRUD, offline cache, and **Storage** are not wired yet. The **local Firebase emulator** is opt-in (`./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`). Currently that flag only points Firestore at localhost; Auth and Functions will use the same switch.
 
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
@@ -117,7 +117,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - [GoRouter](https://pub.dev/packages/go_router)
 - l10n (English / German)
 - Feature folders (`presentation` / `data` / `domain`)
-- **Landing Screen** (`LandingScreen`) — website header + cards, GoRouter hub
+- **Landing Screen** (`LandingScreen`) — desktop header + cards, GoRouter hub
 - **Firebase Course Lab** — Home with `PageView` (beginner / advanced / expert)
 - `assets/img/bg.webp` behind every page (`AppBackground`)
 - **Firebase Fundamentals** — collection / document reads, index lab, nested lessons vs collection group, realtime snapshots
@@ -126,7 +126,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - Material 3 seed theme
 - [Firebase](https://firebase.google.com/) (`firebase_core`, web + iOS on `fir-in-depth-813e4`)
 - [Firestore](https://firebase.google.com/docs/firestore) collection `courses` (seeded; Course Lab owns the data layer, Fundamentals uses it)
-- Local Firestore emulator (opt-in: `./start.sh`, then `--dart-define=USE_FIRESTORE_EMULATOR=true`)
+- Local Firebase emulator (opt-in: `./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`; Firestore only until Auth / Functions land)
 - [FVM](https://fvm.app) pin
 - Coverage badge and card
 
@@ -460,7 +460,9 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --pro
 
 ### Local emulator
 
-Same rules and indexes as cloud. The app still talks to **live** Firestore unless you opt in. Java is required for the Firestore emulator.
+Same rules and indexes as cloud. The app still talks to **live** Firestore unless you opt in. Java is required for the Firestore emulator. The UI does not change; only the SDK host does.
+
+**Wire-up.** `FirebaseEmulator.enabled` is `bool.fromEnvironment('USE_FIREBASE_EMULATOR')` — compile-time, not a `.env`. After `Firebase.initializeApp`, if that flag is true, `main.dart` calls `useFirestoreEmulator` (web: `localhost`, iOS Simulator: `127.0.0.1`, port **8080**) and turns web persistence off so a previous cloud cache cannot leak in. Repositories stay the same. Auth and Functions are not wired yet; they will hang off this same flag. Launch config **Firebase in Depth (emulator)** passes `--dart-define=USE_FIREBASE_EMULATOR=true` via `toolArgs`. **Chrome** does not, so it stays on the cloud project.
 
 ```
 cd firebase_in_depth
@@ -471,11 +473,11 @@ Leave that Terminal open. UI: [http://127.0.0.1:4000](http://127.0.0.1:4000). Wh
 
 **Stop:** one **Ctrl+C** in that Terminal, then wait. You want `Export complete`, then the prompt back. That writes `emulator-data/` for the next start. A second Ctrl+C (or `kill -9`) skips a clean Java shutdown and can leave Firestore on **8080**. If `./start.sh` then says the port is busy, use the kill command it prints. `kill <pid>` with “no such process” means Java already exited — 8080 is free.
 
-Then **Stop** the Flutter session if one is running. Chrome vs **Simulator** in the status bar is the **device** (browser vs iPhone), not the Firebase emulator. Pick **Firebase in Depth (emulator)** and the green play in Run and Debug. That writes `kConnectFirestoreEmulator = true` and still opens **Chrome**. Header **Emulator**. With `./start.sh` down, Home has no catalog.
+Then **Stop** any running Flutter session. In Run and Debug pick **Firebase in Depth (emulator)** and press the green play **there** (not F5 on an open file — that is Chrome / cloud). Chrome still opens; that is the device. Without `./start.sh`, Home has no catalog.
 
 ```
 cd firebase_in_depth
-fvm flutter run -d chrome --dart-define=USE_FIRESTORE_EMULATOR=true
+fvm flutter run -d chrome --dart-define=USE_FIREBASE_EMULATOR=true
 ```
 
 This app starts **only Firestore** (`--only firestore`) plus the UI. Advanced Concepts starts **Functions + Firestore** in one suite. Both want Firestore **8080** and UI **4000**, so only one `start.sh` at a time. If `./start.sh` says 8080 is busy, a leftover emulator Java process is still running — it prints the kill command.
@@ -483,7 +485,7 @@ This app starts **only Firestore** (`--only firestore`) plus the UI. Advanced Co
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**71.9%** line coverage (943 of 1312 lines).
+**72.3%** line coverage (994 of 1374 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -524,7 +526,7 @@ Form validation is not a fetch failure. Keep those as field/form strings.
 
 ## Firebase Course Lab
 
-**Landing Screen** → **Firebase Course Lab** (`goNamed` `home`). Home is a **PageView**: **Beginner course** / **Advanced course** / **Expert course** slide left and right (tap the links or swipe). All three pages share the same height. Background is `assets/img/bg.webp` on every `SiteScaffold` page. The chrome is a website header (`SiteHeader`): **Home** (landing), then **Fundamentals**, then **Lab** (course catalog). Landing cards put Fundamentals on the left and Course Lab on the right.
+**Landing Screen** → **Firebase Course Lab** (`goNamed` `home`). Home is a **PageView**: **Beginner course** / **Advanced course** / **Expert course** slide left and right (tap the links or swipe). All three pages share the same height. Background is `assets/img/bg.webp` on every `DesktopScaffold` page. The chrome is a desktop header (`DesktopHeader`): **Home** (landing), then **Fundamentals**, then **Lab** (course catalog). Landing cards put Fundamentals on the left and Course Lab on the right.
 
 Opening Home loads **all three** tracks at once: three `array-contains` queries on `categories` (`BEGINNER`, `INTERMEDIATE`, `EXPERTS`) in parallel, then each panel lists the matching courses. That is a lab choice — the point here is to try `array-contains`. In a product it can be smarter to fetch a track only after that page is selected. Decide per project.
 

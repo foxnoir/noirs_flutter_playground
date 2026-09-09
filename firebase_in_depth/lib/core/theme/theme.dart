@@ -10,7 +10,7 @@ ThemeData getLightTheme() {
 
 ThemeData _buildTheme(ColorScheme colorScheme) {
   const textTheme = TextTheme(
-    /// Page titles on the website chrome.
+    /// Page titles on the desktop chrome.
     displaySmall: TextStyle(
       fontSize: 32,
       fontWeight: FontWeight.w600,
