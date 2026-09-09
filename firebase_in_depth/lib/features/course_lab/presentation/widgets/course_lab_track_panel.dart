@@ -151,6 +151,7 @@ class _TrackLoadError extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
+    final scheme = Theme.of(context).colorScheme;
     final message = switch (AppFailure.from(error)) {
       NetworkFailure() => l10n.courseLabLoadError,
       final failure => failure.message(l10n),
@@ -165,7 +166,13 @@ class _TrackLoadError extends StatelessWidget {
           style: Theme.of(context).textTheme.bodySmall,
         ),
         const SizedBox(height: CourseLabTrackPanel.textGap),
-        GradientButton(label: l10n.retry, onPressed: onRetry),
+        GradientButton(
+          label: l10n.retry,
+          startColor: scheme.secondaryContainer,
+          endColor: scheme.secondary,
+          foregroundColor: scheme.onSecondary,
+          onPressed: onRetry,
+        ),
       ],
     );
   }

@@ -79,6 +79,7 @@
         <li><a href="#firebase-course-lab">Firebase Course Lab</a></li>
         <li><a href="#firebase-fundamentals">Firebase Fundamentals</a></li>
     <li><a href="#errors">Errors</a></li>
+    <li><a href="#credits">Credits</a></li>
   </ol>
 </details>
 
@@ -98,7 +99,7 @@ The Firestore collection [`courses`](https://console.firebase.google.com/project
 
 Last practice app in the playground for now.
 
-Flutter CRUD, offline cache, and **Storage** are not wired yet. The **local Firebase emulator** is opt-in (`./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`). Currently that flag only points Firestore at localhost; Auth and Functions will use the same switch.
+Flutter CRUD, offline cache, and **Storage** are not wired yet. Work against the **local Firebase emulator** (`./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`): Firestore, Auth, and `firestore.rules`. Do not deploy rules or indexes until this lab is ready. Functions will use the same switch later.
 
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
@@ -124,9 +125,9 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - Sealed `AppException` / `AppFailure` with l10n mapping
 - [Freezed](https://pub.dev/packages/freezed) for Firestore models and entities (`Course` / `Tutor` / `Lesson`)
 - Material 3 seed theme
-- [Firebase](https://firebase.google.com/) (`firebase_core`, web + iOS on `fir-in-depth-813e4`)
+- [Firebase](https://firebase.google.com/) (`firebase_core`, `firebase_auth`, web + iOS on `fir-in-depth-813e4`)
 - [Firestore](https://firebase.google.com/docs/firestore) collection `courses` (seeded; Course Lab owns the data layer, Fundamentals uses it)
-- Local Firebase emulator (opt-in: `./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`; Firestore only until Auth / Functions land)
+- Local Firebase emulator (opt-in: `./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`; Firestore + Auth, rules loaded locally — no deploy yet)
 - [FVM](https://fvm.app) pin
 - Coverage badge and card
 
@@ -452,7 +453,7 @@ fvm flutter run -d chrome
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). The only client **write** is updating `participants` on a course (`FieldValue.increment`). Everything else stays denied. Collection-group reads and the increment fail until those rules are deployed:
+Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). Tutors (`users/{uid}.role == 'tutor'`) may create, update, and delete courses and nested lessons. Anyone may update only `participants` on a course (`FieldValue.increment`). The emulator loads these rules from disk. **Do not deploy** to `fir-in-depth-813e4` until the lab is done.
 
 ```
 npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --project fir-in-depth-813e4
@@ -460,18 +461,25 @@ npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --pro
 
 ### Local emulator
 
-Same rules and indexes as cloud. The app still talks to **live** Firestore unless you opt in. Java is required for the Firestore emulator. The UI does not change; only the SDK host does.
+Same rules and indexes as will go to cloud later. The app still talks to **live** Firestore unless you opt in. Java is required for the Firestore emulator. The UI does not change; only the SDK host does.
 
-**Wire-up.** `FirebaseEmulator.enabled` is `bool.fromEnvironment('USE_FIREBASE_EMULATOR')` — compile-time, not a `.env`. After `Firebase.initializeApp`, if that flag is true, `main.dart` calls `useFirestoreEmulator` (web: `localhost`, iOS Simulator: `127.0.0.1`, port **8080**) and turns web persistence off so a previous cloud cache cannot leak in. Repositories stay the same. Auth and Functions are not wired yet; they will hang off this same flag. Launch config **Firebase in Depth (emulator)** passes `--dart-define=USE_FIREBASE_EMULATOR=true` via `toolArgs`. **Chrome** does not, so it stays on the cloud project.
+**Wire-up.** `FirebaseEmulator.enabled` is `bool.fromEnvironment('USE_FIREBASE_EMULATOR')` — compile-time, not a `.env`. After `Firebase.initializeApp`, if that flag is true, `main.dart` calls `useFirestoreEmulator` (web: `localhost`, iOS Simulator: `127.0.0.1`, port **8080**) and `useAuthEmulator` (port **9099**), and turns web persistence off so a previous cloud cache cannot leak in. Repositories stay the same. Without the flag, Auth stays in-memory so live Chrome does not create cloud users. Functions are not wired yet; they will hang off this same flag. Launch config **Firebase in Depth (emulator)** passes `--dart-define=USE_FIREBASE_EMULATOR=true` via `toolArgs`. **Chrome** does not, so it stays on the cloud project for Firestore and skips live Auth.
 
 ```
 cd firebase_in_depth
 ./start.sh
 ```
 
-Leave that Terminal open. UI: [http://127.0.0.1:4000](http://127.0.0.1:4000). When the UI is up, `start.sh` seeds `courses` (and nested `lessons` on Hiragana, Kanji, Keigo, Newspaper).
+Leave that Terminal open. UI: [http://127.0.0.1:4000](http://127.0.0.1:4000). Auth users are in the emulator **Authentication** tab ([http://127.0.0.1:4000/auth](http://127.0.0.1:4000/auth)), not in the cloud Firebase Console. When the UI is up, `start.sh` seeds `courses` (and nested `lessons` on Hiragana, Kanji, Keigo, Newspaper), plus Auth users:
 
-**Stop:** one **Ctrl+C** in that Terminal, then wait. You want `Export complete`, then the prompt back. That writes `emulator-data/` for the next start. A second Ctrl+C (or `kill -9`) skips a clean Java shutdown and can leave Firestore on **8080**. If `./start.sh` then says the port is busy, use the kill command it prints. `kill <pid>` with “no such process” means Java already exited — 8080 is free.
+- `student@lab.dev` / `` — email/password, role `student`
+- `tutor@lab.dev` / `` — email/password, role `tutor`
+- `student.google@lab.dev` — Google provider only, role `student`
+- `tutor.google@lab.dev` — Google provider only, role `tutor`
+
+The login form signs in the email/password pair. Google accounts show in the emulator Auth tab; the app has no Google button yet.
+
+**Stop:** one **Ctrl+C** in that Terminal, then wait. You want `Export complete`, then the prompt back. That writes `emulator-data/` for the next start. A second Ctrl+C (or `kill -9`) skips a clean Java shutdown and can leave Firestore on **8080** or Auth on **9099**. If `./start.sh` then says the port is busy, use the kill command it prints. `kill <pid>` with “no such process” means Java already exited — 8080 is free.
 
 Then **Stop** any running Flutter session. In Run and Debug pick **Firebase in Depth (emulator)** and press the green play **there** (not F5 on an open file — that is Chrome / cloud). Chrome still opens; that is the device. Without `./start.sh`, Home has no catalog.
 
@@ -480,12 +488,12 @@ cd firebase_in_depth
 fvm flutter run -d chrome --dart-define=USE_FIREBASE_EMULATOR=true
 ```
 
-This app starts **only Firestore** (`--only firestore`) plus the UI. Advanced Concepts starts **Functions + Firestore** in one suite. Both want Firestore **8080** and UI **4000**, so only one `start.sh` at a time. If `./start.sh` says 8080 is busy, a leftover emulator Java process is still running — it prints the kill command.
+This app starts **Firestore + Auth** (`--only firestore,auth`) plus the UI. Advanced Concepts starts **Functions + Firestore** in one suite. Both want Firestore **8080** and UI **4000**, so only one `start.sh` at a time. If `./start.sh` says 8080 or 9099 is busy, a leftover emulator process is still running — it prints the kill command.
 
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**72.3%** line coverage (994 of 1374 lines).
+**73.8%** line coverage (1318 of 1786 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -565,5 +573,13 @@ The screen does not fetch on load. Each button is one read, except **Listen** wh
 Names follow the feature, like Sealed Lab — no extra `Firestore` / `Course` prefix. **Contracts** (`CourseLabDataSource`, `CourseLabRepository`) live under **Course Lab** (`course_lab/data`, `course_lab/domain`). Fundamentals is presentation only and **uses that repository**. **`*Impl`** lives in `*_impl.dart`; the repository test is `*_impl_test.dart`. The lab is the **screen**; the blocks are `ReadSection`, `QuerySection`, `LessonsSection`, `RealtimeSection`. Collection group is `collectionGroup('lessons').orderBy('seqNo')` in the data source impl. Realtime is `snapshots()` + `docChanges`; increment is `FieldValue.increment`. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course`, `Tutor`, and `Lesson` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
 
 Why the failing queries fail: [Performance guarantees and indexes](#performance-guarantees-and-indexes). Nested vs all lessons: [Collection group queries](#collection-group-queries). Live updates: [Realtime snapshots](#realtime-snapshots) — **Listen**, then increment or edit `participants` in the Console. `first` / `take(n)` are in that section.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
+
+---
+
+## Credits
+
+Login / sign-up card layout (split illustration + form, the two panes swapping sides) is inspired by [Interactive Login/SignUp Page Design in Figma](https://www.youtube.com/watch?v=GT6eykcOdvU&t=43s).
 
 <p align="right"><a href="#readme-top">back to top</a></p>

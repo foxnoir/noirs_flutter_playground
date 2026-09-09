@@ -7,6 +7,7 @@ extension AppFailureMessage on AppFailure {
       NetworkFailure() => l10n.errorNetwork,
       NotFoundFailure() => l10n.errorNotFound,
       PermissionFailure() => l10n.errorPermission,
+      AuthFailure() => l10n.authSignInFailed,
       InvalidQueryFailure(:final detail) =>
         (detail == null || detail.isEmpty) ? l10n.errorInvalidQuery : detail,
       UnknownFailure() => l10n.errorOccurred,

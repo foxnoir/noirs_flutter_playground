@@ -555,6 +555,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Couldn\'t load courses. Try again later.'**
   String get courseLabLoadError;
+
+  /// Login card title and submit label.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get signIn;
+
+  /// Registration card title and submit label.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign up'**
+  String get signUp;
+
+  /// Header button that opens the login cards.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in / Sign up'**
+  String get signInSignUp;
+
+  /// Account menu item that clears the session.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get signOut;
+
+  /// Registration display-name field. Not sent to Auth yet.
+  ///
+  /// In en, this message translates to:
+  /// **'User name'**
+  String get authUserName;
+
+  /// Login email field.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get authEmail;
+
+  /// Login password field.
+  ///
+  /// In en, this message translates to:
+  /// **'Password'**
+  String get authPassword;
+
+  /// Login footer link. No action yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgot password?'**
+  String get authForgotPassword;
+
+  /// Student role shown in the account menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Student'**
+  String get authRoleStudent;
+
+  /// Tutor role shown in the account menu.
+  ///
+  /// In en, this message translates to:
+  /// **'Tutor'**
+  String get authRoleTutor;
+
+  /// Wrong credentials or Auth emulator unreachable.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t sign in. Check email and password.'**
+  String get authSignInFailed;
+
+  /// Registration failed, usually because the email is taken.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t create that account. Try a different email.'**
+  String get authSignUpFailed;
+
+  /// Login footer link that opens registration.
+  ///
+  /// In en, this message translates to:
+  /// **'Create an account'**
+  String get authNeedAccount;
+
+  /// Registration footer link that opens sign-in.
+  ///
+  /// In en, this message translates to:
+  /// **'Already have an account?'**
+  String get authHaveAccount;
 }
 
 class _AppLocalizationsDelegate

@@ -13,6 +13,7 @@ sealed class AppFailure implements Exception {
       NetworkException() => const NetworkFailure(),
       NotFoundException() => const NotFoundFailure(),
       PermissionException() => const PermissionFailure(),
+      AuthException() => const AuthFailure(),
       InvalidQueryException(:final detail) => InvalidQueryFailure(
         detail: detail,
       ),
@@ -40,6 +41,10 @@ final class NotFoundFailure extends AppFailure {
 
 final class PermissionFailure extends AppFailure {
   const PermissionFailure();
+}
+
+final class AuthFailure extends AppFailure {
+  const AuthFailure();
 }
 
 final class InvalidQueryFailure extends AppFailure {

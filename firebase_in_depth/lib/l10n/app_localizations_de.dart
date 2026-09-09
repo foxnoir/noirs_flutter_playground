@@ -280,4 +280,48 @@ class AppLocalizationsDe extends AppLocalizations {
   @override
   String get courseLabLoadError =>
       'Die Kurse konnten nicht geladen werden. Versuch es später noch einmal.';
+
+  @override
+  String get signIn => 'Anmelden';
+
+  @override
+  String get signUp => 'Registrieren';
+
+  @override
+  String get signInSignUp => 'Anmelden / Registrieren';
+
+  @override
+  String get signOut => 'Abmelden';
+
+  @override
+  String get authUserName => 'Benutzername';
+
+  @override
+  String get authEmail => 'E-Mail';
+
+  @override
+  String get authPassword => 'Passwort';
+
+  @override
+  String get authForgotPassword => 'Passwort vergessen?';
+
+  @override
+  String get authRoleStudent => 'Schüler';
+
+  @override
+  String get authRoleTutor => 'Tutor';
+
+  @override
+  String get authSignInFailed =>
+      'Anmeldung fehlgeschlagen. E-Mail und Passwort prüfen.';
+
+  @override
+  String get authSignUpFailed =>
+      'Konto konnte nicht erstellt werden. Andere E-Mail versuchen.';
+
+  @override
+  String get authNeedAccount => 'Konto erstellen';
+
+  @override
+  String get authHaveAccount => 'Schon ein Konto?';
 }

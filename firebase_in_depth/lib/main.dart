@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_in_depth/core/firebase/firebase_emulator.dart';
 import 'package:firebase_in_depth/core/router/app_router.dart';
@@ -25,6 +26,10 @@ void main() async {
       FirebaseFirestore.instance.useFirestoreEmulator(
         FirebaseEmulator.host,
         FirebaseEmulator.firestorePort,
+      );
+      await FirebaseAuth.instance.useAuthEmulator(
+        FirebaseEmulator.host,
+        FirebaseEmulator.authPort,
       );
     }
   }

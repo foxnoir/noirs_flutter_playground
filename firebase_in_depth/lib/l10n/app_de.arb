@@ -318,5 +318,61 @@
   "courseLabLoadError": "Die Kurse konnten nicht geladen werden. Versuch es später noch einmal.",
   "@courseLabLoadError": {
     "description": "Course catalog failed to load. Names the content, not the infrastructure."
+  },
+  "signIn": "Anmelden",
+  "@signIn": {
+    "description": "Login card title and submit label."
+  },
+  "signUp": "Registrieren",
+  "@signUp": {
+    "description": "Registration card title and submit label."
+  },
+  "signInSignUp": "Anmelden / Registrieren",
+  "@signInSignUp": {
+    "description": "Header button that opens the login cards."
+  },
+  "signOut": "Abmelden",
+  "@signOut": {
+    "description": "Account menu item that clears the session."
+  },
+  "authUserName": "Benutzername",
+  "@authUserName": {
+    "description": "Registration display-name field. Not sent to Auth yet."
+  },
+  "authEmail": "E-Mail",
+  "@authEmail": {
+    "description": "Login email field."
+  },
+  "authPassword": "Passwort",
+  "@authPassword": {
+    "description": "Login password field."
+  },
+  "authForgotPassword": "Passwort vergessen?",
+  "@authForgotPassword": {
+    "description": "Login footer link. No action yet."
+  },
+  "authRoleStudent": "Schüler",
+  "@authRoleStudent": {
+    "description": "Student role shown in the account menu."
+  },
+  "authRoleTutor": "Tutor",
+  "@authRoleTutor": {
+    "description": "Tutor role shown in the account menu."
+  },
+  "authSignInFailed": "Anmeldung fehlgeschlagen. E-Mail und Passwort prüfen.",
+  "@authSignInFailed": {
+    "description": "Wrong credentials or Auth emulator unreachable."
+  },
+  "authSignUpFailed": "Konto konnte nicht erstellt werden. Andere E-Mail versuchen.",
+  "@authSignUpFailed": {
+    "description": "Registration failed, usually because the email is taken."
+  },
+  "authNeedAccount": "Konto erstellen",
+  "@authNeedAccount": {
+    "description": "Login footer link that opens registration."
+  },
+  "authHaveAccount": "Schon ein Konto?",
+  "@authHaveAccount": {
+    "description": "Registration footer link that opens sign-in."
   }
 }

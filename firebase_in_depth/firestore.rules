@@ -2,19 +2,42 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function userDoc() {
+      return get(/databases/$(database)/documents/users/$(request.auth.uid));
+    }
+
+    function isTutor() {
+      return signedIn() && userDoc().data.role == 'tutor';
+    }
+
+    match /users/{userId} {
+      allow read: if signedIn() && request.auth.uid == userId;
+      allow create: if signedIn() &&
+        request.auth.uid == userId &&
+        request.resource.data.role == 'student' &&
+        request.resource.data.email is string;
+      allow update, delete: if false;
+    }
+
     match /courses/{courseId} {
       allow read: if true;
-      allow create, delete: if false;
-      allow update: if request.resource.data
-              .diff(resource.data)
-              .affectedKeys()
-              .hasOnly(['participants']) &&
+      allow create, delete: if isTutor();
+      allow update: if isTutor() || (
+        request.resource.data
+            .diff(resource.data)
+            .affectedKeys()
+            .hasOnly(['participants']) &&
         request.resource.data.participants is int &&
-        request.resource.data.participants >= 0;
+        request.resource.data.participants >= 0
+      );
 
       match /lessons/{lessonId} {
         allow read: if true;
-        allow write: if false;
+        allow write: if isTutor();
       }
     }
 

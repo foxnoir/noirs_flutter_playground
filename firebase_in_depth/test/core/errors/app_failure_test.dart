@@ -20,6 +20,10 @@ void main() {
       AppFailure.fromException(const PermissionException()),
       const PermissionFailure(),
     );
+    expect(
+      AppFailure.fromException(const AuthException()),
+      const AuthFailure(),
+    );
   });
 
   test('from maps exceptions, failures, and unknown objects', () {

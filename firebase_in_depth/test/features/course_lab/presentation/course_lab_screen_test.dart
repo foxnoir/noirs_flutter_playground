@@ -184,13 +184,30 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Retry'), findsOneWidget);
-    expect(find.byType(GradientButton), findsOneWidget);
+    expect(find.widgetWithText(GradientButton, 'Retry'), findsOneWidget);
     expect(find.byType(TextButton), findsNothing);
+
+    final retryInk = tester.widget<Ink>(
+      find.descendant(
+        of: find.widgetWithText(GradientButton, 'Retry'),
+        matching: find.byType(Ink),
+      ),
+    );
+    final retryGradient =
+        (retryInk.decoration! as BoxDecoration).gradient! as LinearGradient;
+    expect(retryGradient.colors, [
+      AppColor.secondaryContainer,
+      AppColor.secondary,
+    ]);
+    expect(
+      tester.widget<Text>(find.text('Retry')).style?.color,
+      AppColor.teal,
+    );
 
     final errorText = tester.getRect(
       find.text("Couldn't load courses. Try again later."),
     );
-    final retry = tester.getRect(find.byType(GradientButton));
+    final retry = tester.getRect(find.widgetWithText(GradientButton, 'Retry'));
     expect(retry.left, closeTo(errorText.left, 8));
     expect(
       retry.top - errorText.bottom,
@@ -213,7 +230,7 @@ void main() {
       find.text("Couldn't load courses. Try again later.").hitTestable(),
     );
     final advancedRetry = tester.getRect(
-      find.byType(GradientButton).hitTestable(),
+      find.widgetWithText(GradientButton, 'Retry').hitTestable(),
     );
     final advancedPanel = tester.getRect(panel(CourseLabTrack.advanced));
     expect(
@@ -240,7 +257,7 @@ void main() {
       find.text("Couldn't load courses. Try again later.").hitTestable(),
     );
     final expertRetry = tester.getRect(
-      find.byType(GradientButton).hitTestable(),
+      find.widgetWithText(GradientButton, 'Retry').hitTestable(),
     );
     expect(expertRetry.right, closeTo(expertError.right, 8));
     expect(

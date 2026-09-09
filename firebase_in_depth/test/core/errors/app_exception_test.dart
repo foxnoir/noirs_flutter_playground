@@ -36,5 +36,11 @@ void main() {
       ),
       const PermissionException(),
     );
+    expect(
+      AppException.fromFirebase(
+        FirebaseException(plugin: 'firebase_auth', code: 'invalid-credential'),
+      ),
+      const AuthException(),
+    );
   });
 }

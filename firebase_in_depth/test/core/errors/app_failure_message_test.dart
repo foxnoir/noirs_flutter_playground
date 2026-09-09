@@ -30,6 +30,10 @@ void main() {
       const UnknownFailure().message(l10n),
       'Unfortunately, an error occurred.',
     );
+    expect(
+      const AuthFailure().message(l10n),
+      "Couldn't sign in. Check email and password.",
+    );
   });
 
   test('localizedError maps exceptions the same way', () {

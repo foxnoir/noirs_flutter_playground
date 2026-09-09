@@ -1,5 +1,6 @@
 import 'package:firebase_in_depth/core/router/app_router_names.dart';
 import 'package:firebase_in_depth/core/theme/app_breakpoint.dart';
+import 'package:firebase_in_depth/features/auth/presentation/widgets/desktop_header_account.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -24,31 +25,50 @@ class DesktopHeader extends StatelessWidget {
           constraints: const BoxConstraints(maxWidth: AppBreakpoint.contentMax),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-            child: Row(
-              children: [
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: _HeaderLink(
-                      label: l10n.navHome,
-                      selected: currentRoute == AppRouteNames.landing,
-                      style: Theme.of(context).textTheme.titleLarge,
-                      onTap: () => _go(context, AppRouteNames.landing),
+            child: SizedBox(
+              height: 40,
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: _HeaderLink(
+                        label: l10n.navHome,
+                        selected: currentRoute == AppRouteNames.landing,
+                        style: Theme.of(context).textTheme.titleLarge,
+                        onTap: () => _go(context, AppRouteNames.landing),
+                      ),
                     ),
                   ),
-                ),
-                _HeaderLink(
-                  label: l10n.navFundamentals,
-                  selected: currentRoute == AppRouteNames.fundamentals,
-                  onTap: () => _go(context, AppRouteNames.fundamentals),
-                ),
-                const SizedBox(width: 20),
-                _HeaderLink(
-                  label: l10n.navLab,
-                  selected: currentRoute == AppRouteNames.home,
-                  onTap: () => _go(context, AppRouteNames.home),
-                ),
-              ],
+                  Expanded(
+                    flex: 3,
+                    child: FittedBox(
+                      fit: BoxFit.scaleDown,
+                      alignment: Alignment.centerRight,
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _HeaderLink(
+                            label: l10n.navFundamentals,
+                            selected:
+                                currentRoute == AppRouteNames.fundamentals,
+                            onTap: () =>
+                                _go(context, AppRouteNames.fundamentals),
+                          ),
+                          const SizedBox(width: 20),
+                          _HeaderLink(
+                            label: l10n.navLab,
+                            selected: currentRoute == AppRouteNames.home,
+                            onTap: () => _go(context, AppRouteNames.home),
+                          ),
+                          const SizedBox(width: 24),
+                          DesktopHeaderAccount(currentRoute: currentRoute),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -101,6 +121,7 @@ class _HeaderLink extends StatelessWidget {
               label,
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
+              softWrap: false,
               style: base?.copyWith(color: color, fontWeight: FontWeight.w600),
             ),
           ),

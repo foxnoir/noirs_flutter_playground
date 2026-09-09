@@ -318,5 +318,61 @@
   "courseLabLoadError": "Couldn't load courses. Try again later.",
   "@courseLabLoadError": {
     "description": "Course catalog failed to load. Names the content, not the infrastructure."
+  },
+  "signIn": "Sign in",
+  "@signIn": {
+    "description": "Login card title and submit label."
+  },
+  "signUp": "Sign up",
+  "@signUp": {
+    "description": "Registration card title and submit label."
+  },
+  "signInSignUp": "Sign in / Sign up",
+  "@signInSignUp": {
+    "description": "Header button that opens the login cards."
+  },
+  "signOut": "Sign out",
+  "@signOut": {
+    "description": "Account menu item that clears the session."
+  },
+  "authUserName": "User name",
+  "@authUserName": {
+    "description": "Registration display-name field. Not sent to Auth yet."
+  },
+  "authEmail": "Email",
+  "@authEmail": {
+    "description": "Login email field."
+  },
+  "authPassword": "Password",
+  "@authPassword": {
+    "description": "Login password field."
+  },
+  "authForgotPassword": "Forgot password?",
+  "@authForgotPassword": {
+    "description": "Login footer link. No action yet."
+  },
+  "authRoleStudent": "Student",
+  "@authRoleStudent": {
+    "description": "Student role shown in the account menu."
+  },
+  "authRoleTutor": "Tutor",
+  "@authRoleTutor": {
+    "description": "Tutor role shown in the account menu."
+  },
+  "authSignInFailed": "Couldn't sign in. Check email and password.",
+  "@authSignInFailed": {
+    "description": "Wrong credentials or Auth emulator unreachable."
+  },
+  "authSignUpFailed": "Couldn't create that account. Try a different email.",
+  "@authSignUpFailed": {
+    "description": "Registration failed, usually because the email is taken."
+  },
+  "authNeedAccount": "Create an account",
+  "@authNeedAccount": {
+    "description": "Login footer link that opens registration."
+  },
+  "authHaveAccount": "Already have an account?",
+  "@authHaveAccount": {
+    "description": "Registration footer link that opens sign-in."
   }
 }

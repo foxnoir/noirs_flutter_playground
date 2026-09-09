@@ -1,5 +1,6 @@
 import 'package:firebase_in_depth/core/router/app_router_names.dart';
 import 'package:firebase_in_depth/core/router/page_not_found_screen.dart';
+import 'package:firebase_in_depth/features/auth/presentation/auth_login_screen.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_screen.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/features/landing/presentation/landing_screen.dart';
@@ -27,6 +28,11 @@ final goRouterProvider = Provider<GoRouter>((ref) {
             builder: (context, state) {
               return const FirebaseFundamentalsScreen();
             },
+          ),
+          GoRoute(
+            path: AppRoutePaths.login,
+            name: AppRouteNames.login,
+            builder: (context, state) => const AuthLoginScreen(),
           ),
         ],
       ),

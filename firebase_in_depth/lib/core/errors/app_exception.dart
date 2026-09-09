@@ -10,6 +10,13 @@ sealed class AppException implements Exception {
     return switch (exception.code) {
       'not-found' => const NotFoundException(),
       'permission-denied' => const PermissionException(),
+      'user-not-found' ||
+      'wrong-password' ||
+      'invalid-credential' ||
+      'invalid-email' ||
+      'user-disabled' ||
+      'email-already-in-use' ||
+      'weak-password' => const AuthException(),
       'invalid-argument' ||
       'failed-precondition' => InvalidQueryException(exception.message),
       _ => const NetworkException(),
@@ -27,6 +34,10 @@ final class NotFoundException extends AppException {
 
 final class PermissionException extends AppException {
   const PermissionException();
+}
+
+final class AuthException extends AppException {
+  const AuthException();
 }
 
 /// Firestore refused the query (two inequalities, missing index, …).

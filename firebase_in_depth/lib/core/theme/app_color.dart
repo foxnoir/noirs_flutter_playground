@@ -8,12 +8,16 @@ abstract final class AppColor {
   /// Lighter purple. Advanced Course Lab tab.
   static const primaryContainer = Color(0xFFD0B6EB);
 
-  /// Pale turquoise. Course book fills and Beginner Course Lab tab.
+  /// Pale turquoise. Course book fills, Beginner Course Lab tab, '
+  /// auth gradient end.
   static const secondary = Color(0xFF9CD1D0);
   static const secondaryContainer = Color(0xFFA8E2DC);
   static const tertiary = Color(0xFFC7EFFB);
 
-  /// Readable turquoise. Text on secondary fills.
+  /// Near-white turquoise. Auth button gradient start.
+  static const secondarySoft = Color(0xFFEAF8F7);
+
+  /// Readable turquoise. Text on secondary fills and light auth buttons.
   static const teal = Color(0xFF0E6971);
 
   /// Dark purple. Section titles (`titleLarge`) and Expert Course Lab tab.

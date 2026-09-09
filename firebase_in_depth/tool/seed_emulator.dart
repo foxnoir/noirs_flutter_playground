@@ -1,11 +1,15 @@
 import 'dart:convert';
 import 'dart:io';
 
-/// Upserts the course catalog into the local Firestore emulator.
-/// Bypasses rules with the emulator `owner` token.
+/// Upserts the course catalog and lab Auth users into the local emulators.
+/// Firestore writes bypass rules with the emulator `owner` token.
+/// Auth users exist only in the Auth emulator (UI: http://127.0.0.1:4000/auth),
+/// not in the cloud Firebase Console.
 const _project = 'fir-in-depth-813e4';
 const _base =
     'http://127.0.0.1:8080/v1/projects/$_project/databases/(default)/documents';
+const _authBase = 'http://127.0.0.1:9099/identitytoolkit.googleapis.com/v1';
+const _authKey = 'fake-api-key';
 
 final _tutor = _map({
   'name': _str('Noir'),
@@ -15,6 +19,15 @@ final _tutor = _map({
 void main() async {
   final client = HttpClient();
   try {
+    for (final account in _accounts) {
+      final uid = await _ensureAuthUser(client, account);
+      await _patch(client, 'users/$uid', {
+        'fields': {'email': _str(account.email), 'role': _str(account.role)},
+      });
+      stdout.writeln(
+        'user ${account.email} ($uid) ${account.role} ${account.provider}',
+      );
+    }
     for (final course in _courses) {
       await _patch(client, 'courses/${course.id}', {
         'fields': _courseFields(course),
@@ -52,6 +65,122 @@ Future<void> _patch(
     throw StateError('${response.statusCode} $path $text');
   }
 }
+
+Future<String> _ensureAuthUser(HttpClient client, _AuthSeed account) async {
+  if (account.password != null) {
+    return _ensurePasswordUser(
+      client,
+      email: account.email,
+      password: account.password!,
+    );
+  }
+  return _ensureGoogleUser(client, email: account.email);
+}
+
+Future<String> _ensurePasswordUser(
+  HttpClient client, {
+  required String email,
+  required String password,
+}) async {
+  final signUp = await _authPost(client, 'accounts:signUp', {
+    'email': email,
+    'password': password,
+    'returnSecureToken': true,
+  });
+  if (signUp.statusCode < 400) {
+    return _localId(signUp.body);
+  }
+  if (signUp.body.contains('EMAIL_EXISTS')) {
+    final signIn = await _authPost(client, 'accounts:signInWithPassword', {
+      'email': email,
+      'password': password,
+      'returnSecureToken': true,
+    });
+    if (signIn.statusCode >= 400) {
+      throw StateError('auth sign-in ${signIn.statusCode} ${signIn.body}');
+    }
+    return _localId(signIn.body);
+  }
+  throw StateError('auth sign-up ${signUp.statusCode} ${signUp.body}');
+}
+
+/// Auth emulator accepts a JSON claims blob as a fake Google ID token.
+/// Same `sub` + email always maps to the same emulator user.
+Future<String> _ensureGoogleUser(
+  HttpClient client, {
+  required String email,
+}) async {
+  final claims = jsonEncode({
+    'sub': 'google-$email',
+    'email': email,
+    'email_verified': true,
+    'name': email,
+  });
+  final signIn = await _authPost(client, 'accounts:signInWithIdp', {
+    'requestUri': 'http://localhost',
+    'postBody':
+        'id_token=${Uri.encodeQueryComponent(claims)}&providerId=google.com',
+    'returnIdpCredential': true,
+    'returnSecureToken': true,
+  });
+  if (signIn.statusCode >= 400) {
+    throw StateError('auth google ${signIn.statusCode} ${signIn.body}');
+  }
+  return _localId(signIn.body);
+}
+
+Future<({int statusCode, String body})> _authPost(
+  HttpClient client,
+  String path,
+  Map<String, Object?> body,
+) async {
+  final uri = Uri.parse(
+    '$_authBase/$path',
+  ).replace(queryParameters: {'key': _authKey});
+  final request = await client.postUrl(uri);
+  request.headers.contentType = ContentType.json;
+  request.write(jsonEncode(body));
+  final response = await request.close();
+  final text = await response.transform(utf8.decoder).join();
+  return (statusCode: response.statusCode, body: text);
+}
+
+String _localId(String body) {
+  final json = jsonDecode(body) as Map<String, dynamic>;
+  return json['localId'] as String;
+}
+
+class _AuthSeed {
+  const _AuthSeed.password({
+    required this.email,
+    required this.password,
+    required this.role,
+  }) : provider = 'password';
+
+  const _AuthSeed.google({required this.email, required this.role})
+    : password = null,
+      provider = 'google';
+
+  final String email;
+  final String? password;
+  final String role;
+  final String provider;
+}
+
+const _accounts = [
+  _AuthSeed.password(
+    email: 'student@lab.dev',
+    password: '',
+    role: 'student',
+  ),
+  _AuthSeed.password(
+    email: 'tutor@lab.dev',
+    password: '',
+    role: 'tutor',
+  ),
+  _AuthSeed.google(email: 'student.google@lab.dev', role: 'student'),
+  _AuthSeed.google(email: 'tutor.google@lab.dev', role: 'tutor'),
+];
 
 Map<String, Object?> _courseFields(_CourseSeed course) {
   return {

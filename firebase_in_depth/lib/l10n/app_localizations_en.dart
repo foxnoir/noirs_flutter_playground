@@ -277,4 +277,47 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get courseLabLoadError => 'Couldn\'t load courses. Try again later.';
+
+  @override
+  String get signIn => 'Sign in';
+
+  @override
+  String get signUp => 'Sign up';
+
+  @override
+  String get signInSignUp => 'Sign in / Sign up';
+
+  @override
+  String get signOut => 'Sign out';
+
+  @override
+  String get authUserName => 'User name';
+
+  @override
+  String get authEmail => 'Email';
+
+  @override
+  String get authPassword => 'Password';
+
+  @override
+  String get authForgotPassword => 'Forgot password?';
+
+  @override
+  String get authRoleStudent => 'Student';
+
+  @override
+  String get authRoleTutor => 'Tutor';
+
+  @override
+  String get authSignInFailed => 'Couldn\'t sign in. Check email and password.';
+
+  @override
+  String get authSignUpFailed =>
+      'Couldn\'t create that account. Try a different email.';
+
+  @override
+  String get authNeedAccount => 'Create an account';
+
+  @override
+  String get authHaveAccount => 'Already have an account?';
 }
