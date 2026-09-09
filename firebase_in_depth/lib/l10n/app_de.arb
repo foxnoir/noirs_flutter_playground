@@ -289,27 +289,27 @@
   },
   "courseLabBeginnerHeadline": "Mit den Kana anfangen.",
   "@courseLabBeginnerHeadline": {
-    "description": "Beginner panel headline on Course Lab Home."
+    "description": "Beginner panel headline on Course Lab screen."
   },
   "courseLabBeginnerBody": "Hiragana, Katakana und die ersten Grammatikmuster. Kurze Lektionen für einen Abend.",
   "@courseLabBeginnerBody": {
-    "description": "Beginner panel body on Course Lab Home."
+    "description": "Beginner panel body on Course Lab screen."
   },
   "courseLabAdvancedHeadline": "Höflichkeit, Zählwörter und mehr.",
   "@courseLabAdvancedHeadline": {
-    "description": "Advanced panel headline on Course Lab Home."
+    "description": "Advanced panel headline on Course Lab screen."
   },
   "courseLabAdvancedBody": "Höflichkeitsformen für die Arbeit, Zählwörter und die Lautwörter, die im Lehrbuch nur einmal vorkommen. Kana wird vorausgesetzt.",
   "@courseLabAdvancedBody": {
-    "description": "Advanced panel body on Course Lab Home."
+    "description": "Advanced panel body on Course Lab screen."
   },
   "courseLabExpertHeadline": "Jenseits vom Lehrbuch.",
   "@courseLabExpertHeadline": {
-    "description": "Expert panel headline on Course Lab Home."
+    "description": "Expert panel headline on Course Lab screen."
   },
   "courseLabExpertBody": "Zeitungsüberschriften, klassisches Japanisch und Hörverstehen im N1-Tempo.",
   "@courseLabExpertBody": {
-    "description": "Expert panel body on Course Lab Home."
+    "description": "Expert panel body on Course Lab screen."
   },
   "courseLabEmpty": "In diesem Track gibt es noch keine Kurse.",
   "@courseLabEmpty": {

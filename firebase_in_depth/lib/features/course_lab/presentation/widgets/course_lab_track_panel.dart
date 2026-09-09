@@ -164,7 +164,7 @@ class _TrackLoadError extends StatelessWidget {
           textAlign: track.textAlign,
           style: Theme.of(context).textTheme.bodySmall,
         ),
-        const SizedBox(height: 20),
+        const SizedBox(height: CourseLabTrackPanel.textGap),
         GradientButton(label: l10n.retry, onPressed: onRetry),
       ],
     );

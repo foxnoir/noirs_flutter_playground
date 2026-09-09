@@ -1,5 +1,5 @@
 import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
-import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_home_screen.dart';
+import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_screen.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/features/landing/presentation/landing_screen.dart';
 import 'package:firebase_in_depth/main.dart';
@@ -57,13 +57,13 @@ void main() {
     expect(courseLab.dx, greaterThan(fundamentals.dx));
   });
 
-  testWidgets('Landing navigates to Course Lab Home', (tester) async {
+  testWidgets('Landing navigates to Course Lab', (tester) async {
     await tester.pumpWidget(app());
 
     await tester.tap(find.text('Firebase Course Lab'));
     await tester.pumpAndSettle();
 
-    expect(find.byType(CourseLabHomeScreen), findsOneWidget);
+    expect(find.byType(CourseLabScreen), findsOneWidget);
     expect(find.text('Home'), findsOneWidget);
     expect(find.text('Firebase Course Lab'), findsOneWidget);
     expect(find.text('Lab'), findsOneWidget);

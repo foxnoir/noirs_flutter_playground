@@ -2,8 +2,9 @@ import 'package:firebase_in_depth/core/errors/app_failure.dart';
 import 'package:firebase_in_depth/core/router/page_not_found_screen.dart';
 import 'package:firebase_in_depth/core/theme/theme.dart';
 import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
-import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_home_screen.dart';
+import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_screen.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
+import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_panel.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/features/landing/presentation/landing_screen.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
@@ -45,7 +46,7 @@ void main() {
   testWidgets('every DesktopScaffold page uses bg.webp', (tester) async {
     for (final home in const [
       LandingScreen(),
-      CourseLabHomeScreen(),
+      CourseLabScreen(),
       FirebaseFundamentalsScreen(),
       PageNotFoundScreen(),
     ]) {
@@ -56,8 +57,8 @@ void main() {
     expect(AppBackground.asset, 'assets/img/bg.webp');
   });
 
-  testWidgets('Home lists beginner courses and slides tracks', (tester) async {
-    await pump(tester, const CourseLabHomeScreen());
+  testWidgets('Course Lab lists beginner courses and slides tracks', (tester) async {
+    await pump(tester, const CourseLabScreen());
     await tester.pumpAndSettle();
 
     expect(find.text('Start with the kana.'), findsOneWidget);
@@ -148,7 +149,7 @@ void main() {
   ) async {
     await pump(
       tester,
-      const CourseLabHomeScreen(),
+      const CourseLabScreen(),
       repository: const FakeCourseLabRepository(),
     );
     await tester.pumpAndSettle();
@@ -171,7 +172,7 @@ void main() {
   ) async {
     await pump(
       tester,
-      const CourseLabHomeScreen(),
+      const CourseLabScreen(),
       repository: const FakeCourseLabRepository(error: NetworkFailure()),
     );
     await tester.pumpAndSettle();
@@ -189,8 +190,7 @@ void main() {
     );
     final retry = tester.getRect(find.byType(GradientButton));
     expect(retry.left, closeTo(errorText.left, 8));
-    expect(retry.top - errorText.bottom, greaterThan(12));
-    expect(retry.top - errorText.bottom, lessThan(32));
+    expect(retry.top - errorText.bottom, closeTo(CourseLabTrackPanel.textGap, 2));
     expect(find.text('The backend is not running.'), findsNothing);
     expect(
       find.text('Could not reach the server. Check your connection.'),
@@ -215,8 +215,10 @@ void main() {
       (advancedRetry.center.dx - advancedPanel.center.dx).abs(),
       lessThan(24),
     );
-    expect(advancedRetry.top - advancedError.bottom, greaterThan(12));
-    expect(advancedRetry.top - advancedError.bottom, lessThan(32));
+    expect(
+      advancedRetry.top - advancedError.bottom,
+      closeTo(CourseLabTrackPanel.textGap, 2),
+    );
     expect(find.byKey(const Key('no-courses-dragon-advanced')), findsOneWidget);
     final advancedDragon = tester.widget<Image>(
       find.byKey(const Key('no-courses-dragon-advanced')),
@@ -236,7 +238,9 @@ void main() {
       find.byType(GradientButton).hitTestable(),
     );
     expect(expertRetry.right, closeTo(expertError.right, 8));
-    expect(expertRetry.top - expertError.bottom, greaterThan(12));
-    expect(expertRetry.top - expertError.bottom, lessThan(32));
+    expect(
+      expertRetry.top - expertError.bottom,
+      closeTo(CourseLabTrackPanel.textGap, 2),
+    );
   });
 }

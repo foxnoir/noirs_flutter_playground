@@ -5,14 +5,14 @@ import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:firebase_in_depth/shared_widgets/desktop_scaffold.dart';
 import 'package:flutter/material.dart';
 
-class CourseLabHomeScreen extends StatefulWidget {
-  const CourseLabHomeScreen({super.key});
+class CourseLabScreen extends StatefulWidget {
+  const CourseLabScreen({super.key});
 
   @override
-  State<CourseLabHomeScreen> createState() => _CourseLabHomeScreenState();
+  State<CourseLabScreen> createState() => _CourseLabScreenState();
 }
 
-class _CourseLabHomeScreenState extends State<CourseLabHomeScreen> {
+class _CourseLabScreenState extends State<CourseLabScreen> {
   final _pages = PageController();
   var _track = CourseLabTrack.beginner;
 

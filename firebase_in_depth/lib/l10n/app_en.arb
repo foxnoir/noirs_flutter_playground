@@ -289,27 +289,27 @@
   },
   "courseLabBeginnerHeadline": "Start with the kana.",
   "@courseLabBeginnerHeadline": {
-    "description": "Beginner panel headline on Course Lab Home."
+    "description": "Beginner panel headline on Course Lab screen."
   },
   "courseLabBeginnerBody": "Hiragana, katakana, and the first grammar patterns. Short lessons you can finish in an evening.",
   "@courseLabBeginnerBody": {
-    "description": "Beginner panel body on Course Lab Home."
+    "description": "Beginner panel body on Course Lab screen."
   },
   "courseLabAdvancedHeadline": "Polite speech, counters, and more.",
   "@courseLabAdvancedHeadline": {
-    "description": "Advanced panel headline on Course Lab Home."
+    "description": "Advanced panel headline on Course Lab screen."
   },
   "courseLabAdvancedBody": "Polite language for work, counting things, and the sound words textbooks mention once. Kana is assumed.",
   "@courseLabAdvancedBody": {
-    "description": "Advanced panel body on Course Lab Home."
+    "description": "Advanced panel body on Course Lab screen."
   },
   "courseLabExpertHeadline": "Past the textbook.",
   "@courseLabExpertHeadline": {
-    "description": "Expert panel headline on Course Lab Home."
+    "description": "Expert panel headline on Course Lab screen."
   },
   "courseLabExpertBody": "Newspaper headlines, classical Japanese, and listening at N1 speed.",
   "@courseLabExpertBody": {
-    "description": "Expert panel body on Course Lab Home."
+    "description": "Expert panel body on Course Lab screen."
   },
   "courseLabEmpty": "No courses in this track yet.",
   "@courseLabEmpty": {

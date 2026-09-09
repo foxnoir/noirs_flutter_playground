@@ -508,37 +508,37 @@ abstract class AppLocalizations {
   /// **'Expert course'**
   String get courseLabExpert;
 
-  /// Beginner panel headline on Course Lab Home.
+  /// Beginner panel headline on Course Lab screen.
   ///
   /// In en, this message translates to:
   /// **'Start with the kana.'**
   String get courseLabBeginnerHeadline;
 
-  /// Beginner panel body on Course Lab Home.
+  /// Beginner panel body on Course Lab screen.
   ///
   /// In en, this message translates to:
   /// **'Hiragana, katakana, and the first grammar patterns. Short lessons you can finish in an evening.'**
   String get courseLabBeginnerBody;
 
-  /// Advanced panel headline on Course Lab Home.
+  /// Advanced panel headline on Course Lab screen.
   ///
   /// In en, this message translates to:
   /// **'Polite speech, counters, and more.'**
   String get courseLabAdvancedHeadline;
 
-  /// Advanced panel body on Course Lab Home.
+  /// Advanced panel body on Course Lab screen.
   ///
   /// In en, this message translates to:
   /// **'Polite language for work, counting things, and the sound words textbooks mention once. Kana is assumed.'**
   String get courseLabAdvancedBody;
 
-  /// Expert panel headline on Course Lab Home.
+  /// Expert panel headline on Course Lab screen.
   ///
   /// In en, this message translates to:
   /// **'Past the textbook.'**
   String get courseLabExpertHeadline;
 
-  /// Expert panel body on Course Lab Home.
+  /// Expert panel body on Course Lab screen.
   ///
   /// In en, this message translates to:
   /// **'Newspaper headlines, classical Japanese, and listening at N1 speed.'**
