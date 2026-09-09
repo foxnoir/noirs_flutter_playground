@@ -1,0 +1,5 @@
+email	password	role	provider
+student@lab.dev		student	password
+tutor@lab.dev		tutor	password
+student.google@lab.dev		student	google
+tutor.google@lab.dev		tutor	google

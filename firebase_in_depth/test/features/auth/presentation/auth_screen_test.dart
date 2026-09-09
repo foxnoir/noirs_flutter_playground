@@ -131,7 +131,7 @@ void main() {
     await tester.pumpAndSettle();
 
     await tester.enterText(find.byKey(const Key('auth-email')), 'new@lab.dev');
-    await tester.enterText(find.byKey(const Key('auth-password')), '');
+    await tester.enterText(find.byKey(const Key('auth-password')), 'secret');
     await tester.tap(find.byKey(const Key('auth-submit')));
     await tester.pumpAndSettle();
 
@@ -183,7 +183,7 @@ void main() {
       find.byKey(const Key('auth-email')),
       'tutor@lab.dev',
     );
-    await tester.enterText(find.byKey(const Key('auth-password')), '');
+    await tester.enterText(find.byKey(const Key('auth-password')), 'secret');
     await tester.tap(find.byKey(const Key('auth-submit')));
     await tester.pumpAndSettle();
 

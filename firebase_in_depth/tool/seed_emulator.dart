@@ -1,7 +1,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-/// Upserts the course catalog and lab Auth users into the local emulators.
+/// Upserts the course catalog into the local Firestore emulator.
+/// Auth users come from gitignored `tool/emulator-users.local.tsv` when present.
 /// Firestore writes bypass rules with the emulator `owner` token.
 /// Auth users exist only in the Auth emulator (UI: http://127.0.0.1:4000/auth),
 /// not in the cloud Firebase Console.
@@ -19,7 +20,8 @@ final _tutor = _map({
 void main() async {
   final client = HttpClient();
   try {
-    for (final account in _accounts) {
+    final accounts = _loadAccounts();
+    for (final account in accounts) {
       final uid = await _ensureAuthUser(client, account);
       await _patch(client, 'users/$uid', {
         'fields': {'email': _str(account.email), 'role': _str(account.role)},
@@ -151,15 +153,12 @@ String _localId(String body) {
 }
 
 class _AuthSeed {
-  const _AuthSeed.password({
+  const _AuthSeed({
     required this.email,
-    required this.password,
     required this.role,
-  }) : provider = 'password';
-
-  const _AuthSeed.google({required this.email, required this.role})
-    : password = null,
-      provider = 'google';
+    required this.provider,
+    this.password,
+  });
 
   final String email;
   final String? password;
@@ -167,20 +166,66 @@ class _AuthSeed {
   final String provider;
 }
 
-const _accounts = [
-  _AuthSeed.password(
-    email: 'student@lab.dev',
-    password: '',
-    role: 'student',
-  ),
-  _AuthSeed.password(
-    email: 'tutor@lab.dev',
-    password: '',
-    role: 'tutor',
-  ),
-  _AuthSeed.google(email: 'student.google@lab.dev', role: 'student'),
-  _AuthSeed.google(email: 'tutor.google@lab.dev', role: 'tutor'),
-];
+const _usersPath = 'tool/emulator-users.local.tsv';
+
+List<_AuthSeed> _loadAccounts() {
+  final file = File(_usersPath);
+  if (!file.existsSync()) {
+    stdout.writeln(
+      'No $_usersPath — skip Auth seed. Copy '
+      'tool/emulator-users.example.tsv to $_usersPath and fill the password column.',
+    );
+    return const [];
+  }
+
+  final lines = file
+      .readAsLinesSync()
+      .map((line) => line.trim())
+      .where((line) => line.isNotEmpty && !line.startsWith('#'))
+      .toList();
+  if (lines.isEmpty) return const [];
+
+  final header = lines.first.split('\t');
+  if (header.length < 4 ||
+      header[0] != 'email' ||
+      header[1] != 'password' ||
+      header[2] != 'role' ||
+      header[3] != 'provider') {
+    throw StateError(
+      '$_usersPath must start with: email\\tpassword\\trole\\tprovider',
+    );
+  }
+
+  return [for (final line in lines.skip(1)) _accountFromRow(line.split('\t'))];
+}
+
+_AuthSeed _accountFromRow(List<String> cells) {
+  if (cells.length < 4) {
+    throw StateError('$_usersPath row needs email, password, role, provider');
+  }
+  final email = cells[0].trim();
+  final password = cells[1].trim();
+  final role = cells[2].trim();
+  final provider = cells[3].trim();
+  if (email.isEmpty || role.isEmpty) {
+    throw StateError('$_usersPath row needs email and role');
+  }
+  if (provider == 'google') {
+    return _AuthSeed(email: email, role: role, provider: provider);
+  }
+  if (provider != 'password') {
+    throw StateError('$_usersPath unknown provider "$provider"');
+  }
+  if (password.isEmpty) {
+    throw StateError('$_usersPath: fill password for $email');
+  }
+  return _AuthSeed(
+    email: email,
+    password: password,
+    role: role,
+    provider: provider,
+  );
+}
 
 Map<String, Object?> _courseFields(_CourseSeed course) {
   return {

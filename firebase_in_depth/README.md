@@ -73,6 +73,7 @@
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#local-emulator">Local emulator</a></li>
+        <li><a href="#emulator-test-users">Emulator test users</a></li>
         <li><a href="#test-coverage">Test coverage</a></li>
       </ul>
     </li>
@@ -470,14 +471,7 @@ cd firebase_in_depth
 ./start.sh
 ```
 
-Leave that Terminal open. UI: [http://127.0.0.1:4000](http://127.0.0.1:4000). Auth users are in the emulator **Authentication** tab ([http://127.0.0.1:4000/auth](http://127.0.0.1:4000/auth)), not in the cloud Firebase Console. When the UI is up, `start.sh` seeds `courses` (and nested `lessons` on Hiragana, Kanji, Keigo, Newspaper), plus Auth users:
-
-- `student@lab.dev` — email/password, role `student`
-- `tutor@lab.dev` — email/password, role `tutor`
-- `student.google@lab.dev` — Google provider only, role `student`
-- `tutor.google@lab.dev` — Google provider only, role `tutor`
-
-Credentials for the email/password pair live in `tool/seed_emulator.dart`, not here. The Auth screen signs in or signs up with that pair. Google accounts show in the emulator Auth tab; the app has no Google button yet.
+Leave that Terminal open. UI: [http://127.0.0.1:4000](http://127.0.0.1:4000). When the UI is up, `start.sh` seeds `courses` (and nested `lessons` on Hiragana, Kanji, Keigo, Newspaper). That seed is still required: the catalog is not something you type in by hand. Auth users are separate — see [Emulator test users](#emulator-test-users).
 
 **Stop:** one **Ctrl+C** in that Terminal, then wait. You want `Export complete`, then the prompt back. That writes `emulator-data/` for the next start. A second Ctrl+C (or `kill -9`) skips a clean Java shutdown and can leave Firestore on **8080** or Auth on **9099**. If `./start.sh` then says the port is busy, use the kill command it prints. `kill <pid>` with “no such process” means Java already exited — 8080 is free.
 
@@ -489,6 +483,23 @@ fvm flutter run -d chrome --dart-define=USE_FIREBASE_EMULATOR=true
 ```
 
 This app starts **Firestore + Auth** (`--only firestore,auth`) plus the UI. Advanced Concepts starts **Functions + Firestore** in one suite. Both want Firestore **8080** and UI **4000**, so only one `start.sh` at a time. If `./start.sh` says 8080 or 9099 is busy, a leftover emulator process is still running — it prints the kill command.
+
+### Emulator test users
+
+Lab accounts live in the **Auth emulator**, not in the cloud Firebase Console. The Auth tab is [http://127.0.0.1:4000/auth](http://127.0.0.1:4000/auth). You need them to try Sign in on **Firebase in Depth (emulator)**. Sign up in the app always creates a **student**. A **tutor** needs an Auth user plus `users/{uid}` in Firestore with `role: tutor`.
+
+Passwords are not in git. Copy the example table, fill the password column, keep that copy local:
+
+```
+cd firebase_in_depth
+cp tool/emulator-users.example.tsv tool/emulator-users.local.tsv
+```
+
+`tool/emulator-users.local.tsv` is gitignored. Columns: `email`, `password`, `role`, `provider` (`password` or `google`). Google rows leave password empty. The app has no Google button yet.
+
+When `start.sh` sees the emulator UI, `tool/seed_emulator.dart` still writes the **course catalog**. If the local table exists, it also creates those Auth users and the matching `users/{uid}` docs (email + role). If the table is missing, courses still seed and Auth is skipped.
+
+**By hand** (same result, no table): Authentication → **Add user** → email/password. Copy the UID. Firestore → `users` → document id = that UID → fields `email` (string) and `role` (`student` or `tutor`). A clean Ctrl+C exports Auth into `emulator-data/`, so those users come back on the next start.
 
 ### Test coverage
 

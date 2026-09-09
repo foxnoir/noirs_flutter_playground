@@ -24,6 +24,8 @@ echo "Leave this Terminal open. Then run Flutter with"
 echo "  --dart-define=USE_FIREBASE_EMULATOR=true"
 echo "or the launch config Firebase in Depth (emulator)."
 echo "Ctrl+C exports Firestore + Auth to emulator-data/ (restored on the next start)."
+echo "Auth table (gitignored): tool/emulator-users.local.tsv"
+echo "  copy from tool/emulator-users.example.tsv and fill passwords."
 echo
 
 (

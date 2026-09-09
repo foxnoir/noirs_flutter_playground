@@ -53,6 +53,7 @@ firebase-debug.*.log
 firestore-debug.log
 ui-debug.log
 emulator-data/
+tool/emulator-users.local.tsv
 
 # Widget Preview related
 .widget_preview/

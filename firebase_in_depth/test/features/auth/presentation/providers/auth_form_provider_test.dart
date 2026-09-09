@@ -40,7 +40,7 @@ void main() {
 
     await container
         .read(authFormProvider.notifier)
-        .submit(signUp: false, email: 'noir@lab.dev', password: '');
+        .submit(signUp: false, email: 'noir@lab.dev', password: 'secret');
 
     expect(container.read(authProvider)?.email, 'noir@lab.dev');
     expect(container.read(authFormProvider).submitting, isFalse);
@@ -74,7 +74,7 @@ void main() {
 
     await container
         .read(authFormProvider.notifier)
-        .submit(signUp: false, email: '', password: '');
+        .submit(signUp: false, email: '', password: 'secret');
 
     expect(container.read(authProvider), isNull);
     expect(container.read(authFormProvider).submitting, isFalse);

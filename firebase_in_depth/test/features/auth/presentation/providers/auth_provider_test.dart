@@ -19,7 +19,7 @@ void main() {
 
     await container
         .read(authProvider.notifier)
-        .signIn(email: '  noir@lab.dev  ', password: '');
+        .signIn(email: '  noir@lab.dev  ', password: 'secret');
 
     final session = container.read(authProvider);
     expect(session?.email, 'noir@lab.dev');
@@ -36,7 +36,7 @@ void main() {
 
     await container
         .read(authProvider.notifier)
-        .signIn(email: 'tutor@lab.dev', password: '');
+        .signIn(email: 'tutor@lab.dev', password: 'secret');
 
     expect(container.read(authProvider)?.role.name, 'tutor');
   });
@@ -47,7 +47,7 @@ void main() {
 
     await container
         .read(authProvider.notifier)
-        .signUp(email: 'new@lab.dev', password: '');
+        .signUp(email: 'new@lab.dev', password: 'secret');
 
     final session = container.read(authProvider);
     expect(session?.email, 'new@lab.dev');
