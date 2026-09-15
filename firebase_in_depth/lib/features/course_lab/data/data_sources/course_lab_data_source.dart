@@ -4,4 +4,6 @@ abstract interface class CourseLabDataSource {
   Future<List<CourseModel>> fetchCourses();
 
   Future<List<CourseModel>> fetchCoursesByCategory(String category);
+
+  Future<void> deleteCourse(String id);
 }

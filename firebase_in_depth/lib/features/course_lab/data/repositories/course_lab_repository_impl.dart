@@ -26,6 +26,19 @@ class CourseLabRepositoryImpl implements CourseLabRepository {
     return _map(() => _dataSource.fetchCoursesByCategory(category));
   }
 
+  @override
+  Future<void> deleteCourse(String id) {
+    return _run(() => _dataSource.deleteCourse(id));
+  }
+
+  Future<void> _run(Future<void> Function() run) async {
+    try {
+      await run();
+    } on AppException catch (e) {
+      throw AppFailure.fromException(e);
+    }
+  }
+
   Future<List<Course>> _map(Future<List<CourseModel>> Function() run) async {
     try {
       final models = await run();

@@ -19,15 +19,27 @@ import '../../firebase_fundamentals/fake_firebase_fundamentals_repository.dart';
 void main() {
   Future<void> pump(
     WidgetTester tester, {
-    FakeCourseLabRepository repository = const FakeCourseLabRepository(
-      courses: [sampleCourse, sampleAdvancedCourse, sampleExpertCourse],
-    ),
-  }) {
-    return tester.pumpWidget(
+    FakeCourseLabRepository? repository,
+    String? email,
+  }) async {
+    final auth = FakeAuthRepository();
+    if (email != null) {
+      await auth.signIn(email: email, password: 'secret');
+    }
+    await tester.pumpWidget(
       ProviderScope(
         overrides: [
-          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
-          courseLabRepositoryProvider.overrideWithValue(repository),
+          authRepositoryProvider.overrideWithValue(auth),
+          courseLabRepositoryProvider.overrideWithValue(
+            repository ??
+                const FakeCourseLabRepository(
+                  courses: [
+                    sampleCourse,
+                    sampleAdvancedCourse,
+                    sampleExpertCourse,
+                  ],
+                ),
+          ),
           firebaseFundamentalsRepositoryProvider.overrideWithValue(
             const FakeFirebaseFundamentalsRepository(),
           ),
@@ -43,9 +55,14 @@ void main() {
     );
   }
 
-  testWidgets('lists catalog cards with placeholder, copy, and track', (
+  testWidgets('lists catalog cards in beginner and advanced columns', (
     tester,
   ) async {
+    tester.view.physicalSize = const Size(1200, 900);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
     await pump(tester);
     await tester.pumpAndSettle();
 
@@ -68,6 +85,20 @@ void main() {
       find.image(const AssetImage(MyCourseCard.videoPlaceholderAsset)),
       findsNWidgets(3),
     );
+    expect(find.byKey(const Key('my-courses-create')), findsNothing);
+    expect(find.text('Edit'), findsNothing);
+    expect(
+      find.byKey(const Key('my-course-delete-hiragana-from-zero')),
+      findsNothing,
+    );
+
+    final beginner = tester.getRect(
+      find.byKey(const Key('my-courses-column-beginner')),
+    );
+    final advanced = tester.getRect(
+      find.byKey(const Key('my-courses-column-advanced')),
+    );
+    expect(beginner.left, lessThan(advanced.left));
   });
 
   testWidgets('shows an empty library message', (tester) async {
@@ -90,5 +121,79 @@ void main() {
       findsOneWidget,
     );
     expect(find.text('Retry'), findsOneWidget);
+  });
+
+  testWidgets('tutors can delete a course from Firestore via the catalog', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final repository = FakeCourseLabRepository(
+      courses: List.of([
+        sampleCourse,
+        sampleAdvancedCourse,
+        sampleExpertCourse,
+      ]),
+    );
+    await pump(tester, repository: repository, email: 'tutor@lab.dev');
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('my-courses-create')), findsOneWidget);
+    expect(find.text('Edit'), findsNWidgets(3));
+
+    await tester.tap(find.byKey(const Key('my-courses-create')));
+    await tester.pumpAndSettle();
+    expect(find.byType(MyCourseCard), findsNWidgets(3));
+
+    await tester.tap(
+      find.byKey(const Key('my-course-delete-hiragana-from-zero')),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Hiragana from Zero'), findsNothing);
+    expect(find.byType(MyCourseCard), findsNWidgets(2));
+    expect(repository.courses, [sampleAdvancedCourse, sampleExpertCourse]);
+  });
+
+  testWidgets('a blocked delete keeps the card and shows the rules error', (
+    tester,
+  ) async {
+    await pump(
+      tester,
+      repository: const FakeCourseLabRepository(
+        courses: [sampleCourse],
+        deleteError: PermissionFailure(),
+      ),
+      email: 'tutor@lab.dev',
+    );
+    await tester.pumpAndSettle();
+
+    await tester.tap(
+      find.byKey(const Key('my-course-delete-hiragana-from-zero')),
+    );
+    await tester.pumpAndSettle();
+
+    expect(find.text('Hiragana from Zero'), findsOneWidget);
+    expect(
+      find.text(
+        'Permission denied. Firestore rules blocked this read or write.',
+      ),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('students do not get tutor actions', (tester) async {
+    await pump(tester, email: 'noir@lab.dev');
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('my-courses-create')), findsNothing);
+    expect(find.text('Edit'), findsNothing);
+    expect(
+      find.byKey(const Key('my-course-delete-hiragana-from-zero')),
+      findsNothing,
+    );
   });
 }

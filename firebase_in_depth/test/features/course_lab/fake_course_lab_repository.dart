@@ -3,10 +3,15 @@ import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dar
 import 'package:firebase_in_depth/features/course_lab/domain/repositories/course_lab_repository.dart';
 
 class FakeCourseLabRepository implements CourseLabRepository {
-  const FakeCourseLabRepository({this.courses = const [], this.error});
+  const FakeCourseLabRepository({
+    this.courses = const [],
+    this.error,
+    this.deleteError,
+  });
 
   final List<Course> courses;
   final AppFailure? error;
+  final AppFailure? deleteError;
 
   @override
   Future<List<Course>> fetchCourses() async {
@@ -23,5 +28,12 @@ class FakeCourseLabRepository implements CourseLabRepository {
       for (final course in courses)
         if (course.categories.contains(category)) course,
     ]..sort((a, b) => a.seqNo.compareTo(b.seqNo));
+  }
+
+  @override
+  Future<void> deleteCourse(String id) async {
+    final thrown = deleteError ?? error;
+    if (thrown != null) throw thrown;
+    courses.removeWhere((course) => course.id == id);
   }
 }

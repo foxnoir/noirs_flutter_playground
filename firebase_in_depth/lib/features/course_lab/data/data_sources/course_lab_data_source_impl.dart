@@ -40,6 +40,11 @@ class CourseLabDataSourceImpl implements CourseLabDataSource {
     });
   }
 
+  @override
+  Future<void> deleteCourse(String id) {
+    return _guard(() => _collection.doc(id).delete());
+  }
+
   List<CourseModel> _models(
     Iterable<QueryDocumentSnapshot<Map<String, dynamic>>> docs,
   ) {

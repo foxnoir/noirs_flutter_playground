@@ -57,4 +57,27 @@ void main() {
       throwsA(const NetworkFailure()),
     );
   });
+
+  test('deleteCourse removes the document from the catalog', () async {
+    final repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(
+        models: List.of([sampleCourseModel, sampleAdvancedCourseModel]),
+      ),
+    );
+
+    await repository.deleteCourse(sampleCourse.id);
+
+    expect(await repository.fetchCourses(), [sampleAdvancedCourse]);
+  });
+
+  test('deleteCourse maps a permission exception', () async {
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(error: PermissionException()),
+    );
+
+    await expectLater(
+      repository.deleteCourse(sampleCourse.id),
+      throwsA(const PermissionFailure()),
+    );
+  });
 }

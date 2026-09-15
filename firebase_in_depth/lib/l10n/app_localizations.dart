@@ -658,6 +658,24 @@ abstract class AppLocalizations {
   /// **'Course video placeholder'**
   String get myCoursesVideoPlaceholder;
 
+  /// Tutor plus button. Create is not wired yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Create course'**
+  String get myCoursesCreate;
+
+  /// Tutor edit button. Edit is not wired yet.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get myCoursesEdit;
+
+  /// Tutor delete button. Deletes the Firestore course document.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get myCoursesDelete;
+
   /// Student role shown in the account menu.
   ///
   /// In en, this message translates to:

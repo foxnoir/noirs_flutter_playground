@@ -387,6 +387,18 @@
   "@myCoursesVideoPlaceholder": {
     "description": "Semantics for the fake video image on a My Course card."
   },
+  "myCoursesCreate": "Kurs erstellen",
+  "@myCoursesCreate": {
+    "description": "Tutor plus button. Create is not wired yet."
+  },
+  "myCoursesEdit": "Bearbeiten",
+  "@myCoursesEdit": {
+    "description": "Tutor edit button. Edit is not wired yet."
+  },
+  "myCoursesDelete": "Löschen",
+  "@myCoursesDelete": {
+    "description": "Tutor delete button. Deletes the Firestore course document."
+  },
   "authRoleStudent": "Schüler",
   "@authRoleStudent": {
     "description": "Student role shown in the account menu."

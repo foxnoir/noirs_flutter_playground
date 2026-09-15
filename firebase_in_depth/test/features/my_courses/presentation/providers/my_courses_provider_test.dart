@@ -45,4 +45,39 @@ void main() {
 
     expect(sub.read().error, const NetworkFailure());
   });
+
+  test('deleteCourse drops the course after a successful write', () async {
+    final repository = FakeCourseLabRepository(
+      courses: List.of([sampleCourse, sampleAdvancedCourse]),
+    );
+    final container = containerWith(repository);
+    final sub = container.listen(myCoursesProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container.read(myCoursesProvider.notifier).reload();
+    await container
+        .read(myCoursesProvider.notifier)
+        .deleteCourse(sampleCourse.id);
+
+    expect(sub.read().value, [sampleAdvancedCourse]);
+    expect(repository.courses, [sampleAdvancedCourse]);
+  });
+
+  test('deleteCourse leaves the list when the write is denied', () async {
+    const repository = FakeCourseLabRepository(
+      courses: [sampleCourse],
+      deleteError: PermissionFailure(),
+    );
+    final container = containerWith(repository);
+    final sub = container.listen(myCoursesProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container.read(myCoursesProvider.notifier).reload();
+
+    await expectLater(
+      container.read(myCoursesProvider.notifier).deleteCourse(sampleCourse.id),
+      throwsA(const PermissionFailure()),
+    );
+    expect(sub.read().value, [sampleCourse]);
+  });
 }

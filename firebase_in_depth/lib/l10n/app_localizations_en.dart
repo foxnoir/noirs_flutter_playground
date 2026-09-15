@@ -334,6 +334,15 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myCoursesVideoPlaceholder => 'Course video placeholder';
 
   @override
+  String get myCoursesCreate => 'Create course';
+
+  @override
+  String get myCoursesEdit => 'Edit';
+
+  @override
+  String get myCoursesDelete => 'Delete';
+
+  @override
   String get authRoleStudent => 'Student';
 
   @override

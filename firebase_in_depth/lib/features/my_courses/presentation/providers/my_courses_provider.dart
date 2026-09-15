@@ -24,4 +24,18 @@ class MyCoursesNotifier extends Notifier<AsyncValue<List<Course>>> {
     if (!ref.mounted) return;
     state = next;
   }
+
+  Future<void> deleteCourse(String id) async {
+    await ref.read(courseLabRepositoryProvider).deleteCourse(id);
+    if (!ref.mounted) return;
+    final current = state.value;
+    if (current == null) {
+      await reload();
+      return;
+    }
+    state = AsyncData([
+      for (final course in current)
+        if (course.id != id) course,
+    ]);
+  }
 }

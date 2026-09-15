@@ -4,4 +4,6 @@ abstract interface class CourseLabRepository {
   Future<List<Course>> fetchCourses();
 
   Future<List<Course>> fetchCoursesByCategory(String category);
+
+  Future<void> deleteCourse(String id);
 }

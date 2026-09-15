@@ -1,14 +1,23 @@
+import 'package:firebase_in_depth/core/theme/app_color.dart';
 import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
+import 'package:firebase_in_depth/shared_widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 
 class MyCourseCard extends StatelessWidget {
-  const MyCourseCard({required this.course, super.key});
+  const MyCourseCard({
+    required this.course,
+    this.onEdit,
+    this.onDelete,
+    super.key,
+  });
 
   static const videoPlaceholderAsset = 'assets/img/video_placeholder.png';
 
   final Course course;
+  final VoidCallback? onEdit;
+  final VoidCallback? onDelete;
 
   @override
   Widget build(BuildContext context) {
@@ -16,6 +25,7 @@ class MyCourseCard extends StatelessWidget {
     final theme = Theme.of(context);
     final scheme = theme.colorScheme;
     final track = CourseLabTrack.fromCategories(course.categories);
+    final canManage = onEdit != null || onDelete != null;
 
     return DecoratedBox(
       decoration: BoxDecoration(
@@ -52,14 +62,32 @@ class MyCourseCard extends StatelessWidget {
                       height: 1.45,
                     ),
                   ),
-                  const SizedBox(height: 12),
-                  Text(
-                    track.label(l10n),
-                    style: theme.textTheme.labelMedium?.copyWith(
-                      color: track.tabAccent(theme),
-                      fontWeight: FontWeight.w600,
+                  if (canManage) ...[
+                    const SizedBox(height: 16),
+                    Row(
+                      children: [
+                        if (onEdit != null)
+                          GradientButton(
+                            key: Key('my-course-edit-${course.id}'),
+                            label: l10n.myCoursesEdit,
+                            compact: true,
+                            onPressed: onEdit,
+                          ),
+                        const Spacer(),
+                        if (onDelete != null)
+                          IconButton(
+                            key: Key('my-course-delete-${course.id}'),
+                            tooltip: l10n.myCoursesDelete,
+                            onPressed: onDelete,
+                            color: AppColor.onError,
+                            style: IconButton.styleFrom(
+                              backgroundColor: scheme.error,
+                            ),
+                            icon: const Icon(Icons.delete_outline),
+                          ),
+                      ],
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),

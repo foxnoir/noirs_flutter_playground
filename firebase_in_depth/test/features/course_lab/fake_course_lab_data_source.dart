@@ -24,4 +24,11 @@ class FakeCourseLabDataSource implements CourseLabDataSource {
         if (model.categories.contains(category)) model,
     ]..sort((a, b) => a.seqNo.compareTo(b.seqNo));
   }
+
+  @override
+  Future<void> deleteCourse(String id) async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
+    models.removeWhere((model) => model.id == id);
+  }
 }

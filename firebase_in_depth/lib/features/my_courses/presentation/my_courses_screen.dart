@@ -2,7 +2,11 @@ import 'package:firebase_in_depth/core/errors/app_failure.dart';
 import 'package:firebase_in_depth/core/errors/app_failure_message.dart';
 import 'package:firebase_in_depth/core/router/app_router_names.dart';
 import 'package:firebase_in_depth/core/theme/app_breakpoint.dart';
+import 'package:firebase_in_depth/core/theme/app_color.dart';
+import 'package:firebase_in_depth/features/auth/domain/entities/auth_session.dart';
+import 'package:firebase_in_depth/features/auth/presentation/providers/auth_provider.dart';
 import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dart';
+import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
 import 'package:firebase_in_depth/features/my_courses/presentation/providers/my_courses_provider.dart';
 import 'package:firebase_in_depth/features/my_courses/presentation/widgets/my_course_card.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
@@ -18,6 +22,7 @@ class MyCoursesScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = AppLocalizations.of(context);
     final courses = ref.watch(myCoursesProvider);
+    final isTutor = ref.watch(authProvider)?.role == AuthRole.tutor;
 
     return DesktopScaffold(
       currentRoute: AppRouteNames.myCourses,
@@ -26,9 +31,28 @@ class MyCoursesScreen extends ConsumerWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(
-              l10n.myCourses,
-              style: Theme.of(context).textTheme.displaySmall,
+            Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    l10n.myCourses,
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                ),
+                if (isTutor)
+                  IconButton.filled(
+                    key: const Key('my-courses-create'),
+                    tooltip: l10n.myCoursesCreate,
+                    onPressed: () {
+                      // Create stays visual until the next lab.
+                    },
+                    style: IconButton.styleFrom(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      foregroundColor: AppColor.teal,
+                    ),
+                    icon: const Icon(Icons.add),
+                  ),
+              ],
             ),
             const SizedBox(height: 20),
             Expanded(
@@ -52,7 +76,10 @@ class MyCoursesScreen extends ConsumerWidget {
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
-                AsyncData(:final value) => _MyCoursesGrid(courses: value),
+                AsyncData(:final value) => _MyCoursesBoard(
+                  courses: value,
+                  isTutor: isTutor,
+                ),
               },
             ),
           ],
@@ -62,64 +89,141 @@ class MyCoursesScreen extends ConsumerWidget {
   }
 }
 
-class _MyCoursesGrid extends StatelessWidget {
-  const _MyCoursesGrid({required this.courses});
+class _MyCoursesBoard extends StatelessWidget {
+  const _MyCoursesBoard({required this.courses, required this.isTutor});
 
   final List<Course> courses;
+  final bool isTutor;
 
   @override
   Widget build(BuildContext context) {
+    final grouped = {
+      for (final track in CourseLabTrack.values)
+        track: [
+          for (final course in courses)
+            if (CourseLabTrack.fromCategories(course.categories) == track)
+              course,
+        ],
+    };
+
     return LayoutBuilder(
       builder: (context, constraints) {
         final wide = constraints.maxWidth >= AppBreakpoint.mediumMin;
+        final beginner = grouped[CourseLabTrack.beginner] ?? const <Course>[];
+        final advanced = grouped[CourseLabTrack.advanced] ?? const <Course>[];
+        final expert = grouped[CourseLabTrack.expert] ?? const <Course>[];
+
         if (!wide) {
-          return ListView.separated(
-            itemCount: courses.length,
-            separatorBuilder: (context, index) => const SizedBox(height: 16),
-            itemBuilder: (context, index) {
-              return MyCourseCard(
-                key: Key('my-course-card-${courses[index].id}'),
-                course: courses[index],
-              );
-            },
+          return ListView(
+            children: [
+              for (final track in CourseLabTrack.values)
+                _MyCoursesTrackColumn(
+                  track: track,
+                  courses: grouped[track] ?? const <Course>[],
+                  isTutor: isTutor,
+                ),
+            ],
           );
         }
 
-        final rows = <List<Course>>[];
-        for (var i = 0; i < courses.length; i += 2) {
-          rows.add(
-            courses.sublist(i, i + 2 > courses.length ? courses.length : i + 2),
-          );
-        }
-
-        return ListView.separated(
-          itemCount: rows.length,
-          separatorBuilder: (context, index) => const SizedBox(height: 16),
-          itemBuilder: (context, index) {
-            final row = rows[index];
-            return Row(
+        return ListView(
+          children: [
+            Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Expanded(
-                  child: MyCourseCard(
-                    key: Key('my-course-card-${row[0].id}'),
-                    course: row[0],
+                  child: _MyCoursesTrackColumn(
+                    track: CourseLabTrack.beginner,
+                    courses: beginner,
+                    isTutor: isTutor,
                   ),
                 ),
                 const SizedBox(width: 16),
                 Expanded(
-                  child: row.length == 2
-                      ? MyCourseCard(
-                          key: Key('my-course-card-${row[1].id}'),
-                          course: row[1],
-                        )
-                      : const SizedBox.shrink(),
+                  child: _MyCoursesTrackColumn(
+                    track: CourseLabTrack.advanced,
+                    courses: advanced,
+                    isTutor: isTutor,
+                  ),
                 ),
               ],
-            );
-          },
+            ),
+            if (expert.isNotEmpty)
+              _MyCoursesTrackColumn(
+                track: CourseLabTrack.expert,
+                courses: expert,
+                isTutor: isTutor,
+              ),
+          ],
         );
       },
     );
+  }
+}
+
+class _MyCoursesTrackColumn extends ConsumerWidget {
+  const _MyCoursesTrackColumn({
+    required this.track,
+    required this.courses,
+    required this.isTutor,
+  });
+
+  final CourseLabTrack track;
+  final List<Course> courses;
+  final bool isTutor;
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 24),
+      child: Column(
+        key: Key('my-courses-column-${track.name}'),
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(
+            track.label(l10n),
+            style: theme.textTheme.titleLarge?.copyWith(
+              color: track.tabAccent(theme),
+            ),
+          ),
+          const SizedBox(height: 12),
+          for (final course in courses) ...[
+            MyCourseCard(
+              key: Key('my-course-card-${course.id}'),
+              course: course,
+              onEdit: isTutor
+                  ? () {
+                      // Edit stays visual until the next lab.
+                    }
+                  : null,
+              onDelete: isTutor
+                  ? () => _deleteCourse(context, ref, course.id)
+                  : null,
+            ),
+            const SizedBox(height: 16),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Future<void> _deleteCourse(
+    BuildContext context,
+    WidgetRef ref,
+    String id,
+  ) async {
+    final l10n = AppLocalizations.of(context);
+    final messenger = ScaffoldMessenger.of(context);
+    try {
+      await ref.read(myCoursesProvider.notifier).deleteCourse(id);
+    } on Object catch (error) {
+      if (!context.mounted) return;
+      messenger.showSnackBar(
+        SnackBar(content: Text(localizedError(l10n, error))),
+      );
+    }
   }
 }
