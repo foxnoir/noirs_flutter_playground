@@ -29,6 +29,24 @@ void main() {
     expect(await repository.fetchCoursesByCategory('ADVANCE'), isEmpty);
   });
 
+  test('fetchCourses returns the catalog sorted by seqNo', () async {
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(
+        models: [
+          sampleExpertCourseModel,
+          sampleCourseModel,
+          sampleAdvancedCourseModel,
+        ],
+      ),
+    );
+
+    expect(await repository.fetchCourses(), [
+      sampleCourse,
+      sampleAdvancedCourse,
+      sampleExpertCourse,
+    ]);
+  });
+
   test('maps a data-source exception to AppFailure', () async {
     const repository = CourseLabRepositoryImpl(
       FakeCourseLabDataSource(error: NetworkException()),

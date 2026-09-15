@@ -15,6 +15,13 @@ enum CourseLabTrack {
     expert => 'EXPERTS',
   };
 
+  static CourseLabTrack fromCategories(List<String> categories) {
+    for (final track in values) {
+      if (categories.contains(track.category)) return track;
+    }
+    return beginner;
+  }
+
   String get iconAsset => 'assets/icons/categories/$name.png';
 
   String label(AppLocalizations l10n) => switch (this) {

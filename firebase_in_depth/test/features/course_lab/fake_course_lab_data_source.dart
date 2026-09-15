@@ -8,6 +8,14 @@ class FakeCourseLabDataSource implements CourseLabDataSource {
   final Exception? error;
 
   @override
+  Future<List<CourseModel>> fetchCourses() async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
+    return List<CourseModel>.of(models)
+      ..sort((a, b) => a.seqNo.compareTo(b.seqNo));
+  }
+
+  @override
   Future<List<CourseModel>> fetchCoursesByCategory(String category) async {
     final thrown = error;
     if (thrown != null) throw thrown;

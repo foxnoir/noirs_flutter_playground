@@ -2,11 +2,13 @@ import 'package:firebase_in_depth/features/auth/presentation/auth_screen.dart';
 import 'package:firebase_in_depth/features/auth/presentation/providers/auth_provider.dart';
 import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
 import 'package:firebase_in_depth/features/landing/presentation/landing_screen.dart';
+import 'package:firebase_in_depth/features/my_courses/presentation/my_courses_screen.dart';
 import 'package:firebase_in_depth/main.dart';
 import 'package:firebase_in_depth/shared_widgets/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../course_lab/course_fixtures.dart';
 import '../../course_lab/fake_course_lab_repository.dart';
@@ -146,7 +148,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('new@lab.dev'), findsOneWidget);
-    expect(find.text('Student'), findsOneWidget);
+    expect(find.text('My Courses'), findsOneWidget);
+    expect(find.text('Student'), findsNothing);
   });
 
   testWidgets('login then account menu can sign out', (tester) async {
@@ -168,7 +171,8 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('noir@lab.dev'), findsOneWidget);
-    expect(find.text('Student'), findsOneWidget);
+    expect(find.text('My Courses'), findsOneWidget);
+    expect(find.text('Student'), findsNothing);
 
     await tester.tap(find.text('Sign out'));
     await tester.pumpAndSettle();
@@ -177,7 +181,9 @@ void main() {
     expect(find.byKey(const Key('header-account')), findsNothing);
   });
 
-  testWidgets('tutor@lab.dev shows Tutor in the account menu', (tester) async {
+  testWidgets('tutor@lab.dev uses the advanced icon in the account menu', (
+    tester,
+  ) async {
     await tester.pumpWidget(app());
 
     await tester.tap(find.byKey(const Key('header-auth')));
@@ -194,11 +200,45 @@ void main() {
     await tester.tap(find.byKey(const Key('header-account')));
     await tester.pumpAndSettle();
 
-    expect(find.text('Tutor'), findsOneWidget);
+    expect(find.text('My Courses'), findsOneWidget);
+    expect(find.text('Tutor'), findsNothing);
     expect(find.text('Student'), findsNothing);
     expect(
       find.image(const AssetImage('assets/icons/categories/advanced.png')),
       findsOneWidget,
     );
+  });
+
+  testWidgets('unauthenticated /my-courses redirects to login', (tester) async {
+    await tester.pumpWidget(app());
+
+    GoRouter.of(tester.element(find.byType(LandingScreen))).go('/my-courses');
+    await tester.pumpAndSettle();
+
+    expect(find.byType(AuthScreen), findsOneWidget);
+    expect(find.byType(MyCoursesScreen), findsNothing);
+  });
+
+  testWidgets('account menu opens My Courses', (tester) async {
+    await tester.pumpWidget(app());
+
+    await tester.tap(find.byKey(const Key('header-auth')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(find.byKey(const Key('auth-email')), 'noir@lab.dev');
+    await tester.enterText(find.byKey(const Key('auth-password')), 'secret');
+    await tester.tap(find.byKey(const Key('auth-submit')));
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('header-account')));
+    await tester.pumpAndSettle();
+    await tester.tap(find.byKey(const Key('header-my-courses')));
+    await tester.pumpAndSettle();
+
+    expect(find.byType(MyCoursesScreen), findsOneWidget);
+    expect(find.text('Hiragana from Zero'), findsOneWidget);
+    expect(find.text('Beginner course'), findsOneWidget);
+    expect(find.text('Advanced course'), findsOneWidget);
+    expect(find.text('Expert course'), findsOneWidget);
   });
 }

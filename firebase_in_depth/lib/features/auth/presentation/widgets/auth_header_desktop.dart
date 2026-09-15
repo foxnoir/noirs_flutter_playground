@@ -95,23 +95,29 @@ class _AccountMenu extends ConsumerWidget {
       menuChildren: [
         Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 16, 8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(session.email, style: textTheme.bodySmall),
-              const SizedBox(height: 4),
-              Text(
-                session.role == AuthRole.tutor
-                    ? l10n.authRoleTutor
-                    : l10n.authRoleStudent,
-                style: textTheme.labelMedium,
-              ),
-            ],
-          ),
+          child: Text(session.email, style: textTheme.bodySmall),
+        ),
+        MenuItemButton(
+          key: const Key('header-my-courses'),
+          onPressed: () {
+            final router = GoRouter.maybeOf(context);
+            if (router == null) return;
+            context.goNamed(AppRouteNames.myCourses);
+          },
+          child: Text(l10n.myCourses),
         ),
         const Divider(),
         MenuItemButton(
-          onPressed: () => ref.read(authProvider.notifier).signOut(),
+          onPressed: () async {
+            await ref.read(authProvider.notifier).signOut();
+            if (!context.mounted) return;
+            final router = GoRouter.maybeOf(context);
+            if (router == null) return;
+            if (GoRouterState.of(context).uri.path ==
+                '/${AppRoutePaths.myCourses}') {
+              context.goNamed(AppRouteNames.landing);
+            }
+          },
           child: Text(l10n.signOut),
         ),
       ],

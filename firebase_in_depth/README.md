@@ -121,6 +121,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - Feature folders (`presentation` / `data` / `domain`)
 - **Landing Screen** (`LandingScreen`) — desktop header + cards, GoRouter hub
 - **Firebase Course Lab** — Home with `PageView` (beginner / advanced / expert)
+- **My Courses** — signed-in library from the profile menu (student cards for now)
 - `assets/img/bg.webp` behind every page (`AppBackground`)
 - **Firebase Fundamentals** — collection / document reads, index lab, nested lessons vs collection group, realtime snapshots
 - Sealed `AppException` / `AppFailure` with l10n mapping
@@ -506,7 +507,7 @@ When `start.sh` sees the emulator UI, `tool/seed_emulator.dart` still writes the
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**73.1%** line coverage (1353 of 1852 lines).
+**73.5%** line coverage (1455 of 1979 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -553,7 +554,7 @@ Opening Home loads **all three** tracks at once: three `array-contains` queries 
 
 The Advanced page queries **`INTERMEDIATE`**, because that is what the seed actually stored (Keigo, counters, onomatopoeia). Angular’s sample used `ADVANCE` (typo). Expert queries **`EXPERTS`**. There is no `ADVANCED` value in these documents — `array-contains` is an exact string match, so a wrong token returns an empty list, not an error. The query has no `orderBy` (no extra composite index); Home sorts by `seqNo` in Dart.
 
-Course Lab owns **catalog** data + domain for `courses`: `CourseLabDataSource`, `CourseLabRepository`, models, entities. Home is presentation (`PageView`, notifier) and reads through that repository (`fetchCoursesByCategory` only). That is the product-shaped API: list tracks. It does not know about invalid queries, missing indexes, or a deny path.
+Course Lab owns **catalog** data + domain for `courses`: `CourseLabDataSource`, `CourseLabRepository`, models, entities. Home is presentation (`PageView`, notifier) and reads through that repository (`fetchCoursesByCategory`). **My Courses** (`goNamed` `my-courses`) is the signed-in library: the profile menu shows the email plus **My Courses** (not the role). Signed-out visits redirect to login. There is no enrollment yet, so the page loads the seeded catalog with `fetchCourses`. Cards use a video placeholder, short copy, and a beginner / advanced / expert badge. Tutor edit/+ comes later. It does not know about invalid queries, missing indexes, or a deny path.
 
 **Firebase Fundamentals** is the query/index/realtime **workbench**. It has its own data layer (`FirebaseFundamentalsDataSource`, `FirebaseFundamentalsRepository`). Same Firestore project and the same `courses` documents — it maps them to Course Lab’s `Course` / `Lesson` types so there is not a second catalog model. Lab-only operations live here: two-inequality and missing-index queries, collection group, listen, increment, and `fetchDeniedDocument` (`denied/lab`). A catalog repository would not expose a method whose name already means “this read is forbidden”; the workbench can, because the button is the lesson. Rules still decide. The UI catches `permission-denied`.
 

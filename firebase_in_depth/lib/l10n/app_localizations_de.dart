@@ -328,6 +328,15 @@ class AppLocalizationsDe extends AppLocalizations {
   String get authForgotPassword => 'Passwort vergessen?';
 
   @override
+  String get myCourses => 'Meine Kurse';
+
+  @override
+  String get myCoursesEmpty => 'In deiner Bibliothek sind noch keine Kurse.';
+
+  @override
+  String get myCoursesVideoPlaceholder => 'Platzhalter für Kursvideo';
+
+  @override
   String get authRoleStudent => 'Schüler';
 
   @override

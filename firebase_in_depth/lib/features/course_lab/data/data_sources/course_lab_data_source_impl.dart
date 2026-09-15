@@ -23,18 +23,30 @@ class CourseLabDataSourceImpl implements CourseLabDataSource {
   }
 
   @override
+  Future<List<CourseModel>> fetchCourses() {
+    return _guard(() async {
+      final snaps = await _collection.get(_server);
+      return _models(snaps.docs);
+    });
+  }
+
+  @override
   Future<List<CourseModel>> fetchCoursesByCategory(String category) {
     return _guard(() async {
       final snaps = await _collection
           .where('categories', arrayContains: category)
           .get(_server);
-      final models = [
-        for (final snap in snaps.docs)
-          CourseModel.fromJson({...snap.data(), 'id': snap.id}),
-      ];
-      return List<CourseModel>.of(models)
-        ..sort((a, b) => a.seqNo.compareTo(b.seqNo));
+      return _models(snaps.docs);
     });
+  }
+
+  List<CourseModel> _models(
+    Iterable<QueryDocumentSnapshot<Map<String, dynamic>>> docs,
+  ) {
+    return [
+      for (final snap in docs)
+        CourseModel.fromJson({...snap.data(), 'id': snap.id}),
+    ]..sort((a, b) => a.seqNo.compareTo(b.seqNo));
   }
 
   Future<T> _guard<T>(Future<T> Function() run) async {

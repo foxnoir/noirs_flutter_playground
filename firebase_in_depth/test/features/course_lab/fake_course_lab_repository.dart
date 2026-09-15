@@ -9,6 +9,13 @@ class FakeCourseLabRepository implements CourseLabRepository {
   final AppFailure? error;
 
   @override
+  Future<List<Course>> fetchCourses() async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
+    return List<Course>.of(courses)..sort((a, b) => a.seqNo.compareTo(b.seqNo));
+  }
+
+  @override
   Future<List<Course>> fetchCoursesByCategory(String category) async {
     final thrown = error;
     if (thrown != null) throw thrown;

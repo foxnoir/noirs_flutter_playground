@@ -17,9 +17,18 @@ class CourseLabRepositoryImpl implements CourseLabRepository {
   final CourseLabDataSource _dataSource;
 
   @override
-  Future<List<Course>> fetchCoursesByCategory(String category) async {
+  Future<List<Course>> fetchCourses() {
+    return _map(_dataSource.fetchCourses);
+  }
+
+  @override
+  Future<List<Course>> fetchCoursesByCategory(String category) {
+    return _map(() => _dataSource.fetchCoursesByCategory(category));
+  }
+
+  Future<List<Course>> _map(Future<List<CourseModel>> Function() run) async {
     try {
-      final models = await _dataSource.fetchCoursesByCategory(category);
+      final models = await run();
       return [for (final model in models) model.toEntity()];
     } on AppException catch (e) {
       throw AppFailure.fromException(e);

@@ -9,6 +9,7 @@ import 'package:firebase_in_depth/features/course_lab/presentation/widgets/cours
 import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/features/landing/presentation/landing_screen.dart';
+import 'package:firebase_in_depth/features/my_courses/presentation/my_courses_screen.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:firebase_in_depth/shared_widgets/app_background.dart';
 import 'package:firebase_in_depth/shared_widgets/gradient_button.dart';
@@ -58,6 +59,7 @@ void main() {
       LandingScreen(),
       CourseLabScreen(),
       FirebaseFundamentalsScreen(),
+      MyCoursesScreen(),
       PageNotFoundScreen(),
     ]) {
       await pump(tester, home);
@@ -275,10 +277,7 @@ void main() {
     final advancedEmptyDragon = tester.getRect(
       find.byKey(const Key('no-courses-dragon-advanced')),
     );
-    expect(
-      advancedEmptyDragon.width,
-      lessThan(advancedPanel.width * 0.3),
-    );
+    expect(advancedEmptyDragon.width, lessThan(advancedPanel.width * 0.3));
 
     await tester.tap(find.text('Expert course'));
     await tester.pumpAndSettle();

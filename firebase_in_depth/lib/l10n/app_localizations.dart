@@ -640,6 +640,24 @@ abstract class AppLocalizations {
   /// **'Forgot password?'**
   String get authForgotPassword;
 
+  /// Account menu and page title for the signed-in catalog.
+  ///
+  /// In en, this message translates to:
+  /// **'My Courses'**
+  String get myCourses;
+
+  /// My Courses empty catalog.
+  ///
+  /// In en, this message translates to:
+  /// **'No courses in your library yet.'**
+  String get myCoursesEmpty;
+
+  /// Semantics for the fake video image on a My Course card.
+  ///
+  /// In en, this message translates to:
+  /// **'Course video placeholder'**
+  String get myCoursesVideoPlaceholder;
+
   /// Student role shown in the account menu.
   ///
   /// In en, this message translates to:

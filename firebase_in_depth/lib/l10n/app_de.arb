@@ -375,6 +375,18 @@
   "@authForgotPassword": {
     "description": "Login footer link. No action yet."
   },
+  "myCourses": "Meine Kurse",
+  "@myCourses": {
+    "description": "Account menu and page title for the signed-in catalog."
+  },
+  "myCoursesEmpty": "In deiner Bibliothek sind noch keine Kurse.",
+  "@myCoursesEmpty": {
+    "description": "My Courses empty catalog."
+  },
+  "myCoursesVideoPlaceholder": "Platzhalter für Kursvideo",
+  "@myCoursesVideoPlaceholder": {
+    "description": "Semantics for the fake video image on a My Course card."
+  },
   "authRoleStudent": "Schüler",
   "@authRoleStudent": {
     "description": "Student role shown in the account menu."
