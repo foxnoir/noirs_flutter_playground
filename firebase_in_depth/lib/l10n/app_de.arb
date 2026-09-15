@@ -52,9 +52,9 @@
   "@errorNotFound": {
     "description": "Not-found failure message."
   },
-  "errorPermission": "Dieser Write ist nicht erlaubt. Deploy firestore.rules (nur participants auf einem Kurs), dann Increment erneut.",
+  "errorPermission": "Keine Berechtigung. Die Firestore-Rules haben diesen Read oder Write blockiert.",
   "@errorPermission": {
-    "description": "Permission-denied write, usually undeployed rules."
+    "description": "Permission-denied from Firestore rules (read or write)."
   },
   "errorInvalidQuery": "Diese Abfrage ist für Firestore nicht gültig.",
   "@errorInvalidQuery": {
@@ -151,6 +151,30 @@
   "fundamentalsRunIndexQuery": "Missing-Index-Query ausführen",
   "@fundamentalsRunIndexQuery": {
     "description": "Button for the missing price plus seqNo index query."
+  },
+  "fundamentalsRulesTitle": "Security Rules: Permission Denied",
+  "@fundamentalsRulesTitle": {
+    "description": "Section title for the permission-denied lab."
+  },
+  "fundamentalsRulesHint": "Die Rules verbieten `denied/lab`. Das SDK wirft `permission-denied`. Der Text steht auf dieser Karte. Network **Response** für `channel` ist das Wire-Format (`[1,26,7]`), kein lesbarer Fehler.",
+  "@fundamentalsRulesHint": {
+    "description": "Where to read the permission-denied error."
+  },
+  "fundamentalsRulesDeniedTitle": "denied/lab — allow read, write: if false",
+  "@fundamentalsRulesDeniedTitle": {
+    "description": "Monospace title for the always-deny document card."
+  },
+  "fundamentalsRulesDeniedHint": "Die Catch-all-Rule ist dieselbe Idee. Dieser Pfad ist explizit, damit Course Lab lesbar bleibt. Es braucht kein Dokument: Deny gilt, ob das Doc existiert oder nicht.",
+  "@fundamentalsRulesDeniedHint": {
+    "description": "Hint under the denied-read card."
+  },
+  "fundamentalsRunDeniedRead": "Denied Read ausführen",
+  "@fundamentalsRunDeniedRead": {
+    "description": "Button that reads the always-deny document."
+  },
+  "fundamentalsDeniedUnexpected": "Dieser Read ist durchgegangen. Prüfe, dass firestore.rules denied/lab verweigert und der Emulator die Datei geladen hat.",
+  "@fundamentalsDeniedUnexpected": {
+    "description": "Shown if the denied read unexpectedly succeeds."
   },
   "fundamentalsLessonsTitle": "Nested Collection vs Collection Group",
   "@fundamentalsLessonsTitle": {

@@ -6,6 +6,7 @@ import 'package:firebase_in_depth/features/course_lab/data/repositories/course_l
 import 'package:firebase_in_depth/features/course_lab/presentation/course_lab_screen.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_panel.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/features/landing/presentation/landing_screen.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
@@ -16,6 +17,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../auth/fake_auth_repository.dart';
+import '../../firebase_fundamentals/fake_firebase_fundamentals_repository.dart';
 import '../course_fixtures.dart';
 import '../fake_course_lab_repository.dart';
 
@@ -32,6 +34,9 @@ void main() {
         overrides: [
           authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
           courseLabRepositoryProvider.overrideWithValue(repository),
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(),
+          ),
         ],
         child: MaterialApp(
           locale: const Locale('en'),
@@ -104,13 +109,29 @@ void main() {
     );
     expect(find.text('Keigo Essentials').hitTestable(), findsOneWidget);
     expect(find.text('Hiragana from Zero').hitTestable(), findsNothing);
-    expect(find.byKey(const Key('schedule-dragon-advanced')), findsNothing);
+    expect(find.byKey(const Key('schedule-dragon-advanced')), findsOneWidget);
+    final advancedDragonImage = tester.widget<Image>(
+      find.byKey(const Key('schedule-dragon-advanced')),
+    );
+    expect(
+      (advancedDragonImage.image as AssetImage).assetName,
+      'assets/img/schedule_dragon_advanced.png',
+    );
     expect(
       tester.widget<Text>(find.text('Advanced course')).style?.color,
       AppColor.primaryContainer,
     );
 
     final advancedPanel = tester.getRect(panel(CourseLabTrack.advanced));
+    final advancedDragon = tester.getRect(
+      find.byKey(const Key('schedule-dragon-advanced')),
+    );
+    expect(
+      (advancedDragon.center.dx - advancedPanel.center.dx).abs(),
+      lessThan(24),
+    );
+    expect(advancedDragon.center.dy, greaterThan(advancedPanel.center.dy));
+    expect(advancedDragon.width, lessThan(advancedPanel.width * 0.3));
     final advancedList = tester.getRect(
       find.byKey(const Key('course-lab-list-advanced')),
     );
@@ -250,6 +271,13 @@ void main() {
     expect(
       (advancedDragon.image as AssetImage).assetName,
       'assets/img/no_courses_advanced_dragon.png',
+    );
+    final advancedEmptyDragon = tester.getRect(
+      find.byKey(const Key('no-courses-dragon-advanced')),
+    );
+    expect(
+      advancedEmptyDragon.width,
+      lessThan(advancedPanel.width * 0.3),
     );
 
     await tester.tap(find.text('Expert course'));

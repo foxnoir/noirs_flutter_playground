@@ -32,9 +32,13 @@ void main() {
     );
     expect(
       AppException.fromFirebase(
-        FirebaseException(plugin: 'cloud_firestore', code: 'permission-denied'),
+        FirebaseException(
+          plugin: 'cloud_firestore',
+          code: 'permission-denied',
+          message: "False for 'get'",
+        ),
       ),
-      const PermissionException(),
+      const PermissionException("False for 'get'"),
     );
     expect(
       AppException.fromFirebase(

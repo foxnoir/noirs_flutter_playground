@@ -1,16 +1,20 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
-import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/providers/firebase_fundamentals_provider.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import '../../../course_lab/course_fixtures.dart';
-import '../../../course_lab/fake_course_lab_repository.dart';
+import '../../fake_firebase_fundamentals_repository.dart';
 
 void main() {
-  ProviderContainer containerWith(FakeCourseLabRepository repository) {
+  ProviderContainer containerWith(
+    FakeFirebaseFundamentalsRepository repository,
+  ) {
     final container = ProviderContainer.test(
-      overrides: [courseLabRepositoryProvider.overrideWithValue(repository)],
+      overrides: [
+        firebaseFundamentalsRepositoryProvider.overrideWithValue(repository),
+      ],
     );
     addTearDown(container.dispose);
     return container;
@@ -18,7 +22,7 @@ void main() {
 
   test('readDocument stores the course', () async {
     final container = containerWith(
-      const FakeCourseLabRepository(course: sampleCourse),
+      const FakeFirebaseFundamentalsRepository(course: sampleCourse),
     );
     final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
     addTearDown(sub.close);
@@ -30,7 +34,7 @@ void main() {
 
   test('runValidQuery stores matching courses', () async {
     final container = containerWith(
-      const FakeCourseLabRepository(courses: [sampleCourse]),
+      const FakeFirebaseFundamentalsRepository(courses: [sampleCourse]),
     );
     final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
     addTearDown(sub.close);
@@ -42,7 +46,7 @@ void main() {
 
   test('runInvalidQuery stores InvalidQueryFailure', () async {
     final container = containerWith(
-      const FakeCourseLabRepository(
+      const FakeFirebaseFundamentalsRepository(
         invalidQueryError: InvalidQueryFailure(detail: 'two inequalities'),
       ),
     );
@@ -61,7 +65,7 @@ void main() {
 
   test('runCompositeQuery stores matching courses', () async {
     final container = containerWith(
-      const FakeCourseLabRepository(courses: [sampleCourse]),
+      const FakeFirebaseFundamentalsRepository(courses: [sampleCourse]),
     );
     final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
     addTearDown(sub.close);
@@ -75,7 +79,7 @@ void main() {
 
   test('runMissingIndexQuery stores the index error', () async {
     final container = containerWith(
-      const FakeCourseLabRepository(
+      const FakeFirebaseFundamentalsRepository(
         missingIndexError: InvalidQueryFailure(
           detail: 'The query requires an index.',
         ),
@@ -94,9 +98,26 @@ void main() {
     );
   });
 
+  test('runDeniedRead stores PermissionFailure', () async {
+    final container = containerWith(
+      const FakeFirebaseFundamentalsRepository(
+        deniedReadError: PermissionFailure(detail: "False for 'get'"),
+      ),
+    );
+    final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container.read(firebaseFundamentalsProvider.notifier).runDeniedRead();
+
+    expect(
+      sub.read().deniedRead?.error,
+      const PermissionFailure(detail: "False for 'get'"),
+    );
+  });
+
   test('runCollectionGroupQuery stores lessons', () async {
     final container = containerWith(
-      const FakeCourseLabRepository(lessons: [sampleLesson]),
+      const FakeFirebaseFundamentalsRepository(lessons: [sampleLesson]),
     );
     final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
     addTearDown(sub.close);
@@ -110,7 +131,7 @@ void main() {
 
   test('readNestedLessons stores lessons for the sample course', () async {
     final container = containerWith(
-      const FakeCourseLabRepository(lessons: [sampleLesson]),
+      const FakeFirebaseFundamentalsRepository(lessons: [sampleLesson]),
     );
     final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
     addTearDown(sub.close);
@@ -124,7 +145,7 @@ void main() {
 
   test('startRealtime stores the snapshot', () async {
     final container = containerWith(
-      const FakeCourseLabRepository(courses: [sampleCourse]),
+      const FakeFirebaseFundamentalsRepository(courses: [sampleCourse]),
     );
     final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
     addTearDown(sub.close);
@@ -137,7 +158,7 @@ void main() {
   });
 
   test('incrementParticipants stores AsyncData', () async {
-    final container = containerWith(const FakeCourseLabRepository());
+    final container = containerWith(const FakeFirebaseFundamentalsRepository());
     final sub = container.listen(firebaseFundamentalsProvider, (_, __) {});
     addTearDown(sub.close);
 

@@ -1,6 +1,6 @@
 import 'package:firebase_in_depth/core/errors/app_failure.dart';
 import 'package:firebase_in_depth/features/auth/presentation/providers/auth_provider.dart';
-import 'package:firebase_in_depth/features/course_lab/data/repositories/course_lab_repository_impl.dart';
+import 'package:firebase_in_depth/features/firebase_fundamentals/data/repositories/firebase_fundamentals_repository_impl.dart';
 import 'package:firebase_in_depth/features/firebase_fundamentals/presentation/firebase_fundamentals_screen.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +9,7 @@ import 'package:flutter_test/flutter_test.dart';
 
 import '../../auth/fake_auth_repository.dart';
 import '../../course_lab/course_fixtures.dart';
-import '../../course_lab/fake_course_lab_repository.dart';
+import '../fake_firebase_fundamentals_repository.dart';
 
 void main() {
   testWidgets('reads a document from the repository', (tester) async {
@@ -17,8 +17,8 @@ void main() {
       ProviderScope(
         overrides: [
           authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
-          courseLabRepositoryProvider.overrideWithValue(
-            const FakeCourseLabRepository(course: sampleCourse),
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(course: sampleCourse),
           ),
         ],
         child: const MaterialApp(
@@ -49,8 +49,8 @@ void main() {
       ProviderScope(
         overrides: [
           authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
-          courseLabRepositoryProvider.overrideWithValue(
-            const FakeCourseLabRepository(
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(
               invalidQueryError: InvalidQueryFailure(
                 detail: 'two inequalities',
               ),
@@ -84,8 +84,8 @@ void main() {
       ProviderScope(
         overrides: [
           authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
-          courseLabRepositoryProvider.overrideWithValue(
-            const FakeCourseLabRepository(
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(
               missingIndexError: InvalidQueryFailure(
                 detail:
                     'The query requires an index. You can create it here: https://console.firebase.google.com/example',
@@ -112,6 +112,40 @@ void main() {
     );
   });
 
+  testWidgets('shows permission denied for the denied read', (tester) async {
+    tester.view.physicalSize = const Size(800, 2800);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    await tester.pumpWidget(
+      ProviderScope(
+        overrides: [
+          authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(
+              deniedReadError: PermissionFailure(detail: "False for 'get'"),
+            ),
+          ),
+        ],
+        child: const MaterialApp(
+          locale: Locale('en'),
+          localizationsDelegates: AppLocalizations.localizationsDelegates,
+          supportedLocales: AppLocalizations.supportedLocales,
+          home: FirebaseFundamentalsScreen(),
+        ),
+      ),
+    );
+
+    await tester.ensureVisible(
+      find.byKey(const Key('fundamentals-denied-read')),
+    );
+    await tester.tap(find.byKey(const Key('fundamentals-denied-read')));
+    await tester.pumpAndSettle();
+
+    expect(find.text("False for 'get'"), findsOneWidget);
+  });
+
   testWidgets('places reads and queries in two columns when wide', (
     tester,
   ) async {
@@ -124,8 +158,8 @@ void main() {
       ProviderScope(
         overrides: [
           authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
-          courseLabRepositoryProvider.overrideWithValue(
-            const FakeCourseLabRepository(),
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(),
           ),
         ],
         child: const MaterialApp(
@@ -175,8 +209,8 @@ void main() {
       ProviderScope(
         overrides: [
           authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
-          courseLabRepositoryProvider.overrideWithValue(
-            const FakeCourseLabRepository(),
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(),
           ),
         ],
         child: const MaterialApp(
@@ -210,8 +244,8 @@ void main() {
       ProviderScope(
         overrides: [
           authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
-          courseLabRepositoryProvider.overrideWithValue(
-            const FakeCourseLabRepository(lessons: [sampleLesson]),
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(lessons: [sampleLesson]),
           ),
         ],
         child: const MaterialApp(
@@ -242,8 +276,8 @@ void main() {
       ProviderScope(
         overrides: [
           authRepositoryProvider.overrideWithValue(FakeAuthRepository()),
-          courseLabRepositoryProvider.overrideWithValue(
-            const FakeCourseLabRepository(courses: [sampleCourse]),
+          firebaseFundamentalsRepositoryProvider.overrideWithValue(
+            const FakeFirebaseFundamentalsRepository(courses: [sampleCourse]),
           ),
         ],
         child: const MaterialApp(

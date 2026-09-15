@@ -17,8 +17,8 @@ void main() {
       const InvalidQueryFailure(detail: 'two inequalities'),
     );
     expect(
-      AppFailure.fromException(const PermissionException()),
-      const PermissionFailure(),
+      AppFailure.fromException(const PermissionException("False for 'get'")),
+      const PermissionFailure(detail: "False for 'get'"),
     );
     expect(
       AppFailure.fromException(const AuthException()),

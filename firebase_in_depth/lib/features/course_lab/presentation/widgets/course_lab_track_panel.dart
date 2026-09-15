@@ -13,7 +13,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 class CourseLabTrackPanel extends ConsumerWidget {
   const CourseLabTrackPanel({required this.track, super.key});
 
-  static const scheduleDragonAsset = 'assets/img/schedule_dragon.png';
   static const categoryIconSize = 72.0;
   static const sectionGap = 16.0;
   static const textGap = 8.0;
@@ -105,26 +104,26 @@ class CourseLabTrackPanel extends ConsumerWidget {
               ),
               if (showNoCoursesDragon)
                 Align(
-                  alignment: overlayAlign ?? Alignment.bottomCenter,
+                  alignment: overlayAlign,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: _PanelDragon(
                       asset: track.noCoursesDragonAsset,
                       imageKey: Key('no-courses-dragon-${track.name}'),
-                      widthFactor: 0.48,
+                      widthFactor: track.overlayDragonWidthFactor,
                       mirrored: track.overlayDragonMirrored,
                     ),
                   ),
                 )
-              else if (overlayAlign != null)
+              else
                 Align(
                   alignment: overlayAlign,
                   child: Padding(
                     padding: const EdgeInsets.all(8),
                     child: _PanelDragon(
-                      asset: CourseLabTrackPanel.scheduleDragonAsset,
+                      asset: track.scheduleDragonAsset,
                       imageKey: Key('schedule-dragon-${track.name}'),
-                      widthFactor: 0.48,
+                      widthFactor: track.overlayDragonWidthFactor,
                       mirrored: track.overlayDragonMirrored,
                     ),
                   ),

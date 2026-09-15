@@ -9,7 +9,7 @@ sealed class AppException implements Exception {
   factory AppException.fromFirebase(FirebaseException exception) {
     return switch (exception.code) {
       'not-found' => const NotFoundException(),
-      'permission-denied' => const PermissionException(),
+      'permission-denied' => PermissionException(exception.message),
       'user-not-found' ||
       'wrong-password' ||
       'invalid-credential' ||
@@ -33,7 +33,17 @@ final class NotFoundException extends AppException {
 }
 
 final class PermissionException extends AppException {
-  const PermissionException();
+  const PermissionException([this.detail]);
+
+  final String? detail;
+
+  @override
+  bool operator ==(Object other) {
+    return other is PermissionException && other.detail == detail;
+  }
+
+  @override
+  int get hashCode => detail.hashCode;
 }
 
 final class AuthException extends AppException {

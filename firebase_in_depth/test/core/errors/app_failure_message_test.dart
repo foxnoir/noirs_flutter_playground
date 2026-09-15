@@ -15,8 +15,11 @@ void main() {
     expect(const NotFoundFailure().message(l10n), 'That item was not found.');
     expect(
       const PermissionFailure().message(l10n),
-      'This write is not allowed. Deploy firestore.rules '
-      '(only participants on a course), then tap Increment again.',
+      'Permission denied. Firestore rules blocked this read or write.',
+    );
+    expect(
+      const PermissionFailure(detail: "False for 'get'").message(l10n),
+      "False for 'get'",
     );
     expect(
       const InvalidQueryFailure().message(l10n),

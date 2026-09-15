@@ -52,7 +52,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get errorPermission =>
-      'This write is not allowed. Deploy firestore.rules (only participants on a course), then tap Increment again.';
+      'Permission denied. Firestore rules blocked this read or write.';
 
   @override
   String get errorInvalidQuery => 'This query is not valid for Firestore.';
@@ -134,6 +134,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get fundamentalsRunIndexQuery => 'Run missing-index query';
+
+  @override
+  String get fundamentalsRulesTitle => 'Security rules: permission denied';
+
+  @override
+  String get fundamentalsRulesHint =>
+      'Rules deny `denied/lab`. The SDK throws `permission-denied`. That message is on this card. Network **Response** for `channel` is the wire format (`[1,26,7]`), not a readable error.';
+
+  @override
+  String get fundamentalsRulesDeniedTitle =>
+      'denied/lab — allow read, write: if false';
+
+  @override
+  String get fundamentalsRulesDeniedHint =>
+      'The catch-all rule is the same idea. This path is explicit so Course Lab stays readable. No document is needed: deny runs whether the doc exists or not.';
+
+  @override
+  String get fundamentalsRunDeniedRead => 'Run denied read';
+
+  @override
+  String get fundamentalsDeniedUnexpected =>
+      'This read succeeded. Check that firestore.rules denies denied/lab and that the emulator loaded the file.';
 
   @override
   String get fundamentalsLessonsTitle =>

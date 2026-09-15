@@ -52,9 +52,9 @@
   "@errorNotFound": {
     "description": "Not-found failure message."
   },
-  "errorPermission": "This write is not allowed. Deploy firestore.rules (only participants on a course), then tap Increment again.",
+  "errorPermission": "Permission denied. Firestore rules blocked this read or write.",
   "@errorPermission": {
-    "description": "Permission-denied write, usually undeployed rules."
+    "description": "Permission-denied from Firestore rules (read or write)."
   },
   "errorInvalidQuery": "This query is not valid for Firestore.",
   "@errorInvalidQuery": {
@@ -151,6 +151,30 @@
   "fundamentalsRunIndexQuery": "Run missing-index query",
   "@fundamentalsRunIndexQuery": {
     "description": "Button for the missing price plus seqNo index query."
+  },
+  "fundamentalsRulesTitle": "Security rules: permission denied",
+  "@fundamentalsRulesTitle": {
+    "description": "Section title for the permission-denied lab."
+  },
+  "fundamentalsRulesHint": "Rules deny `denied/lab`. The SDK throws `permission-denied`. That message is on this card. Network **Response** for `channel` is the wire format (`[1,26,7]`), not a readable error.",
+  "@fundamentalsRulesHint": {
+    "description": "Where to read the permission-denied error."
+  },
+  "fundamentalsRulesDeniedTitle": "denied/lab — allow read, write: if false",
+  "@fundamentalsRulesDeniedTitle": {
+    "description": "Monospace title for the always-deny document card."
+  },
+  "fundamentalsRulesDeniedHint": "The catch-all rule is the same idea. This path is explicit so Course Lab stays readable. No document is needed: deny runs whether the doc exists or not.",
+  "@fundamentalsRulesDeniedHint": {
+    "description": "Hint under the denied-read card."
+  },
+  "fundamentalsRunDeniedRead": "Run denied read",
+  "@fundamentalsRunDeniedRead": {
+    "description": "Button that reads the always-deny document."
+  },
+  "fundamentalsDeniedUnexpected": "This read succeeded. Check that firestore.rules denies denied/lab and that the emulator loaded the file.",
+  "@fundamentalsDeniedUnexpected": {
+    "description": "Shown if the denied read unexpectedly succeeds."
   },
   "fundamentalsLessonsTitle": "Nested collection vs collection group",
   "@fundamentalsLessonsTitle": {

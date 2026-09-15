@@ -53,10 +53,20 @@ enum CourseLabTrack {
     expert => Alignment.topRight,
   };
 
-  Alignment? get overlayDragonAlign => switch (this) {
+  Alignment get overlayDragonAlign => switch (this) {
     beginner => Alignment.bottomRight,
-    advanced => null,
+    advanced => Alignment.bottomCenter,
     expert => Alignment.bottomLeft,
+  };
+
+  String get scheduleDragonAsset => switch (this) {
+    advanced => 'assets/img/schedule_dragon_advanced.png',
+    beginner || expert => 'assets/img/schedule_dragon.png',
+  };
+
+  double get overlayDragonWidthFactor => switch (this) {
+    advanced => 0.24,
+    beginner || expert => 0.48,
   };
 
   bool get overlayDragonMirrored => this == expert;

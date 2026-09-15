@@ -176,10 +176,10 @@ abstract class AppLocalizations {
   /// **'That item was not found.'**
   String get errorNotFound;
 
-  /// Permission-denied write, usually undeployed rules.
+  /// Permission-denied from Firestore rules (read or write).
   ///
   /// In en, this message translates to:
-  /// **'This write is not allowed. Deploy firestore.rules (only participants on a course), then tap Increment again.'**
+  /// **'Permission denied. Firestore rules blocked this read or write.'**
   String get errorPermission;
 
   /// Invalid query fallback when Firestore sent no detail.
@@ -319,6 +319,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Run missing-index query'**
   String get fundamentalsRunIndexQuery;
+
+  /// Section title for the permission-denied lab.
+  ///
+  /// In en, this message translates to:
+  /// **'Security rules: permission denied'**
+  String get fundamentalsRulesTitle;
+
+  /// Where to read the permission-denied error.
+  ///
+  /// In en, this message translates to:
+  /// **'Rules deny `denied/lab`. The SDK throws `permission-denied`. That message is on this card. Network **Response** for `channel` is the wire format (`[1,26,7]`), not a readable error.'**
+  String get fundamentalsRulesHint;
+
+  /// Monospace title for the always-deny document card.
+  ///
+  /// In en, this message translates to:
+  /// **'denied/lab — allow read, write: if false'**
+  String get fundamentalsRulesDeniedTitle;
+
+  /// Hint under the denied-read card.
+  ///
+  /// In en, this message translates to:
+  /// **'The catch-all rule is the same idea. This path is explicit so Course Lab stays readable. No document is needed: deny runs whether the doc exists or not.'**
+  String get fundamentalsRulesDeniedHint;
+
+  /// Button that reads the always-deny document.
+  ///
+  /// In en, this message translates to:
+  /// **'Run denied read'**
+  String get fundamentalsRunDeniedRead;
+
+  /// Shown if the denied read unexpectedly succeeds.
+  ///
+  /// In en, this message translates to:
+  /// **'This read succeeded. Check that firestore.rules denies denied/lab and that the emulator loaded the file.'**
+  String get fundamentalsDeniedUnexpected;
 
   /// Section title for nested lessons vs collection group.
   ///

@@ -15,6 +15,7 @@ abstract class FirebaseFundamentalsState with _$FirebaseFundamentalsState {
     AsyncValue<List<Course>>? invalidQuery,
     AsyncValue<List<Course>>? compositeQuery,
     AsyncValue<List<Course>>? missingIndexQuery,
+    AsyncValue<void>? deniedRead,
     AsyncValue<List<Lesson>>? nestedLessons,
     AsyncValue<List<Lesson>>? collectionGroupLessons,
     AsyncValue<CoursesSnapshot>? realtime,

@@ -6,7 +6,8 @@ extension AppFailureMessage on AppFailure {
     return switch (this) {
       NetworkFailure() => l10n.errorNetwork,
       NotFoundFailure() => l10n.errorNotFound,
-      PermissionFailure() => l10n.errorPermission,
+      PermissionFailure(:final detail) =>
+        (detail == null || detail.isEmpty) ? l10n.errorPermission : detail,
       AuthFailure() => l10n.authSignInFailed,
       InvalidQueryFailure(:final detail) =>
         (detail == null || detail.isEmpty) ? l10n.errorInvalidQuery : detail,

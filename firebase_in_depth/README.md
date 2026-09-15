@@ -127,7 +127,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - [Freezed](https://pub.dev/packages/freezed) for Firestore models and entities (`Course` / `Tutor` / `Lesson`)
 - Material 3 seed theme
 - [Firebase](https://firebase.google.com/) (`firebase_core`, `firebase_auth`, web + iOS on `fir-in-depth-813e4`)
-- [Firestore](https://firebase.google.com/docs/firestore) collection `courses` (seeded; Course Lab owns the data layer, Fundamentals uses it)
+- [Firestore](https://firebase.google.com/docs/firestore) collection `courses` (seeded; Course Lab and Fundamentals each have their own data layer)
 - Local Firebase emulator (opt-in: `./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`; Firestore + Auth, rules loaded locally — no deploy yet)
 - [FVM](https://fvm.app) pin
 - Coverage badge and card
@@ -353,6 +353,8 @@ Or the VS Code / Cursor launch config **Firebase in Depth (Chrome)**. **Firebase
 
 **Web (use this).** Chrome DevTools → **Network**. Filter `firestore`. Against the **cloud**, the web SDK talks HTTPS to `firestore.googleapis.com` (Listen / channel). Against the **emulator**, the host is `localhost:8080`. You see status, timing, and payload. The payload is not a pretty REST JSON document — it is the SDK wire format. The [Console](https://console.firebase.google.com/project/fir-in-depth-813e4/firestore/databases/-default-/data/~2Fcourses) (or the emulator UI at `http://127.0.0.1:4000`) is still the place to *read* fields. DevTools is the place to see *that a request happened*.
 
+A **permission-denied** read still uses the SDK Listen/channel. The readable error is the SDK message on the Fundamentals card. The Network **Response** body (`[1,26,7]`) is the wire format, not that message.
+
 **iOS Simulator.** The native SDK uses gRPC, not the browser. Safari Web Inspector and Flutter DevTools Network do not show those calls. A proxy (Proxyman / Charles) can, with TLS hassle. For watching Firestore, stay on web.
 
 Widget tests skip `Firebase.initializeApp` (VM is neither web nor iOS).
@@ -454,7 +456,7 @@ fvm flutter run -d chrome
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). Tutors (`users/{uid}.role == 'tutor'`) may create, update, and delete courses and nested lessons. Anyone may update only `participants` on a course (`FieldValue.increment`). The emulator loads these rules from disk. **Do not deploy** to `fir-in-depth-813e4` until the lab is done.
+Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). Tutors (`users/{uid}.role == 'tutor'`) may create, update, and delete courses and nested lessons. Anyone may update only `participants` on a course (`FieldValue.increment`). `denied/{docId}` is always deny (Fundamentals permission-denied lab). The emulator loads these rules from disk. **Do not deploy** to `fir-in-depth-813e4` until the lab is done.
 
 ```
 npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --project fir-in-depth-813e4
@@ -504,7 +506,7 @@ When `start.sh` sees the emulator UI, `tool/seed_emulator.dart` still writes the
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**73.9%** line coverage (1301 of 1761 lines).
+**73.1%** line coverage (1353 of 1852 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -535,7 +537,7 @@ Thrown objects and UI copy are different types. No extra package: Dart 3 **`seal
 
 Files: `lib/core/errors/`. Copy lives in ARB (`errorNetwork`, `errorNotFound`, `errorPermission`, `errorInvalidQuery`, `errorOccurred`). **`ErrorWidget`** (`lib/shared_widgets/error_widget.dart`) is the shared error screen (icon + message + optional retry). Import material with `hide ErrorWidget`. `InvalidQueryFailure` may show the Firestore `message` (index URL / “two inequality fields”) when the backend sent one.
 
-**Firebase Fundamentals** is the working Firestore example: `CourseLabDataSourceImpl` throws `AppException` (`AppException.fromFirebase` on the sealed class in `core/errors/`); `CourseLabRepositoryImpl` maps to `AppFailure`; the lab notifier stores `AsyncValue`s; the UI calls `localizedError`.
+**Firebase Fundamentals** is the working Firestore example: `FirebaseFundamentalsDataSourceImpl` throws `AppException` (`AppException.fromFirebase` on the sealed class in `core/errors/`); `FirebaseFundamentalsRepositoryImpl` maps to `AppFailure`; the lab notifier stores `AsyncValue`s; the UI calls `localizedError`. Course Lab uses the same exception/failure types through `CourseLabDataSourceImpl` / `CourseLabRepositoryImpl`.
 
 Form validation is not a fetch failure. Keep those as field/form strings.
 
@@ -551,11 +553,11 @@ Opening Home loads **all three** tracks at once: three `array-contains` queries 
 
 The Advanced page queries **`INTERMEDIATE`**, because that is what the seed actually stored (Keigo, counters, onomatopoeia). Angular’s sample used `ADVANCE` (typo). Expert queries **`EXPERTS`**. There is no `ADVANCED` value in these documents — `array-contains` is an exact string match, so a wrong token returns an empty list, not an error. The query has no `orderBy` (no extra composite index); Home sorts by `seqNo` in Dart.
 
-Course Lab owns **data + domain** for `courses`: `CourseLabDataSource`, `CourseLabRepository`, models, entities. Home is presentation (`PageView`, notifier) and reads through that repository (`fetchCoursesByCategory`).
+Course Lab owns **catalog** data + domain for `courses`: `CourseLabDataSource`, `CourseLabRepository`, models, entities. Home is presentation (`PageView`, notifier) and reads through that repository (`fetchCoursesByCategory` only). That is the product-shaped API: list tracks. It does not know about invalid queries, missing indexes, or a deny path.
 
-**Firebase Fundamentals** is the small query/index/realtime workbench. It has **no** data layer of its own. Its notifier calls `CourseLabRepository` — Fundamentals → Course Lab, not the other way around.
+**Firebase Fundamentals** is the query/index/realtime **workbench**. It has its own data layer (`FirebaseFundamentalsDataSource`, `FirebaseFundamentalsRepository`). Same Firestore project and the same `courses` documents — it maps them to Course Lab’s `Course` / `Lesson` types so there is not a second catalog model. Lab-only operations live here: two-inequality and missing-index queries, collection group, listen, increment, and `fetchDeniedDocument` (`denied/lab`). A catalog repository would not expose a method whose name already means “this read is forbidden”; the workbench can, because the button is the lesson. Rules still decide. The UI catches `permission-denied`.
 
-Either direction breaks strict **feature-first**. Copying the Firestore stack into both features would be worse. A shared `core` data layer would also be valid; this playground does **not** extract one, and the rest of the repo is not all wired the same way. Here Course Lab is the main lab (the catalog), Fundamentals is a testing area, so the data lives under Course Lab.
+Both features sit in one app. Splitting the stacks keeps Course Lab close to a real catalog and keeps Fundamentals a sandbox. Sharing one repository mixed those jobs (`fetchDeniedDocument` on the catalog). A shared `core` data layer would also work; this playground keeps types with the catalog and gives each feature its own I/O.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -565,7 +567,7 @@ Either direction breaks strict **feature-first**. Copying the Firestore stack in
 
 **Landing Screen** → **Firebase Fundamentals** (`goNamed`). Run in **Chrome**. Open DevTools → Network → filter `firestore` *before* tapping buttons, or you miss the call.
 
-The screen does not fetch on load. Each button is one read, except **Listen** which opens `snapshots()` until **Stop**. Leave **DevTools** → **Network** (filter `firestore`) open: **Listen** dumps the first channel payload; **Increment** should add a **new** call. From **600px** (Material medium) **Read collection** and **Read document** sit in a row; below that working queries are on the left and the two that fail are stacked on the right. Realtime is listen + change log. Buttons use teal when the read should succeed and the error rose when it should fail — they do not stretch full width.
+The screen does not fetch on load. Each button is one read, except **Listen** which opens `snapshots()` until **Stop**. Leave **DevTools** → **Network** (filter `firestore`) open: **Listen** dumps the first channel payload; **Increment** should add a **new** call. From **600px** (Material medium) **Read collection** and **Read document** sit in a row; below that working queries are on the left and the two that fail are stacked on the right. **Run denied read** is its own rules card. Realtime is listen + change log. Buttons use teal when the read should succeed and the error rose when it should fail — they do not stretch full width.
 
 | Button | What it does |
 |---|---|
@@ -575,15 +577,16 @@ The screen does not fetch on load. Each button is one read, except **Listen** wh
 | Run invalid query | `seqNo <= 5` **and** `lessonsCount <= 10` — two inequalities |
 | Run composite-index query | `seqNo <= 20` **and** `url == hiragana-from-zero` — composite in `firestore.indexes.json` |
 | Run missing-index query | `seqNo <= 20` **and** `price == 15` — Console URL |
+| Run denied read | `denied/lab` — rules always deny. SDK `get()`, `permission-denied` on the card |
 | Read nested lessons | `courses/hiragana-from-zero/lessons` ordered by `seqNo` |
 | Run collection-group query | `collectionGroup('lessons')` ordered by `seqNo` — needs COLLECTION_GROUP index + recursive rule |
 | Listen | `courses.orderBy('seqNo').snapshots()` — AngularFire `snapshotChanges` is this stream plus `docChanges` |
 | Stop | Cancel the subscription |
 | Increment participants | `FieldValue.increment(1)` on `hiragana-from-zero.participants` — or set the number in the Console |
 
-Names follow the feature, like Sealed Lab — no extra `Firestore` / `Course` prefix. **Contracts** (`CourseLabDataSource`, `CourseLabRepository`) live under **Course Lab** (`course_lab/data`, `course_lab/domain`). Fundamentals is presentation only and **uses that repository**. **`*Impl`** lives in `*_impl.dart`; the repository test is `*_impl_test.dart`. The lab is the **screen**; the blocks are `ReadSection`, `QuerySection`, `LessonsSection`, `RealtimeSection`. Collection group is `collectionGroup('lessons').orderBy('seqNo')` in the data source impl. Realtime is `snapshots()` + `docChanges`; increment is `FieldValue.increment`. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course`, `Tutor`, and `Lesson` are separate files (entity + model). Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
+Names follow the feature, like Sealed Lab — no extra `Firestore` / `Course` prefix. **Contracts** (`FirebaseFundamentalsDataSource`, `FirebaseFundamentalsRepository`) live under **Fundamentals** (`firebase_fundamentals/data`, `firebase_fundamentals/domain`). Course documents still map to Course Lab entities. **`*Impl`** lives in `*_impl.dart`; the repository test is `*_impl_test.dart`. The lab is the **screen**; the blocks are `ReadSection`, `QuerySection`, `RulesSection`, `LessonsSection`, `RealtimeSection`. Collection group is `collectionGroup('lessons').orderBy('seqNo')` in the data source impl. Realtime is `snapshots()` + `docChanges`; increment is `FieldValue.increment`. The denied read is SDK `get()` on `denied/lab`. Layers match the playground [folder structure](../README.md#app-architecture-and-folder-structure). Freezed `Course`, `Tutor`, and `Lesson` are separate files (entity + model) under Course Lab. Tests fake the **repository** (`AppFailure`) or the **data source** (`AppException`), or construct `*Impl` with a fake. They do not hit live Firestore.
 
-Why the failing queries fail: [Performance guarantees and indexes](#performance-guarantees-and-indexes). Nested vs all lessons: [Collection group queries](#collection-group-queries). Live updates: [Realtime snapshots](#realtime-snapshots) — **Listen**, then increment or edit `participants` in the Console. `first` / `take(n)` are in that section.
+Why the failing queries fail: [Performance guarantees and indexes](#performance-guarantees-and-indexes). Nested vs all lessons: [Collection group queries](#collection-group-queries). **Run denied read** is `denied/lab` in `firestore.rules` (SDK `permission-denied` on the card). Live updates: [Realtime snapshots](#realtime-snapshots) — **Listen**, then increment or edit `participants` in the Console. `first` / `take(n)` are in that section.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 

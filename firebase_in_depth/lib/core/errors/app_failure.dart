@@ -12,7 +12,7 @@ sealed class AppFailure implements Exception {
     return switch (exception) {
       NetworkException() => const NetworkFailure(),
       NotFoundException() => const NotFoundFailure(),
-      PermissionException() => const PermissionFailure(),
+      PermissionException(:final detail) => PermissionFailure(detail: detail),
       AuthException() => const AuthFailure(),
       InvalidQueryException(:final detail) => InvalidQueryFailure(
         detail: detail,
@@ -40,7 +40,17 @@ final class NotFoundFailure extends AppFailure {
 }
 
 final class PermissionFailure extends AppFailure {
-  const PermissionFailure();
+  const PermissionFailure({this.detail});
+
+  final String? detail;
+
+  @override
+  bool operator ==(Object other) {
+    return other is PermissionFailure && other.detail == detail;
+  }
+
+  @override
+  int get hashCode => detail.hashCode;
 }
 
 final class AuthFailure extends AppFailure {
