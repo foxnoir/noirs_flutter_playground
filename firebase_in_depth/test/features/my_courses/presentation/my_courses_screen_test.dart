@@ -146,6 +146,9 @@ void main() {
 
     await tester.tap(find.byKey(const Key('my-courses-create')));
     await tester.pumpAndSettle();
+    expect(find.byKey(const Key('my-courses-create-dialog')), findsOneWidget);
+    await tester.tap(find.byKey(const Key('my-courses-create-cancel')));
+    await tester.pumpAndSettle();
     expect(find.byType(MyCourseCard), findsNWidgets(3));
 
     await tester.tap(
@@ -195,5 +198,42 @@ void main() {
       find.byKey(const Key('my-course-delete-hiragana-from-zero')),
       findsNothing,
     );
+  });
+
+  testWidgets('tutors create a catalog document from the plus button', (
+    tester,
+  ) async {
+    tester.view.physicalSize = const Size(1200, 1400);
+    tester.view.devicePixelRatio = 1;
+    addTearDown(tester.view.resetPhysicalSize);
+    addTearDown(tester.view.resetDevicePixelRatio);
+
+    final repository = FakeCourseLabRepository(
+      courses: List.of([sampleCourse]),
+    );
+    await pump(tester, repository: repository, email: 'tutor@lab.dev');
+    await tester.pumpAndSettle();
+
+    await tester.tap(find.byKey(const Key('my-courses-create')));
+    await tester.pumpAndSettle();
+
+    await tester.enterText(
+      find.byKey(const Key('my-courses-create-description')),
+      'Night School',
+    );
+    await tester.enterText(
+      find.byKey(const Key('my-courses-create-long-description')),
+      'Evenings only.',
+    );
+    await tester.pump();
+    await tester.tap(find.byKey(const Key('my-courses-create-save')));
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('my-courses-create-dialog')), findsNothing);
+    expect(find.text('Night School'), findsOneWidget);
+    expect(find.text('Evenings only.'), findsOneWidget);
+    expect(repository.courses.last.description, 'Night School');
+    expect(repository.courses.last.id, 'night-school');
+    expect(repository.courses.last.categories, ['BEGINNER']);
   });
 }

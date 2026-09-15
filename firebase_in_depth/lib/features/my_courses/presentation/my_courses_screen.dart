@@ -9,6 +9,7 @@ import 'package:firebase_in_depth/features/course_lab/domain/entities/course.dar
 import 'package:firebase_in_depth/features/course_lab/presentation/widgets/course_lab_track_links.dart';
 import 'package:firebase_in_depth/features/my_courses/presentation/providers/my_courses_provider.dart';
 import 'package:firebase_in_depth/features/my_courses/presentation/widgets/my_course_card.dart';
+import 'package:firebase_in_depth/features/my_courses/presentation/widgets/my_course_create_dialog.dart';
 import 'package:firebase_in_depth/l10n/app_localizations.dart';
 import 'package:firebase_in_depth/shared_widgets/desktop_scaffold.dart';
 import 'package:firebase_in_depth/shared_widgets/error_widget.dart' as app;
@@ -43,9 +44,7 @@ class MyCoursesScreen extends ConsumerWidget {
                   IconButton.filled(
                     key: const Key('my-courses-create'),
                     tooltip: l10n.myCoursesCreate,
-                    onPressed: () {
-                      // Create stays visual until the next lab.
-                    },
+                    onPressed: () => showMyCourseCreateDialog(context),
                     style: IconButton.styleFrom(
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       foregroundColor: AppColor.teal,

@@ -31,4 +31,12 @@ class FakeCourseLabDataSource implements CourseLabDataSource {
     if (thrown != null) throw thrown;
     models.removeWhere((model) => model.id == id);
   }
+
+  @override
+  Future<CourseModel> createCourse(CourseModel course) async {
+    final thrown = error;
+    if (thrown != null) throw thrown;
+    models.add(course);
+    return course;
+  }
 }

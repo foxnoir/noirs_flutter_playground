@@ -658,11 +658,47 @@ abstract class AppLocalizations {
   /// **'Course video placeholder'**
   String get myCoursesVideoPlaceholder;
 
-  /// Tutor plus button. Create is not wired yet.
+  /// Tutor plus button that opens the create-course dialog.
   ///
   /// In en, this message translates to:
   /// **'Create course'**
   String get myCoursesCreate;
+
+  /// Create-course dialog title.
+  ///
+  /// In en, this message translates to:
+  /// **'New course'**
+  String get myCoursesCreateTitle;
+
+  /// Create-course title field. Stored as description.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get myCoursesCreateName;
+
+  /// Create-course longDescription field.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get myCoursesCreateSummary;
+
+  /// Create-course beginner / advanced / expert dropdown.
+  ///
+  /// In en, this message translates to:
+  /// **'Track'**
+  String get myCoursesCreateTrack;
+
+  /// Create-course dialog submit.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get myCoursesCreateSave;
+
+  /// Create-course dialog dismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get myCoursesCreateCancel;
 
   /// Tutor edit button. Edit is not wired yet.
   ///

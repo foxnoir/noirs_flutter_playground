@@ -80,4 +80,45 @@ void main() {
       throwsA(const PermissionFailure()),
     );
   });
+
+  test('createCourse writes a catalog-shaped document', () async {
+    final repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(models: List.of([sampleCourseModel])),
+    );
+
+    final created = await repository.createCourse(
+      description: 'Night School',
+      longDescription: 'Evenings only.',
+      category: 'BEGINNER',
+      seqNo: 12,
+    );
+
+    expect(created.id, 'night-school');
+    expect(created.url, 'night-school');
+    expect(created.seqNo, 12);
+    expect(created.categories, ['BEGINNER']);
+    expect(created.lessonsCount, 0);
+    expect(await repository.fetchCourses(), [sampleCourse, created]);
+  });
+
+  test('createCourse maps a permission exception', () async {
+    const repository = CourseLabRepositoryImpl(
+      FakeCourseLabDataSource(error: PermissionException()),
+    );
+
+    await expectLater(
+      repository.createCourse(
+        description: 'Night School',
+        longDescription: 'Evenings only.',
+        category: 'BEGINNER',
+        seqNo: 12,
+      ),
+      throwsA(const PermissionFailure()),
+    );
+  });
+
+  test('catalogCourseId slugs the title', () {
+    expect(catalogCourseId('Night School', 12), 'night-school');
+    expect(catalogCourseId('   ', 12), 'course-12');
+  });
 }

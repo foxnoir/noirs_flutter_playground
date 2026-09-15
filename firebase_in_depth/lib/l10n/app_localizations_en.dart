@@ -337,6 +337,24 @@ class AppLocalizationsEn extends AppLocalizations {
   String get myCoursesCreate => 'Create course';
 
   @override
+  String get myCoursesCreateTitle => 'New course';
+
+  @override
+  String get myCoursesCreateName => 'Title';
+
+  @override
+  String get myCoursesCreateSummary => 'Description';
+
+  @override
+  String get myCoursesCreateTrack => 'Track';
+
+  @override
+  String get myCoursesCreateSave => 'Create';
+
+  @override
+  String get myCoursesCreateCancel => 'Cancel';
+
+  @override
   String get myCoursesEdit => 'Edit';
 
   @override

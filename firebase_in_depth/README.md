@@ -57,6 +57,7 @@
         <li><a href="#collection-group-queries">Collection group queries</a></li>
         <li><a href="#realtime-snapshots">Realtime snapshots</a></li>
         <li><a href="#courses-in-this-project">Courses in this project</a></li>
+        <li><a href="#schema-validation">Schema validation</a></li>
         <li><a href="#freezed">Freezed</a></li>
         <li><a href="#performance-guarantees-and-indexes">Performance guarantees and indexes</a></li>
         <li><a href="#single-field-exemptions">Single-field exemptions</a></li>
@@ -100,7 +101,7 @@ The Firestore collection [`courses`](https://console.firebase.google.com/project
 
 Last practice app in the playground for now.
 
-Flutter CRUD, offline cache, and **Storage** are not wired yet. Work against the **local Firebase emulator** (`./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`): Firestore, Auth, and `firestore.rules`. Do not deploy rules or indexes until this lab is ready. Functions will use the same switch later.
+Flutter **create** and **delete** for `courses` are wired on My Courses (tutors). Edit, offline cache, and **Storage** are not. Work against the **local Firebase emulator** (`./start.sh`, then `--dart-define=USE_FIREBASE_EMULATOR=true`): Firestore, Auth, and `firestore.rules`. Do not deploy rules or indexes until this lab is ready. Functions will use the same switch later.
 
 [![Web](../assets/badges/web.svg)](https://docs.flutter.dev/platform-integration/web)
 [![iOS](../assets/badges/ios.svg)](https://developer.apple.com/ios/)
@@ -121,7 +122,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - Feature folders (`presentation` / `data` / `domain`)
 - **Landing Screen** (`LandingScreen`) — desktop header + cards, GoRouter hub
 - **Firebase Course Lab** — Home with `PageView` (beginner / advanced / expert)
-- **My Courses** — signed-in library from the profile menu; tutors can delete catalog docs
+- **My Courses** — signed-in library from the profile menu; tutors can create and delete catalog docs
 - `assets/img/bg.webp` behind every page (`AppBackground`)
 - **Firebase Fundamentals** — collection / document reads, index lab, nested lessons vs collection group, realtime snapshots
 - Sealed `AppException` / `AppFailure` with l10n mapping
@@ -133,7 +134,7 @@ iOS Simulator still runs. The browser document title is **Firebase in Depth** (`
 - [FVM](https://fvm.app) pin
 - Coverage badge and card
 
-Coming: Firestore CRUD in the app, Storage / photo upload.
+Coming: course edit, Storage / photo upload.
 
 <p align="right"><a href="#readme-top">back to top</a></p>
 
@@ -241,7 +242,7 @@ This lab does not call `first` / `take`. **Listen** + **Stop** is the same idea 
 
 ### Courses in this project
 
-This playground still keeps **the same fields on every course**. Firestore is **schemaless** — two documents in `courses` *may* have different fields, missing keys, or different types for the same name. The database will not stop you. Queries (`orderBy('seqNo')`), Dart models, and the UI should not have to guess whether `tutor` or `price` exists. Different schemas are a lab later (optional fields, migration), not the seed.
+This playground still keeps **the same fields on every course**. Firestore itself is **schemaless** — two documents in `courses` *may* have different fields unless **rules** stop the write. Create on My Courses is that lab. See [Schema validation](#schema-validation). Queries (`orderBy('seqNo')`) and Dart models still assume this shape.
 
 | Field | Type | Notes |
 |---|---|---|
@@ -267,6 +268,25 @@ Lesson documents (where the subcollection exists) — three fields only, same sh
 Lesson document IDs are auto-generated. No `url` / `courseId` on the lesson. The parent path is the course.
 
 **Keep arrays short.** A document is downloaded as a whole (max 1 MiB). `array-contains` is for small, stable lists. Do not grow an unbounded array on the course (`lessons`, comments, students). Those belong in a **subcollection**. `Timestamp` is the type you want when you start range-querying dates.
+
+### Schema validation
+
+Firestore does not have SQL `CREATE TABLE`. A document can hold any map. **Security rules** are the schema.
+
+**Create** (tutor plus on My Courses) writes `courses/{slug}`. `allow create` is `isTutor() && validCourse(courseId)`:
+
+- `keys().hasOnly([...])` — no extra fields (do not send `id` in the map; the path is the id)
+- types (`description is string`, `seqNo is int`, …)
+- `description.size() > 0`
+- one `categories` value from `BEGINNER` / `INTERMEDIATE` / `EXPERTS` (`ADVANCE` fails)
+- nested `tutor` with only `name` + `employedSince`
+- `url ==` the document id (the slug)
+
+A bad payload is `permission-denied` even for a tutor. **Delete** only checks `isTutor()`. Seed uses the emulator `owner` token and **bypasses** rules — that is why seed can write without matching `validCourse`. Try a bad create from the client, not from `seed_emulator.dart`.
+
+The app builds the payload in `CourseLabDataSourceImpl` (no `id` field). The document id is a slug of the title (`Night School` → `night-school`). If that id already exists, the write retries as `{slug}-{seqNo}`.
+
+<p align="right"><a href="#readme-top">back to top</a></p>
 
 ### Freezed
 
@@ -457,7 +477,7 @@ fvm flutter run -d chrome
 
 This project is pinned with [FVM](https://fvm.app). After `fvm install`, Cursor uses the SDK at `.fvm/flutter_sdk`.
 
-Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). Tutors (`users/{uid}.role == 'tutor'`) may create, update, and delete courses and nested lessons. Anyone may update only `participants` on a course (`FieldValue.increment`). `denied/{docId}` is always deny (Fundamentals permission-denied lab). The emulator loads these rules from disk. **Do not deploy** to `fir-in-depth-813e4` until the lab is done.
+Firestore **rules** in this folder allow client **reads** on `courses` and on `lessons` (nested path **and** collection group `match /{path=**}/lessons/{id}`). Tutors (`users/{uid}.role == 'tutor'`) may create a course only if `validCourse` matches the catalog shape, update courses, and delete them, plus nested lessons. Anyone may update only `participants` on a course (`FieldValue.increment`). `denied/{docId}` is always deny (Fundamentals permission-denied lab). The emulator loads these rules from disk. **Do not deploy** to `fir-in-depth-813e4` until the lab is done.
 
 ```
 npx firebase-tools@13.35.1 deploy --only firestore:rules,firestore:indexes --project fir-in-depth-813e4
@@ -507,7 +527,7 @@ When `start.sh` sees the emulator UI, `tool/seed_emulator.dart` still writes the
 ### Test coverage
 
 <!-- coverage-percent:start -->
-**74.1%** line coverage (1521 of 2052 lines).
+**73.6%** line coverage (1617 of 2198 lines).
 <!-- coverage-percent:end -->
 
 ![Coverage](assets/coverage/card.svg)
@@ -554,7 +574,7 @@ Opening Home loads **all three** tracks at once: three `array-contains` queries 
 
 The Advanced page queries **`INTERMEDIATE`**, because that is what the seed actually stored (Keigo, counters, onomatopoeia). Angular’s sample used `ADVANCE` (typo). Expert queries **`EXPERTS`**. There is no `ADVANCED` value in these documents — `array-contains` is an exact string match, so a wrong token returns an empty list, not an error. The query has no `orderBy` (no extra composite index); Home sorts by `seqNo` in Dart.
 
-Course Lab owns **catalog** data + domain for `courses`: `CourseLabDataSource`, `CourseLabRepository`, models, entities. Home is presentation (`PageView`, notifier) and reads through that repository (`fetchCoursesByCategory`). **My Courses** (`goNamed` `my-courses`) is the signed-in library: the profile menu shows the email plus **My Courses** (not the role). Signed-out visits redirect to login. There is no enrollment yet, so the page loads the seeded catalog with `fetchCourses` — the same `courses` documents as Home, not dummy lists. Cards sit in two columns when the layout is wide (**Beginner** left, **Advanced** right); Expert sits under that row. Tutors also get **+** (no-op), **Edit** (no-op), and **Delete**. Delete is a real `courses/{id}` write. Rules already allow it only for `users/{uid}.role == 'tutor'`. Nested `lessons` are not cascade-deleted. Create and edit come later. It does not know about invalid queries, missing indexes, or a deny path.
+Course Lab owns **catalog** data + domain for `courses`: `CourseLabDataSource`, `CourseLabRepository`, models, entities. Home is presentation (`PageView`, notifier) and reads through that repository (`fetchCoursesByCategory`). **My Courses** (`goNamed` `my-courses`) is the signed-in library: the profile menu shows the email plus **My Courses** (not the role). Signed-out visits redirect to login. There is no enrollment yet, so the page loads the seeded catalog with `fetchCourses` — the same `courses` documents as Home, not dummy lists. Cards sit in two columns when the layout is wide (**Beginner** left, **Advanced** right); Expert sits under that row. Tutors also get **+**, **Edit** (no-op), and **Delete**. **+** opens a dialog (title, description, track) and writes `courses/{slug}` through `createCourse`. Rules require `isTutor()` **and** `validCourse` (schema). Delete is `courses/{id}` with `isTutor()` only. Nested `lessons` are not cascade-deleted. Edit comes later. It does not know about invalid queries, missing indexes, or a deny path.
 
 **Firebase Fundamentals** is the query/index/realtime **workbench**. It has its own data layer (`FirebaseFundamentalsDataSource`, `FirebaseFundamentalsRepository`). Same Firestore project and the same `courses` documents — it maps them to Course Lab’s `Course` / `Lesson` types so there is not a second catalog model. Lab-only operations live here: two-inequality and missing-index queries, collection group, listen, increment, and `fetchDeniedDocument` (`denied/lab`). A catalog repository would not expose a method whose name already means “this read is forbidden”; the workbench can, because the button is the lesson. Rules still decide. The UI catches `permission-denied`.
 

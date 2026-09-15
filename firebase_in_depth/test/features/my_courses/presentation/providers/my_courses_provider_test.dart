@@ -80,4 +80,50 @@ void main() {
     );
     expect(sub.read().value, [sampleCourse]);
   });
+
+  test('createCourse appends a catalog course', () async {
+    final repository = FakeCourseLabRepository(
+      courses: List.of([sampleCourse]),
+    );
+    final container = containerWith(repository);
+    final sub = container.listen(myCoursesProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container.read(myCoursesProvider.notifier).reload();
+    await container
+        .read(myCoursesProvider.notifier)
+        .createCourse(
+          description: 'Night School',
+          longDescription: 'Evenings only.',
+          category: 'BEGINNER',
+        );
+
+    expect(sub.read().value?.last.description, 'Night School');
+    expect(sub.read().value?.last.seqNo, 2);
+    expect(repository.courses.last.id, 'night-school');
+  });
+
+  test('createCourse leaves the list when the write is denied', () async {
+    const repository = FakeCourseLabRepository(
+      courses: [sampleCourse],
+      createError: PermissionFailure(),
+    );
+    final container = containerWith(repository);
+    final sub = container.listen(myCoursesProvider, (_, __) {});
+    addTearDown(sub.close);
+
+    await container.read(myCoursesProvider.notifier).reload();
+
+    await expectLater(
+      container
+          .read(myCoursesProvider.notifier)
+          .createCourse(
+            description: 'Night School',
+            longDescription: 'Evenings only.',
+            category: 'BEGINNER',
+          ),
+      throwsA(const PermissionFailure()),
+    );
+    expect(sub.read().value, [sampleCourse]);
+  });
 }

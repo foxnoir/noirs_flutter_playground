@@ -25,6 +25,30 @@ class MyCoursesNotifier extends Notifier<AsyncValue<List<Course>>> {
     state = next;
   }
 
+  Future<void> createCourse({
+    required String description,
+    required String longDescription,
+    required String category,
+  }) async {
+    final current = state.value ?? [];
+    var maxSeq = 0;
+    for (final course in current) {
+      if (course.seqNo > maxSeq) maxSeq = course.seqNo;
+    }
+    final created = await ref
+        .read(courseLabRepositoryProvider)
+        .createCourse(
+          description: description,
+          longDescription: longDescription,
+          category: category,
+          seqNo: maxSeq + 1,
+        );
+    if (!ref.mounted) return;
+    state = AsyncData(
+      [...current, created]..sort((a, b) => a.seqNo.compareTo(b.seqNo)),
+    );
+  }
+
   Future<void> deleteCourse(String id) async {
     await ref.read(courseLabRepositoryProvider).deleteCourse(id);
     if (!ref.mounted) return;

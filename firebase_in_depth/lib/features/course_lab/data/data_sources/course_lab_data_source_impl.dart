@@ -45,6 +45,55 @@ class CourseLabDataSourceImpl implements CourseLabDataSource {
     return _guard(() => _collection.doc(id).delete());
   }
 
+  @override
+  Future<CourseModel> createCourse(CourseModel course) {
+    return _guard(() async {
+      var written = course;
+      try {
+        await _createDoc(written);
+      } on FirebaseException catch (e) {
+        if (e.code != 'already-exists') rethrow;
+        final fallbackId = '${course.id}-${course.seqNo}';
+        written = course.copyWith(id: fallbackId, url: fallbackId);
+        await _createDoc(written);
+      }
+      return written;
+    });
+  }
+
+  /// Flutter's [DocumentReference] has no `create()`. Read first so a slug
+  /// collision does not overwrite the existing course.
+  Future<void> _createDoc(CourseModel course) async {
+    final ref = _collection.doc(course.id);
+    final existing = await ref.get(_server);
+    if (existing.exists) {
+      throw FirebaseException(
+        plugin: 'cloud_firestore',
+        code: 'already-exists',
+        message: 'Document already exists',
+      );
+    }
+    await ref.set(_payload(course));
+  }
+
+  Map<String, dynamic> _payload(CourseModel course) {
+    return {
+      'description': course.description,
+      'longDescription': course.longDescription,
+      'url': course.url,
+      'seqNo': course.seqNo,
+      'lessonsCount': course.lessonsCount,
+      'price': course.price,
+      'categories': course.categories,
+      'icon': course.icon,
+      'tutor': {
+        'name': course.tutor.name,
+        'employedSince': course.tutor.employedSince,
+      },
+      'participants': course.participants,
+    };
+  }
+
   List<CourseModel> _models(
     Iterable<QueryDocumentSnapshot<Map<String, dynamic>>> docs,
   ) {

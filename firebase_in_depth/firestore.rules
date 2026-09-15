@@ -14,6 +14,40 @@ service cloud.firestore {
       return signedIn() && userDoc().data.role == 'tutor';
     }
 
+    function isCourseCategory(value) {
+      return value in ['BEGINNER', 'INTERMEDIATE', 'EXPERTS'];
+    }
+
+    // Create is the schema lab: extra keys, wrong types, or a mismatched
+    // url/id fail even for tutors. Delete only checks the role.
+    function validCourse(courseId) {
+      let d = request.resource.data;
+      return d.keys().hasOnly([
+          'description', 'longDescription', 'url', 'seqNo', 'lessonsCount',
+          'price', 'categories', 'icon', 'tutor', 'participants'
+        ])
+        && d.description is string
+        && d.description.size() > 0
+        && d.longDescription is string
+        && d.url is string
+        && d.url == courseId
+        && d.seqNo is int
+        && d.lessonsCount is int
+        && d.lessonsCount >= 0
+        && d.price is int
+        && d.price >= 0
+        && d.categories is list
+        && d.categories.size() == 1
+        && isCourseCategory(d.categories[0])
+        && d.icon is string
+        && d.participants is int
+        && d.participants >= 0
+        && d.tutor is map
+        && d.tutor.keys().hasOnly(['name', 'employedSince'])
+        && d.tutor.name is string
+        && d.tutor.employedSince is list;
+    }
+
     match /users/{userId} {
       allow read: if signedIn() && request.auth.uid == userId;
       allow create: if signedIn() &&
@@ -25,7 +59,8 @@ service cloud.firestore {
 
     match /courses/{courseId} {
       allow read: if true;
-      allow create, delete: if isTutor();
+      allow create: if isTutor() && validCourse(courseId);
+      allow delete: if isTutor();
       allow update: if isTutor() || (
         request.resource.data
             .diff(resource.data)

@@ -389,7 +389,31 @@
   },
   "myCoursesCreate": "Kurs erstellen",
   "@myCoursesCreate": {
-    "description": "Tutor plus button. Create is not wired yet."
+    "description": "Tutor plus button that opens the create-course dialog."
+  },
+  "myCoursesCreateTitle": "Neuer Kurs",
+  "@myCoursesCreateTitle": {
+    "description": "Create-course dialog title."
+  },
+  "myCoursesCreateName": "Titel",
+  "@myCoursesCreateName": {
+    "description": "Create-course title field. Stored as description."
+  },
+  "myCoursesCreateSummary": "Beschreibung",
+  "@myCoursesCreateSummary": {
+    "description": "Create-course longDescription field."
+  },
+  "myCoursesCreateTrack": "Kursart",
+  "@myCoursesCreateTrack": {
+    "description": "Create-course beginner / advanced / expert dropdown."
+  },
+  "myCoursesCreateSave": "Erstellen",
+  "@myCoursesCreateSave": {
+    "description": "Create-course dialog submit."
+  },
+  "myCoursesCreateCancel": "Abbrechen",
+  "@myCoursesCreateCancel": {
+    "description": "Create-course dialog dismiss."
   },
   "myCoursesEdit": "Bearbeiten",
   "@myCoursesEdit": {
